@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { DEFAULT_COLOR, MAIN_COLOR } from '../../../lib/style/color';
+import Magnifier from '../../../asset/Main/Magnifier.png';
 
 export const Header = styled.div`
   width: 100%;
@@ -92,6 +93,8 @@ export const HeaderSearch = styled.div`
   > div {
     width: 12px;
     height: 12px;
+    background-image: url(${Magnifier});
+    margin-right: 10px;
   }
   > input {
     width: 300px;
