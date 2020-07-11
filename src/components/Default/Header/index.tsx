@@ -18,6 +18,7 @@ const Header: FC = () => {
         </div>
         <S.HeaderUserButtonWrapper>
           <HeaderUserButton>로그인</HeaderUserButton>
+          <div className="bar" />
           <HeaderUserButton>회원가입</HeaderUserButton>
         </S.HeaderUserButtonWrapper>
       </div>

@@ -62,9 +62,11 @@ export const HeaderUserButton = styled(HeaderButton)`
 
 export const HeaderUserButtonWrapper = styled.div`
   display: flex;
+  align-items: center;
   height: 100%;
-  &:first-child {
-    border-right: 1px solid #f2f2f2;
+  div.bar {
+    height: 15px;
+    border-right: 2px solid #979797;
   }
 `;
 
