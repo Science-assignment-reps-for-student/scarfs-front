@@ -11,9 +11,6 @@ module.exports = {
     filename: 'bundle.min.js',
     publicPath: '/',
   },
-  devServer: {
-    historyApiFallback: true,
-  },
   module: {
     rules: [
       {
@@ -41,4 +38,9 @@ module.exports = {
       template: './index.html',
     }),
   ],
+  devServer: {
+    inline: true,
+    hot: true,
+    historyApiFallback: true,
+  },
 };
