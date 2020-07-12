@@ -30,7 +30,6 @@ class Wave {
     }
   }
   draw(ctx) {
-    if (this.points.length <= 0) return;
     ctx.beginPath();
     ctx.moveTo(this.points[0].x, this.points[0].y);
     let prevX = this.points[0].x;
