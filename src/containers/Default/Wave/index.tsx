@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import Wave from './Wave';
+import Wave from '../../../components/Default/Wave/Wave';
 import { WaveCanvas } from '../../../style/Default/Wave';
 
 class WaveController extends React.Component {
