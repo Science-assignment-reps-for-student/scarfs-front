@@ -14,11 +14,7 @@ class WaveController extends React.Component {
     super(props);
     this.waves = [];
     this.canvas = createRef();
-    this.colors = [
-      'rgba(77, 88, 255, 0.54)',
-      'rgba(101, 131, 200, 0.79)',
-      'rgba(101, 131, 200, 0.79)',
-    ];
+    this.colors = ['rgba(77, 88, 255, 0.54)', 'rgba(101, 131, 200, 0.79)'];
   }
   resize() {
     this.stageWidth = document.body.clientWidth;
