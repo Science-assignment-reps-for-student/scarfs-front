@@ -13,7 +13,7 @@ class Wave {
   constructor(color, index) {
     this.color = color;
     this.points = [];
-    this.numberOfPointer = 10 + index * 3;
+    this.numberOfPointer = 10 + index * 5;
   }
   resize(stageWidth, stageHeight) {
     this.stageHeight = stageHeight;
