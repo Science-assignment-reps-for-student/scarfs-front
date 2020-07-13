@@ -20,20 +20,6 @@ const AdminSection: FC<Props> = (): ReactElement => {
   const { personalList, teamList, experimentList, loading } = useSelector(
     (state: StoreState) => state.admin,
   );
-  const subjectList: ISubject[] = [
-    {
-      subject: '[개인] 정우영의 전구공장',
-      onlyPersonal: false,
-    },
-    {
-      subject: '[팀] 정우영의 전구공장',
-      onlyPersonal: true,
-    },
-    {
-      subject: '[실험] 정우영의 전구공장',
-      onlyPersonal: true,
-    },
-  ];
 
   const sortAllList = (
     { personal_assignment = [] }: Personal,
@@ -46,12 +32,13 @@ const AdminSection: FC<Props> = (): ReactElement => {
 
   return (
     <S.AdminSection>
-      {sortAllList(personalList, teamList, experimentList).map(data => {
-        return <Subject key={data.id} subject={data.title} onlyPersonal={false} />;
-      })}
-      {subjectList.map(({ subject, onlyPersonal }, i: number) => {
-        return <Subject key={i} subject={subject} onlyPersonal={onlyPersonal} />;
-      })}
+      {loading ? (
+        <div>기다리세여!</div>
+      ) : (
+        sortAllList(personalList, teamList, experimentList).map(data => (
+          <Subject key={data.id} subject={data.title} onlyPersonal={false} />
+        ))
+      )}
     </S.AdminSection>
   );
 };
