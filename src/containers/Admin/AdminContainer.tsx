@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useEffect } from 'react';
-import AdminHeaderContainer from '../AdminHeader/AdminHeader';
+import AdminHeaderContainer from '../AdminHeader/AdminHeaderContainer';
 import { Admin } from '../../components';
 import { useDispatch } from 'react-redux';
 import {
