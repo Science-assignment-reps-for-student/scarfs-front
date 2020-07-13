@@ -34,7 +34,7 @@ export const SubjectWrap = styled.article`
 export const SubjectTitle = styled.h3`
   padding: 8px 0;
   border-bottom: 1px solid #d5d5d5;
-  font-size: 20px;
+  font-size: 28px;
 `;
 
 export const Subject = styled.div`
@@ -134,9 +134,12 @@ export const SubjectClsContentCommonItem = styled.li`
   align-items: center;
   justify-content: space-between;
   padding: 2px 0;
-  font-size: 8px;
+  font-size: 14px;
   &:first-child {
     background-color: #f5f5f5;
+    > span:last-child {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -198,7 +201,7 @@ export const AdminAside = styled.aside`
 export const AdminAsideTitle = styled.h3`
   padding: 8px 0;
   border-bottom: 2px solid #d5d5d5;
-  font-size: 20px;
+  font-size: 28px;
 `;
 
 export const AdminAsideList = styled.ul`
@@ -209,6 +212,7 @@ export const AdminAsideList = styled.ul`
 
 export const AdminAsideItem = styled.li`
   padding: 4px 0;
+  cursor: pointer;
   &:nth-child(4) {
     border-bottom: 2px solid #d5d5d5;
   }
