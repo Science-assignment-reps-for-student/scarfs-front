@@ -15,6 +15,10 @@ export const AdminContent = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 24px;
+
+  @media all and (max-width: 1180px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const AdminSection = styled.section`
@@ -197,15 +201,30 @@ export const AdminAsideTitle = styled.h3`
   font-size: 20px;
 `;
 
-export const AdminAsideList = styled.ul``;
+export const AdminAsideList = styled.ul`
+  @media all and (max-width: 1180px) {
+    display: flex;
+  }
+`;
 
 export const AdminAsideItem = styled.li`
   padding: 4px 0;
   &:nth-child(4) {
     border-bottom: 2px solid #d5d5d5;
   }
+  @media all and (max-width: 1180px) {
+    margin: 0 16px;
+    border-bottom: 0;
+    &:nth-child(4) {
+      border-bottom: 0;
+    }
+  }
 `;
 
-export const AdminAsideCheckBox = styled.input``;
+export const AdminAsideCheckBox = styled.input`
+  cursor: pointer;
+`;
 
-export const AdminAsideLabel = styled.label``;
+export const AdminAsideLabel = styled.label`
+  cursor: pointer;
+`;
