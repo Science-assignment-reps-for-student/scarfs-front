@@ -5,7 +5,9 @@ import GlobalStyle from './style/global';
 const App: FC = (): React.ReactElement => (
   <BrowserRouter>
     <GlobalStyle />
-    <Switch></Switch>
+    <Switch>
+      <Route render={Main} path="/" />
+    </Switch>
   </BrowserRouter>
 );
 
