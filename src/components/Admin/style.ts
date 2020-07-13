@@ -87,8 +87,11 @@ export const SubjectClsContentHeadTime = styled.span`
 
 export const SubjectClsContent = styled.div`
   display: flex;
+  height: 240px;
   > * {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -115,39 +118,42 @@ export const InfoSubmittedMembers = styled.p`
   font-weight: bold;
 `;
 
-export const SubjectClsContentCommon = styled.div`
-  > h5 {
-    padding: 4px 6px;
+export const SubjectClsContentCommon = styled.div``;
+
+export const SubjectClsContentCommonTitle = styled.h5`
+  padding: 4px 6px;
+  box-shadow: 0 1px #505050;
+`;
+
+export const SubjectClsContentCommonList = styled.ul`
+  overflow-x: hidden;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 2px;
   }
-  > ul {
-    height: 220px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    ::-webkit-scrollbar {
-      width: 2px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f9f9f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #3f51b5;
-      border-radius: 16px;
-    }
-    > li {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2px 0;
-      font-size: 8px;
-      &:first-child {
-        background-color: #f5f5f5;
-      }
-      > span {
-        flex: 1;
-        text-align: center;
-      }
-    }
+  ::-webkit-scrollbar-track {
+    background: #f9f9f9;
   }
+  ::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+    border-radius: 16px;
+  }
+`;
+
+export const SubjectClsContentCommonItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+  font-size: 8px;
+  &:first-child {
+    background-color: #f5f5f5;
+  }
+`;
+
+export const SubjectClsContentCommonItemText = styled.span`
+  flex: 1;
+  text-align: center;
 `;
 
 export const SubjectClsContentReport = styled(SubjectClsContentCommon)`
@@ -198,41 +204,4 @@ export const SubjectButtonImg = styled.img`
 export const AdminAside = styled.aside`
   flex: 1;
   padding-left: 4px;
-`;
-
-
-
-// export const Admin1 = styled.div``;
-
-export const SubjectClsContentCommonTitle = styled.h5`
-  padding: 4px 6px;
-`;
-export const SubjectClsContentCommonList = styled.ul`
-  height: 220px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    width: 2px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f9f9f9;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #3f51b5;
-    border-radius: 16px;
-  }
-`;
-export const SubjectClsContentCommonItem = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2px 0;
-  font-size: 8px;
-  &:first-child {
-    background-color: #f5f5f5;
-  }
-`;
-export const SubjectClsContentCommonItemText = styled.span`
-  flex: 1;
-  text-align: center;
 `;
