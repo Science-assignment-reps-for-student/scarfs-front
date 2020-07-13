@@ -1,13 +1,11 @@
 import { createGlobalStyle, GlobalStyleComponent, DefaultTheme } from 'styled-components';
 
 const GlobalStyle: GlobalStyleComponent<{}, DefaultTheme> = createGlobalStyle`
-    @import 'https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css';
     /* css initialize */
     html, body {
       width: 100%;
       height: 100%;
       min-width: 1180px;
-      font-family: 'NanumSquare', sans-serif;
     }
     table {
       border-collapse: collapse;

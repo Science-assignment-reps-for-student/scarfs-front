@@ -31,6 +31,20 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/i,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -42,5 +56,7 @@ module.exports = {
     inline: true,
     hot: true,
     historyApiFallback: true,
+    disableHostCheck: true,
+    host: '0.0.0.0',
   },
 };
