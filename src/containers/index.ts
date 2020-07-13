@@ -1,5 +1,5 @@
-import AdminContainer from './Admin/Admin';
-import AdminLoginContainer from './AdminLogin/AdminLogin';
-import AdminHeaderContainer from './AdminHeader/AdminHeader';
+import AdminContainer from './Admin/AdminContainer';
+import AdminLoginContainer from './AdminLogin/AdminLoginContainer';
+import AdminHeaderContainer from './AdminHeader/AdminHeaderContainer';
 
 export { AdminContainer, AdminHeaderContainer, AdminLoginContainer };
