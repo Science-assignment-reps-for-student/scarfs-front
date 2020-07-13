@@ -1,4 +1,4 @@
-import Admin from './Admin/Admin';
+import Admin from './Admin';
 import AdminHeader from './AdminHeader';
 import AdminLogin from './AdminLogin';
 
