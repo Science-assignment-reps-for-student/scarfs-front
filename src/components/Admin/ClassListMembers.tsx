@@ -9,7 +9,7 @@ interface Props {
 
 const ClassListMembers: FC<Props> = ({ onlyPersonal }): ReactElement => {
   return (
-    <S.SubjectClsContentMembers className="articleItemCardMembers">
+    <S.SubjectClsContentMembers>
       {onlyPersonal && <h5>동료평가</h5>}
       <ul>
         <li>
@@ -17,7 +17,7 @@ const ClassListMembers: FC<Props> = ({ onlyPersonal }): ReactElement => {
           <span>이름</span>
           <span>제출여부</span>
         </li>
-        {Array(16)
+        {Array(20)
           .fill(0)
           .map((_, i) => {
             return (

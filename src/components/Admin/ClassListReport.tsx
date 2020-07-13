@@ -20,7 +20,7 @@ const ClassListReport: FC<Props> = ({ onlyPersonal }): ReactElement => {
               <span>이름</span>
               <span>제출여부</span>
             </li>
-            {Array(16)
+            {Array(20)
               .fill(0)
               .map((_, i) => {
                 return (
@@ -30,7 +30,7 @@ const ClassListReport: FC<Props> = ({ onlyPersonal }): ReactElement => {
                     <span>이름</span>
                     <span>
                       {i % 4 === 0 && (
-                        <img src={i % 2 === 0 ? adminO : adminX} alt="complete" title="complete" />
+                        <img src={i % 8 === 0 ? adminO : adminX} alt="complete" title="complete" />
                       )}
                     </span>
                   </li>
