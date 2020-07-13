@@ -1,8 +1,37 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Personal, dummyPersonal } from './adminPersonal';
-import { Team, dummyTeam } from './adminTeam';
-import { Experiment, dummyExperiment } from './adminExperiment';
+import { Personal, dummyPersonal, PersonalSubject } from './adminPersonal';
+import { Team, dummyTeam, TeamSubject } from './adminTeam';
+import { Experiment, dummyExperiment, ExperimentSubject } from './adminExperiment';
+
+const PERSONAL_STR = '개인' as const;
+const TEAM_STR = '팀' as const;
+const EXPERIMENT_STR = '실험' as const;
+
+type CombineAdmin = (PersonalSubject | TeamSubject | ExperimentSubject)[];
+
+const replaceTitle = (list: CombineAdmin, type: string) => {
+  return list.map(item => [
+    ...list,
+    (item.title = `[${type}] ${item.title}`),
+    (item['type'] = type),
+  ]);
+};
+
+const insertTypeOfTitle = (list: CombineAdmin, type: string) => {
+  list = list || [];
+  (list as PersonalSubject[]).sort((a, b) => (a.id > b.id ? 1 : -1));
+  switch (type) {
+    case PERSONAL_STR:
+      return replaceTitle(list as PersonalSubject[], type);
+    case TEAM_STR:
+      return replaceTitle(list as TeamSubject[], type);
+    case EXPERIMENT_STR:
+      return replaceTitle(list as ExperimentSubject[], type);
+    default:
+      return list;
+  }
+};
 
 export const FETCH_PERSONAL = 'FETCH_PERSONAL' as const;
 export const FETCH_TEAM = 'FETCH_TEAM' as const;
@@ -51,9 +80,11 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   null,
   AdminAction
 >> = (personalList: Personal) => async dispatch => {
+  dispatch(fetchLoading());
   try {
     // const res = await apiGetList(listId);
-    dummyPersonal.personal_assignment.sort((a, b) => (a > b ? 1 : -1));
+    const { personal_assignment } = dummyPersonal;
+    insertTypeOfTitle(personal_assignment, PERSONAL_STR);
     dispatch(fetchPersonal(dummyPersonal));
   } catch (err) {
     throw err;
@@ -67,7 +98,8 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
 >> = (teamList: Team) => async dispatch => {
   try {
     // api get
-    dummyTeam.team_assignment.sort((a, b) => (a > b ? 1 : -1));
+    const { team_assignment } = dummyTeam;
+    insertTypeOfTitle(team_assignment, TEAM_STR);
     dispatch(fetchTeam(dummyTeam));
   } catch (err) {
     throw err;
@@ -81,7 +113,8 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
 >> = (experimentList: Experiment) => async dispatch => {
   try {
     // api get
-    dummyExperiment.experiment_assignment.sort((a, b) => (a > b ? 1 : -1));
+    const { experiment_assignment } = dummyExperiment;
+    insertTypeOfTitle(experiment_assignment, EXPERIMENT_STR);
     dispatch(fetchExperiment(dummyExperiment));
   } catch (err) {
     throw err;
@@ -94,7 +127,6 @@ const admin = (state = initialPersonal, action: AdminAction): AdminState => {
       return {
         ...state,
         personalList: action.payload.personalList,
-        loading: false,
       };
     case FETCH_TEAM:
       return {
@@ -105,6 +137,7 @@ const admin = (state = initialPersonal, action: AdminAction): AdminState => {
       return {
         ...state,
         experimentList: action.payload.experimentList,
+        loading: false,
       };
     case LOADING:
       return {
