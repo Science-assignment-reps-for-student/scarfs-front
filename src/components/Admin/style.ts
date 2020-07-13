@@ -4,43 +4,28 @@ export const AdminWrap = styled.main`
   background-color: #f5f5f5;
   height: 100%;
   padding-bottom: 48px;
-
-  aside {
-    > h3 {
-      padding: 8px 0;
-      border-bottom: 2px solid #d5d5d5;
-      font-size: 20px;
-    }
-    > ul {
-      > li {
-        padding: 4px 0;
-      }
-      > hr {
-        border: 2px solid #d5d5d5;
-      }
-    }
-  }
 `;
 
 export const AdminTitle = styled.h2`
-  width: 1180px;
-  margin: auto;
-  padding: 32px 0 8px;
+  padding: 32px 24px 8px;
   border-bottom: 2px solid #d5d5d5;
 `;
 
 export const AdminContent = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 1180px;
-  margin: auto;
+  padding: 0 24px;
 `;
 
 export const AdminSection = styled.section`
   width: 90%;
 `;
 
-export const SubjectWrap = styled.article``;
+export const SubjectWrap = styled.article`
+  &:not(:first-child) {
+    margin-top: 56px;
+  }
+`;
 
 export const SubjectTitle = styled.h3`
   padding: 8px 0;
@@ -205,3 +190,22 @@ export const AdminAside = styled.aside`
   flex: 1;
   padding-left: 4px;
 `;
+
+export const AdminAsideTitle = styled.h3`
+  padding: 8px 0;
+  border-bottom: 2px solid #d5d5d5;
+  font-size: 20px;
+`;
+
+export const AdminAsideList = styled.ul``;
+
+export const AdminAsideItem = styled.li`
+  padding: 4px 0;
+  &:nth-child(4) {
+    border-bottom: 2px solid #d5d5d5;
+  }
+`;
+
+export const AdminAsideCheckBox = styled.input``;
+
+export const AdminAsideLabel = styled.label``;
