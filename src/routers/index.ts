@@ -1,1 +1,1 @@
-export { default as BoardRouter } from './BoardRouter';
+export { default as AdminRouter } from './AdminRouter';
