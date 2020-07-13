@@ -1,14 +1,9 @@
 import React, { FC } from 'react';
-import { TaskList } from '../../components/Main';
+import { LoginedMain } from '../../components/Main';
 import * as S from '../../style/Main';
 
 const Main: FC = () => {
-  return (
-    <S.Body>
-      <TaskList taskListType="calender" />
-      <TaskList taskListType="megaphone" />
-    </S.Body>
-  );
+  return <LoginedMain />;
 };
 
 export default Main;
