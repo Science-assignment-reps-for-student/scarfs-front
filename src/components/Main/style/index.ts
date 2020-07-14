@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { megaphone, calender, logo, logout, background } from '../../asset/Main';
+import { megaphone, calender, logo, logout, background, logoutLogo } from '../../../asset/Main';
 
 export const Background = styled.div`
   width: 100%;
@@ -52,6 +52,9 @@ export const TaskListComponentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+  > .point {
+    color: #505bff;
+  }
 `;
 
 export const TaskListComponentAddButton = styled(TaskListComponent)`
@@ -205,4 +208,58 @@ export const UserInfoButton = styled.div`
       font-weight: 500;
     }
   }
+`;
+
+export const SideBar = styled.div`
+  color: #505bff;
+  > p {
+    margin-top: 80px;
+    transform: rotate(90deg);
+    font-size: 0.9375rem;
+    letter-spacing: 5px;
+  }
+`;
+
+export const LogOutedLogo = styled.div`
+  width: 552px;
+  height: 333px;
+  background-image: url(${logoutLogo});
+`;
+
+export const LogOutedButtonWrapper = styled.div`
+  width: 380px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const LoginButton = styled.div`
+  width: 150px;
+  height: 40px;
+  background-color: #505bff;
+  border: 1px solid #505bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: 7px;
+`;
+
+export const SignUpButton = styled(LoginButton)`
+  color: #505bff;
+  background-color: white;
+`;
+
+export const LogOutedLogoTextWrapper = styled.div`
+  width: 432px;
+  align-self: flex-end;
+`;
+
+export const LogOutedLogoTitle = styled(LogoTitle)`
+  text-align: left;
+`;
+
+export const LogOutedWrapper = styled.div`
+  display: flex;
+  margin: 0 auto;
+  margin-top: 80px;
 `;
