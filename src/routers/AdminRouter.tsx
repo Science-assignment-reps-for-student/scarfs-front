@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { AdminContainer, AdminLoginContainer } from '../containers';
-import NotFound from '../components/NotFound';
+import { NotFound } from '../components';
 
 const AdminRouter: FC = (): ReactElement => {
   return (
