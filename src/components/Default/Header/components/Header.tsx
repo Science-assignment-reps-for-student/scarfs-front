@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import * as S from '../../../style/Default/Header';
+import * as S from '../style';
 import HeaderButton from './HeaderButton';
 import HeaderSearch from './HeaderSearch';
 import HeaderUserButton from './HeaderUserButton';
@@ -7,8 +7,8 @@ import HeaderUserButton from './HeaderUserButton';
 const Header: FC = () => {
   return (
     <S.Header>
-      <div className="header">
-        <div className="wrapper">
+      <div className='header'>
+        <div className='wrapper'>
           <S.HeaderTitle>SCARFS</S.HeaderTitle>
           <HeaderSearch />
           <HeaderButton>메인</HeaderButton>
@@ -18,7 +18,7 @@ const Header: FC = () => {
         </div>
         <S.HeaderUserButtonWrapper>
           <HeaderUserButton>로그인</HeaderUserButton>
-          <div className="bar" />
+          <div className='bar' />
           <HeaderUserButton>회원가입</HeaderUserButton>
         </S.HeaderUserButtonWrapper>
       </div>

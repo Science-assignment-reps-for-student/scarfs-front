@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { DEFAULT_COLOR, MAIN_COLOR } from '../../../lib/style/color';
-import Magnifier from '../../../assets/Main/Magnifier.png';
+import { DEFAULT_COLOR, MAIN_COLOR } from '../../../../lib/style/color';
+import Magnifier from '../../../../assets/Main/Magnifier.png';
 
 export const Header = styled.div`
   width: 100%;

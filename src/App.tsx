@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import GlobalStyle from './style/global';
+import GlobalStyle from './GlobalStyle';
 import { UserRouter } from './routers';
 import { NotFound } from './components';
 
