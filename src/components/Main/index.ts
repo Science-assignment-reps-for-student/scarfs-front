@@ -1,2 +1,4 @@
-export { default as LoginedMain } from './Login/LoginedMain';
-export { default as LogOutedMain } from './LogOut/LogOutedMain';
+import LoginedMain from './Login/LoginedMain';
+import LogOutedMain from './LogOut/LogOutedMain';
+
+export { LoginedMain, LogOutedMain };

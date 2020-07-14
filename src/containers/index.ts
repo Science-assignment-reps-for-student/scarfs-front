@@ -1,2 +1,4 @@
-export { HeaderContainer, WaveContainer } from './Default';
-export { MainContainer } from './Main';
+import { HeaderContainer, WaveContainer } from './Default';
+import { MainContainer } from './Main';
+
+export { HeaderContainer, WaveContainer, MainContainer };
