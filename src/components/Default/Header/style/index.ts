@@ -4,7 +4,7 @@ import Magnifier from '../../../../assets/Main/Magnifier.png';
 
 export const Header = styled.div`
   width: 100%;
-  min-width: 1240px;
+  min-width: 1340px;
   height: 60px;
   background-color: white;
   > div.header {

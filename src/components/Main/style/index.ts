@@ -5,6 +5,7 @@ export const Background = styled.div`
   width: 100%;
   height: 152px;
   background-image: url(${background});
+  min-width: 1340px;
 `;
 
 export const Body = styled.div`
