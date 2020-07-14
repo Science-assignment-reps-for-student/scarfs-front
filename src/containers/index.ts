@@ -1,2 +1,2 @@
 export { HeaderContainer } from './Default';
-export { default as Main } from './Main';
+export { MainContainer } from './Main';

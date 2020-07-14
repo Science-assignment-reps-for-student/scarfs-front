@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import GlobalStyle from './style/global';
 import { UserRouter } from './routers';
 import { NotFound } from './components';
-// import { Main } from './containers';
 
 const App: FC = (): React.ReactElement => {
   return (

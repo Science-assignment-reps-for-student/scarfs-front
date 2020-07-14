@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 // import { AssignmentGuideBoardContainer } from '../containers';
-// import HeaderContainer from '../containers/Default/Header';
-
+import { HeaderContainer } from '../containers';
 const BoardRouter: FC = () => {
+  console.log(1);
   return (
     <>
-      {/* <HeaderContainer /> */}
+      <HeaderContainer />
       <Switch>
         {/* <Route exact path="/" component={MainContainer} />  */}
         {/* <Route exact path='/board/assignment-guide' component={AssignmentGuideBoardContainer} /> */}
