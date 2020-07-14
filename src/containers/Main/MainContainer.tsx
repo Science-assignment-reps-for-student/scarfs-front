@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
-import { HeaderContainer } from '../';
+import { LoginedMain, LogOutedMain } from '../../components/Main';
 
 const Main: FC = () => {
-  return (
-    <div>
-      <HeaderContainer />
-    </div>
-  );
+  const isLogIn = false;
+  return isLogIn ? <LoginedMain /> : <LogOutedMain />;
+
 };
 
 export default Main;

@@ -1,3 +1,4 @@
 import { NotFound } from './NotFound';
+import { Wave, Header } from './Default';
 
-export { NotFound };
+export { NotFound, Wave, Header };

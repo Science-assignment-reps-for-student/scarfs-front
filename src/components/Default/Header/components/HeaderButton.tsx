@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import * as S from '../../../style/Default/Header';
+import * as S from '../style';
 
 interface Props {
   children: string;

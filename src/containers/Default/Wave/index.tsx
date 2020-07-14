@@ -1,1 +1,2 @@
-export { default as HeaderContainer } from './WaveContainer';
+import WaveContainer from './WaveContainer';
+export default WaveContainer;
