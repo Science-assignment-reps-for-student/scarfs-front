@@ -1,6 +1,7 @@
 import TaskList from './TaskList';
+import TaskHeader from './TaskHeader';
+import TaskButton from './TaskButton';
+import TaskListComponent from './TaskListComponent';
 
-export { default as TaskHeader } from './TaskHeader';
-export { default as TaskButton } from './TaskButton';
-export { default as TaskListComponent } from './TaskListComponent';
+export { TaskList, TaskHeader, TaskButton, TaskListComponent };
 export default TaskList;

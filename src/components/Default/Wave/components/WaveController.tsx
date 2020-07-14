@@ -24,7 +24,7 @@ class WaveController extends React.Component<Props> {
     this.stageWidth = document.body.clientWidth;
     this.stageHeight = 20;
 
-    this.canvas.current.width = this.stageWidth * 2;
+    this.canvas.current.width = this.stageWidth;
     this.canvas.current.height = 30;
     this.ctx.scale(2, 2);
     this.resizeWave();
