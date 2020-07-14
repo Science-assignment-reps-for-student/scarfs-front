@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import * as S from '../../../../style/Main';
+import * as S from '../../style';
 
 interface Props {
   date: string;
@@ -13,7 +13,7 @@ const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
     <S.TaskListComponent>
       <S.TaskListComponentHeader>
         <p>{date}</p>
-        <p className="">{isProgress ? '진행' : '완료'}</p>
+        <p className="point">{isProgress ? '진행' : '완료'}</p>
       </S.TaskListComponentHeader>
       <S.TaskListComponentBody>
         <p>{title}</p>

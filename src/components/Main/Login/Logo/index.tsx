@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import * as S from '../../../../style/Main';
+import * as S from '../../style';
 
 const Logo: FC = () => {
   return (
