@@ -1,1 +1,1 @@
-export { default as Main } from './Main';
+export { HeaderContainer } from './Default';
