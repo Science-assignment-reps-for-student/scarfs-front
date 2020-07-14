@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
+import { LoginedMain, LogOutedMain } from '../../components/Main';
 
 const Main: FC = () => {
-  return <div></div>;
+  const isLogIn = false;
+  return isLogIn ? <LoginedMain /> : <LogOutedMain />;
+
 };
 
 export default Main;
