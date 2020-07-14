@@ -8,53 +8,47 @@ import {
   dummyPersonal4,
   PersonalSubject,
 } from './adminPersonal';
-import { Team, dummyTeam, TeamSubject } from './adminTeam';
-import { Experiment, dummyExperiment, ExperimentSubject } from './adminExperiment';
+import { Team, dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4, TeamSubject } from './adminTeam';
+import {
+  Experiment,
+  dummyExperiment1,
+  dummyExperiment2,
+  dummyExperiment3,
+  dummyExperiment4,
+  ExperimentSubject,
+} from './adminExperiment';
+import {
+  addPropsOfPersonal,
+  addPropsOfTeam,
+  addPropsOfExperiment,
+  sortPersonalById,
+  sortTeamById,
+  sortExperimentById,
+} from './adminUtil';
 
-const PERSONAL_STR = '개인' as const;
-const TEAM_STR = '팀' as const;
-const EXPERIMENT_STR = '실험' as const;
+export type CombineAdmin = Personal | Team | Experiment;
+export type CombineAdmins = CombineAdmin[];
+export type CombineAdminSubject = PersonalSubject | TeamSubject | ExperimentSubject;
+export type CombineAdminSubjects = CombineAdminSubject[];
 
-export type CombineAdminSubjects = (PersonalSubject | TeamSubject | ExperimentSubject)[];
-
-const addProps = (list: CombineAdminSubjects, type: string, classNum: number) => {
-  return list.map(item => [
-    ...list,
-    (item.title = `[${type}] ${item.title}`),
-    (item['type'] = type),
-    (item['classNum'] = classNum),
-  ]);
-};
-
-const insertTypeOfTitle = (list: CombineAdminSubjects, type: string, classNum: number) => {
-  list = list || [];
-  (list as PersonalSubject[]).sort((a, b) => (a.id > b.id ? 1 : -1));
-  switch (type) {
-    case PERSONAL_STR:
-      return addProps(list as PersonalSubject[], type, classNum);
-    case TEAM_STR:
-      return addProps(list as TeamSubject[], type, classNum);
-    case EXPERIMENT_STR:
-      return addProps(list as ExperimentSubject[], type, classNum);
-    default:
-      return list;
-  }
-};
+export const PERSONAL_STR = '개인' as const;
+export const TEAM_STR = '팀' as const;
+export const EXPERIMENT_STR = '실험' as const;
 
 export const FETCH_PERSONAL = 'FETCH_PERSONAL' as const;
 export const FETCH_TEAM = 'FETCH_TEAM' as const;
 export const FETCH_EXPERIMENT = 'FETCH_EXPERIMENT' as const;
 export const LOADING = 'LOADING' as const;
 
-export const fetchPersonal = (personalList: Personal) => ({
+export const fetchPersonal = (personalList: Personal[]) => ({
   type: FETCH_PERSONAL,
   payload: { personalList },
 });
-export const fetchTeam = (teamList: Team) => ({
+export const fetchTeam = (teamList: Team[]) => ({
   type: FETCH_TEAM,
   payload: { teamList },
 });
-export const fetchExperiment = (experimentList: Experiment) => ({
+export const fetchExperiment = (experimentList: Experiment[]) => ({
   type: FETCH_EXPERIMENT,
   payload: { experimentList },
 });
@@ -69,16 +63,16 @@ type AdminAction =
   | ReturnType<typeof fetchLoading>;
 
 export type AdminState = {
-  personalList: Personal;
-  teamList: Team;
-  experimentList: Experiment;
+  personalList: Personal[];
+  teamList: Team[];
+  experimentList: Experiment[];
   loading: boolean;
 };
 
 const initialPersonal: AdminState = {
-  personalList: {},
-  teamList: {},
-  experimentList: {},
+  personalList: [],
+  teamList: [],
+  experimentList: [],
   loading: false,
 };
 
@@ -87,15 +81,14 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   AdminAction,
   null,
   AdminAction
->> = (personalList: Personal) => async dispatch => {
+>> = () => async dispatch => {
   dispatch(fetchLoading());
   try {
-    // const res = await apiGetList(listId);
-    insertTypeOfTitle(dummyPersonal1.personal_assignment, PERSONAL_STR, 1);
-    insertTypeOfTitle(dummyPersonal2.personal_assignment, PERSONAL_STR, 2);
-    insertTypeOfTitle(dummyPersonal3.personal_assignment, PERSONAL_STR, 3);
-    insertTypeOfTitle(dummyPersonal4.personal_assignment, PERSONAL_STR, 4);
-    dispatch(fetchPersonal(dummyPersonal1));
+    const personalList: Personal[] = [];
+    [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(person => {
+      personalList.push(addPropsOfPersonal(sortPersonalById(person)));
+    });
+    dispatch(fetchPersonal(personalList));
   } catch (err) {
     throw err;
   }
@@ -105,12 +98,13 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
   AdminAction,
   any,
   AdminAction
->> = (teamList: Team) => async dispatch => {
+>> = () => async dispatch => {
   try {
-    // api get
-    const { team_assignment } = dummyTeam;
-    insertTypeOfTitle(team_assignment, TEAM_STR, 1);
-    dispatch(fetchTeam(dummyTeam));
+    const teamList: Team[] = [];
+    [dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4].forEach(person => {
+      teamList.push(addPropsOfTeam(sortTeamById(person)));
+    });
+    dispatch(fetchTeam(teamList));
   } catch (err) {
     throw err;
   }
@@ -120,12 +114,14 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   AdminAction,
   any,
   AdminAction
->> = (experimentList: Experiment) => async dispatch => {
+>> = () => async dispatch => {
   try {
     // api get
-    const { experiment_assignment } = dummyExperiment;
-    insertTypeOfTitle(experiment_assignment, EXPERIMENT_STR, 1);
-    dispatch(fetchExperiment(dummyExperiment));
+    const experimentList: Experiment[] = [];
+    [dummyExperiment1, dummyExperiment2, dummyExperiment3, dummyExperiment4].forEach(person => {
+      experimentList.push(addPropsOfExperiment(sortExperimentById(person)));
+    });
+    dispatch(fetchExperiment(experimentList));
   } catch (err) {
     throw err;
   }
