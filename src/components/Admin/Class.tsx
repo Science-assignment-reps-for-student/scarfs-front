@@ -7,13 +7,13 @@ import ClassListMembers from './ClassListMembers';
 interface Props {
   subject: string;
   onlyPersonal: boolean;
-  i: number;
+  classNum: number;
 }
 
-const Class: FC<Props> = ({ subject, onlyPersonal, i }): ReactElement => {
+const Class: FC<Props> = ({ subject, onlyPersonal, classNum }): ReactElement => {
   return (
     <S.SubjectCls>
-      <S.SubjectClsTitle>{i + 1}반</S.SubjectClsTitle>
+      <S.SubjectClsTitle>{classNum}반</S.SubjectClsTitle>
       <S.SubjectClsContentWrap>
         <S.SubjectClsContentHead>
           <S.SubjectClsContentHeadTitle>{subject}</S.SubjectClsContentHeadTitle>

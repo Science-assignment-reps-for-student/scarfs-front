@@ -15,7 +15,12 @@ const Subject: FC<Props> = ({ subject, onlyPersonal }): ReactElement => {
       <S.Subject>
         {classList.map(classNum => {
           return (
-            <Class key={classNum} i={classNum} subject={subject} onlyPersonal={onlyPersonal} />
+            <Class
+              key={classNum}
+              classNum={classNum}
+              subject={subject}
+              onlyPersonal={onlyPersonal}
+            />
           );
         })}
       </S.Subject>
