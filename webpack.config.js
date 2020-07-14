@@ -18,7 +18,7 @@ module.exports = {
         loader: 'ts-loader',
       },
       {
-        test: /\.(jpg|png|jpeg|bmp|gif)?$/,
+        test: /\.(jpg|png|jpeg|bmp|gif|svg)?$/,
         loader: 'file-loader',
       },
       {
