@@ -4,18 +4,15 @@ import * as S from '../style';
 
 const LogOutedMain: FC = () => {
   return (
-    <>
-      <S.Background />
-      <S.Body>
-        <S.SideBar>
-          <p>SCIENCE</p>
-        </S.SideBar>
-        <S.LogOutedWrapper>
-          <S.LogOutedLogo />
-          <LogoText />
-        </S.LogOutedWrapper>
-      </S.Body>
-    </>
+    <S.Body>
+      <S.SideBar>
+        <p>SCIENCE</p>
+      </S.SideBar>
+      <S.LogOutedWrapper>
+        <S.LogOutedLogo />
+        <LogoText />
+      </S.LogOutedWrapper>
+    </S.Body>
   );
 };
 

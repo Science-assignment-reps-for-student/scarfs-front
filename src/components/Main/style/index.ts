@@ -1,11 +1,5 @@
 import styled from 'styled-components';
-import { megaphone, calender, logo, logout, background, logoutLogo } from '../../../asset/Main';
-
-export const Background = styled.div`
-  width: 100%;
-  height: 152px;
-  background-image: url(${background});
-`;
+import { megaphone, calender, logo, logout, logoutLogo } from '../../../assets/Main';
 
 export const Body = styled.div`
   width: 100%;
