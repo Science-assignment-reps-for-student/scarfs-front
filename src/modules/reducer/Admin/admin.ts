@@ -1,6 +1,13 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Personal, dummyPersonal, PersonalSubject } from './adminPersonal';
+import {
+  Personal,
+  dummyPersonal1,
+  dummyPersonal2,
+  dummyPersonal3,
+  dummyPersonal4,
+  PersonalSubject,
+} from './adminPersonal';
 import { Team, dummyTeam, TeamSubject } from './adminTeam';
 import { Experiment, dummyExperiment, ExperimentSubject } from './adminExperiment';
 
@@ -8,26 +15,27 @@ const PERSONAL_STR = '개인' as const;
 const TEAM_STR = '팀' as const;
 const EXPERIMENT_STR = '실험' as const;
 
-type CombineAdmin = (PersonalSubject | TeamSubject | ExperimentSubject)[];
+export type CombineAdminSubjects = (PersonalSubject | TeamSubject | ExperimentSubject)[];
 
-const replaceTitle = (list: CombineAdmin, type: string) => {
+const addProps = (list: CombineAdminSubjects, type: string, classNum: number) => {
   return list.map(item => [
     ...list,
     (item.title = `[${type}] ${item.title}`),
     (item['type'] = type),
+    (item['classNum'] = classNum),
   ]);
 };
 
-const insertTypeOfTitle = (list: CombineAdmin, type: string) => {
+const insertTypeOfTitle = (list: CombineAdminSubjects, type: string, classNum: number) => {
   list = list || [];
   (list as PersonalSubject[]).sort((a, b) => (a.id > b.id ? 1 : -1));
   switch (type) {
     case PERSONAL_STR:
-      return replaceTitle(list as PersonalSubject[], type);
+      return addProps(list as PersonalSubject[], type, classNum);
     case TEAM_STR:
-      return replaceTitle(list as TeamSubject[], type);
+      return addProps(list as TeamSubject[], type, classNum);
     case EXPERIMENT_STR:
-      return replaceTitle(list as ExperimentSubject[], type);
+      return addProps(list as ExperimentSubject[], type, classNum);
     default:
       return list;
   }
@@ -83,9 +91,11 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   dispatch(fetchLoading());
   try {
     // const res = await apiGetList(listId);
-    const { personal_assignment } = dummyPersonal;
-    insertTypeOfTitle(personal_assignment, PERSONAL_STR);
-    dispatch(fetchPersonal(dummyPersonal));
+    insertTypeOfTitle(dummyPersonal1.personal_assignment, PERSONAL_STR, 1);
+    insertTypeOfTitle(dummyPersonal2.personal_assignment, PERSONAL_STR, 2);
+    insertTypeOfTitle(dummyPersonal3.personal_assignment, PERSONAL_STR, 3);
+    insertTypeOfTitle(dummyPersonal4.personal_assignment, PERSONAL_STR, 4);
+    dispatch(fetchPersonal(dummyPersonal1));
   } catch (err) {
     throw err;
   }
@@ -99,7 +109,7 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
   try {
     // api get
     const { team_assignment } = dummyTeam;
-    insertTypeOfTitle(team_assignment, TEAM_STR);
+    insertTypeOfTitle(team_assignment, TEAM_STR, 1);
     dispatch(fetchTeam(dummyTeam));
   } catch (err) {
     throw err;
@@ -114,7 +124,7 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   try {
     // api get
     const { experiment_assignment } = dummyExperiment;
-    insertTypeOfTitle(experiment_assignment, EXPERIMENT_STR);
+    insertTypeOfTitle(experiment_assignment, EXPERIMENT_STR, 1);
     dispatch(fetchExperiment(dummyExperiment));
   } catch (err) {
     throw err;
