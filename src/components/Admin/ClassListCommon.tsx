@@ -6,9 +6,12 @@ import adminX from '../../assets/Admin/adminX.svg';
 interface Props {
   isReport: boolean;
   i: number;
+  studentId: string;
+  name: string;
+  submit: number;
 }
 
-const ClassListCommon: FC<Props> = ({ isReport, i }): ReactElement => {
+const ClassListCommon: FC<Props> = ({ isReport, i, studentId, name, submit }): ReactElement => {
   return (
     <S.SubjectClsContentCommonItem>
       {isReport && (
@@ -16,10 +19,10 @@ const ClassListCommon: FC<Props> = ({ isReport, i }): ReactElement => {
           {i % 4 === 0 && '팀이름'}
         </S.SubjectClsContentCommonItemText>
       )}
-      <S.SubjectClsContentCommonItemText>120{i + 1}</S.SubjectClsContentCommonItemText>
-      <S.SubjectClsContentCommonItemText>이름</S.SubjectClsContentCommonItemText>
+      <S.SubjectClsContentCommonItemText>{studentId}</S.SubjectClsContentCommonItemText>
+      <S.SubjectClsContentCommonItemText>{name}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>
-        {i % 4 === 0 && <img src={(i % 8 === 0 ? adminO : adminX)} alt="condition" title="condition" />}
+        {<img src={submit ? adminO : adminX} alt='condition' title='condition' />}
       </S.SubjectClsContentCommonItemText>
     </S.SubjectClsContentCommonItem>
   );
