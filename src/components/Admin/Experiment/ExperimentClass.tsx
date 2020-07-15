@@ -1,18 +1,17 @@
 import React, { FC, ReactElement } from 'react';
-import * as S from './style';
-import ClassInfo from './ClassInfo';
-import ClassListReport from './ClassListReport';
-import ClassListMembers from './ClassListMembers';
-import { CombineAdminSubject } from 'src/modules/reducer/Admin/admin';
+import * as S from '../style';
+import ExperimentClassInfo from './ExperimentClassInfo';
+import ExperimentClassSubmit from './ExperimentClassSubmit';
+import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
+import ExperimentClassReport from './ExperimentClassReport';
 
 interface Props {
-  cls: CombineAdminSubject;
+  cls: ExperimentSubject;
   classNum: number;
 }
 
-const Class: FC<Props> = ({ cls, classNum }): ReactElement => {
-  const { created_at, deadline, description } = cls;
-  const onlyPersonal = !cls.title.match('개인');
+const ExperimentClass: FC<Props> = ({ cls, classNum }): ReactElement => {
+  const { created_at, deadline, description, type } = cls;
 
   const getFullTime = (time: number) => {
     const c = new Date(time);
@@ -30,13 +29,13 @@ const Class: FC<Props> = ({ cls, classNum }): ReactElement => {
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>
-          <ClassInfo onlyPersonal={onlyPersonal} />
-          <ClassListReport onlyPersonal={onlyPersonal} />
-          <ClassListMembers onlyPersonal={onlyPersonal} />
+          <ExperimentClassInfo cls={cls} />
+          <ExperimentClassReport />
+          <ExperimentClassSubmit members={cls.peer_evaluation_submit} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>
   );
 };
 
-export default Class;
+export default ExperimentClass;
