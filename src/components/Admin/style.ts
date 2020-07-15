@@ -231,4 +231,5 @@ export const AdminAsideCheckBox = styled.input`
 
 export const AdminAsideLabel = styled.label`
   cursor: pointer;
+  user-select: none;
 `;
