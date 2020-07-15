@@ -4,16 +4,15 @@ import Class from './Class';
 
 interface Props {
   subject: string;
-  onlyPersonal: boolean;
 }
 
-const Subject: FC<Props> = ({ subject, onlyPersonal }): ReactElement => {
-  const classList: number[] = [1, 2, 3, 4];
+const Subject: FC<Props> = ({ subject, children }): ReactElement => {
+  const classes: number[] = [1, 2, 3, 4];
   return (
     <S.SubjectWrap>
       <S.SubjectTitle>{subject}</S.SubjectTitle>
       <S.Subject>
-        {classList.map(classNum => {
+        {/* {classes.map(classNum => {
           return (
             <Class
               key={classNum}
@@ -22,7 +21,8 @@ const Subject: FC<Props> = ({ subject, onlyPersonal }): ReactElement => {
               onlyPersonal={onlyPersonal}
             />
           );
-        })}
+        })} */}
+        {children}
       </S.Subject>
     </S.SubjectWrap>
   );
