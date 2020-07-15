@@ -1,20 +1,11 @@
+import { SubjectCommon, PrEvalCommon } from './admin';
+
 export interface Personal {
   personal_assignment?: PersonalSubject[];
 }
 
-export interface PersonalSubject {
-  id: number;
-  title: string;
-  description: string;
-  created_at: number;
-  deadline: number;
-  class_submit: PersonalSubjectSubmitted[];
-}
-
-export interface PersonalSubjectSubmitted {
-  name: string;
-  student_id: string;
-  submit: number;
+export interface PersonalSubject extends SubjectCommon {
+  class_submit: PrEvalCommon[];
 }
 
 export const dummyPersonal1: Personal = {
@@ -28,12 +19,12 @@ export const dummyPersonal1: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -47,12 +38,12 @@ export const dummyPersonal1: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -71,12 +62,12 @@ export const dummyPersonal2: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -90,12 +81,12 @@ export const dummyPersonal2: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -114,12 +105,12 @@ export const dummyPersonal3: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -133,12 +124,12 @@ export const dummyPersonal3: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -157,12 +148,12 @@ export const dummyPersonal4: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -176,12 +167,12 @@ export const dummyPersonal4: Personal = {
       class_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],

@@ -23,6 +23,7 @@ export const addPropsOfPersonal = (personal: Personal) => {
   const copy = { ...personal };
   copy.personal_assignment.forEach(cls => {
     cls.title = `[${PERSONAL_STR}] ${cls.title}`;
+    cls.type = PERSONAL_STR;
   });
   return copy;
 };
@@ -30,6 +31,7 @@ export const addPropsOfTeam = (team: Team) => {
   const copy = { ...team };
   copy.team_assignment.forEach(cls => {
     cls.title = `[${TEAM_STR}] ${cls.title}`;
+    cls.type = TEAM_STR;
   });
   return copy;
 };
@@ -37,6 +39,7 @@ export const addPropsOfExperiment = (experiment: Experiment) => {
   const copy = { ...experiment };
   copy.experiment_assignment.forEach(cls => {
     cls.title = `[${EXPERIMENT_STR}] ${cls.title}`;
+    cls.type = EXPERIMENT_STR;
   });
   return copy;
 };

@@ -1,32 +1,16 @@
+import { SubjectCommon, PrEvalCommon, MemberCommon } from './admin';
+
 export interface Team {
   team_assignment?: TeamSubject[];
 }
-
-export interface TeamSubject {
-  id: number;
-  title: string;
-  description: string;
-  created_at: number;
-  deadline: number;
-  peer_evaluation_submit: PeerEvaluationSubmit[];
+export interface TeamSubject extends SubjectCommon {
+  peer_evaluation_submit: PrEvalCommon[];
   team_submit: PeerEvaluationSubmitTeamSubmit[];
 }
-
-export interface PeerEvaluationSubmit {
-  name: string;
-  student_id: string;
-  submit: number;
-}
-
 export interface PeerEvaluationSubmitTeamSubmit {
   team_name: string;
   submit: number;
-  member: TeamMember[];
-}
-
-export interface TeamMember {
-  name: string;
-  student_id: string;
+  member: MemberCommon[];
 }
 
 export const dummyTeam1: Team = {
@@ -40,12 +24,12 @@ export const dummyTeam1: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -89,12 +73,12 @@ export const dummyTeam1: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -143,12 +127,12 @@ export const dummyTeam2: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -192,12 +176,12 @@ export const dummyTeam2: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -246,12 +230,12 @@ export const dummyTeam3: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -295,12 +279,12 @@ export const dummyTeam3: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -349,12 +333,12 @@ export const dummyTeam4: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],
@@ -398,12 +382,12 @@ export const dummyTeam4: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_id: '1101',
+          student_number: '1101',
           submit: 0,
         },
         {
           name: '김어진',
-          student_id: '1102',
+          student_number: '1102',
           submit: 1,
         },
       ],

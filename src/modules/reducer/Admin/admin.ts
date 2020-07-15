@@ -31,6 +31,24 @@ export type CombineAdmins = CombineAdmin[];
 export type CombineAdminSubject = PersonalSubject | TeamSubject | ExperimentSubject;
 export type CombineAdminSubjects = CombineAdminSubject[];
 
+export interface SubjectCommon {
+  id: number;
+  title: string;
+  description: string;
+  created_at: number;
+  deadline: number;
+  type?: string;
+}
+export interface PrEvalCommon {
+  name: string;
+  student_number: string;
+  submit: number;
+}
+export interface MemberCommon {
+  name: string;
+  student_id: string;
+}
+
 export const PERSONAL_STR = '개인' as const;
 export const TEAM_STR = '팀' as const;
 export const EXPERIMENT_STR = '실험' as const;
