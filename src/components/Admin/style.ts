@@ -141,6 +141,9 @@ export const SubjectClsContentCommonItem = styled.li`
       font-size: 10px;
     }
   }
+  &.unSubmitted {
+    background-color: #f5f5f5;
+  }
 `;
 
 export const SubjectClsContentCommonItemText = styled.span`
@@ -155,32 +158,37 @@ export const SubjectClsContentReport = styled(SubjectClsContentCommon)`
 
 export const SubjectClsContentMembers = styled(SubjectClsContentCommon)``;
 
+interface Progress {
+  max: number | string;
+  value: number | string;
+}
+
 export const AdminProgress = styled.progress`
   &[value] {
-    width: 180px;
+    width: 100%;
     height: 8px;
     border-radius: 4px;
     -webkit-appearance: none;
     appearance: none;
   }
   &[value]::-webkit-progress-value {
-    background-color: #0073aa;
+    background-color: ${({ max, value }: Progress) => (max === value ? '#ff6f61' : '#0073aa')};
   }
   &[value]::-webkit-progress-bar {
     background-color: #e1e1e1;
   }
-  &[value].all::-webkit-progress-value {
-    background-color: #ff6f61;
-  }
 `;
 
 export const SubjectButtonWrap = styled.div`
+  flex: 1;
   display: flex;
+  align-items: flex-end;
   margin: 16px 0;
   justify-content: space-between;
 `;
 
 export const SubjectButton = styled.button`
+  height: 30px;
   padding: 4px 12px;
   border: 1px solid #1a1a1a;
   border-radius: 4px;

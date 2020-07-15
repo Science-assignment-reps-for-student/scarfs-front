@@ -1,13 +1,22 @@
-import React, { FC, ReactElement, useCallback } from 'react';
+import React, { FC, ReactElement, useCallback, useMemo } from 'react';
 import * as S from './style';
 import Subject from './Subject';
-import Class from './Class';
-import { CombineAdminSubjects, CombineAdminSubject } from '../../modules/reducer/Admin/admin';
-import { Personal } from '../../modules/reducer/Admin/adminPersonal';
-import { Team } from '../../modules/reducer/Admin/adminTeam';
-import { Experiment } from '../../modules/reducer/Admin/adminExperiment';
+
+import {
+  CombineAdminSubjects,
+  CombineAdminSubject,
+  PERSONAL_STR,
+  TEAM_STR,
+  EXPERIMENT_STR,
+} from '../../modules/reducer/Admin/admin';
+import { Personal, PersonalSubject } from '../../modules/reducer/Admin/adminPersonal';
+import { Team, TeamSubject } from '../../modules/reducer/Admin/adminTeam';
+import { Experiment, ExperimentSubject } from '../../modules/reducer/Admin/adminExperiment';
 import { useSelector } from 'react-redux';
 import { StoreState } from '../../modules/reducer/Admin';
+import PersonalClass from './Personal/PersonalClass';
+import TeamClass from './Team/TeamClass';
+import ExperimentClass from './Experiment/ExperimentClass';
 
 interface Props {}
 interface CombineResult {
@@ -18,8 +27,6 @@ const AdminSection: FC<Props> = (): ReactElement => {
   const { personalList, teamList, experimentList, loading } = useSelector(
     (state: StoreState) => state.admin,
   );
-
-  console.log(1);
 
   const pushToResult = (result: CombineResult[], rr: CombineAdminSubject) => {
     const rrIdx = result.findIndex(a => a.id === rr.id);
@@ -47,20 +54,36 @@ const AdminSection: FC<Props> = (): ReactElement => {
     [],
   );
 
-  const renderAllSubjects = () => {
-    const allSubjects = combineSubjects(personalList, teamList, experimentList);
-    return allSubjects.map(subject => {
-      return (
-        <Subject key={subject.id} subject={subject.classes[0].title}>
-          {subject.classes.map((cls, i) => {
-            return <Class key={i} classNum={i + 1} cls={cls} />;
-          })}
-        </Subject>
-      );
-    });
+  const switchSubject = (subject: CombineResult) => {
+    switch (subject.classes[0].type) {
+      case PERSONAL_STR:
+        return subject.classes.map((cls: PersonalSubject, i) => (
+          <PersonalClass key={i} classNum={i + 1} cls={cls} />
+        ));
+      case TEAM_STR:
+        return subject.classes.map((cls: TeamSubject, i) => (
+          <TeamClass key={i} classNum={i + 1} cls={cls} />
+        ));
+      case EXPERIMENT_STR:
+        return subject.classes.map((cls: ExperimentSubject, i) => (
+          <ExperimentClass key={i} classNum={i + 1} cls={cls} />
+        ));
+      default:
+        return null;
+    }
   };
 
-  return <S.AdminSection>{loading ? <div>Loading~</div> : renderAllSubjects()}</S.AdminSection>;
+  const renderAllSubjects = useMemo(
+    () =>
+      combineSubjects(personalList, teamList, experimentList).map(subject => (
+        <Subject key={subject.id} title={subject.classes[0].title}>
+          {switchSubject(subject)}
+        </Subject>
+      )),
+    [combineSubjects, personalList, teamList, experimentList],
+  );
+
+  return <S.AdminSection>{loading ? <div>Loading~</div> : renderAllSubjects}</S.AdminSection>;
 };
 
 export default React.memo(AdminSection);
