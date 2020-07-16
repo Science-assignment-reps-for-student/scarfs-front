@@ -24,7 +24,7 @@ export const dummyTeam1: Team = {
       peer_evaluation_submit: [
         {
           name: '오준상',
-          student_number: '1101',
+          student_number: '1106',
           submit: 0,
         },
         {
@@ -40,11 +40,11 @@ export const dummyTeam1: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -54,11 +54,11 @@ export const dummyTeam1: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -89,11 +89,11 @@ export const dummyTeam1: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -103,11 +103,11 @@ export const dummyTeam1: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -143,11 +143,11 @@ export const dummyTeam2: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -157,11 +157,11 @@ export const dummyTeam2: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -192,11 +192,11 @@ export const dummyTeam2: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -206,11 +206,11 @@ export const dummyTeam2: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -246,11 +246,11 @@ export const dummyTeam3: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -260,11 +260,11 @@ export const dummyTeam3: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -295,11 +295,11 @@ export const dummyTeam3: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -309,11 +309,11 @@ export const dummyTeam3: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -349,11 +349,11 @@ export const dummyTeam4: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -363,11 +363,11 @@ export const dummyTeam4: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -398,11 +398,11 @@ export const dummyTeam4: Team = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -412,11 +412,11 @@ export const dummyTeam4: Team = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },

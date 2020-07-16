@@ -21,9 +21,9 @@ import {
   addPropsOfPersonal,
   addPropsOfTeam,
   addPropsOfExperiment,
-  sortPersonalById,
-  sortTeamById,
-  sortExperimentById,
+  sortPersonal,
+  sortTeam,
+  sortExperiment,
 } from './adminUtil';
 
 export type CombineAdmin = Personal | Team | Experiment;
@@ -46,7 +46,7 @@ export interface PrEvalCommon {
 }
 export interface MemberCommon {
   name: string;
-  student_id: string;
+  student_number: string;
 }
 
 export const PERSONAL_STR = '개인' as const;
@@ -104,7 +104,9 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   try {
     const personalList: Personal[] = [];
     [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(person => {
-      personalList.push(addPropsOfPersonal(sortPersonalById(person)));
+      sortPersonal(person);
+      addPropsOfPersonal(person);
+      personalList.push(person);
     });
     dispatch(fetchPersonal(personalList));
   } catch (err) {
@@ -119,8 +121,10 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
 >> = () => async dispatch => {
   try {
     const teamList: Team[] = [];
-    [dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4].forEach(person => {
-      teamList.push(addPropsOfTeam(sortTeamById(person)));
+    [dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4].forEach(team => {
+      sortTeam(team);
+      addPropsOfTeam(team);
+      teamList.push(team);
     });
     dispatch(fetchTeam(teamList));
   } catch (err) {
@@ -136,8 +140,10 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   try {
     // api get
     const experimentList: Experiment[] = [];
-    [dummyExperiment1, dummyExperiment2, dummyExperiment3, dummyExperiment4].forEach(person => {
-      experimentList.push(addPropsOfExperiment(sortExperimentById(person)));
+    [dummyExperiment1, dummyExperiment2, dummyExperiment3, dummyExperiment4].forEach(experiment => {
+      sortExperiment(experiment);
+      addPropsOfExperiment(experiment);
+      experimentList.push(experiment);
     });
     dispatch(fetchExperiment(experimentList));
   } catch (err) {

@@ -40,11 +40,11 @@ export const dummyExperiment1: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -54,11 +54,11 @@ export const dummyExperiment1: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -89,11 +89,11 @@ export const dummyExperiment1: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -103,11 +103,11 @@ export const dummyExperiment1: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -142,11 +142,11 @@ export const dummyExperiment2: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -156,11 +156,11 @@ export const dummyExperiment2: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -191,11 +191,11 @@ export const dummyExperiment2: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -205,11 +205,11 @@ export const dummyExperiment2: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -244,11 +244,11 @@ export const dummyExperiment3: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -258,11 +258,11 @@ export const dummyExperiment3: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -293,11 +293,11 @@ export const dummyExperiment3: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -307,11 +307,11 @@ export const dummyExperiment3: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -347,11 +347,11 @@ export const dummyExperiment4: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -361,11 +361,11 @@ export const dummyExperiment4: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },
@@ -396,11 +396,11 @@ export const dummyExperiment4: Experiment = {
           member: [
             {
               name: '오준상',
-              student_id: '1101',
+              student_number: '1101',
             },
             {
               name: '김어진',
-              student_id: '1102',
+              student_number: '1102',
             },
           ],
         },
@@ -410,11 +410,11 @@ export const dummyExperiment4: Experiment = {
           member: [
             {
               name: '정우형',
-              student_id: '1103',
+              student_number: '1103',
             },
             {
               name: '정우영',
-              student_id: '1104',
+              student_number: '1104',
             },
           ],
         },

@@ -3,43 +3,42 @@ import { Personal } from './adminPersonal';
 import { Team } from './adminTeam';
 import { Experiment } from './adminExperiment';
 
-export const sortPersonalById = (personal: Personal) => {
-  const copy = { ...personal };
-  copy.personal_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
-  return copy;
+export const sortPersonal = (personal: Personal) => {
+  personal.personal_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
+  personal.personal_assignment.forEach(per => {
+    per.class_submit.sort((a, b) => (a.student_number > b.student_number ? 1 : -1));
+  });
 };
-export const sortTeamById = (team: Team) => {
-  const copy = { ...team };
-  copy.team_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
-  return copy;
+export const sortTeam = (team: Team) => {
+  team.team_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
+  team.team_assignment.forEach(team => {
+    team.peer_evaluation_submit.sort((a, b) => (a.student_number > b.student_number ? 1 : -1));
+    team.team_submit.sort((a, b) => (a.team_name > b.team_name ? 1 : -1));
+  });
 };
-export const sortExperimentById = (experiment: Experiment) => {
-  const copy = { ...experiment };
-  copy.experiment_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
-  return copy;
+export const sortExperiment = (experiment: Experiment) => {
+  experiment.experiment_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
+  experiment.experiment_assignment.forEach(exp => {
+    exp.peer_evaluation_submit.sort((a, b) => (a.student_number > b.student_number ? 1 : -1));
+    exp.experiment_submit.sort((a, b) => (a.team_name > b.team_name ? 1 : -1));
+  });
 };
 
 export const addPropsOfPersonal = (personal: Personal) => {
-  const copy = { ...personal };
-  copy.personal_assignment.forEach(cls => {
+  personal.personal_assignment.forEach(cls => {
     cls.title = `[${PERSONAL_STR}] ${cls.title}`;
     cls.type = PERSONAL_STR;
   });
-  return copy;
 };
 export const addPropsOfTeam = (team: Team) => {
-  const copy = { ...team };
-  copy.team_assignment.forEach(cls => {
+  team.team_assignment.forEach(cls => {
     cls.title = `[${TEAM_STR}] ${cls.title}`;
     cls.type = TEAM_STR;
   });
-  return copy;
 };
 export const addPropsOfExperiment = (experiment: Experiment) => {
-  const copy = { ...experiment };
-  copy.experiment_assignment.forEach(cls => {
+  experiment.experiment_assignment.forEach(cls => {
     cls.title = `[${EXPERIMENT_STR}] ${cls.title}`;
     cls.type = EXPERIMENT_STR;
   });
-  return copy;
 };
