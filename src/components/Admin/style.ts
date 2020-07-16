@@ -23,6 +23,10 @@ export const AdminContent = styled.div`
 
 export const AdminSection = styled.section`
   width: 90%;
+
+  @media all and (max-width: 1180px) {
+    width: auto;
+  }
 `;
 
 export const SubjectWrap = styled.article`
@@ -141,7 +145,7 @@ export const SubjectClsContentCommonItem = styled.li`
       font-size: 10px;
     }
   }
-  &.unSubmitted {
+  &.unSubmit {
     background-color: #f5f5f5;
   }
 `;
