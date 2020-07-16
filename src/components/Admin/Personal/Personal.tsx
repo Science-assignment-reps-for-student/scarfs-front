@@ -10,7 +10,7 @@ interface Props {
 }
 
 const PersonalClass: FC<Props> = ({ cls, classNum }): ReactElement => {
-  const { created_at, deadline, description, type } = cls;
+  const { created_at, deadline, description } = cls;
 
   const getFullTime = (time: number) => {
     const c = new Date(time);
