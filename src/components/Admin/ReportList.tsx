@@ -4,28 +4,34 @@ import adminO from '../../assets/Admin/adminO.svg';
 import adminX from '../../assets/Admin/adminX.svg';
 
 interface Props {
-  isReport: boolean;
-  i: number;
+  isPersonal: boolean;
   studentId: string;
   name: string;
   submit: number;
+  teamName: string;
+  j: number;
 }
 
-const ClassListCommon: FC<Props> = ({ isReport, i, studentId, name, submit }): ReactElement => {
+const ReportList: FC<Props> = ({
+  isPersonal,
+  studentId,
+  name,
+  submit,
+  teamName,
+  j,
+}): ReactElement => {
   return (
-    <S.SubjectClsContentCommonItem>
-      {isReport && (
-        <S.SubjectClsContentCommonItemText>
-          {i % 4 === 0 && '팀이름'}
-        </S.SubjectClsContentCommonItemText>
+    <S.SubjectClsContentCommonItem className={!submit && 'unSubmit'}>
+      {isPersonal && (
+        <S.SubjectClsContentCommonItemText>{teamName}</S.SubjectClsContentCommonItemText>
       )}
       <S.SubjectClsContentCommonItemText>{studentId}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>{name}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>
-        {<img src={submit ? adminO : adminX} alt='condition' title='condition' />}
+        {j === 0 && <img src={submit ? adminO : adminX} alt='condition' title='condition' />}
       </S.SubjectClsContentCommonItemText>
     </S.SubjectClsContentCommonItem>
   );
 };
 
-export default ClassListCommon;
+export default ReportList;

@@ -1,16 +1,16 @@
-import React, { FC, ReactElement, useMemo } from 'react';
+import React, { FC, ReactElement } from 'react';
 import * as S from '../style';
-import TeamClassInfo from './TeamClassInfo';
-import TeamClassSubmit from './TeamClassSubmit';
-import { TeamSubject } from 'src/modules/reducer/Admin/adminTeam';
-import TeamClassReport from './TeamClassReport';
+import ExperimentClassInfo from './ExperimentInfo';
+import ExperimentClassSubmit from './ExperimentSubmit';
+import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
+import ExperimentClassReport from './ExperimentReport';
 
 interface Props {
-  cls: TeamSubject;
+  cls: ExperimentSubject;
   classNum: number;
 }
 
-const TeamClass: FC<Props> = ({ cls, classNum }): ReactElement => {
+const ExperimentClass: FC<Props> = ({ cls, classNum }): ReactElement => {
   const { created_at, deadline, description } = cls;
 
   const getFullTime = (time: number) => {
@@ -29,13 +29,13 @@ const TeamClass: FC<Props> = ({ cls, classNum }): ReactElement => {
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>
-          <TeamClassInfo cls={cls} />
-          <TeamClassReport />
-          <TeamClassSubmit members={cls.peer_evaluation_submit} />
+          <ExperimentClassInfo cls={cls} />
+          <ExperimentClassReport cls={cls} />
+          <ExperimentClassSubmit members={cls.peer_evaluation_submit} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>
   );
 };
 
-export default TeamClass;
+export default ExperimentClass;

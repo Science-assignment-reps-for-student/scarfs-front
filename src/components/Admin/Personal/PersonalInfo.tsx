@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import * as S from '../style';
 import adminDownload from '../../../assets/Admin/adminDownload.svg';
 import adminEdit from '../../../assets/Admin/adminEdit.svg';

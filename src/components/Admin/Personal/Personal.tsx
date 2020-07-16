@@ -1,8 +1,7 @@
-import React, { FC, ReactElement, useMemo } from 'react';
+import React, { FC, ReactElement } from 'react';
 import * as S from '../style';
-import PersonalClassInfo from './PersonalClassInfo';
-import PersonalClassSubmit from './PersonalClassSubmit';
-import { PrEvalCommon } from 'src/modules/reducer/Admin/admin';
+import PersonalClassInfo from './PersonalInfo';
+import PersonalClassSubmit from './PersonalSubmit';
 import { PersonalSubject } from 'src/modules/reducer/Admin/adminPersonal';
 
 interface Props {
