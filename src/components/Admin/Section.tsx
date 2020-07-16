@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import * as S from './style';
 import Subject from './Subject';
-
 import {
   CombineAdminSubjects,
   CombineAdminSubject,
@@ -12,11 +12,10 @@ import {
 import { Personal, PersonalSubject } from '../../modules/reducer/Admin/adminPersonal';
 import { Team, TeamSubject } from '../../modules/reducer/Admin/adminTeam';
 import { Experiment, ExperimentSubject } from '../../modules/reducer/Admin/adminExperiment';
-import { useSelector } from 'react-redux';
 import { StoreState } from '../../modules/reducer/Admin';
-import PersonalClass from './Personal/PersonalClass';
-import TeamClass from './Team/TeamClass';
-import ExperimentClass from './Experiment/ExperimentClass';
+import PersonalClass from './Personal/Personal';
+import TeamClass from './Team/Team';
+import ExperimentClass from './Experiment/Experiment';
 
 interface Props {}
 interface CombineResult {
@@ -36,19 +35,13 @@ const AdminSection: FC<Props> = (): ReactElement => {
   const sortSubjects = ([...copy]: CombineResult[]) => copy.sort((a, b) => (a.id > b.id ? 1 : -1));
 
   const combineSubjects = useCallback(
-    (personal: Personal[], team: Team[], experimentList: Experiment[]) => {
+    (personal: Personal[] = [], team: Team[] = [], experiment: Experiment[] = []) => {
       const result: CombineResult[] = [];
-      for (let i = 0; i < personal.length; i++) {
-        const p = personal[i].personal_assignment,
-          t = team[i].team_assignment,
-          e = experimentList[i].experiment_assignment;
-        const len = p.length;
-        for (let j = 0; j < len; j++) {
-          pushToResult(result, p[j]);
-          pushToResult(result, t[j]);
-          pushToResult(result, e[j]);
-        }
-      }
+      [...personal, ...team, ...experiment].forEach(cls => {
+        cls[Object.keys(cls)[0]].forEach((sbj: CombineAdminSubject) => {
+          pushToResult(result, sbj);
+        });
+      });
       return sortSubjects(result);
     },
     [],
