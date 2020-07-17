@@ -1,8 +1,8 @@
-import React, { FC, ReactElement, useMemo } from 'react';
+import React, { FC, ReactElement, useMemo, MouseEvent } from 'react';
 import * as S from './style';
 
 interface Props {
-  toggleFilter: any;
+  toggleFilter: (e: MouseEvent) => void;
 }
 
 const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
@@ -22,36 +22,40 @@ const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
     },
   ];
 
-  const classesFilter = useMemo(() => {
-    return classes.map((classNum, i) => (
-      <S.AdminAsideItem key={classNum}>
-        <S.AdminAsideLabel htmlFor={classNum}>
-          <S.AdminAsideCheckBox
-            type='checkbox'
-            id={classNum}
-            onClick={toggleFilter}
-            defaultChecked={true}
-          />
-          {i + 1}반
-        </S.AdminAsideLabel>
-      </S.AdminAsideItem>
-    ));
-  }, [toggleFilter]);
-  const subjectsFilter = useMemo(() => {
-    return subjects.map(({ id, text }) => (
-      <S.AdminAsideItem key={id}>
-        <S.AdminAsideLabel htmlFor={id}>
-          <S.AdminAsideCheckBox
-            type='checkbox'
-            onClick={toggleFilter}
-            id={id}
-            defaultChecked={true}
-          />
-          {text}
-        </S.AdminAsideLabel>
-      </S.AdminAsideItem>
-    ));
-  }, [toggleFilter]);
+  const classesFilter = useMemo(
+    () =>
+      classes.map((classNum, i) => (
+        <S.AdminAsideItem key={classNum}>
+          <S.AdminAsideLabel htmlFor={classNum}>
+            <S.AdminAsideCheckBox
+              type='checkbox'
+              id={classNum}
+              onClick={toggleFilter}
+              defaultChecked={true}
+            />
+            {i + 1}반
+          </S.AdminAsideLabel>
+        </S.AdminAsideItem>
+      )),
+    [toggleFilter],
+  );
+  const subjectsFilter = useMemo(
+    () =>
+      subjects.map(({ id, text }) => (
+        <S.AdminAsideItem key={id}>
+          <S.AdminAsideLabel htmlFor={id}>
+            <S.AdminAsideCheckBox
+              type='checkbox'
+              onClick={toggleFilter}
+              id={id}
+              defaultChecked={true}
+            />
+            {text}
+          </S.AdminAsideLabel>
+        </S.AdminAsideItem>
+      )),
+    [toggleFilter],
+  );
 
   return (
     <S.AdminAside>
