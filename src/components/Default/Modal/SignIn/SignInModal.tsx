@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput } from '../Default';
 import * as S from '../style';
-import { getStateCallback, stateChange, isEmpty } from '../../../../lib/function';
+import { getStateCallback, stateChange, isTextEmpty } from '../../../../lib/function';
 import { setEmail, setPassword, reset } from '../../../../modules/reducer/SignIn';
 import { setError, setModal, ErrorType } from '../../../../modules/reducer/Modal';
 
@@ -15,7 +15,7 @@ const SignInModal: FC = () => {
   const signInReset = stateChange(reset);
   const modalChange = stateChange(setModal);
   const isStateAble = useCallback(({ email, password }: ReturnType<typeof state>) => {
-    return !(isEmpty(email) || isEmpty(password));
+    return !(isTextEmpty(email) || isTextEmpty(password));
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {

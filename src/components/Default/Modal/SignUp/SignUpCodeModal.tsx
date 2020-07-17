@@ -10,7 +10,7 @@ import {
   reset,
 } from '../../../../modules/reducer/SignUp';
 import { setError, setModal, ErrorType } from '../../../../modules/reducer/Modal';
-import { getStateCallback, stateChange, isEmpty } from '../../../../lib/function';
+import { getStateCallback, stateChange, isTextEmpty } from '../../../../lib/function';
 
 type PageType = 'email' | 'code';
 
@@ -30,7 +30,7 @@ const SignUpModal: FC = () => {
 
   const isStateAble = useCallback(
     ({ password, passwordCheck }: ReturnType<typeof state>) => {
-      return !(isEmpty(passwordCheck) || isEmpty(password) || !isSuccess);
+      return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || !isSuccess);
     },
     [isSuccess],
   );

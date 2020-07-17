@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalHalfInput } from '../Default';
 import * as S from '../style';
-import { getStateCallback, stateChange, isEmpty } from '../../../../lib/function';
+import { getStateCallback, stateChange, isTextEmpty } from '../../../../lib/function';
 import { setName, setNumber, setCode, reset } from '../../../../modules/reducer/SignUp';
 import { ErrorType, setError, setModal, ModalType } from '../../../../modules/reducer/Modal';
 
@@ -17,8 +17,7 @@ const SignUpInfoModal: FC = () => {
   const signUpReset = stateChange(reset);
 
   const isStateAble = useCallback(({ email, name, code, number }: ReturnType<typeof state>) => {
-    console.log(email, name, code, number);
-    return !(isEmpty(name) || isEmpty(number) || isEmpty(code));
+    return !(isTextEmpty(name) || isTextEmpty(number) || isTextEmpty(code));
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
