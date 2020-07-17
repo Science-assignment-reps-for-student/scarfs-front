@@ -16,16 +16,43 @@ import { StoreState } from '../../modules/reducer/Admin';
 import PersonalClass from './Personal/Personal';
 import TeamClass from './Team/Team';
 import ExperimentClass from './Experiment/Experiment';
+import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
 
-interface Props {}
+interface Props {
+  filter: Filter;
+}
+interface Filter {
+  class1: boolean;
+  class2: boolean;
+  class3: boolean;
+  class4: boolean;
+  personal: boolean;
+  team: boolean;
+  experiment: boolean;
+}
 interface CombineResult {
   id: number;
   classes: CombineAdminSubjects;
 }
-const AdminSection: FC<Props> = (): ReactElement => {
+interface ITest {
+  key: any;
+  filter: Filter;
+  i: number;
+  classNum: number;
+  cls: any;
+}
+
+const withSectionComponent = (MyComponent: FC<any>) => (props: ITest) => {
+  const { filter, i } = props;
+  return filter[`class${i + 1}`] && <MyComponent {...props} />;
+};
+
+const AdminSection: FC<Props> = ({ filter }): ReactElement => {
   const { personalList, teamList, experimentList, loading } = useSelector(
     (state: StoreState) => state.admin,
   );
+
+  console.log('Section');
 
   const pushToResult = (result: CombineResult[], rr: CombineAdminSubject) => {
     const rrIdx = result.findIndex(a => a.id === rr.id);
@@ -44,36 +71,35 @@ const AdminSection: FC<Props> = (): ReactElement => {
       });
       return sortSubjects(result);
     },
-    [],
+    [pushToResult, sortSubjects],
   );
 
   const switchSubject = (subject: CombineResult) => {
     switch (subject.classes[0].type) {
       case PERSONAL_STR:
-        return subject.classes.map((cls: PersonalSubject, i) => (
-          <PersonalClass key={i} classNum={i + 1} cls={cls} />
-        ));
+        return (
+          filter.personal && (
+            <WithPersonalSubject key={subject.id} filter={filter} subject={subject} />
+          )
+        );
       case TEAM_STR:
-        return subject.classes.map((cls: TeamSubject, i) => (
-          <TeamClass key={i} classNum={i + 1} cls={cls} />
-        ));
+        return (
+          filter.team && <WithTeamSubject key={subject.id} filter={filter} subject={subject} />
+        );
       case EXPERIMENT_STR:
-        return subject.classes.map((cls: ExperimentSubject, i) => (
-          <ExperimentClass key={i} classNum={i + 1} cls={cls} />
-        ));
+        return (
+          filter.experiment && (
+            <WithExperimentSubject key={subject.id} filter={filter} subject={subject} />
+          )
+        );
       default:
         return null;
     }
   };
 
   const renderAllSubjects = useMemo(
-    () =>
-      combineSubjects(personalList, teamList, experimentList).map(subject => (
-        <Subject key={subject.id} title={subject.classes[0].title}>
-          {switchSubject(subject)}
-        </Subject>
-      )),
-    [combineSubjects, personalList, teamList, experimentList],
+    () => combineSubjects(personalList, teamList, experimentList).map(switchSubject),
+    [combineSubjects, personalList, teamList, experimentList, filter],
   );
 
   return <S.AdminSection>{loading ? <div>Loading~</div> : renderAllSubjects}</S.AdminSection>;
