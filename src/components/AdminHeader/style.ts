@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const AdminHeader = styled.header`
   padding: 8px 100px;
   color: white;
-  background-color: #23282D;
+  background-color: #23282d;
 `;
 
 export const HeaderWrap = styled.div`
@@ -42,27 +43,48 @@ export const HeaderNavWrap = styled.ul`
   font-size: 14px;
 `;
 
+const HeaderHoveredCommonEffect = `
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: #858585 !important;
+  .hovered {
+    width: 1px;
+    height: 2px;
+    margin-top: 4px;
+    background-color: white;
+    visibility: hidden;
+    transition: all 0.3s;
+  }
+  &:hover {
+    color: white;
+    .hovered {
+      width: 100%;
+      visibility: visible;
+    }
+  }
+`;
+
 export const HeaderNavItem = styled.li`
   margin: 0 32px;
   color: #858585;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-  &.selected {
-    padding-bottom: 4px;
-    border-bottom: 2px solid white;
-    color: white;
-  }
 `;
 
 export const HeaderAccountButtonWrap = styled.button`
   padding: 0;
   padding-bottom: 4px;
   border: 0;
-  border-bottom: 2px solid white;
-  color: white;
+  color: #858585;
   background-color: transparent;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
+`;
+
+export const HeaderLink = styled(Link)`
+  ${HeaderHoveredCommonEffect}
 `;
