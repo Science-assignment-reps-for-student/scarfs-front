@@ -14,7 +14,7 @@ export const AdminLoginBack = styled.div`
 `;
 
 export const AdminLoginFormWrap = styled.div`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -53,7 +53,7 @@ export const AdminLoginFormButton = styled.button`
   padding: 4px;
   border: 0;
   color: white;
-  background-color: #1A1A1A;
+  background-color: #1a1a1a;
   font-size: 20px;
   font-weight: bold;
   outline: none;
@@ -61,6 +61,6 @@ export const AdminLoginFormButton = styled.button`
 `;
 
 export const AdminLoginFormBottomWrap = styled.div`
-  color: #0073AA;
+  color: #0073aa;
   font-size: 16px;
 `;
