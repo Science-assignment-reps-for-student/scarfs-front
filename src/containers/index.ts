@@ -1,4 +1,4 @@
-import { HeaderContainer, WaveContainer } from './Default';
+import { HeaderContainer, WaveContainer, ModalContainer } from './Default';
 import { MainContainer } from './Main';
 
-export { HeaderContainer, WaveContainer, MainContainer };
+export { HeaderContainer, WaveContainer, MainContainer, ModalContainer };
