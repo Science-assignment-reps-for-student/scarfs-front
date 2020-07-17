@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 
-export const isEmpty = (text: string) => {
+export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
     return false;
   }
