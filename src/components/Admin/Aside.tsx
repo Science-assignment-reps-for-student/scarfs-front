@@ -1,11 +1,15 @@
 import React, { FC, ReactElement, useMemo, MouseEvent } from 'react';
 import * as S from './style';
+import SkeletonAside from './SkeletonAside';
+import { useSelector } from 'react-redux';
+import { StoreState } from 'src/modules/reducer/Admin';
 
 interface Props {
   toggleFilter: (e: MouseEvent) => void;
 }
 
 const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
+  const { loading } = useSelector((state: StoreState) => state.admin);
   const classes = ['class1', 'class2', 'class3', 'class4'];
   const subjects = [
     {
@@ -58,13 +62,19 @@ const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
   );
 
   return (
-    <S.AdminAside>
-      <S.AdminAsideTitle>필터</S.AdminAsideTitle>
-      <S.AdminAsideList>
-        {classesFilter}
-        {subjectsFilter}
-      </S.AdminAsideList>
-    </S.AdminAside>
+    <>
+      {loading ? (
+        <SkeletonAside />
+      ) : (
+        <S.AdminAside>
+          <S.AdminAsideTitle>필터</S.AdminAsideTitle>
+          <S.AdminAsideList>
+            {classesFilter}
+            {subjectsFilter}
+          </S.AdminAsideList>
+        </S.AdminAside>
+      )}
+    </>
   );
 };
 
