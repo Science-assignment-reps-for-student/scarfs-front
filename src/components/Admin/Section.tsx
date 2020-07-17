@@ -13,6 +13,7 @@ import { Team } from '../../modules/reducer/Admin/adminTeam';
 import { Experiment } from '../../modules/reducer/Admin/adminExperiment';
 import { StoreState } from '../../modules/reducer/Admin';
 import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
+import SkeletonAdmin from './SkeletonAdmin';
 
 interface Props {
   filter: Filter;
@@ -84,7 +85,7 @@ const AdminSection: FC<Props> = ({ filter }): ReactElement => {
     [combineSubjects, personalList, teamList, experimentList, filter],
   );
 
-  return <S.AdminSection>{loading ? <div>Loading~</div> : renderAllSubjects}</S.AdminSection>;
+  return <S.AdminSection>{loading ? <SkeletonAdmin /> : renderAllSubjects}</S.AdminSection>;
 };
 
 export default React.memo(AdminSection);
