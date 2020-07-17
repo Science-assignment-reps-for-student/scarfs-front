@@ -9,11 +9,12 @@ interface Props {
 }
 
 const PersonalClassInfo: FC<Props> = ({ cls }): ReactElement => {
-  const all = cls.class_submit.length;
+  const { class_submit } = cls;
+  const all = class_submit.length;
   const [o, setO] = useState(0);
 
   useEffect(() => {
-    cls.class_submit.forEach(a => a.submit === 1 && setO(o + 1));
+    class_submit.forEach(a => a.submit === 1 && setO(o + 1));
   }, [cls]);
 
   return (

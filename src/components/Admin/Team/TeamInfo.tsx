@@ -10,8 +10,8 @@ interface Props {
 
 const TeamClassInfo: FC<Props> = ({ cls }): ReactElement => {
   const { peer_evaluation_submit, team_submit } = cls;
-  const allTeam = cls.team_submit.length;
-  const allPeer = cls.peer_evaluation_submit.length;
+  const allTeam = team_submit.length;
+  const allPeer = peer_evaluation_submit.length;
   const [oTeam, setOTeam] = useState(0);
   const [oPeer, setOPeer] = useState(0);
 
