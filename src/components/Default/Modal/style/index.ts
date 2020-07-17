@@ -78,7 +78,7 @@ export const ModalText = styled.p`
 export const ModalInput = styled.input<{ isEmpty: boolean }>`
   width: 276px;
   height: 35px;
-  border: 1px solid ${props => (props.isEmpty ? '#505BFF' : '#858585')};
+  border: 1px solid ${props => (props.isEmpty ? '#858585' : '#505BFF')};
   border-radius: 0px;
   padding: 0px 10px;
   box-sizing: border-box;
@@ -182,7 +182,7 @@ export const ModalSubTitle = styled.p`
 export const ModalTextIcon = styled.div<{ isEmpty: boolean }>`
   width: 4px;
   height: 4px;
-  background-color: ${props => (props.isEmpty ? '#505BFF' : '#FF5700')};
+  background-color: ${props => (props.isEmpty ? '#FF5700' : '#505BFF')};
   transform: rotate(45deg);
 `;
 
