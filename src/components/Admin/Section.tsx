@@ -8,9 +8,9 @@ import {
   TEAM_STR,
   EXPERIMENT_STR,
 } from '../../modules/reducer/Admin/admin';
-import { Personal } from '../../modules/reducer/Admin/adminPersonal';
-import { Team } from '../../modules/reducer/Admin/adminTeam';
-import { Experiment } from '../../modules/reducer/Admin/adminExperiment';
+import { Personal, PersonalSubject } from '../../modules/reducer/Admin/adminPersonal';
+import { Team, TeamSubject } from '../../modules/reducer/Admin/adminTeam';
+import { Experiment, ExperimentSubject } from '../../modules/reducer/Admin/adminExperiment';
 import { StoreState } from '../../modules/reducer/Admin';
 import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
 import SkeletonAdmin from './SkeletonAdmin';
@@ -37,9 +37,11 @@ const AdminSection: FC<Props> = ({ filter }): ReactElement => {
     (state: StoreState) => state.admin,
   );
 
-  const pushToResult = (result: CombineResult[], rr: CombineAdminSubject) => {
-    const rrIdx = result.findIndex(a => a.id === rr.id);
-    rrIdx === -1 ? result.push({ id: rr.id, classes: [rr] }) : result[rrIdx].classes.push(rr);
+  const pushToResult = (result: CombineResult[], assignment: CombineAdminSubject) => {
+    const rrIdx = result.findIndex(a => a.id === assignment.id);
+    rrIdx === -1
+      ? result.push({ id: assignment.id, classes: [assignment] })
+      : result[rrIdx].classes.push(assignment);
   };
 
   const sortSubjects = ([...copy]: CombineResult[]) => copy.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -47,9 +49,9 @@ const AdminSection: FC<Props> = ({ filter }): ReactElement => {
   const combineSubjects = useCallback(
     (personal: Personal[] = [], team: Team[] = [], experiment: Experiment[] = []) => {
       const result: CombineResult[] = [];
-      [...personal, ...team, ...experiment].forEach(cls => {
-        cls[Object.keys(cls)[0]].forEach((sbj: CombineAdminSubject) => {
-          pushToResult(result, sbj);
+      [...personal, ...team, ...experiment].forEach(subject => {
+        subject[Object.keys(subject)[0]].forEach((assignment: CombineAdminSubject) => {
+          pushToResult(result, assignment);
         });
       });
       return sortSubjects(result);

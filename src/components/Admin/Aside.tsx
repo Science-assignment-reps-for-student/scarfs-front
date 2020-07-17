@@ -37,7 +37,7 @@ const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
               onClick={toggleFilter}
               defaultChecked={true}
             />
-            {i + 1}반
+            {classNum[classNum.length - 1]}반
           </S.AdminAsideLabel>
         </S.AdminAsideItem>
       )),
