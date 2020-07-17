@@ -15,7 +15,7 @@ interface Filter {
 }
 
 const Admin: FC<Props> = (): ReactElement => {
-  const initFilter = {
+  const [filter, setFilter] = useState<Filter>({
     class1: true,
     class2: true,
     class3: true,
@@ -23,22 +23,18 @@ const Admin: FC<Props> = (): ReactElement => {
     personal: true,
     team: true,
     experiment: true,
-  };
-  const [filter, setFilter] = useState<Filter>(initFilter);
+  });
 
   const toggleFilter = (e: MouseEvent<HTMLElement, globalThis.MouseEvent>) => {
     const id = e.currentTarget.id;
-    setFilter({
-      ...filter,
-      [id]: !filter[id],
-    });
+    setFilter(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
     <S.AdminWrap>
       <S.AdminTitle>제출현황</S.AdminTitle>
       <S.AdminContent>
-        <AdminSection />
+        <AdminSection filter={filter} />
         <AdminAside toggleFilter={toggleFilter} />
       </S.AdminContent>
     </S.AdminWrap>

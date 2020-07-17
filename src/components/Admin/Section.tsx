@@ -1,7 +1,6 @@
 import React, { FC, ReactElement, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import * as S from './style';
-import Subject from './Subject';
 import {
   CombineAdminSubjects,
   CombineAdminSubject,
@@ -9,13 +8,10 @@ import {
   TEAM_STR,
   EXPERIMENT_STR,
 } from '../../modules/reducer/Admin/admin';
-import { Personal, PersonalSubject } from '../../modules/reducer/Admin/adminPersonal';
-import { Team, TeamSubject } from '../../modules/reducer/Admin/adminTeam';
-import { Experiment, ExperimentSubject } from '../../modules/reducer/Admin/adminExperiment';
+import { Personal } from '../../modules/reducer/Admin/adminPersonal';
+import { Team } from '../../modules/reducer/Admin/adminTeam';
+import { Experiment } from '../../modules/reducer/Admin/adminExperiment';
 import { StoreState } from '../../modules/reducer/Admin';
-import PersonalClass from './Personal/Personal';
-import TeamClass from './Team/Team';
-import ExperimentClass from './Experiment/Experiment';
 import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
 
 interface Props {
@@ -34,25 +30,11 @@ interface CombineResult {
   id: number;
   classes: CombineAdminSubjects;
 }
-interface ITest {
-  key: any;
-  filter: Filter;
-  i: number;
-  classNum: number;
-  cls: any;
-}
-
-const withSectionComponent = (MyComponent: FC<any>) => (props: ITest) => {
-  const { filter, i } = props;
-  return filter[`class${i + 1}`] && <MyComponent {...props} />;
-};
 
 const AdminSection: FC<Props> = ({ filter }): ReactElement => {
   const { personalList, teamList, experimentList, loading } = useSelector(
     (state: StoreState) => state.admin,
   );
-
-  console.log('Section');
 
   const pushToResult = (result: CombineResult[], rr: CombineAdminSubject) => {
     const rrIdx = result.findIndex(a => a.id === rr.id);
