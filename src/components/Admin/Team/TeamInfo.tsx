@@ -5,20 +5,20 @@ import adminEdit from '../../../assets/Admin/adminEdit.svg';
 import { TeamSubject } from 'src/modules/reducer/Admin/adminTeam';
 
 interface Props {
-  cls: TeamSubject;
+  subject: TeamSubject;
 }
 
-const TeamClassInfo: FC<Props> = ({ cls }): ReactElement => {
-  const { peer_evaluation_submit, team_submit } = cls;
-  const allTeam = team_submit.length;
-  const allPeer = peer_evaluation_submit.length;
-  const [oTeam, setOTeam] = useState(0);
-  const [oPeer, setOPeer] = useState(0);
+const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
+  const { peer_evaluation_submit, team_submit } = subject;
+  const teamLen = team_submit.length;
+  const peerEvaluationLen = peer_evaluation_submit.length;
+  const [teamSubmitLen, setTeamSubmitLen] = useState(0);
+  const [peerSubmitLen, setPeerSubmitLen] = useState(0);
 
   useEffect(() => {
-    team_submit.forEach(a => a.submit === 1 && setOTeam(oTeam + 1));
-    peer_evaluation_submit.forEach(a => a.submit === 1 && setOPeer(oPeer + 1));
-  }, [cls]);
+    team_submit.forEach(a => a.submit === 1 && setTeamSubmitLen(teamSubmitLen + 1));
+    peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(peerSubmitLen + 1));
+  }, [subject]);
 
   return (
     <S.SubjectClsContentInfo>
@@ -28,20 +28,20 @@ const TeamClassInfo: FC<Props> = ({ cls }): ReactElement => {
           <S.InfoSubmittedMembers>
             제출팀{' '}
             <span>
-              {oTeam}/{allTeam}
+              {teamSubmitLen}/{teamLen}
             </span>
           </S.InfoSubmittedMembers>
-          <S.AdminProgress max={allTeam} value={oTeam}></S.AdminProgress>
+          <S.AdminProgress max={teamLen} value={teamSubmitLen}></S.AdminProgress>
         </S.InfoSubmittedCommon>
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>동료평가</S.InfoSubmittedTitle>
           <S.InfoSubmittedMembers>
             제출인원{' '}
             <span>
-              {oPeer}/{allPeer}
+              {peerSubmitLen}/{peerEvaluationLen}
             </span>
           </S.InfoSubmittedMembers>
-          <S.AdminProgress max={allPeer} value={oPeer}></S.AdminProgress>
+          <S.AdminProgress max={peerEvaluationLen} value={peerSubmitLen}></S.AdminProgress>
         </S.InfoSubmittedCommon>
       </S.InfoSubmitted>
       <S.SubjectButtonWrap>

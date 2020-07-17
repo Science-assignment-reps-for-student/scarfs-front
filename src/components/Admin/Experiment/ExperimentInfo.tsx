@@ -5,20 +5,20 @@ import adminEdit from '../../../assets/Admin/adminEdit.svg';
 import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
 
 interface Props {
-  cls: ExperimentSubject;
+  subject: ExperimentSubject;
 }
 
-const ExperimentClassInfo: FC<Props> = ({ cls }): ReactElement => {
-  const { peer_evaluation_submit, experiment_submit } = cls;
-  const allTeam = experiment_submit.length;
-  const allPeer = peer_evaluation_submit.length;
-  const [oExp, setOExp] = useState(0);
-  const [oPeer, setOPeer] = useState(0);
+const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
+  const { experiment_submit, peer_evaluation_submit } = subject;
+  const experimentLen = experiment_submit.length;
+  const peerEvaluationLen = peer_evaluation_submit.length;
+  const [experimentSubmitLen, setExperimentSubmitLen] = useState(0);
+  const [peerSubmitLen, setPeerSubmitLen] = useState(0);
 
   useEffect(() => {
-    experiment_submit.forEach(a => a.submit === 1 && setOExp(oExp + 1));
-    peer_evaluation_submit.forEach(a => a.submit === 1 && setOPeer(oPeer + 1));
-  }, [cls]);
+    experiment_submit.forEach(a => a.submit === 1 && setExperimentSubmitLen(prev => prev + 1));
+    peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(prev => prev + 1));
+  }, [subject]);
 
   return (
     <S.SubjectClsContentInfo>
@@ -28,20 +28,20 @@ const ExperimentClassInfo: FC<Props> = ({ cls }): ReactElement => {
           <S.InfoSubmittedMembers>
             제출팀{' '}
             <span>
-              {oExp}/{allTeam}
+              {experimentSubmitLen}/{experimentLen}
             </span>
           </S.InfoSubmittedMembers>
-          <S.AdminProgress max={allTeam} value={oExp}></S.AdminProgress>
+          <S.AdminProgress max={experimentLen} value={experimentSubmitLen}></S.AdminProgress>
         </S.InfoSubmittedCommon>
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>동료평가</S.InfoSubmittedTitle>
           <S.InfoSubmittedMembers>
             제출인원{' '}
             <span>
-              {oPeer}/{allPeer}
+              {peerSubmitLen}/{peerEvaluationLen}
             </span>
           </S.InfoSubmittedMembers>
-          <S.AdminProgress max={allPeer} value={oPeer}></S.AdminProgress>
+          <S.AdminProgress max={peerEvaluationLen} value={peerSubmitLen}></S.AdminProgress>
         </S.InfoSubmittedCommon>
       </S.InfoSubmitted>
       <S.SubjectButtonWrap>

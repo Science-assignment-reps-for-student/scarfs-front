@@ -4,19 +4,15 @@ import PersonalClassInfo from './PersonalInfo';
 import PersonalClassSubmit from './PersonalSubmit';
 import { PersonalSubject } from 'src/modules/reducer/Admin/adminPersonal';
 import WithClass from '../WithClass';
+import { getFullTime } from '../../../lib/function/admin';
 
 interface Props {
-  cls: PersonalSubject;
+  subject: PersonalSubject;
   classNum: number;
 }
 
-const PersonalClass: FC<Props> = ({ cls, classNum }): ReactElement => {
-  const { created_at, deadline, description, class_submit } = cls;
-
-  const getFullTime = (time: number) => {
-    const c = new Date(time);
-    return `${c.getFullYear()}.${c.getMonth() + 1}.${c.getDate()}`;
-  };
+const PersonalClass: FC<Props> = ({ subject, classNum }): ReactElement => {
+  const { created_at, deadline, description, class_submit } = subject;
 
   return (
     <S.SubjectCls>
@@ -29,7 +25,7 @@ const PersonalClass: FC<Props> = ({ cls, classNum }): ReactElement => {
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>
-          <PersonalClassInfo cls={cls} />
+          <PersonalClassInfo subject={subject} />
           <div />
           <PersonalClassSubmit members={class_submit} />
         </S.SubjectClsContent>

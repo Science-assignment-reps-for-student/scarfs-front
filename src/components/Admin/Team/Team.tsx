@@ -5,19 +5,15 @@ import TeamClassSubmit from './TeamSubmit';
 import { TeamSubject } from 'src/modules/reducer/Admin/adminTeam';
 import TeamClassReport from './TeamReport';
 import WithClass from '../WithClass';
+import { getFullTime } from '../../../lib/function/admin';
 
 interface Props {
-  cls: TeamSubject;
+  subject: TeamSubject;
   classNum: number;
 }
 
-const TeamClass: FC<Props> = ({ cls, classNum }): ReactElement => {
-  const { created_at, deadline, description } = cls;
-
-  const getFullTime = (time: number) => {
-    const c = new Date(time);
-    return `${c.getFullYear()}.${c.getMonth() + 1}.${c.getDate()}`;
-  };
+const TeamClass: FC<Props> = ({ subject, classNum }): ReactElement => {
+  const { created_at, deadline, description, peer_evaluation_submit } = subject;
 
   return (
     <S.SubjectCls>
@@ -30,9 +26,9 @@ const TeamClass: FC<Props> = ({ cls, classNum }): ReactElement => {
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>
-          <TeamClassInfo cls={cls} />
-          <TeamClassReport cls={cls} />
-          <TeamClassSubmit members={cls.peer_evaluation_submit} />
+          <TeamClassInfo subject={subject} />
+          <TeamClassReport subject={subject} />
+          <TeamClassSubmit members={peer_evaluation_submit} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>

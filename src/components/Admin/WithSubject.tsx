@@ -27,8 +27,8 @@ const WithSubjectComponent = (MyComponent: FC<any>) => (props: Props) => {
   const { subject, filter } = props;
   return (
     <Subject title={subject.classes[0].title}>
-      {subject.classes.map((cls: any, i) => (
-        <MyComponent key={i} filter={filter} cls={cls} i={i} classNum={i + 1} />
+      {subject.classes.map((subject: any, i) => (
+        <MyComponent key={i} filter={filter} subject={subject} i={i} classNum={i + 1} />
       ))}
     </Subject>
   );

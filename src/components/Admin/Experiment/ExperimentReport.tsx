@@ -5,17 +5,19 @@ import ClassListHeadCommon from '../ListCommonHead';
 import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
 
 interface Props {
-  cls: ExperimentSubject;
+  subject: ExperimentSubject;
 }
 
-const ExperimentClassReport: FC<Props> = ({ cls }): ReactElement => {
+const ExperimentClassReport: FC<Props> = ({ subject }): ReactElement => {
+  const { experiment_submit } = subject;
+
   return (
     <S.SubjectClsContentReport>
       <S.SubjectClsContentCommonTitle>팀보고서</S.SubjectClsContentCommonTitle>
       <S.SubjectClsContentCommonList>
         <ClassListHeadCommon isPersonal={true} />
-        {cls.experiment_submit.map(experiment => {
-          return experiment.member.map((member, j) => {
+        {experiment_submit.map(subject => {
+          return subject.member.map((member, j) => {
             return (
               <ReportList
                 key={j}
@@ -23,8 +25,8 @@ const ExperimentClassReport: FC<Props> = ({ cls }): ReactElement => {
                 isPersonal={true}
                 name={member.name}
                 studentId={member.student_number}
-                submit={experiment.submit}
-                teamName={j === 0 ? experiment.team_name : ''}
+                submit={subject.submit}
+                teamName={j === 0 ? subject.team_name : ''}
               />
             );
           });

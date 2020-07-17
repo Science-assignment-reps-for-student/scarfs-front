@@ -5,19 +5,15 @@ import ExperimentClassSubmit from './ExperimentSubmit';
 import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
 import ExperimentClassReport from './ExperimentReport';
 import WithClass from '../WithClass';
+import { getFullTime } from '../../../lib/function/admin';
 
 interface Props {
-  cls: ExperimentSubject;
+  subject: ExperimentSubject;
   classNum: number;
 }
 
-const ExperimentClass: FC<Props> = ({ cls, classNum }): ReactElement => {
-  const { created_at, deadline, description } = cls;
-
-  const getFullTime = (time: number) => {
-    const c = new Date(time);
-    return `${c.getFullYear()}.${c.getMonth() + 1}.${c.getDate()}`;
-  };
+const ExperimentClass: FC<Props> = ({ subject, classNum }): ReactElement => {
+  const { created_at, deadline, description } = subject;
 
   return (
     <S.SubjectCls>
@@ -30,9 +26,9 @@ const ExperimentClass: FC<Props> = ({ cls, classNum }): ReactElement => {
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>
-          <ExperimentClassInfo cls={cls} />
-          <ExperimentClassReport cls={cls} />
-          <ExperimentClassSubmit members={cls.peer_evaluation_submit} />
+          <ExperimentClassInfo subject={subject} />
+          <ExperimentClassReport subject={subject} />
+          <ExperimentClassSubmit members={subject.peer_evaluation_submit} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>
