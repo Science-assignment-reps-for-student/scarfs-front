@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ExperimentClass: FC<Props> = ({ subject, classNum }): ReactElement => {
-  const { created_at, deadline, description } = subject;
+  const { created_at, deadline, description, peer_evaluation_submit } = subject;
 
   return (
     <S.SubjectCls>
@@ -28,7 +28,7 @@ const ExperimentClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContent>
           <ExperimentClassInfo subject={subject} />
           <ExperimentClassReport subject={subject} />
-          <ExperimentClassSubmit members={subject.peer_evaluation_submit} />
+          <ExperimentClassSubmit members={peer_evaluation_submit} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>
