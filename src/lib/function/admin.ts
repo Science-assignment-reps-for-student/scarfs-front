@@ -12,3 +12,8 @@ export const parseJwt = (token: string) => {
 
   return JSON.parse(jsonPayload);
 };
+
+export const getFullTime = (time: number) => {
+  const c = new Date(time);
+  return `${c.getFullYear()}.${c.getMonth() + 1}.${c.getDate()}`;
+};
