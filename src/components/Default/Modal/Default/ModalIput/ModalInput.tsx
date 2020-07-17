@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import * as S from '../../style';
-import { isEmpty } from '../../../../../lib/function';
+import { isTextEmpty } from '../../../../../lib/function';
 
 interface Props {
   text: string;
@@ -19,11 +19,11 @@ const ModalInput: FC<Props> = ({ text, value, valueChange, type, placeholder }) 
     <S.ModalInputWrapper>
       <div>
         <S.ModalText>{text}</S.ModalText>
-        <S.ModalTextIcon isEmpty={!isEmpty(value)} />
+        <S.ModalTextIcon isEmpty={isTextEmpty(value)} />
       </div>
       <S.ModalInput
         onChange={inputChangeHandler}
-        isEmpty={!isEmpty(value)}
+        isEmpty={isTextEmpty(value)}
         type={type}
         placeholder={placeholder}
       />

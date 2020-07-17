@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import * as S from '../../style';
-import { isEmpty } from '../../../../../lib/function';
+import { isTextEmpty } from '../../../../../lib/function';
 
 interface Props {
   text: string;
@@ -26,13 +26,13 @@ const ModalEmailInput: FC<Props> = ({ text, onClick, onChange, value, isError, p
     <S.ModalInputWrapper>
       <div>
         <S.ModalText>{text}</S.ModalText>
-        <S.ModalTextIcon isEmpty={isEmpty(value)} />
+        <S.ModalTextIcon isEmpty={isTextEmpty(value)} />
       </div>
       <S.ModalEmailInputWrapper isError={isError} isAble={isEmailAble(value)}>
         <S.ModalCodeInput
           onChange={inputChangeHandler}
           value={value}
-          isEmpty={isEmpty(value)}
+          isEmpty={isTextEmpty(value)}
           placeholder={placeholder}
         />
         <div onClick={onClick}>인증</div>
