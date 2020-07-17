@@ -1,1 +1,2 @@
-export { default as Wave } from './components/WaveController';
+import Wave from './components';
+export default Wave;
