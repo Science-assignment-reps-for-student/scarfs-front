@@ -4,6 +4,7 @@ import TeamClassInfo from './TeamInfo';
 import TeamClassSubmit from './TeamSubmit';
 import { TeamSubject } from 'src/modules/reducer/Admin/adminTeam';
 import TeamClassReport from './TeamReport';
+import WithClass from '../WithClass';
 
 interface Props {
   cls: TeamSubject;
@@ -38,4 +39,4 @@ const TeamClass: FC<Props> = ({ cls, classNum }): ReactElement => {
   );
 };
 
-export default TeamClass;
+export default WithClass(TeamClass);

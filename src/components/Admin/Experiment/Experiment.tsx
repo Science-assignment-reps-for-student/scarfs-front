@@ -4,6 +4,7 @@ import ExperimentClassInfo from './ExperimentInfo';
 import ExperimentClassSubmit from './ExperimentSubmit';
 import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
 import ExperimentClassReport from './ExperimentReport';
+import WithClass from '../WithClass';
 
 interface Props {
   cls: ExperimentSubject;
@@ -38,4 +39,4 @@ const ExperimentClass: FC<Props> = ({ cls, classNum }): ReactElement => {
   );
 };
 
-export default ExperimentClass;
+export default WithClass(ExperimentClass);

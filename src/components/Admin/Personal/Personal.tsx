@@ -3,6 +3,7 @@ import * as S from '../style';
 import PersonalClassInfo from './PersonalInfo';
 import PersonalClassSubmit from './PersonalSubmit';
 import { PersonalSubject } from 'src/modules/reducer/Admin/adminPersonal';
+import WithClass from '../WithClass';
 
 interface Props {
   cls: PersonalSubject;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const PersonalClass: FC<Props> = ({ cls, classNum }): ReactElement => {
-  const { created_at, deadline, description } = cls;
+  const { created_at, deadline, description, class_submit } = cls;
 
   const getFullTime = (time: number) => {
     const c = new Date(time);
@@ -30,11 +31,11 @@ const PersonalClass: FC<Props> = ({ cls, classNum }): ReactElement => {
         <S.SubjectClsContent>
           <PersonalClassInfo cls={cls} />
           <div />
-          <PersonalClassSubmit members={cls.class_submit} />
+          <PersonalClassSubmit members={class_submit} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>
   );
 };
 
-export default PersonalClass;
+export default WithClass(PersonalClass);
