@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const AdminWrap = styled.main`
   background-color: #f5f5f5;
@@ -244,4 +244,30 @@ export const AdminAsideCheckBox = styled.input`
 export const AdminAsideLabel = styled.label`
   cursor: pointer;
   user-select: none;
+`;
+
+interface ISkeletonBone {
+  side?: string;
+  width?: string;
+  height?: string;
+}
+
+export const SBone = styled.div`
+  display: inline-block;
+  width: ${({ side, width = '0' }: ISkeletonBone) => (side ? side : width)};
+  height: ${({ side, height = '0' }: ISkeletonBone) => (side ? side : height)};
+  margin-top: 50px;
+  border-radius: 4px;
+  background-color: #d9d9d9;
+`;
+
+export const SSubject = styled.div``;
+
+export const SClasses = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  > .back {
+    margin: 24px 0;
+  }
 `;
