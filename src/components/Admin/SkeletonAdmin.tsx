@@ -3,9 +3,9 @@ import * as S from './style';
 
 interface Props {}
 
-const SkeletonAdmin: FC<Props> = () => {
-  const subjects = ['personal', 'team', 'experiment'];
+const subjects = ['personal', 'team', 'experiment'];
 
+const SkeletonAdmin: FC<Props> = () => {
   return (
     <>
       {subjects.map(subject => (
