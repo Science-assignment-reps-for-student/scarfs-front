@@ -1,4 +1,4 @@
-import { PERSONAL_STR, TEAM_STR, EXPERIMENT_STR } from './admin';
+import { PERSONAL_STR, TEAM_STR, EXPERIMENT_STR } from './';
 import { Personal } from './adminPersonal';
 import { Team } from './adminTeam';
 import { Experiment } from './adminExperiment';

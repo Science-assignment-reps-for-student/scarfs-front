@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { CombineAdminSubjects, CombineAdminSubject } from 'src/modules/reducer/Admin/admin';
+import { CombineAdminSubjects, CombineAdminSubject } from 'src/modules/reducer/Admin';
 import Subject from './Subject';
 import Team from './Team/Team';
 import Personal from './Personal/Personal';

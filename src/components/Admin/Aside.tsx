@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useMemo, MouseEvent } from 'react';
 import * as S from './style';
 import SkeletonAside from './SkeletonAside';
 import { useSelector } from 'react-redux';
-import { StoreState } from 'src/modules/reducer/Admin';
+import { reducerType } from 'src/modules/reducer';
 
 interface Props {
   toggleFilter: (e: MouseEvent) => void;
@@ -25,7 +25,7 @@ const subjects = [
 ];
 
 const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
-  const { loading } = useSelector((state: StoreState) => state.admin);
+  const { loading } = useSelector((state: reducerType) => state.Admin);
 
   const classesFilter = useMemo(
     () =>

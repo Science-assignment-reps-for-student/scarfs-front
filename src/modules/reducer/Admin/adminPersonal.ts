@@ -1,4 +1,4 @@
-import { SubjectCommon, PrEvalCommon } from './admin';
+import { SubjectCommon, PrEvalCommon } from './';
 
 export interface Personal {
   personal_assignment?: PersonalSubject[];
