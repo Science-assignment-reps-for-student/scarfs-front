@@ -63,6 +63,7 @@ export const CardBox = styled.div<FinishProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
   border: 1px solid #c3c3c3;
   padding: 15px 25px;
   background-color: #ffffff;
