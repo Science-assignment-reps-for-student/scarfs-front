@@ -236,6 +236,7 @@ export const LoginButton = styled.div`
   align-items: center;
   color: white;
   margin: 7px;
+  cursor: pointer;
 `;
 
 export const SignUpButton = styled(LoginButton)`
