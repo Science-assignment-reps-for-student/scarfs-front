@@ -2,35 +2,37 @@ import React, { FC } from 'react';
 import * as S from './style';
 
 export interface AssignmentGuideBoard {
+  id: number;
   homeworkId: number;
   type: string;
   title: string;
   previewContent: string;
-  createdAt: Date;
-  deadLine: Date;
+  createdAt: string;
+  deadLine: string;
   isFinish: boolean;
   view: number;
 }
 
 export interface ClassBoard {
+  id: number;
   boardId: number;
   title: string;
   previewContent: string;
   writerName: string;
-  createdAt: Date;
+  createdAt: string;
   view: number;
 }
 
 export interface NoticeBoard {
+  id: number;
   boardId: number;
   title: string;
   previewContent: string;
-  createdAt: Date;
+  createdAt: string;
   view: number;
 }
 
 interface Props {
-  keyName: 'homeworkId' | 'boardId';
   columnNames: string[];
   boards?: Array<AssignmentGuideBoard | NoticeBoard | ClassBoard>;
   BoardTemplate: React.FC<{
@@ -38,7 +40,7 @@ interface Props {
   }>;
 }
 
-const TableView: FC<Props> = ({ keyName, columnNames, boards, BoardTemplate }) => {
+const TableView: FC<Props> = ({ columnNames, boards, BoardTemplate }) => {
   return (
     <S.TableViewWrapper>
       <colgroup>
@@ -56,7 +58,7 @@ const TableView: FC<Props> = ({ keyName, columnNames, boards, BoardTemplate }) =
       </S.TableHeader>
       <S.TableBody>
         {boards.map(board => (
-          <BoardTemplate key={board[keyName]} board={board} />
+          <BoardTemplate key={board.id} board={board} />
         ))}
       </S.TableBody>
     </S.TableViewWrapper>
