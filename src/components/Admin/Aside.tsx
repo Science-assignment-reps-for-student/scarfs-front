@@ -8,27 +8,28 @@ interface Props {
   toggleFilter: (e: MouseEvent) => void;
 }
 
+const classes = ['class1', 'class2', 'class3', 'class4'];
+const subjects = [
+  {
+    id: 'personal',
+    text: '개인',
+  },
+  {
+    id: 'team',
+    text: '팀',
+  },
+  {
+    id: 'experiment',
+    text: '과제',
+  },
+];
+
 const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
   const { loading } = useSelector((state: StoreState) => state.admin);
-  const classes = ['class1', 'class2', 'class3', 'class4'];
-  const subjects = [
-    {
-      id: 'personal',
-      text: '개인',
-    },
-    {
-      id: 'team',
-      text: '팀',
-    },
-    {
-      id: 'experiment',
-      text: '과제',
-    },
-  ];
 
   const classesFilter = useMemo(
     () =>
-      classes.map((classNum, i) => (
+      classes.map(classNum => (
         <S.AdminAsideItem key={classNum}>
           <S.AdminAsideLabel htmlFor={classNum}>
             <S.AdminAsideCheckBox
