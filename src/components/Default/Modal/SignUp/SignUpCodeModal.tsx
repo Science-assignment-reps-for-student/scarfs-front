@@ -10,7 +10,12 @@ import {
   reset,
 } from '../../../../modules/reducer/SignUp';
 import { setError, setModal, ErrorType } from '../../../../modules/reducer/Modal';
-import { getStateCallback, stateChange, isTextEmpty } from '../../../../lib/function';
+import {
+  getStateCallback,
+  stateChange,
+  isTextEmpty,
+  getModalErrorText,
+} from '../../../../lib/function';
 
 type PageType = 'email' | 'code';
 
@@ -50,7 +55,15 @@ const SignUpModal: FC = () => {
     errorChange('SignInError');
   }, []);
   const codeCheckButtonClickHandler = useCallback(() => {
-    successChange(true);
+    // successChange(true);
+    errorChange('CodeError');
+  }, []);
+  const mailSendButtonClickHandler = useCallback(() => {
+    // 이메일 보내는 코드!
+    pageChange('code');
+  }, []);
+  const isCodeOrEmailError = useCallback((error: string) => {
+    return error.length > 0;
   }, []);
   return (
     <Modal>
@@ -62,7 +75,7 @@ const SignUpModal: FC = () => {
         <ModalCodeInput
           text='인증번호'
           isSuccess={isSuccess}
-          isError={!isEmpty(error)}
+          isError={isCodeOrEmailError(error)}
           onClick={codeCheckButtonClickHandler}
           value={emailCode}
           onChange={emailCodeChange}
@@ -71,10 +84,8 @@ const SignUpModal: FC = () => {
       ) : (
         <ModalEmailInput
           text='이메일 주소'
-          onClick={() => {
-            pageChange('code');
-          }}
-          isError={!isEmpty(error)}
+          onClick={mailSendButtonClickHandler}
+          isError={isCodeOrEmailError(error)}
           value={email}
           onChange={emailChange}
           placeholder='이메일 주소를 입력해주세요.'
@@ -85,16 +96,21 @@ const SignUpModal: FC = () => {
         value={password}
         valueChange={passwordChange}
         placeholder='6 ~ 12자, 영문과 숫자 조합으로 만드세요.'
+        type='password'
       />
       <ModalInput
         text='비밀번호 재확인'
         value={passwordCheck}
         valueChange={passwordCheckChange}
         placeholder='비밀번호를 다시 입력해주세요.'
+        type='password'
       />
-      <S.ModalButton onClick={buttonClickHandler} whiteThema={false}>
-        다음
-      </S.ModalButton>
+      <S.ModalErrorText>{getModalErrorText(error)}</S.ModalErrorText>
+      <S.ModalButtonWrapper>
+        <S.ModalButton onClick={buttonClickHandler} whiteThema={false}>
+          다음
+        </S.ModalButton>
+      </S.ModalButtonWrapper>
     </Modal>
   );
 };
