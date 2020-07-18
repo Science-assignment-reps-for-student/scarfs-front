@@ -3,11 +3,13 @@ import * as S from '../style';
 
 interface Props {
   children: string;
+  onClick: (payload: string) => void;
+  value: string;
 }
 
-const HeaderUserButton: FC<Props> = ({ children }) => {
+const HeaderUserButton: FC<Props> = ({ children, onClick, value }) => {
   return (
-    <S.HeaderUserButton>
+    <S.HeaderUserButton onClick={() => onClick(value)}>
       <div />
       <p>{children}</p>
     </S.HeaderUserButton>
