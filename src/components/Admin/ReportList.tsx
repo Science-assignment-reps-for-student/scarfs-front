@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import * as S from './style';
-import adminO from '../../assets/Admin/adminO.svg';
-import adminX from '../../assets/Admin/adminX.svg';
+import submitted from '../../assets/Admin/adminO.svg';
+import unSubmitted from '../../assets/Admin/adminX.svg';
 
 interface Props {
   isPersonal: boolean;
@@ -9,17 +9,9 @@ interface Props {
   name: string;
   submit: number;
   teamName: string;
-  j: number;
 }
 
-const ReportList: FC<Props> = ({
-  isPersonal,
-  studentId,
-  name,
-  submit,
-  teamName,
-  j,
-}): ReactElement => {
+const ReportList: FC<Props> = ({ isPersonal, studentId, name, submit, teamName }): ReactElement => {
   return (
     <S.SubjectClsContentCommonItem className={!submit && 'unSubmit'}>
       {isPersonal && (
@@ -28,7 +20,9 @@ const ReportList: FC<Props> = ({
       <S.SubjectClsContentCommonItemText>{studentId}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>{name}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>
-        {j === 0 && <img src={submit ? adminO : adminX} alt='condition' title='condition' />}
+        {teamName !== '' && (
+          <img src={submit ? submitted : unSubmitted} alt='condition' title='condition' />
+        )}
       </S.SubjectClsContentCommonItemText>
     </S.SubjectClsContentCommonItem>
   );

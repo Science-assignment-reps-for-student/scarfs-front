@@ -8,9 +8,9 @@ import {
   TEAM_STR,
   EXPERIMENT_STR,
 } from '../../modules/reducer/Admin/admin';
-import { Personal, PersonalSubject } from '../../modules/reducer/Admin/adminPersonal';
-import { Team, TeamSubject } from '../../modules/reducer/Admin/adminTeam';
-import { Experiment, ExperimentSubject } from '../../modules/reducer/Admin/adminExperiment';
+import { Personal } from '../../modules/reducer/Admin/adminPersonal';
+import { Team } from '../../modules/reducer/Admin/adminTeam';
+import { Experiment } from '../../modules/reducer/Admin/adminExperiment';
 import { StoreState } from '../../modules/reducer/Admin';
 import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
 import SkeletonAdmin from './SkeletonAdmin';

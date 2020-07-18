@@ -17,16 +17,15 @@ const TeamClassReport: FC<Props> = ({ subject }): ReactElement => {
       <S.SubjectClsContentCommonList>
         <ClassListHeadCommon isPersonal={true} />
         {team_submit.map(team => {
-          return team.member.map(({ name, student_number }, j) => {
+          return team.member.map(({ name, student_number }, i) => {
             return (
               <ReportList
-                key={j}
-                j={j}
+                key={student_number}
                 isPersonal={true}
                 name={name}
                 studentId={student_number}
                 submit={team.submit}
-                teamName={j === 0 ? team.team_name : ''}
+                teamName={i === 0 ? team.team_name : ''}
               />
             );
           });

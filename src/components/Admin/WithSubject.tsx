@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { CombineAdminSubjects } from 'src/modules/reducer/Admin/admin';
+import React, { FC, useMemo } from 'react';
+import { CombineAdminSubjects, CombineAdminSubject } from 'src/modules/reducer/Admin/admin';
 import Subject from './Subject';
 import Team from './Team/Team';
 import Personal from './Personal/Personal';
@@ -22,16 +22,27 @@ interface Props {
   subject: CombineResult;
   filter: Filter;
 }
+interface MyComponentProps {
+  subject: CombineAdminSubject;
+  filter: Filter;
+  classNum: number;
+}
 
-const WithSubjectComponent = (MyComponent: FC<any>) => (props: Props) => {
+const WithSubjectComponent = (MyComponent: FC<MyComponentProps>) => (props: Props) => {
   const { subject, filter } = props;
-  return (
-    <Subject title={subject.classes[0].title}>
-      {subject.classes.map((subject: any, i) => (
-        <MyComponent key={i} filter={filter} subject={subject} i={i} classNum={i + 1} />
-      ))}
-    </Subject>
-  );
+
+  const getClasses = useMemo(() => {
+    return subject.classes.map((subject: CombineAdminSubject, i) => (
+      <MyComponent
+        key={Object.keys(filter)[i]}
+        subject={subject}
+        filter={filter}
+        classNum={i + 1}
+      />
+    ));
+  }, [subject]);
+
+  return <Subject title={subject.classes[0].title}>{getClasses}</Subject>;
 };
 
 const WithPersonalSubject = WithSubjectComponent(Personal);

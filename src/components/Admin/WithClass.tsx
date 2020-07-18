@@ -10,16 +10,13 @@ interface Filter {
   experiment: boolean;
 }
 interface Props {
-  key: any;
   filter: Filter;
-  i: number;
   classNum: number;
-  cls: any;
 }
 
 const WithClassComponent = (MyComponent: FC<any>) => (props: Props) => {
-  const { filter, i } = props;
-  return filter[`class${i + 1}`] && <MyComponent {...props} />;
+  const { filter, classNum } = props;
+  return filter[`class${classNum}`] && <MyComponent {...props} />;
 };
 
 export default WithClassComponent;
