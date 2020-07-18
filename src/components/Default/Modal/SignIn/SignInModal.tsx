@@ -2,12 +2,18 @@ import React, { FC, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput } from '../Default';
 import * as S from '../style';
-import { getStateCallback, stateChange, isTextEmpty } from '../../../../lib/function';
+import {
+  getStateCallback,
+  stateChange,
+  isTextEmpty,
+  getModalErrorText,
+} from '../../../../lib/function';
 import { setEmail, setPassword, reset } from '../../../../modules/reducer/SignIn';
 import { setError, setModal, ErrorType } from '../../../../modules/reducer/Modal';
 
 const SignInModal: FC = () => {
   const state = useSelector(getStateCallback('SignIn'));
+  const { error } = useSelector(getStateCallback('Modal'));
   const { email, password } = state;
   const emailChange = stateChange<string>(setEmail);
   const passwordChange = stateChange<string>(setPassword);
@@ -51,9 +57,15 @@ const SignInModal: FC = () => {
         type='password'
         placeholder='*******'
       />
-      <S.ModalButton onClick={buttonClickHandler} whiteThema={false}>
-        다음
-      </S.ModalButton>
+      <S.ModalErrorText>{getModalErrorText(error)}</S.ModalErrorText>
+      <S.ModalButtonWrapper>
+        <S.ModalButton onClick={buttonClickHandler} whiteThema={false}>
+          로그인
+        </S.ModalButton>
+        <S.ModalButton onClick={buttonClickHandler} whiteThema={true}>
+          회원가입
+        </S.ModalButton>
+      </S.ModalButtonWrapper>
     </Modal>
   );
 };
