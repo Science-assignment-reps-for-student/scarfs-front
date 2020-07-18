@@ -5,7 +5,7 @@ import TeamClassSubmit from './TeamSubmit';
 import { TeamSubject } from 'src/modules/reducer/Admin/adminTeam';
 import TeamClassReport from './TeamReport';
 import WithClass from '../WithClass';
-import { getFullTime } from '../../../lib/function/admin';
+import { getDeadline } from '../../../lib/function/admin';
 
 interface Props {
   subject: TeamSubject;
@@ -22,7 +22,7 @@ const TeamClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContentHead>
           <S.SubjectClsContentHeadTitle>{description}</S.SubjectClsContentHeadTitle>
           <S.SubjectClsContentHeadTime>
-            {getFullTime(created_at)} - {getFullTime(deadline)}
+            {getDeadline(created_at, deadline)}
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>

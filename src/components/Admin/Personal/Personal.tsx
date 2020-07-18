@@ -4,7 +4,7 @@ import PersonalClassInfo from './PersonalInfo';
 import PersonalClassSubmit from './PersonalSubmit';
 import { PersonalSubject } from 'src/modules/reducer/Admin/adminPersonal';
 import WithClass from '../WithClass';
-import { getFullTime } from '../../../lib/function/admin';
+import { getDeadline } from '../../../lib/function/admin';
 
 interface Props {
   subject: PersonalSubject;
@@ -21,7 +21,7 @@ const PersonalClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContentHead>
           <S.SubjectClsContentHeadTitle>{description}</S.SubjectClsContentHeadTitle>
           <S.SubjectClsContentHeadTime>
-            {getFullTime(created_at)} - {getFullTime(deadline)}
+            {getDeadline(created_at, deadline)}
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>

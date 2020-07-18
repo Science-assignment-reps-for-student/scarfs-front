@@ -5,7 +5,7 @@ import ExperimentClassSubmit from './ExperimentSubmit';
 import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
 import ExperimentClassReport from './ExperimentReport';
 import WithClass from '../WithClass';
-import { getFullTime } from '../../../lib/function/admin';
+import { getDeadline } from '../../../lib/function/admin';
 
 interface Props {
   subject: ExperimentSubject;
@@ -22,7 +22,7 @@ const ExperimentClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContentHead>
           <S.SubjectClsContentHeadTitle>{description}</S.SubjectClsContentHeadTitle>
           <S.SubjectClsContentHeadTime>
-            {getFullTime(created_at)} - {getFullTime(deadline)}
+            {getDeadline(created_at, deadline)}
           </S.SubjectClsContentHeadTime>
         </S.SubjectClsContentHead>
         <S.SubjectClsContent>
