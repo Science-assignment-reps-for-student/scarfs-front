@@ -15,6 +15,7 @@ export const ModalWrapper = styled.div`
 
 export const Modal = styled.div`
   width: 330px;
+  height: 420px;
   background-color: white;
   border-radius: 3px;
   border: 1px solid #d3d3d3;
@@ -25,7 +26,6 @@ export const ModalBody = styled.div`
   padding: 0px 25px;
   box-sizing: border-box;
   width: 100%;
-  height: 405px;
 `;
 
 export const ModalTitle = styled.p`
@@ -60,7 +60,7 @@ export const ModalTitleAndLogoWrapper = styled.div<{ marginTop: string }>`
 
 export const ModalButton = styled.div<{ whiteThema: boolean }>`
   background-color: ${props => (props.whiteThema ? 'white' : 'black')};
-  color: ${props => (props.whiteThema ? 'black' : 'white')};
+  color: ${props => (props.whiteThema ? '#505BFF' : 'white')};
   width: 100%;
   height: 35px;
   text-align: center;
@@ -68,6 +68,7 @@ export const ModalButton = styled.div<{ whiteThema: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 export const ModalText = styled.p`
@@ -87,7 +88,7 @@ export const ModalInput = styled.input<{ isEmpty: boolean }>`
 export const ModalInputWrapper = styled.div`
   width: 100%;
   height: 55px;
-  margin-bottom: 13px;
+  margin-top: 13px;
   > div {
     display: flex;
     align-items: center;
@@ -175,8 +176,7 @@ export const ModalSubTitle = styled.p`
   text-align: center;
   font-size: 0.5625rem;
   color: #1d1d1d;
-  margin-bottom: 5px;
-  align-self: flex-end;
+  margin-top: 20px;
 `;
 
 export const ModalTextIcon = styled.div<{ isEmpty: boolean }>`
@@ -198,4 +198,16 @@ export const ModalBackground = styled.div`
   z-index: 0;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
+`;
+
+export const ModalErrorText = styled.div`
+  color: #ff5700;
+  font-size: 0.75rem;
+  text-align: right;
+  width: 100%;
+  height: 20px;
+`;
+
+export const ModalButtonWrapper = styled.div`
+  height: 70px;
 `;

@@ -16,12 +16,12 @@ const ModalEmailInput: FC<Props> = ({ text, onClick, onChange, value, isError, p
     const value = event.target.value;
     onChange(value);
   }, []);
-  const isEmailAble = (email: string) => {
+  const isEmailAble = useCallback((email: string) => {
     if (email.length > 0) {
       return true;
     }
     return false;
-  };
+  }, []);
   return (
     <S.ModalInputWrapper>
       <div>

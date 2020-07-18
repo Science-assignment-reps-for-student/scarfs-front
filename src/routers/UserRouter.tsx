@@ -5,6 +5,7 @@ import {
   HeaderContainer,
   MainContainer,
   WaveContainer,
+  ModalContainer,
   // AssignmentGuideBoardContainer,
   // ClassBoardContainer,
   // NoticeBoardContainer,
@@ -15,6 +16,7 @@ const BoardRouter: FC = () => {
   return (
     <>
       <HeaderContainer />
+      <ModalContainer />
       <Banner />
       <Switch>
         <Route exact path='/' component={MainContainer} />

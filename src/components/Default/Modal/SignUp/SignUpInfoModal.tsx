@@ -2,12 +2,18 @@ import React, { FC, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalHalfInput } from '../Default';
 import * as S from '../style';
-import { getStateCallback, stateChange, isTextEmpty } from '../../../../lib/function';
+import {
+  getStateCallback,
+  stateChange,
+  isTextEmpty,
+  getModalErrorText,
+} from '../../../../lib/function';
 import { setName, setNumber, setCode, reset } from '../../../../modules/reducer/SignUp';
 import { ErrorType, setError, setModal, ModalType } from '../../../../modules/reducer/Modal';
 
 const SignUpInfoModal: FC = () => {
   const state = useSelector(getStateCallback('SignUp'));
+  const { error } = useSelector(getStateCallback('Modal'));
   const { number, name, code } = state;
   const nameChange = stateChange<string>(setName);
   const numberChange = stateChange<string>(setNumber);
@@ -50,9 +56,12 @@ const SignUpInfoModal: FC = () => {
         valueChange={codeChange}
         placeholder='개인 인증 번호를 입력하세요.'
       />
-      <S.ModalButton whiteThema={false} onClick={buttonClickHandler}>
-        다음
-      </S.ModalButton>
+      <S.ModalErrorText>{getModalErrorText(error)}</S.ModalErrorText>
+      <S.ModalButtonWrapper>
+        <S.ModalButton whiteThema={false} onClick={buttonClickHandler}>
+          다음
+        </S.ModalButton>
+      </S.ModalButtonWrapper>
     </Modal>
   );
 };
