@@ -6,7 +6,7 @@ import {
   fetchExperimentThunk,
   fetchPersonalThunk,
   fetchTeamThunk,
-} from '../../modules/reducer/Admin/admin';
+} from '../../modules/reducer/Admin';
 
 interface Props {}
 

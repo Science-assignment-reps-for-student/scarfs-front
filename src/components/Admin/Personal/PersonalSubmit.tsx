@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import * as S from '../style';
 import ClassListHeadCommon from '../ListCommonHead';
 import SubmitList from '../SubmitList';
-import { PrEvalCommon } from 'src/modules/reducer/Admin/admin';
+import { PrEvalCommon } from 'src/modules/reducer/Admin';
 
 interface Props {
   members: PrEvalCommon[];

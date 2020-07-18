@@ -7,11 +7,11 @@ import {
   PERSONAL_STR,
   TEAM_STR,
   EXPERIMENT_STR,
-} from '../../modules/reducer/Admin/admin';
+} from '../../modules/reducer/Admin';
 import { Personal } from '../../modules/reducer/Admin/adminPersonal';
 import { Team } from '../../modules/reducer/Admin/adminTeam';
 import { Experiment } from '../../modules/reducer/Admin/adminExperiment';
-import { StoreState } from '../../modules/reducer/Admin';
+import { reducerType } from '../../modules/reducer';
 import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
 import SkeletonAdmin from './SkeletonAdmin';
 
@@ -34,7 +34,7 @@ interface CombineResult {
 
 const AdminSection: FC<Props> = ({ filter }): ReactElement => {
   const { personalList, teamList, experimentList, loading } = useSelector(
-    (state: StoreState) => state.admin,
+    (state: reducerType) => state.Admin,
   );
 
   const pushToResult = (result: CombineResult[], assignment: CombineAdminSubject) => {

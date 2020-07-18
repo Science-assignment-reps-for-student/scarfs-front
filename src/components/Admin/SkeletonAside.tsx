@@ -3,9 +3,9 @@ import * as S from './style';
 
 interface Props {}
 
-const SkeletonAside: FC<Props> = () => {
-  const filters = ['1반', '2반', '3반', '4반', '개인', '팀', '과제'];
+const filters = ['1반', '2반', '3반', '4반', '개인', '팀', '과제'];
 
+const SkeletonAside: FC<Props> = () => {
   return (
     <S.SSubject style={{ marginTop: '50px' }}>
       {filters.map(filter => (

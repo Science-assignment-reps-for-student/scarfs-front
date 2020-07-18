@@ -18,6 +18,10 @@ export const HeaderLeftWrap = styled.div`
   display: flex;
 `;
 
+export const HeaderLogoLink = styled(Link)`
+  color: white !important;
+`;
+
 export const HeaderLogoWrap = styled.div`
   display: flex;
   align-self: center;
