@@ -56,30 +56,8 @@ const GlobalStyle: GlobalStyleComponent<{}, DefaultTheme> = createGlobalStyle`
     content: none;
   }
   a {
-    &:link{
-      color: #000;
-      text-decoration: none;
-    }
-    &:visited{
-      color: #000;
-      text-decoration: none;
-    }
-  }
-  .rotate{
-    transform: rotate(180deg);
-  }
-  
-  .btn{
-    display: inline-block;
-    transition: 0.5s;
-  }
-  .react-pdf__Page {
-    position: unset !important;
-  }
-  #toastDiv {
-    position: absolute;
-    right: 20px;
-    top: 80px;
+  color: #000;
+  text-decoration: none;
   }
 `;
 
