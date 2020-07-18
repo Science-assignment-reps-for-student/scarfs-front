@@ -2,10 +2,10 @@ import styled, { keyframes } from 'styled-components';
 import { BubbleImage, BubbleImage2, BubbleImage3 } from '../../../../assets/Board/Default';
 
 export const BoardWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 23px;
   background-color: #ffffff;
   width: 100%;
-  min-width: 1240px;
+  min-width: 1340px;
   position: relative;
 `;
 
@@ -13,7 +13,7 @@ export const Main = styled.main`
   z-index: 2;
   margin: 0 auto;
   width: 100%;
-  max-width: 1240px;
+  max-width: 1340px;
   box-sizing: border-box;
   padding: 30px;
   position: relative;
