@@ -1,11 +1,5 @@
 import axios from 'axios';
-
-const BASE_URL = 'https://{base_url}' as const;
-const apiDefault = axios.create({
-  baseURL: BASE_URL,
-  timeout: 2500,
-  headers: { Authorization: localStorage.getItem('accessToken') },
-});
+import { apiDefault } from '../client';
 
 export const fetchPersonalAssignment = () => {
   return apiDefault.get('/tenderloin/admin/personal-assignment');

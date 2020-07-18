@@ -13,7 +13,10 @@ export const parseJwt = (token: string) => {
   return JSON.parse(jsonPayload);
 };
 
-export const getFullTime = (time: number) => {
-  const c = new Date(time);
-  return `${c.getFullYear()}.${c.getMonth() + 1}.${c.getDate()}`;
+export const getDeadline = (createTime: number, deadlineTime: number) => {
+  const cT = new Date(createTime);
+  const dT = new Date(deadlineTime);
+  return `${cT.getFullYear()}.${cT.getMonth() + 1}.${cT.getDate()} - ${dT.getFullYear()}.${
+    dT.getMonth() + 1
+  }.${dT.getDate()}`;
 };
