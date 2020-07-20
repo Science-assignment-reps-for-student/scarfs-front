@@ -3,4 +3,4 @@ export { default as AdminContainer } from './Admin/AdminContainer';
 export { default as AdminLoginContainer } from './AdminLogin/AdminLoginContainer';
 export { default as AdminHeaderContainer } from './AdminHeader/AdminHeaderContainer';
 export { MainContainer } from './Main';
-export { AssignmentGuideBoardContainer } from './Board';
+export { AssignmentGuideBoardContainer, ClassBoardContainer } from './Board';
