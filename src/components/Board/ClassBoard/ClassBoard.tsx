@@ -3,8 +3,7 @@ import { Board, CardView } from '../Default';
 import BoardHeader from '../Default/BoardHeader/BoardHeader';
 import TableView from '../Default/TableView/TableView';
 import PaginationBar from '../Default/PaginationBar/PaginationBar';
-import { ClassTableItem } from '../';
-import { ClassCard } from './';
+import { ClassCard, ClassTableItem } from './';
 
 const dummyBoards = [
   {
