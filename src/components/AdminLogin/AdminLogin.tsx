@@ -17,22 +17,22 @@ interface IInputs {
   type: string;
 }
 
-const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin }): ReactElement => {
-  const inputs: IInputs[] = [
-    {
-      name: ID,
-      labelText: 'Admin ID',
-      placeholder: 'ID',
-      type: 'text',
-    },
-    {
-      name: PW,
-      labelText: 'Password',
-      placeholder: 'PASSWORD',
-      type: 'password',
-    },
-  ];
+const inputs: IInputs[] = [
+  {
+    name: ID,
+    labelText: 'Admin ID',
+    placeholder: 'ID',
+    type: 'text',
+  },
+  {
+    name: PW,
+    labelText: 'Password',
+    placeholder: 'PASSWORD',
+    type: 'password',
+  },
+];
 
+const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin }): ReactElement => {
   const getInputForm = useMemo(
     () =>
       inputs.map(({ name, labelText, placeholder, type }) => (
