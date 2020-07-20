@@ -1,0 +1,1 @@
+export { AssignmentGuideBoardContainer } from './AssignmentGuideBoard';

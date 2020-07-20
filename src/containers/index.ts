@@ -1,14 +1,6 @@
-import { HeaderContainer, WaveContainer } from './Default';
-import AdminContainer from './Admin/AdminContainer';
-import AdminLoginContainer from './AdminLogin/AdminLoginContainer';
-import AdminHeaderContainer from './AdminHeader/AdminHeaderContainer';
-import { MainContainer } from './Main';
-
-export {
-  AdminContainer,
-  AdminHeaderContainer,
-  AdminLoginContainer,
-  HeaderContainer,
-  WaveContainer,
-  MainContainer,
-};
+export { HeaderContainer, WaveContainer, ModalContainer } from './Default';
+export { default as AdminContainer } from './Admin/AdminContainer';
+export { default as AdminLoginContainer } from './AdminLogin/AdminLoginContainer';
+export { default as AdminHeaderContainer } from './AdminHeader/AdminHeaderContainer';
+export { MainContainer } from './Main';
+export { AssignmentGuideBoardContainer } from './Board';

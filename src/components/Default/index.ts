@@ -1,4 +1,3 @@
-import Header from './Header';
-import Wave from './Wave';
-
-export { Header, Wave };
+export { default as Header } from './Header';
+export { default as Wave } from './Wave';
+export { SignUpCode, SignUpInfo, SignIn } from './Modal';
