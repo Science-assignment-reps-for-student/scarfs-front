@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useReducer, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AdminLogin } from '../../components';
-import AdminHeaderContainer from '../AdminHeader/AdminHeaderContainer';
+import AdminHeaderContainer from './AdminHeaderContainer';
 import { loginReducer, Login } from '../../modules/reducer/AdminLogin/login';
 import { apiLogin } from '../../lib/api/Admin/admin';
 

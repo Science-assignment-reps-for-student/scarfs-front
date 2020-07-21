@@ -80,7 +80,7 @@ export const HeaderNavItem = styled.li`
 
 export const HeaderAccountButtonWrap = styled.button`
   padding: 0;
-  padding-bottom: 4px;
+  padding: 4px 0;
   border: 0;
   color: #858585;
   background-color: transparent;
@@ -91,4 +91,7 @@ export const HeaderAccountButtonWrap = styled.button`
 
 export const HeaderLink = styled(Link)`
   ${HeaderHoveredCommonEffect}
+  &.visit {
+    color: white !important;
+  }
 `;
