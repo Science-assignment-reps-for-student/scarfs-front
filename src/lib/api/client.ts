@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://{base_url}' as const;
+const BASE_URL = 'https://dsm-scarfs.hs.kr/v2' as const;
 
 export const apiDefault = axios.create({
   baseURL: BASE_URL,

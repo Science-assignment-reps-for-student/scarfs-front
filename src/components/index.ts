@@ -1,8 +1,6 @@
-import Admin from './Admin/Admin';
-import AdminHeader from './AdminHeader/AdminHeader';
-import AdminLogin from './AdminLogin/AdminLogin';
 export { AssignmentGuideBoard, ClassBoard } from './Board';
-import { NotFound } from './NotFound';
-import { Wave, Header } from './Default';
-
-export { Admin, AdminHeader, AdminLogin, NotFound, Wave, Header };
+export { default as Admin } from './Admin/Admin';
+export { default as AdminHeader } from './AdminHeader/AdminHeader';
+export { default as AdminLogin } from './AdminLogin/AdminLogin';
+export { NotFound } from './NotFound';
+export { Wave, Header } from './Default';
