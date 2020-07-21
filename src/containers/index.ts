@@ -6,4 +6,4 @@ export {
   AdminLoginContainer,
 } from './Admin';
 export { MainContainer } from './Main';
-export { AssignmentGuideBoardContainer } from './Board';
+export { AssignmentGuideBoardContainer, ClassBoardContainer } from './Board';
