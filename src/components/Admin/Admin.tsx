@@ -1,7 +1,8 @@
-import React, { FC, ReactElement, useState, MouseEvent } from 'react';
+import React, { FC, ReactElement, useState, MouseEvent, useEffect } from 'react';
 import * as S from './style';
 import AdminSection from './Section';
 import AdminAside from './Aside';
+import { useHistory } from 'react-router-dom';
 
 interface Props {}
 interface Filter {
@@ -15,6 +16,7 @@ interface Filter {
 }
 
 const Admin: FC<Props> = (): ReactElement => {
+  const history = useHistory();
   const [filter, setFilter] = useState<Filter>({
     class1: true,
     class2: true,
@@ -29,6 +31,10 @@ const Admin: FC<Props> = (): ReactElement => {
     const id = e.currentTarget.id;
     setFilter(prev => ({ ...prev, [id]: !prev[id] }));
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) history.push('/admin/login');
+  }, []);
 
   return (
     <S.AdminWrap>
