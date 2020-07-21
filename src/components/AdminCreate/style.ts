@@ -52,6 +52,8 @@ export const ButtonText = styled.span``;
 
 export const DeadlineWrap = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
   margin-left: 24px;
   padding: 2px 4px;
   border: 1px solid #707070;
@@ -64,7 +66,7 @@ export const DeadlineText = styled.span`
 `;
 
 export const Deadline = styled.input`
-  width: 200px;
+  flex: 1;
   border: 0;
   border-radius: 0;
   font-size: 12px;
@@ -133,6 +135,7 @@ export const FiltersClasses = styled.ul`
 `;
 
 export const FiltersClassesItem = styled.li`
+  display: flex;
   margin: 10px 0;
 `;
 
@@ -140,12 +143,37 @@ export const FiltersClassesItemLabel = styled.label`
   cursor: pointer;
 `;
 
-export const FiltersAttachment = styled.div`
+export const FiltersClassesItemCheckbox = styled.input`
+  cursor: pointer;
+`;
+
+export const FiltersAttachment = styled.label`
   display: flex;
-  margin-top: 8px;
-  border: 1px solid #858585;
   justify-content: center;
   align-items: center;
-  height: 64px;
+  min-height: 64px;
+  margin-top: 8px;
+  border: 1px solid #858585;
   font-size: 12px;
+  cursor: pointer;
+`;
+
+export const FiltersAttachmentFiles = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4px;
+  text-align: center;
+`;
+
+export const FiltersAttachmentFilesItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin: 4px 0;
+  padding: 8px 0;
+  border: 1px solid #1a1a1a;
+  font-weight: bold;
 `;
