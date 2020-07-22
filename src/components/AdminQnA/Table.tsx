@@ -55,7 +55,7 @@ const AdminTable: FC<Props> = ({ search }): ReactElement => {
           student_number={'학번'}
           last_message={'메시지'}
           current_date={'최근날짜'}
-          read={false}
+          read={true}
         />
         {studentsTable}
       </S.QnATable>
