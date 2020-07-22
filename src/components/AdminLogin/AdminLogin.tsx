@@ -4,7 +4,7 @@ import LoginTitle from './LoginTitle';
 import LoginInput from './LoginInput';
 import LoginButton from './LoginButton';
 import * as S from './style';
-import { ID, PW } from '../../modules/reducer/AdminLogin/login';
+import { ID, PW } from '../../modules/reducer/AdminLogin';
 
 interface Props {
   onChangeLogin: (e: ChangeEvent<HTMLInputElement>) => void;
