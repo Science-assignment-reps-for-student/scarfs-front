@@ -17,7 +17,7 @@ const TableRow: FC<Props> = ({
   student_number,
 }): ReactElement => {
   return (
-    <S.QnARow>
+    <S.QnARow className={!read && 'unRead'}>
       <S.QnARowItem>{student_number}</S.QnARowItem>
       <S.QnARowItem>{name}</S.QnARowItem>
       <S.QnARowItem className={!read && 'unRead'}>{last_message}</S.QnARowItem>
