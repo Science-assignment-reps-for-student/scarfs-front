@@ -110,7 +110,109 @@ export const QnARowItem = styled.span`
   }
 `;
 
+export const ModalWrap = styled.div`
+  position: absolute;
+  border: 1px solid red;
+  z-index: 1;
+`;
+
+export const ModalBack = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1c1c1c47;
+`;
+
+export const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 0.5px));
+  width: 400px;
+  min-height: 400px;
+  background-color: white;
+`;
+
+export const ModalHeader = styled.header`
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 10%);
+  text-align: center;
+`;
+
+export const HeaderCloseWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 8px;
+  background-color: #1d1d1d;
+`;
+
+export const HeaderClose = styled.img`
+  width: 12px;
+  cursor: pointer;
+`;
+
+export const HeaderInputWrap = styled.div`
+  padding: 8px 24px;
+`;
+
+export const HeaderInputInner = styled.div`
+  display: flex;
+  align-items: center;
+  margin: auto;
+  padding: 4px;
+  border: 0;
+  background-color: #f6f6f6;
+`;
+
+export const HeaderInput = styled.input`
+  flex: 1;
+  margin-left: 10px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+`;
+
+export const ModalSection = styled.section`
+  padding-top: 8px;
+`;
+
+export const SectionList = styled.ul`
+  height: calc(400px - 65.2px);
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: white;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #979797;
+  }
+  > * {
+    padding: 8px 0;
+    padding-left: 10%;
+    padding-right: 5%;
+    box-sizing: border-box;
+  }
+`;
+
+export const SectionListItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f2f2f2;
+  }
+`;
+
 // export const Test = styled.div``;
+
 // export const Test = styled.div``;
+
 // export const Test = styled.div``;
+
 // export const Test = styled.div``;
