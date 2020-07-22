@@ -23,7 +23,7 @@ const HeaderNav: FC<Props> = (): ReactElement => {
         </S.HeaderLink>
       </S.HeaderNavItem>
       <S.HeaderNavItem>
-        <S.HeaderLink to='/admin' className={location.pathname === '/admin/qna' && 'visit'}>
+        <S.HeaderLink to='/admin/qna' className={location.pathname === '/admin/qna' && 'visit'}>
           QnA<div className='hovered'></div>
         </S.HeaderLink>
       </S.HeaderNavItem>
