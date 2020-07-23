@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const AdminQnAWrap = styled.main`
   min-height: calc(100vh - 247.6px);
@@ -67,7 +68,7 @@ export const QnATableWrap = styled.div`
 
 export const QnATable = styled.ul``;
 
-export const QnARow = styled.li`
+export const QnARowCommon = `
   position: relative;
   border: 1px solid #858585;
   border-right: 0;
@@ -76,6 +77,14 @@ export const QnARow = styled.li`
   align-items: center;
   justify-content: space-between;
   padding: 16px 0;
+`;
+
+export const QnARowHead = styled.div`
+  ${QnARowCommon}
+`;
+
+export const QnARow = styled(Link)`
+  ${QnARowCommon}
   cursor: pointer;
   &:first-child {
     font-weight: bold;
@@ -91,7 +100,7 @@ export const QnARow = styled.li`
   }
 `;
 
-export const QnARowItem = styled.span`
+export const QnARowText = styled.span`
   text-align: center;
   &:nth-child(1) {
     width: 10%;
@@ -209,10 +218,77 @@ export const SectionListItem = styled.li`
   }
 `;
 
-// export const Test = styled.div``;
+export const ChatWrap = styled.main`
+  > * {
+    padding: 0 24px;
+  }
+`;
 
-// export const Test = styled.div``;
+export const ChatHeader = styled.header`
+  padding-top: 4px;
+  padding-bottom: 4px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 16%);
+`;
 
-// export const Test = styled.div``;
+export const ChatInnerChatWrap = styled.div`
+  height: calc(100vh - 144px);
+  flex: 1;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+`;
 
-// export const Test = styled.div``;
+export const ChatInnerChatMessageCommon = styled.div`
+  display: inline-block;
+  border-radius: 20px;
+  padding: 8px 16px;
+  letter-spacing: 2px;
+  font-size: 12px;
+  max-width: 50%;
+  word-break: break-all;
+  margin: 10px 0;
+`;
+
+export const ChatStudent = styled.div`
+  text-align: left;
+`;
+
+export const StudentName = styled.div`
+  padding: 4px 12px;
+  font-size: 10px;
+`;
+
+export const StudentMessage = styled(ChatInnerChatMessageCommon)`
+  background-color: #f2f2f2;
+`;
+
+export const ChatTeacher = styled.div`
+  text-align: right;
+`;
+export const TeacherMessage = styled(ChatInnerChatMessageCommon)`
+  background-color: #4898be;
+  color: white;
+`;
+
+export const ChatInputWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 16px;
+  margin: 12px 0;
+`;
+
+export const ChatInput = styled.input`
+  flex: 1;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+`;
+
+export const ChatSend = styled.img`
+  width: 16px;
+  cursor: pointer;
+`;
