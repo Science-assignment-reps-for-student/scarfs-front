@@ -1,12 +1,15 @@
-import React, { FC, ReactElement, useState, ChangeEvent, MouseEvent } from 'react';
+import React, { FC, ReactElement, useState, ChangeEvent } from 'react';
 import * as S from './style';
 import Header from './Header';
 import AdminTable from './Table';
 import Modal from './Modal';
+import Chat from './Chat';
+import { useParams } from 'react-router-dom';
 
 interface Props {}
 
 const AdminQnA: FC<Props> = (): ReactElement => {
+  const { student_number } = useParams();
   const [search, setSearch] = useState<string>('');
   const [modal, setModal] = useState<boolean>(false);
 
@@ -18,13 +21,19 @@ const AdminQnA: FC<Props> = (): ReactElement => {
   };
 
   return (
-    <S.AdminQnAWrap>
-      <S.QnACenter>
-        <Header onChangeSearch={onChangeSearch} onClickToggleModal={onClickToggleModal} />
-        <AdminTable search={search} />
-      </S.QnACenter>
-      {modal && <Modal onClickToggleModal={onClickToggleModal} />}
-    </S.AdminQnAWrap>
+    <>
+      {student_number ? (
+        <Chat />
+      ) : (
+        <S.AdminQnAWrap>
+          <S.QnACenter>
+            <Header onChangeSearch={onChangeSearch} onClickToggleModal={onClickToggleModal} />
+            <AdminTable search={search} />
+          </S.QnACenter>
+          {modal && <Modal onClickToggleModal={onClickToggleModal} />}
+        </S.AdminQnAWrap>
+      )}
+    </>
   );
 };
 
