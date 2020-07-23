@@ -17,11 +17,11 @@ const TableRow: FC<Props> = ({
   student_number,
 }): ReactElement => {
   return (
-    <S.QnARow className={!read && 'unRead'}>
-      <S.QnARowItem>{student_number}</S.QnARowItem>
-      <S.QnARowItem>{name}</S.QnARowItem>
-      <S.QnARowItem className={!read && 'unRead'}>{last_message}</S.QnARowItem>
-      <S.QnARowItem>{current_date}</S.QnARowItem>
+    <S.QnARow className={!read && 'unRead'} to={`/admin/qna/${student_number}`}>
+      <S.QnARowText>{student_number}</S.QnARowText>
+      <S.QnARowText>{name}</S.QnARowText>
+      <S.QnARowText className={!read && 'unRead'}>{last_message}</S.QnARowText>
+      <S.QnARowText>{current_date}</S.QnARowText>
     </S.QnARow>
   );
 };
