@@ -13,6 +13,7 @@ const AdminRouter: FC = (): ReactElement => {
     <Switch>
       <Route path='/admin/login' component={AdminLoginContainer} />
       <Route path='/admin/create' component={AdminCreateContainer} />
+      <Route path='/admin/qna/:student_number' component={AdminQnAContainer} />
       <Route path='/admin/qna' component={AdminQnAContainer} />
       <Route path='/admin/*' component={NotFound} />
       <Route path='/admin' component={AdminContainer} />
