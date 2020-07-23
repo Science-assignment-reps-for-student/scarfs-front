@@ -8,7 +8,7 @@ import {
   AssignmentGuideBoardContainer,
   ModalContainer,
   ClassBoardContainer,
-  // NoticeBoardContainer,
+  NoticeBoardContainer,
 } from '../containers';
 import { Banner } from './style';
 
@@ -22,7 +22,7 @@ const BoardRouter: FC = () => {
         <Route exact path='/' component={MainContainer} />
         <Route exact path='/board/assignment-guide' component={AssignmentGuideBoardContainer} />
         <Route exact path='/board/class' component={ClassBoardContainer} />
-        {/* <Route exact path='/board/notice' component={NoticeBoardContainer} /> */}
+        <Route exact path='/board/notice' component={NoticeBoardContainer} />
         <Redirect path='*' to='/error' />
       </Switch>
       <WaveContainer />
