@@ -96,7 +96,7 @@ const initialPersonal: AdminState = {
   personalList: [],
   teamList: [],
   experimentList: [],
-  loading: false,
+  loading: true,
 };
 const classNumbers = [1, 2, 3, 4];
 
