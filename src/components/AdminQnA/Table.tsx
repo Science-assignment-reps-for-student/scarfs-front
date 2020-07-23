@@ -50,13 +50,12 @@ const AdminTable: FC<Props> = ({ search }): ReactElement => {
   return (
     <S.QnATableWrap>
       <S.QnATable>
-        <TableRow
-          name={'이름'}
-          student_number={'학번'}
-          last_message={'메시지'}
-          current_date={'최근날짜'}
-          read={true}
-        />
+        <S.QnARowHead>
+          <S.QnARowText>학번</S.QnARowText>
+          <S.QnARowText>이름</S.QnARowText>
+          <S.QnARowText>메시지</S.QnARowText>
+          <S.QnARowText>최근날짜</S.QnARowText>
+        </S.QnARowHead>
         {studentsTable}
       </S.QnATable>
     </S.QnATableWrap>
