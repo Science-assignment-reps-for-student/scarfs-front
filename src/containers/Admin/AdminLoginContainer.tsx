@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useReducer, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AdminLogin } from '../../components';
 import AdminHeaderContainer from './AdminHeaderContainer';
-import { loginReducer, Login } from '../../modules/reducer/AdminLogin/login';
+import { loginReducer, Login } from '../../modules/reducer/AdminLogin';
 import { apiLogin } from '../../lib/api/Admin/admin';
 
 interface Props {}
@@ -22,15 +22,13 @@ const AdminLoginContainer: FC<Props> = (): ReactElement => {
 
   const onClickLogin = async () => {
     try {
-      localStorage.setItem('accessToken', 'eya.b.c');
-      localStorage.setItem('refreshToken', 'eya.b.c');
+      const res = await apiLogin(loginState);
+      const data = res.data;
+      localStorage.setItem('accessToken', data.access_token);
+      localStorage.setItem('refreshToken', data.refresh_token);
       history.push('/admin');
-      // const res = await apiLogin(loginState);
-      // const data = res.data;
-      // localStorage.setItem('accessToken', data.access_token);
-      // localStorage.setItem('refreshToken', data.refresh_token);
     } catch (err) {
-      const code = err.response.status;
+      const code = err?.response?.status;
       if (code === 400) {
         console.log('Bad Request at login');
       } else if (code === 404) {

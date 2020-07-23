@@ -25,6 +25,11 @@ import {
   sortTeam,
   sortExperiment,
 } from './adminUtil';
+import {
+  fetchPersonalAssignment,
+  fetchTeamAssignment,
+  fetchExperimentAssignment,
+} from '../../../lib/api/Admin/admin';
 
 export type CombineAdmin = Personal | Team | Experiment;
 export type CombineAdmins = CombineAdmin[];
@@ -91,8 +96,9 @@ const initialPersonal: AdminState = {
   personalList: [],
   teamList: [],
   experimentList: [],
-  loading: false,
+  loading: true,
 };
+const classNumbers = [1, 2, 3, 4];
 
 export const fetchPersonalThunk: ActionCreator<ThunkAction<
   Promise<void>,
@@ -103,12 +109,19 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   dispatch(fetchLoading());
   try {
     const personalList: Personal[] = [];
+    const personalList2: Personal[] = [];
+    const personals = classNumbers.map(
+      async classNum => (await fetchPersonalAssignment(classNum)).data,
+    );
+    for await (const personal of personals) {
+      personalList.push(personal);
+    }
     [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(person => {
       sortPersonal(person);
       addPropsOfPersonal(person);
-      personalList.push(person);
+      personalList2.push(person);
     });
-    dispatch(fetchPersonal(personalList));
+    dispatch(fetchPersonal(personalList2));
   } catch (err) {
     throw err;
   }
