@@ -4,9 +4,10 @@ import { search as searchSvg } from '../../assets/Admin';
 
 interface Props {
   onChangeSearch: any;
+  onClickToggleModal: any;
 }
 
-const AdminHeader: FC<Props> = ({ onChangeSearch }): ReactElement => {
+const AdminHeader: FC<Props> = ({ onChangeSearch, onClickToggleModal }): ReactElement => {
   return (
     <S.QnAHeader>
       <h1>QnA</h1>
@@ -19,7 +20,7 @@ const AdminHeader: FC<Props> = ({ onChangeSearch }): ReactElement => {
             placeholder='학번이나 이름을 입력하세요.'
           />
         </S.QnAHeaderSearchInputWrap>
-        <S.QnAHeaderSearchButton>새대화</S.QnAHeaderSearchButton>
+        <S.QnAHeaderSearchButton onClick={onClickToggleModal}>새로운 대화</S.QnAHeaderSearchButton>
       </S.QnAHeaderSearchWrap>
     </S.QnAHeader>
   );
