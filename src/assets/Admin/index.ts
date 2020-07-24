@@ -4,3 +4,6 @@ export { default as attachment } from './adminAttachment.svg';
 export { default as search } from './adminSearch.svg';
 export { default as close } from './adminCloseWhite.svg';
 export { default as send } from './adminSend.svg';
+export { default as download } from './adminDownload.svg';
+export { default as edit } from './adminEdit.svg';
+export { default as excel } from './adminExcel.svg';
