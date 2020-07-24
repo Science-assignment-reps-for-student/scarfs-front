@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { AdminLogin } from '../../components';
 import AdminHeaderContainer from './AdminHeaderContainer';
 import { loginReducer, Login } from '../../modules/reducer/AdminLogin';
-import { apiLogin } from '../../lib/api/Admin/admin';
+import { apiLogin } from '../../lib/api/Admin/login';
 
 interface Props {}
 
@@ -22,11 +22,14 @@ const AdminLoginContainer: FC<Props> = (): ReactElement => {
 
   const onClickLogin = async () => {
     try {
-      const res = await apiLogin(loginState);
-      const data = res.data;
-      localStorage.setItem('accessToken', data.access_token);
-      localStorage.setItem('refreshToken', data.refresh_token);
+      localStorage.setItem('accessToken', 'abc.de.f');
+      localStorage.setItem('refreshToken', 'abc.de.f');
       history.push('/admin');
+      // const res = await apiLogin(loginState);
+      // const data = res.data;
+      // localStorage.setItem('accessToken', data.access_token);
+      // localStorage.setItem('refreshToken', data.refresh_token);
+      // history.push('/admin');
     } catch (err) {
       const code = err?.response?.status;
       if (code === 400) {
