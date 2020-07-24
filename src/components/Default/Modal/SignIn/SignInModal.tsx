@@ -8,8 +8,10 @@ import {
   isTextEmpty,
   getModalErrorText,
 } from '../../../../lib/function';
-import { setEmail, setPassword, reset } from '../../../../modules/reducer/SignIn';
-import { setError, setModal, ErrorType } from '../../../../modules/reducer/Modal';
+import { setEmail, setPassword } from '../../../../modules/reducer/SignIn';
+import { setError, setModal, ErrorType, ModalType } from '../../../../modules/reducer/Modal';
+import { signin } from '../../../../modules/reducer/Header';
+import { SignInType } from '../../../../lib/api/Header/signin';
 
 const SignInModal: FC = () => {
   const state = useSelector(getStateCallback('SignIn'));
@@ -18,22 +20,20 @@ const SignInModal: FC = () => {
   const emailChange = stateChange<string>(setEmail);
   const passwordChange = stateChange<string>(setPassword);
   const errorChange = stateChange<ErrorType>(setError);
-  const signInReset = stateChange(reset);
-  const modalChange = stateChange(setModal);
+  const modalChange = stateChange<ModalType>(setModal);
+  const signinChange = stateChange<SignInType>(signin);
   const isStateAble = useCallback(({ email, password }: ReturnType<typeof state>) => {
     return !(isTextEmpty(email) || isTextEmpty(password));
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      closeModal();
+      signinChange({ email, password });
     } else {
       errorHandler();
     }
   }, [state]);
-  const closeModal = useCallback(() => {
-    errorChange('');
-    signInReset();
-    modalChange('');
+  const signUpButtonClickHandler = useCallback(() => {
+    modalChange('SignUpInfo');
   }, []);
   const errorHandler = useCallback(() => {
     errorChange('SignInError');
@@ -62,7 +62,7 @@ const SignInModal: FC = () => {
         <S.ModalButton onClick={buttonClickHandler} whiteThema={false}>
           로그인
         </S.ModalButton>
-        <S.ModalButton onClick={buttonClickHandler} whiteThema={true}>
+        <S.ModalButton onClick={signUpButtonClickHandler} whiteThema={true}>
           회원가입
         </S.ModalButton>
       </S.ModalButtonWrapper>
