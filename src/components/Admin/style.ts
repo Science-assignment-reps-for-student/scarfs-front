@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const AdminWrap = styled.main`
   background-color: #f5f5f5;
@@ -188,17 +189,28 @@ export const SubjectButtonWrap = styled.div`
   display: flex;
   align-items: flex-end;
   margin: 16px 0;
-  justify-content: space-between;
 `;
 
-export const SubjectButton = styled.button`
+const SubjectButtonStyle = `
   height: 30px;
+  margin: 0 10px;
   padding: 4px 12px;
   border: 1px solid #1a1a1a;
   border-radius: 4px;
   background-color: white;
   font-weight: bold;
   cursor: pointer;
+`;
+
+export const SubjectButton = styled.button`
+  ${SubjectButtonStyle}
+`;
+
+export const SubjectButtonEdit = styled(Link)`
+  ${SubjectButtonStyle}
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 `;
 
 export const SubjectButtonImg = styled.img`
