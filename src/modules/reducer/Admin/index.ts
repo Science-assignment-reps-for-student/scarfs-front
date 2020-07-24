@@ -25,11 +25,7 @@ import {
   sortTeam,
   sortExperiment,
 } from './adminUtil';
-import {
-  fetchPersonalAssignment,
-  fetchTeamAssignment,
-  fetchExperimentAssignment,
-} from '../../../lib/api/Admin/admin';
+import { fetchAssignment } from '../../../lib/api/Admin/admin';
 
 export type CombineAdmin = Personal | Team | Experiment;
 export type CombineAdmins = CombineAdmin[];
@@ -42,7 +38,7 @@ export interface SubjectCommon {
   description: string;
   created_at: number;
   deadline: number;
-  type?: string;
+  typing?: string;
 }
 export interface PrEvalCommon {
   name: string;
@@ -108,18 +104,20 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
 >> = () => async dispatch => {
   dispatch(fetchLoading());
   try {
-    const personalList: Personal[] = [];
+    // const personalList: Personal[] = [];
+    // const personals = classNumbers.map(
+    //   async classNum => (await fetchAssignment(classNum, 'personal')).data,
+    // );
+    // for await (const personal of personals) {
+    //   sortPersonal(person);
+    //   addPropsOfPersonal(person);
+    //   personalList.push(personal);
+    // }
     const personalList2: Personal[] = [];
-    const personals = classNumbers.map(
-      async classNum => (await fetchPersonalAssignment(classNum)).data,
-    );
-    for await (const personal of personals) {
-      personalList.push(personal);
-    }
-    [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(person => {
-      sortPersonal(person);
-      addPropsOfPersonal(person);
-      personalList2.push(person);
+    [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(personal => {
+      sortPersonal(personal);
+      addPropsOfPersonal(personal);
+      personalList2.push(personal);
     });
     dispatch(fetchPersonal(personalList2));
   } catch (err) {
@@ -133,6 +131,15 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
   AdminAction
 >> = () => async dispatch => {
   try {
+    // const teamList: Team[] = [];
+    // const teams = classNumbers.map(
+    //   async classNum => (await fetchAssignment(classNum, 'team')).data,
+    // );
+    // for await (const team of teams) {
+    //   sortPersonal(team);
+    //   addPropsOfPersonal(team);
+    //   teamList.push(team);
+    // }
     const teamList: Team[] = [];
     [dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4].forEach(team => {
       sortTeam(team);
@@ -151,7 +158,15 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   AdminAction
 >> = () => async dispatch => {
   try {
-    // api get
+    // const experimentList: Team[] = [];
+    // const experiments = classNumbers.map(
+    //   async classNum => (await fetchAssignment(classNum, 'experiment')).data,
+    // );
+    // for await (const experiment of experiments) {
+    //   sortPersonal(experiment);
+    //   addPropsOfPersonal(experiment);
+    //   experimentList.push(experiment);
+    // }
     const experimentList: Experiment[] = [];
     [dummyExperiment1, dummyExperiment2, dummyExperiment3, dummyExperiment4].forEach(experiment => {
       sortExperiment(experiment);
