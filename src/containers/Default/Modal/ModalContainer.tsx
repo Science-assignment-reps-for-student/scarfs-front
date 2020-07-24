@@ -9,6 +9,7 @@ const ModalContainer: FC = () => {
   return (
     <>
       {(modal as ModalType) === 'SignUpCode' && <SignUpCode />}
+      {(modal as ModalType) === 'SignUpEmail' && <SignUpCode />}
       {(modal as ModalType) === 'SignUpInfo' && <SignUpInfo />}
       {(modal as ModalType) === 'SignIn' && <SignIn />}
       {(modal as ModalType) === '' && ''}
