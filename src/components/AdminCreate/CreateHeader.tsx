@@ -1,9 +1,14 @@
 import React, { FC, ReactElement } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import * as S from './style';
 import OptionButton from './OptionButton';
-import { useSelector, useDispatch } from 'react-redux';
 import { ReducerType } from '../../modules/store';
-import { fetchCreateThunk } from '../../modules/reducer/AdminCreate';
+import {
+  fetchCreateThunk,
+  fetchUpdateThunk,
+  fetchDeleteThunk,
+} from '../../modules/reducer/AdminCreate';
 
 interface Props {
   titleRef: React.MutableRefObject<any>;
@@ -11,56 +16,61 @@ interface Props {
 }
 
 const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
-  const { files, deadline_1, deadline_2, deadline_3, deadline_4, type } = useSelector(
-    (state: ReducerType) => state.AdminCreate,
-  );
+  const { assignmentId } = useParams();
+  const create = useSelector((state: ReducerType) => state.AdminCreate);
   const dispatch = useDispatch();
 
-  const getFormData = (): FormData => {
+  const getFilesFormData = (): FormData => {
     const data = new FormData();
+    const { files } = create;
     files.length !== 0 &&
       files.forEach(file => {
         data.append('file[]', file);
       });
-    data.append('title', titleRef.current.value);
-    data.append('description', descRef.current.value);
-    data.append('type', type);
-    data.append('deadline_1', deadline_1);
-    data.append('deadline_2', deadline_2);
-    data.append('deadline_3', deadline_3);
-    data.append('deadline_4', deadline_4);
     return data;
   };
 
   const isDataDefault = (): boolean => {
-    if (
-      type === '' ||
-      titleRef.current.value === '' ||
-      descRef.current.value === '' ||
-      deadline_1 === '' ||
-      deadline_2 === '' ||
-      deadline_3 === '' ||
-      deadline_4 === ''
-    )
-      return true;
+    if (titleRef.current.value === '' || descRef.current.value === '') true;
+    for (const t in create) {
+      if (t === 'files') continue;
+      if (create[t] === '') return true;
+    }
     return false;
   };
 
   const onClickCreate = () => {
     if (isDataDefault()) {
-      alert('과제생성 요소들을 모두 입력해주세요.');
+      return alert('과제생성 요소들을 모두 입력해주세요.');
+    }
+    if (assignmentId) {
+      dispatch(
+        fetchUpdateThunk(assignmentId, getFilesFormData(), create, {
+          title: titleRef.current.value,
+          description: descRef.current.value,
+        }),
+      );
       return;
     }
-    dispatch(fetchCreateThunk(getFormData()));
+    dispatch(fetchCreateThunk(getFilesFormData()));
+  };
+
+  const onClickDelete = () => {
+    if (!confirm('정말로 삭제하시겠습니까?\n삭제하시면 복구가 불가능합니다.')) return;
+    dispatch(fetchDeleteThunk(assignmentId));
   };
 
   return (
     <S.Header>
-      <S.Title>과제생성</S.Title>
+      <S.Title>{assignmentId ? '과제수정' : '과제생성'}</S.Title>
       <S.HeaderOption>
         <S.ButtonWrap>
-          <OptionButton onClick={onClickCreate} imgType='saveImg' text='저장' />
-          <OptionButton imgType='trashImg' text='삭제' />
+          <OptionButton
+            onClick={onClickCreate}
+            imgType='saveImg'
+            text={assignmentId ? '수정' : '저장'}
+          />
+          <OptionButton onClick={onClickDelete} imgType='trashImg' text='삭제' />
         </S.ButtonWrap>
       </S.HeaderOption>
     </S.Header>

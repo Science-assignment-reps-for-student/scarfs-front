@@ -4,7 +4,7 @@ import * as S from './style';
 import { attachment } from '../../assets/Admin';
 import Deadline from './Deadline';
 import { ReducerType } from '../../modules/store';
-import { setFile } from '../../modules/reducer/AdminCreate';
+import { setFile, deleteFile } from '../../modules/reducer/AdminCreate';
 import { trash } from '../../assets/Admin';
 
 interface Props {}
@@ -12,19 +12,21 @@ interface Props {}
 const classes = ['class1', 'class2', 'class3', 'class4'];
 
 const FilterForm: FC<Props> = (): ReactElement => {
-  const { files: file } = useSelector((state: ReducerType) => state.AdminCreate);
+  const { files } = useSelector((state: ReducerType) => state.AdminCreate);
   const dispatch = useDispatch();
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
-    Object.entries(files).forEach(file => {
-      dispatch(setFile(file[1]));
+    Array.from(files).forEach(file => {
+      dispatch(setFile(file));
     });
   };
+
   const onClickDeleteFile = (e: MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    const filteredFiles = file.filter(f => f.name !== e.currentTarget.dataset.name);
+    const filteredFiles = files.filter(f => f.name !== e.currentTarget.dataset.name);
+    dispatch(deleteFile());
     filteredFiles.forEach(file => {
       dispatch(setFile(file));
     });
@@ -47,15 +49,15 @@ const FilterForm: FC<Props> = (): ReactElement => {
       <div>
         <input type='file' id='attachment' onChange={onChangeFile} multiple={true} hidden={true} />
         <S.FiltersAttachment htmlFor='attachment'>
-          {file.length === 0 ? (
+          {files.length === 0 ? (
             <>
               <img src={attachment} alt='attachment' title='attachment' />
               <span>첨부파일</span>
             </>
           ) : (
             <S.FiltersAttachmentFiles>
-              {file.map(({ name, lastModified }: File) => (
-                <S.FiltersAttachmentFilesItem key={lastModified}>
+              {files.map(({ name }: File, i) => (
+                <S.FiltersAttachmentFilesItem key={i}>
                   <span>{name}</span>
                   <img
                     src={trash}
