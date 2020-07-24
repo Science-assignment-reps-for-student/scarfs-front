@@ -1,7 +1,5 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
 import * as S from '../style';
-import adminDownload from '../../../assets/Admin/adminDownload.svg';
-import adminEdit from '../../../assets/Admin/adminEdit.svg';
 import { PersonalSubject } from 'src/modules/reducer/Admin/adminPersonal';
 
 interface Props {
@@ -30,16 +28,6 @@ const PersonalClassInfo: FC<Props> = ({ subject }): ReactElement => {
           <S.AdminProgress max={personalLen} value={personalSubmitLen}></S.AdminProgress>
         </S.InfoSubmittedCommon>
       </S.InfoSubmitted>
-      <S.SubjectButtonWrap>
-        <S.SubjectButton>
-          <S.SubjectButtonImg src={adminEdit} alt='edit' title='edit' />
-          수정
-        </S.SubjectButton>
-        <S.SubjectButton>
-          <S.SubjectButtonImg src={adminDownload} alt='download' title='download' />
-          다운로드
-        </S.SubjectButton>
-      </S.SubjectButtonWrap>
     </S.SubjectClsContentInfo>
   );
 };
