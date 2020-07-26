@@ -1,37 +1,34 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { apiCreateHomework } from '../../../lib/api/Admin/create';
+import {
+  apiCreateAssignment,
+  apiUpdateAssignment,
+  apiUpdateAssignmentFiles,
+  apiDeleteAssignment,
+} from '../../../lib/api/Admin/create';
 import { useHistory } from 'react-router-dom';
 
 interface Create {
   files: File[];
-  title: string;
-  description: string;
-  type: 'SINGLE' | 'MULTI' | 'EXPERIMENT' | '';
+  typing: 'SINGLE' | 'MULTI' | 'EXPERIMENT' | '';
   deadline_1: string;
   deadline_2: string;
   deadline_3: string;
   deadline_4: string;
 }
 
-export const SET_File = 'SET_File' as const;
-export const SET_TITLE = 'SET_TITLE' as const;
-export const SET_DESC = 'SET_DESC' as const;
+export const SET_FILE = 'SET_FILE' as const;
+export const DELETE_FILE = 'DELETE_FILE' as const;
 export const SET_TYPE = 'SET_TYPE' as const;
 export const SET_DEADLINE = 'SET_DEADLINE' as const;
 export const RESET = 'RESET' as const;
 
 export const setFile = (file: File) => ({
-  type: SET_File,
+  type: SET_FILE,
   payload: { file },
 });
-export const setTitle = (title: string) => ({
-  type: SET_TITLE,
-  payload: { title },
-});
-export const setDesc = (desc: string) => ({
-  type: SET_DESC,
-  payload: { desc },
+export const deleteFile = () => ({
+  type: DELETE_FILE,
 });
 export const setType = (type: 'SINGLE' | 'MULTI' | 'EXPERIMENT') => ({
   type: SET_TYPE,
@@ -47,9 +44,8 @@ export const reset = () => ({
 
 type CreateAction =
   | ReturnType<typeof setFile>
+  | ReturnType<typeof deleteFile>
   | ReturnType<typeof setFile>
-  | ReturnType<typeof setTitle>
-  | ReturnType<typeof setDesc>
   | ReturnType<typeof setType>
   | ReturnType<typeof setDeadline>
   | ReturnType<typeof reset>;
@@ -58,9 +54,7 @@ export type CreateState = Create;
 
 const initialCreate: CreateState = {
   files: [],
-  title: '',
-  description: '',
-  type: '',
+  typing: '',
   deadline_1: '',
   deadline_2: '',
   deadline_3: '',
@@ -74,38 +68,71 @@ export const fetchCreateThunk: ActionCreator<ThunkAction<
   CreateAction
 >> = (data: FormData) => async dispatch => {
   try {
-    await apiCreateHomework(data);
+    await apiCreateAssignment(data);
     dispatch(reset());
     alert('과제를 성공적으로 생성했습니다.');
     useHistory().push('/admin');
   } catch (err) {
     // err.response.status
     console.log(err);
-    throw err;
+  }
+};
+export const fetchUpdateThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  CreateAction,
+  null,
+  CreateAction
+>> = (
+  assignmentId: string,
+  fd: FormData,
+  create: Create,
+  texts: { title: string; description: string },
+) => async dispatch => {
+  const { title, description } = texts;
+  try {
+    await apiUpdateAssignmentFiles(fd, assignmentId);
+    await apiUpdateAssignment(assignmentId, create, { title, description });
+    dispatch(reset());
+    alert('과제를 성공적으로 수정했습니다.');
+    useHistory().push('/admin');
+  } catch (err) {
+    // err.response.status
+    console.log(err);
+  }
+};
+export const fetchDeleteThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  CreateAction,
+  null,
+  CreateAction
+>> = (assignmentId: string) => async dispatch => {
+  try {
+    await apiDeleteAssignment(assignmentId);
+    dispatch(reset());
+    alert('과제를 성공적으로 삭제했습니다.');
+    useHistory().push('/admin');
+  } catch (err) {
+    // err.response.status
+    console.log(err);
   }
 };
 
 const create = (state = initialCreate, action: CreateAction): CreateState => {
   switch (action.type) {
-    case SET_File:
+    case SET_FILE:
       return {
         ...state,
         files: [...state.files, action.payload.file],
       };
-    case SET_TITLE:
+    case DELETE_FILE:
       return {
         ...state,
-        title: action.payload.title,
-      };
-    case SET_DESC:
-      return {
-        ...state,
-        description: action.payload.desc,
+        files: [],
       };
     case SET_TYPE:
       return {
         ...state,
-        type: action.payload.type,
+        typing: action.payload.type,
       };
     case SET_DEADLINE:
       return {

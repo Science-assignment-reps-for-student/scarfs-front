@@ -60,7 +60,7 @@ const AdminSection: FC<Props> = ({ filter }): ReactElement => {
   );
 
   const switchSubject = (subject: CombineResult) => {
-    switch (subject.classes[0].type) {
+    switch (subject.classes[0].typing) {
       case PERSONAL_STR:
         return (
           filter.personal && (

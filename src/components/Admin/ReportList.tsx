@@ -20,9 +20,7 @@ const ReportList: FC<Props> = ({ isPersonal, studentId, name, submit, teamName }
       <S.SubjectClsContentCommonItemText>{studentId}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>{name}</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>
-        {teamName !== '' && (
-          <img src={submit ? submitted : unSubmitted} alt='condition' title='condition' />
-        )}
+        <img src={submit ? submitted : unSubmitted} alt='condition' title='condition' />
       </S.SubjectClsContentCommonItemText>
     </S.SubjectClsContentCommonItem>
   );

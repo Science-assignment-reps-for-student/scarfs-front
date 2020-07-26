@@ -27,18 +27,18 @@ export const sortExperiment = (experiment: Experiment) => {
 export const addPropsOfPersonal = (personal: Personal) => {
   personal.personal_assignment.forEach(cls => {
     cls.title = `[${PERSONAL_STR}] ${cls.title}`;
-    cls.type = PERSONAL_STR;
+    cls.typing = PERSONAL_STR;
   });
 };
 export const addPropsOfTeam = (team: Team) => {
   team.team_assignment.forEach(cls => {
     cls.title = `[${TEAM_STR}] ${cls.title}`;
-    cls.type = TEAM_STR;
+    cls.typing = TEAM_STR;
   });
 };
 export const addPropsOfExperiment = (experiment: Experiment) => {
   experiment.experiment_assignment.forEach(cls => {
     cls.title = `[${EXPERIMENT_STR}] ${cls.title}`;
-    cls.type = EXPERIMENT_STR;
+    cls.typing = EXPERIMENT_STR;
   });
 };
