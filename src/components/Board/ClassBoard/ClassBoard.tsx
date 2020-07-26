@@ -1,8 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Board, CardView } from '../Default';
-import BoardHeader from '../Default/BoardHeader/BoardHeader';
-import TableView from '../Default/TableView/TableView';
-import PaginationBar from '../Default/PaginationBar/PaginationBar';
+import { CardView } from '../Default';
+import { BoardHeader, TableView, PaginationBar } from '../Default';
 import { ClassCard, ClassTableItem } from './';
 
 const dummyBoards = [
@@ -83,10 +81,10 @@ const boards = dummyBoards.map(board => ({
   id: board.boardId,
 }));
 
-const AssignmentGuideBoard: FC = () => {
-  const [isTableView, setIsTableView] = useState(false);
+const ClassBoard: FC = () => {
+  const [isTableView, setIsTableView] = useState(true);
   return (
-    <Board>
+    <>
       <BoardHeader
         title='2반 게시판'
         searchTitle=''
@@ -103,8 +101,8 @@ const AssignmentGuideBoard: FC = () => {
         <CardView boards={boards} CardTemplate={ClassCard} />
       )}
       <PaginationBar />
-    </Board>
+    </>
   );
 };
 
-export default AssignmentGuideBoard;
+export default ClassBoard;

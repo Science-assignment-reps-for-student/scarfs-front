@@ -1,9 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Board } from '../Default';
-import BoardHeader from '../Default/BoardHeader/BoardHeader';
-import TableView from '../Default/TableView/TableView';
-import PaginationBar from '../Default/PaginationBar/PaginationBar';
-import CardView from '../Default/CardView/CardView';
+import { BoardHeader, TableView, PaginationBar, CardView } from '../Default';
 import { NoticeTableItem, NoticeCard } from './';
 
 const dummyBoards = [
@@ -77,10 +73,10 @@ const boards = dummyBoards.map(board => ({
   id: board.boardId,
 }));
 
-const AssignmentGuideBoard: FC = () => {
+const NoticeBoard: FC = () => {
   const [isTableView, setIsTableView] = useState(true);
   return (
-    <Board>
+    <>
       <BoardHeader
         title='공지사항'
         searchTitle='공지'
@@ -97,8 +93,8 @@ const AssignmentGuideBoard: FC = () => {
         <CardView boards={boards} CardTemplate={NoticeCard} />
       )}
       <PaginationBar />
-    </Board>
+    </>
   );
 };
 
-export default AssignmentGuideBoard;
+export default NoticeBoard;

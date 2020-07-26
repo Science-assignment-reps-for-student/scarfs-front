@@ -1,18 +1,10 @@
 import React, { FC } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
-import {
-  HeaderContainer,
-  MainContainer,
-  WaveContainer,
-  AssignmentGuideBoardContainer,
-  ModalContainer,
-  ClassBoardContainer,
-  NoticeBoardContainer,
-} from '../containers';
+import { BoardRouter } from './';
+import { HeaderContainer, MainContainer, WaveContainer, ModalContainer } from '../containers';
 import { Banner } from './style';
 
-const BoardRouter: FC = () => {
+const UserRouter: FC = () => {
   return (
     <>
       <HeaderContainer />
@@ -20,9 +12,7 @@ const BoardRouter: FC = () => {
       <Banner />
       <Switch>
         <Route exact path='/' component={MainContainer} />
-        <Route exact path='/board/assignment-guide' component={AssignmentGuideBoardContainer} />
-        <Route exact path='/board/class' component={ClassBoardContainer} />
-        <Route exact path='/board/notice' component={NoticeBoardContainer} />
+        <Route path='/board' component={BoardRouter} />
         <Redirect path='*' to='/error' />
       </Switch>
       <WaveContainer />
@@ -30,4 +20,4 @@ const BoardRouter: FC = () => {
   );
 };
 
-export default BoardRouter;
+export default UserRouter;
