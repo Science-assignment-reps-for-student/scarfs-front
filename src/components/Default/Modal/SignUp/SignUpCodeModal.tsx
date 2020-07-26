@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalCodeInput, ModalEmailInput } from '../Default';
 import * as S from '../style';
@@ -7,61 +7,49 @@ import {
   setEmailCode,
   setPassword,
   setPasswordCheck,
-  reset,
 } from '../../../../modules/reducer/SignUp';
-import { setError, setModal, ErrorType } from '../../../../modules/reducer/Modal';
+import { setError, ErrorType } from '../../../../modules/reducer/Modal';
 import {
   getStateCallback,
   stateChange,
   isTextEmpty,
   getModalErrorText,
 } from '../../../../lib/function';
-
-type PageType = 'email' | 'code';
+import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
+import { EmailCheckType, EmailSendType, SignUpType } from 'lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback('SignUp'));
-  const { error } = useSelector(getStateCallback('Modal'));
-  const { emailCode, email, password, passwordCheck } = state;
-  const [isSuccess, successChange] = useState<boolean>(false);
-  const [page, pageChange] = useState<PageType>('email');
+  const { error, modal } = useSelector(getStateCallback('Modal'));
+  const { emailCode, email, password, passwordCheck, isEmailCheck, code, name, number } = state;
   const emailChange = stateChange<string>(setEmail);
   const emailCodeChange = stateChange<string>(setEmailCode);
   const passwordChange = stateChange<string>(setPassword);
   const passwordCheckChange = stateChange<string>(setPasswordCheck);
   const errorChange = stateChange<ErrorType>(setError);
-  const signUpReset = stateChange(reset);
-  const modalChange = stateChange(setModal);
+  const emailSendChange = stateChange<EmailSendType>(emailSend);
+  const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
+  const signUpChange = stateChange<SignUpType>(signup);
 
-  const isStateAble = useCallback(
-    ({ password, passwordCheck }: ReturnType<typeof state>) => {
-      return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || !isSuccess);
-    },
-    [isSuccess],
-  );
+  const isStateAble = useCallback(({ password, passwordCheck }: ReturnType<typeof state>) => {
+    return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
+  }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      closeModal();
+      signUpChange({ number, password, authCode: code, name });
     } else {
       errorHandler();
     }
-  }, [state, isSuccess]);
-  const closeModal = useCallback(() => {
-    errorChange('');
-    signUpReset();
-    modalChange('');
-  }, []);
+  }, [state]);
   const errorHandler = useCallback(() => {
     errorChange('SignInError');
   }, []);
   const codeCheckButtonClickHandler = useCallback(() => {
-    // successChange(true);
-    errorChange('CodeError');
-  }, []);
+    emailCheckChange({ email, code: emailCode });
+  }, [email, code]);
   const mailSendButtonClickHandler = useCallback(() => {
-    // 이메일 보내는 코드!
-    pageChange('code');
-  }, []);
+    emailSendChange({ email });
+  }, [email]);
   const isCodeOrEmailError = useCallback((error: string) => {
     return error.length > 0;
   }, []);
@@ -71,10 +59,10 @@ const SignUpModal: FC = () => {
         <S.ModalTitle>SIGNUP</S.ModalTitle>
         <S.ModalIcon />
       </S.ModalTitleAndLogoWrapper>
-      {page === 'code' ? (
+      {modal === 'SignUpCode' ? (
         <ModalCodeInput
           text='인증번호'
-          isSuccess={isSuccess}
+          isSuccess={isEmailCheck}
           isError={isCodeOrEmailError(error)}
           onClick={codeCheckButtonClickHandler}
           value={emailCode}
@@ -108,7 +96,7 @@ const SignUpModal: FC = () => {
       <S.ModalErrorText>{getModalErrorText(error)}</S.ModalErrorText>
       <S.ModalButtonWrapper>
         <S.ModalButton onClick={buttonClickHandler} whiteThema={false}>
-          다음
+          회원가입
         </S.ModalButton>
       </S.ModalButtonWrapper>
     </Modal>
