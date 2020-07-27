@@ -1,22 +1,8 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import {
-  Personal,
-  dummyPersonal1,
-  dummyPersonal2,
-  dummyPersonal3,
-  dummyPersonal4,
-  PersonalSubject,
-} from './adminPersonal';
-import { Team, dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4, TeamSubject } from './adminTeam';
-import {
-  Experiment,
-  dummyExperiment1,
-  dummyExperiment2,
-  dummyExperiment3,
-  dummyExperiment4,
-  ExperimentSubject,
-} from './adminExperiment';
+import { Personal, PersonalSubject } from './adminPersonal';
+import { Team, TeamSubject } from './adminTeam';
+import { Experiment, ExperimentSubject } from './adminExperiment';
 import {
   addPropsOfPersonal,
   addPropsOfTeam,
@@ -25,7 +11,12 @@ import {
   sortTeam,
   sortExperiment,
 } from './adminUtil';
-import { fetchAssignment } from '../../../lib/api/Admin/admin';
+import {
+  tokenReIssuance,
+  getAssignmentPersonal,
+  getAssignmentTeam,
+  getAssignmentExperiment,
+} from '../../../lib/api/Admin/admin';
 
 export type CombineAdmin = Personal | Team | Experiment;
 export type CombineAdmins = CombineAdmin[];
@@ -39,6 +30,12 @@ export interface SubjectCommon {
   created_at: number;
   deadline: number;
   typing?: string;
+}
+export interface TeamsInfoCommon {
+  team_name: string;
+  submit: number;
+  members: MemberCommon[];
+  team_id: number;
 }
 export interface PrEvalCommon {
   name: string;
@@ -94,7 +91,6 @@ const initialPersonal: AdminState = {
   experimentList: [],
   loading: true,
 };
-const classNumbers = [1, 2, 3, 4];
 
 export const fetchPersonalThunk: ActionCreator<ThunkAction<
   Promise<void>,
@@ -102,26 +98,27 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   null,
   AdminAction
 >> = () => async dispatch => {
-  dispatch(fetchLoading());
   try {
-    // const personalList: Personal[] = [];
-    // const personals = classNumbers.map(
-    //   async classNum => (await fetchAssignment(classNum, 'personal')).data,
-    // );
-    // for await (const personal of personals) {
-    //   sortPersonal(person);
-    //   addPropsOfPersonal(person);
-    //   personalList.push(personal);
-    // }
-    const personalList2: Personal[] = [];
-    [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(personal => {
+    const personalList: Personal[] = [];
+    const personals: Personal[] = [];
+    personals.push((await getAssignmentPersonal(1)).data);
+    personals.push((await getAssignmentPersonal(2)).data);
+    personals.push((await getAssignmentPersonal(3)).data);
+    personals.push((await getAssignmentPersonal(4)).data);
+
+    for await (const personal of personals) {
       sortPersonal(personal);
       addPropsOfPersonal(personal);
-      personalList2.push(personal);
-    });
-    dispatch(fetchPersonal(personalList2));
+      personalList.push(personal);
+    }
+    dispatch(fetchPersonal(personalList));
+    dispatch(fetchLoading());
   } catch (err) {
-    throw err;
+    const code = err?.response?.status;
+    if (!code) return;
+    if (err?.response?.status === 401) {
+      tokenReIssuance();
+    }
   }
 };
 export const fetchTeamThunk: ActionCreator<ThunkAction<
@@ -131,25 +128,21 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
   AdminAction
 >> = () => async dispatch => {
   try {
-    // const teamList: Team[] = [];
-    // const teams = classNumbers.map(
-    //   async classNum => (await fetchAssignment(classNum, 'team')).data,
-    // );
-    // for await (const team of teams) {
-    //   sortPersonal(team);
-    //   addPropsOfPersonal(team);
-    //   teamList.push(team);
-    // }
     const teamList: Team[] = [];
-    [dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4].forEach(team => {
+    const teams: Team[] = [];
+    teams.push((await getAssignmentTeam(1)).data);
+    teams.push((await getAssignmentTeam(2)).data);
+    teams.push((await getAssignmentTeam(3)).data);
+    teams.push((await getAssignmentTeam(4)).data);
+
+    for await (const team of teams) {
       sortTeam(team);
       addPropsOfTeam(team);
       teamList.push(team);
-    });
+    }
     dispatch(fetchTeam(teamList));
-  } catch (err) {
-    throw err;
-  }
+    dispatch(fetchLoading());
+  } catch (err) {}
 };
 export const fetchExperimentThunk: ActionCreator<ThunkAction<
   Promise<void>,
@@ -158,25 +151,21 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   AdminAction
 >> = () => async dispatch => {
   try {
-    // const experimentList: Team[] = [];
-    // const experiments = classNumbers.map(
-    //   async classNum => (await fetchAssignment(classNum, 'experiment')).data,
-    // );
-    // for await (const experiment of experiments) {
-    //   sortPersonal(experiment);
-    //   addPropsOfPersonal(experiment);
-    //   experimentList.push(experiment);
-    // }
     const experimentList: Experiment[] = [];
-    [dummyExperiment1, dummyExperiment2, dummyExperiment3, dummyExperiment4].forEach(experiment => {
+    const experiments: Experiment[] = [];
+    experiments.push((await getAssignmentExperiment(1)).data);
+    experiments.push((await getAssignmentExperiment(2)).data);
+    experiments.push((await getAssignmentExperiment(3)).data);
+    experiments.push((await getAssignmentExperiment(4)).data);
+
+    for await (const experiment of experiments) {
       sortExperiment(experiment);
       addPropsOfExperiment(experiment);
       experimentList.push(experiment);
-    });
+    }
     dispatch(fetchExperiment(experimentList));
-  } catch (err) {
-    throw err;
-  }
+    dispatch(fetchLoading());
+  } catch (err) {}
 };
 
 const admin = (state = initialPersonal, action: AdminAction): AdminState => {
@@ -195,12 +184,11 @@ const admin = (state = initialPersonal, action: AdminAction): AdminState => {
       return {
         ...state,
         experimentList: action.payload.experimentList,
-        loading: false,
       };
     case LOADING:
       return {
         ...state,
-        loading: true,
+        loading: false,
       };
     default:
       return state;
