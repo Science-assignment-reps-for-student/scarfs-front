@@ -48,6 +48,9 @@ export const AdminLoginFormInput = styled.input`
 `;
 
 export const AdminLoginFormButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   margin: 24px 0 96px;
   padding: 4px;
@@ -58,6 +61,12 @@ export const AdminLoginFormButton = styled.button`
   font-weight: bold;
   outline: none;
   cursor: pointer;
+`;
+
+export const LoginFormButtonLoading = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
 `;
 
 export const AdminLoginFormBottomWrap = styled.div`
