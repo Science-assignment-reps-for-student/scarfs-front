@@ -28,26 +28,21 @@ export const signin = signinThunk();
 
 export const signup = signupThunk();
 
-export const signupErrorChange = (payload: string) => ({
-  type: SIGNUP_ERROR,
-  payload,
-});
-
 export const emailSend = emailSendThunk();
 
 export const emailCheck = emailCheckThunk();
 
-export const setAll = (payload: State) => ({
+export const setAll = (payload: HeaderState) => ({
   type: ALL,
   payload,
 });
 
-export type State = {
+export type HeaderState = {
   accessToken: string;
   refreshToken: string;
 };
 
-const initialState: State = {
+const initialState: HeaderState = {
   accessToken: '',
   refreshToken: '',
 };
@@ -55,10 +50,12 @@ const initialState: State = {
 export type HeaderActionType =
   | ReturnType<typeof setAccessToken>
   | ReturnType<typeof setRefreshToken>
-  | ReturnType<typeof signupErrorChange>
   | ReturnType<typeof setAll>;
 
-export const HeaderState = (state: State = initialState, action: HeaderActionType): State => {
+export const HeaderState = (
+  state: HeaderState = initialState,
+  action: HeaderActionType,
+): HeaderState => {
   switch (action.type) {
     case ACCESS_TOKEN: {
       return {
