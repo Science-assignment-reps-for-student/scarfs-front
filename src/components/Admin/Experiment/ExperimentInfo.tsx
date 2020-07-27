@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
-  const { experiment_submit, peer_evaluation_submit } = subject;
+  const { teams_info: experiment_submit, peer_evaluation_submit } = subject;
   const experimentLen = experiment_submit.length;
   const peerEvaluationLen = peer_evaluation_submit.length;
   const [experimentSubmitLen, setExperimentSubmitLen] = useState(0);
