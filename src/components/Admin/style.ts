@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 export const AdminWrap = styled.main`
   background-color: #f5f5f5;
   height: 100%;
+  min-height: 100vh;
   padding-bottom: 48px;
 `;
 
