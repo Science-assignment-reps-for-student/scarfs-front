@@ -30,12 +30,10 @@ export const Button = styled.div<{
           padding: 14px 0 10px;
           border: none;
         `}
-
   text-align: center;
   font-size: 13px;
   line-height: 13px;
   color: ${({ fontColor }) => fontColor};
-
   border-radius: 0;
   box-sizing: border-box;
   background-color: ${({ bgColor }) => bgColor};
