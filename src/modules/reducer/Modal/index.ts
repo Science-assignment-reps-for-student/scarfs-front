@@ -3,12 +3,13 @@ export const MODAL = 'Modal/MODAL' as const;
 export const RESET = 'Modal/RESET' as const;
 export const ERROR_MESSAGE = 'Modal/ERROR_MESSAGE' as const;
 
-export type ModalType = 'SignUpCode' | 'SignUpInfo' | 'SignIn' | '';
+export type ModalType = 'SignUpCode' | 'SignUpInfo' | 'SignIn' | 'SignUpEmail' | '';
 export type ErrorType =
   | 'CodeError'
   | 'SignInError'
   | 'SignUpInfoError'
   | 'SignUpPasswordError'
+  | 'SignUpEmailError'
   | '';
 
 export const setError = (payload: ErrorType) => ({

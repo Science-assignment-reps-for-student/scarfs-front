@@ -8,7 +8,7 @@ import {
   isTextEmpty,
   getModalErrorText,
 } from '../../../../lib/function';
-import { setName, setNumber, setCode, reset } from '../../../../modules/reducer/SignUp';
+import { setName, setNumber, setCode } from '../../../../modules/reducer/SignUp';
 import { ErrorType, setError, setModal, ModalType } from '../../../../modules/reducer/Modal';
 
 const SignUpInfoModal: FC = () => {
@@ -20,9 +20,8 @@ const SignUpInfoModal: FC = () => {
   const codeChange = stateChange<string>(setCode);
   const modalChange = stateChange<ModalType>(setModal);
   const errorChange = stateChange<ErrorType>(setError);
-  const signUpReset = stateChange(reset);
 
-  const isStateAble = useCallback(({ email, name, code, number }: ReturnType<typeof state>) => {
+  const isStateAble = useCallback(({ name, code, number }: ReturnType<typeof state>) => {
     return !(isTextEmpty(name) || isTextEmpty(number) || isTextEmpty(code));
   }, []);
   const buttonClickHandler = useCallback(() => {
@@ -34,8 +33,7 @@ const SignUpInfoModal: FC = () => {
   }, [state]);
   const goToNextModal = useCallback(() => {
     errorChange('');
-    signUpReset();
-    modalChange('SignUpCode');
+    modalChange('SignUpEmail');
   }, []);
   const errorHandler = useCallback(() => {
     errorChange('SignInError');

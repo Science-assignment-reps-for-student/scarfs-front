@@ -6,6 +6,7 @@ export const EMAIL_CODE = 'SignUp/EMAIL_CODE' as const;
 export const PASSWORD = 'SignUp/PASSWORD' as const;
 export const PASSWORD_CHECK = 'SignUp/PASSWORD_CHECK' as const;
 export const RESET = 'SignUp/RESET' as const;
+export const EMAIL_CHECK = 'SignUp/EMAIL_CHECK' as const;
 
 export const setCode = (payload: string) => ({
   type: CODE,
@@ -46,6 +47,11 @@ export const reset = () => ({
   type: RESET,
 });
 
+export const emailCheck = (payload: boolean) => ({
+  type: EMAIL_CHECK,
+  payload,
+});
+
 export type State = {
   code: string;
   email: string;
@@ -54,6 +60,7 @@ export type State = {
   emailCode: string;
   password: string;
   passwordCheck: string;
+  isEmailCheck: boolean;
 };
 
 export const initialState: State = {
@@ -64,6 +71,7 @@ export const initialState: State = {
   name: '',
   password: '',
   passwordCheck: '',
+  isEmailCheck: false,
 };
 
 export type SignUpActionType =
@@ -74,7 +82,8 @@ export type SignUpActionType =
   | ReturnType<typeof setNumber>
   | ReturnType<typeof setPassword>
   | ReturnType<typeof setPasswordCheck>
-  | ReturnType<typeof reset>;
+  | ReturnType<typeof reset>
+  | ReturnType<typeof emailCheck>;
 
 export const SignUpState = (state: State = initialState, action: SignUpActionType): State => {
   switch (action.type) {
@@ -122,7 +131,14 @@ export const SignUpState = (state: State = initialState, action: SignUpActionTyp
         emailCode: '',
         password: '',
         passwordCheck: '',
+        isEmailCheck: false,
       };
+    case EMAIL_CHECK: {
+      return {
+        ...state,
+        isEmailCheck: action.payload,
+      };
+    }
     default:
       return state;
   }
