@@ -14,7 +14,7 @@ const HeaderAccountButton: FC<Props> = (): ReactElement => {
   return (
     <S.HeaderLink to='/admin/login' onClick={logout}>
       {accessToken ? '로그아웃' : '로그인'}
-      <div className='hovered'></div>
+      <div className='hovered' />
     </S.HeaderLink>
   );
 };
