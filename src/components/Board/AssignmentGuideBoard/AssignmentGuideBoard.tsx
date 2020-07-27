@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Board } from '../Default';
 import { BoardHeader, TableView, PaginationBar, CardView } from '../Default';
 import { AssignmentGuideTableItem, AssignmentGuideCard } from './';
 
@@ -96,9 +95,9 @@ const boards = dummyBoards.map(board => ({
 }));
 
 const AssignmentGuideBoard: FC = () => {
-  const [isTableView, setIsTableView] = useState(false);
+  const [isTableView, setIsTableView] = useState(true);
   return (
-    <Board>
+    <>
       <BoardHeader
         title='과제안내'
         searchTitle='과제'
@@ -115,7 +114,7 @@ const AssignmentGuideBoard: FC = () => {
         <CardView boards={boards} CardTemplate={AssignmentGuideCard} />
       )}
       <PaginationBar />
-    </Board>
+    </>
   );
 };
 
