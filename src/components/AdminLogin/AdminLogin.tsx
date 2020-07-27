@@ -9,6 +9,7 @@ import { ID, PW } from '../../modules/reducer/AdminLogin';
 interface Props {
   onChangeLogin: (e: ChangeEvent<HTMLInputElement>) => void;
   onClickLogin: () => void;
+  loading: boolean;
 }
 interface IInputs {
   name: string;
@@ -32,7 +33,7 @@ const inputs: IInputs[] = [
   },
 ];
 
-const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin }): ReactElement => {
+const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin, loading }): ReactElement => {
   const getInputForm = useMemo(
     () =>
       inputs.map(({ name, labelText, placeholder, type }) => (
@@ -55,7 +56,7 @@ const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin }): ReactElement =>
       <S.AdminLoginFormWrap>
         <LoginTitle />
         {getInputForm}
-        <LoginButton onClickLogin={onClickLogin} />
+        <LoginButton onClickLogin={onClickLogin} loading={loading} />
         <S.AdminLoginFormBottomWrap>
           <HeaderLogo />
         </S.AdminLoginFormBottomWrap>
