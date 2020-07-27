@@ -1,7 +1,5 @@
 import React, { FC, ReactElement, useState, useEffect } from 'react';
 import * as S from '../style';
-import adminDownload from '../../../assets/Admin/adminDownload.svg';
-import adminEdit from '../../../assets/Admin/adminEdit.svg';
 import { ExperimentSubject } from 'src/modules/reducer/Admin/adminExperiment';
 
 interface Props {
@@ -44,16 +42,6 @@ const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
           <S.AdminProgress max={peerEvaluationLen} value={peerSubmitLen}></S.AdminProgress>
         </S.InfoSubmittedCommon>
       </S.InfoSubmitted>
-      <S.SubjectButtonWrap>
-        <S.SubjectButton>
-          <S.SubjectButtonImg src={adminEdit} alt='edit' title='edit' />
-          수정
-        </S.SubjectButton>
-        <S.SubjectButton>
-          <S.SubjectButtonImg src={adminDownload} alt='download' title='download' />
-          다운로드
-        </S.SubjectButton>
-      </S.SubjectButtonWrap>
     </S.SubjectClsContentInfo>
   );
 };

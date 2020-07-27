@@ -4,12 +4,12 @@ export const RESET = 'SignIn/RESET' as const;
 
 export const setPassword = (payload: string) => ({
   type: PASSWORD,
-  payload: payload,
+  payload,
 });
 
 export const setEmail = (payload: string) => ({
   type: EMAIL,
-  payload: payload,
+  payload,
 });
 
 export const reset = () => ({

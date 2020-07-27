@@ -1,14 +1,19 @@
 import React, { FC, ReactElement } from 'react';
 import * as S from './style';
+import SubjectButtons from './SubjectButtons';
+import { CombineAdminSubjects } from 'src/modules/reducer/Admin';
 
 interface Props {
-  title: string;
+  subject: CombineAdminSubjects;
 }
 
-const Subject: FC<Props> = ({ title, children }): ReactElement => {
+const Subject: FC<Props> = ({ subject, children }): ReactElement => {
+  const { title, id, typing } = subject[0];
+
   return (
     <S.SubjectWrap>
       <S.SubjectTitle>{title}</S.SubjectTitle>
+      <SubjectButtons assignmentId={id} typing={typing} />
       <S.Subject>{children}</S.Subject>
     </S.SubjectWrap>
   );

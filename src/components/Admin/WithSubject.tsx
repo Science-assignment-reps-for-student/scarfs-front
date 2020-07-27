@@ -42,7 +42,7 @@ const WithSubjectComponent = (MyComponent: FC<MyComponentProps>) => (props: Prop
     ));
   }, [subject]);
 
-  return <Subject title={subject.classes[0].title}>{getClasses}</Subject>;
+  return <Subject subject={subject.classes}>{getClasses}</Subject>;
 };
 
 const WithPersonalSubject = WithSubjectComponent(Personal);

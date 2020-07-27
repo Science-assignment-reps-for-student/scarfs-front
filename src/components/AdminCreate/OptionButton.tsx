@@ -5,7 +5,7 @@ import * as S from './style';
 interface Props {
   imgType: string;
   text: string;
-  onClick?: any;
+  onClick: any;
 }
 
 enum Img {
