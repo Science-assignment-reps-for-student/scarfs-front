@@ -7,14 +7,14 @@ interface Props {
 }
 
 const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
-  const { teams_info: experiment_submit, peer_evaluation_submit } = subject;
-  const experimentLen = experiment_submit.length;
+  const { teams_info, peer_evaluation_submit } = subject;
+  const experimentLen = teams_info.length;
   const peerEvaluationLen = peer_evaluation_submit.length;
   const [experimentSubmitLen, setExperimentSubmitLen] = useState(0);
   const [peerSubmitLen, setPeerSubmitLen] = useState(0);
 
   useEffect(() => {
-    experiment_submit.forEach(a => a.submit === 1 && setExperimentSubmitLen(prev => prev + 1));
+    teams_info.forEach(a => a.submit === 1 && setExperimentSubmitLen(prev => prev + 1));
     peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(prev => prev + 1));
   }, [subject]);
 
