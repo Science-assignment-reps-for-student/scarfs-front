@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import AdminCreate from '../../components/AdminCreate/AdminCreate';
+import AdminCreate from '../../components/Admin/AdminCreate/AdminCreate';
 import AdminHeaderContainer from './AdminHeaderContainer';
 interface Props {}
 
