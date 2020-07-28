@@ -200,7 +200,7 @@ export const ModalBackground = styled.div`
   height: 100%;
   z-index: 0;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
 `;
 
 export const ModalErrorText = styled.div`
