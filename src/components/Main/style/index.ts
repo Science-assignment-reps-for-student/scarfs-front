@@ -3,8 +3,8 @@ import { megaphone, calender, logo, logout, logoutLogo } from '../../../assets/M
 
 export const Body = styled.div`
   width: 100%;
-  min-width: 1342px;
-  padding: 0px 200px 0px 200px;
+  min-width: 1340px;
+  padding: 0px 100px 0px 100px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -15,6 +15,7 @@ export const Wrapper = styled.div<{ margin: number }>`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin-bottom: 50px;
 `;
 
 export const TaskListWrapper = styled.div`
@@ -46,7 +47,14 @@ export const TaskListComponentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+  > p {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   > .point {
+    width: auto;
     color: #505bff;
   }
 `;
@@ -63,6 +71,12 @@ export const TaskListComponentAddButton = styled(TaskListComponent)`
 
 export const TaskListComponentBody = styled.div`
   font-size: 1.4375rem;
+  width: 200px;
+  > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 export const TaskListHeader = styled.div`
@@ -156,13 +170,11 @@ export const UserInfoName = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   text-align: right;
-  margin-bottom: 16px;
 `;
 
 export const UserInfoTask = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
 `;
 
 export const UserInfoTaskDetail = styled.div`

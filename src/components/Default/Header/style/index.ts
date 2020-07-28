@@ -4,9 +4,13 @@ import Magnifier from '../../../../assets/Header/Magnifier.png';
 
 export const Header = styled.div`
   width: 100%;
-  min-width: 1340px;
   height: 60px;
   background-color: white;
+  min-width: auto;
+  position: sticky;
+  top: 0;
+  min-width: 1340px;
+  z-index: 3;
   > div.header {
     display: flex;
     align-items: center;
