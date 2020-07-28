@@ -7,4 +7,9 @@ export {
   AdminQnAContainer,
 } from './Admin';
 export { MainContainer } from './Main';
-export { AssignmentGuideBoardContainer, ClassBoardContainer, NoticeBoardContainer } from './Board';
+export {
+  AssignmentGuideBoardContainer,
+  ClassBoardContainer,
+  NoticeBoardContainer,
+  NoticeDetailPostContainer,
+} from './Board';
