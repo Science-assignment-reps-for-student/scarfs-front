@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 
-export const AlertModalWrap = styled.div`
+export const AlertModalCommon = styled.div`
   position: fixed;
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 320px;
+  width: 400px;
   padding: 16px 0;
   text-align: center;
   color: #1d1d1d;
   background-color: white;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 16%);
-  font-size: 18px;
+  font-size: 14px;
   z-index: 10000;
 `;
+
+export const NotifyWrap = styled(AlertModalCommon)``;
+export const WarnWrap = styled(AlertModalCommon)``;
 
 export const AlertTitle = styled.p`
   display: flex;
