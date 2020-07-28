@@ -1,36 +1,36 @@
-import React, { FC, ReactElement } from 'react';
-import { warning, notification } from '../../assets/Admin';
-import * as S from './style';
+import React, { FC, ReactElement, MouseEvent } from 'react';
+import NotifyModal from './NotifyModal';
+import WarnModal from './WarnModal';
 
-type AcceptTypes = 'warn' | 'notify';
+type AlertModalTypes = 'notify' | 'warn';
 
 interface Props {
-  type: AcceptTypes;
+  type: AlertModalTypes;
+  explain?: string;
+  setValue: (val: boolean) => void;
 }
 
-const AlertModal: FC<Props> = ({ type }): ReactElement => {
-  // Warning, Notification
-
-  enum Images {
-    warn = warning,
-    notify = notification,
-  }
-
-  Images['warn'];
+const AlertModal: FC<Props> = ({ type, explain, setValue }): ReactElement => {
+  const removeAlert = (e: MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.parentElement.parentElement.remove();
+  };
+  const onClickCheck = (e: MouseEvent<HTMLButtonElement>) => {
+    setValue(true);
+    removeAlert(e);
+  };
+  const onClickCancel = (e: MouseEvent<HTMLButtonElement>) => {
+    setValue(false);
+    removeAlert(e);
+  };
 
   return (
-    <div>
-      <div className='back'></div>
-      <p>
-        <img src={notification} alt='notification' title='notification' />
-        <span>알림</span>
-      </p>
-      <p>모든 빈칸을 채워주세요.</p>
-      <div>
-        <button>확인</button>
-        <button>취소</button>
-      </div>
-    </div>
+    <>
+      {type === 'notify' ? (
+        <NotifyModal onClickCheck={onClickCheck} explain={explain} onClickCancel={onClickCancel} />
+      ) : (
+        <WarnModal onClickCheck={onClickCheck} explain={explain} />
+      )}
+    </>
   );
 };
 
