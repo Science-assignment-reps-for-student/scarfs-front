@@ -5,3 +5,4 @@ export { default as AdminLogin } from './AdminLogin/AdminLogin';
 export { default as AdminQnA } from './AdminQnA/AdminQnA';
 export { NotFound } from './NotFound';
 export { Wave, Header } from './Default';
+export { default as AlertModal } from './AlertModal/AlertModal';
