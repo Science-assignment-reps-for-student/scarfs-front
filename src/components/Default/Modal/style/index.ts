@@ -4,13 +4,15 @@ import { circle, deleteIcon, successImg } from '../../../../assets/Modal';
 export const ModalWrapper = styled.div`
   width: 100%;
   height: 100%;
-  min-width: 1340px;
+  min-width: 1342px;
   position: absolute;
   left: 0;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  z-index: 4;
 `;
 
 export const Modal = styled.div`
@@ -45,6 +47,7 @@ export const ModalHeader = styled.div`
   > div.deleteImg {
     width: 7px;
     height: 7px;
+    cursor: pointer;
     background-image: url(${deleteIcon});
   }
 `;
