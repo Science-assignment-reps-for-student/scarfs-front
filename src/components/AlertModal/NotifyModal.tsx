@@ -14,7 +14,7 @@ const NotifyModal: FC<Props> = ({
   explain = '모든 빈칸을 채워주세요.',
 }): ReactElement => {
   return (
-    <S.AlertModalWrap>
+    <S.NotifyWrap>
       <S.AlertTitle>
         <img src={notification} alt='notification' title='notification' />
         <span>알림</span>
@@ -24,7 +24,7 @@ const NotifyModal: FC<Props> = ({
         <S.AlertCheck onClick={onClickCheck}>확인</S.AlertCheck>
         <S.AlertCancel onClick={onClickCancel}>취소</S.AlertCancel>
       </S.AlertButtonWrap>
-    </S.AlertModalWrap>
+    </S.NotifyWrap>
   );
 };
 

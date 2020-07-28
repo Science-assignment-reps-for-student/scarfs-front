@@ -12,7 +12,7 @@ const WarnModal: FC<Props> = ({
   explain = '모든 빈칸을 채워주세요.',
 }): ReactElement => {
   return (
-    <S.AlertModalWrap>
+    <S.WarnWrap>
       <S.AlertTitle>
         <img src={warning} alt='warning' title='warning' />
         <span>경고</span>
@@ -21,7 +21,7 @@ const WarnModal: FC<Props> = ({
       <S.AlertButtonWrap>
         <S.AlertCheck onClick={onClickCheck}>확인</S.AlertCheck>
       </S.AlertButtonWrap>
-    </S.AlertModalWrap>
+    </S.WarnWrap>
   );
 };
 
