@@ -15,6 +15,7 @@ export const Wrapper = styled.div<{ margin: number }>`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin-bottom: 50px;
 `;
 
 export const TaskListWrapper = styled.div`
