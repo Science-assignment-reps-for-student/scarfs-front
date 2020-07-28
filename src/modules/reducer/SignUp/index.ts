@@ -52,7 +52,7 @@ export const emailCheck = (payload: boolean) => ({
   payload,
 });
 
-export type State = {
+export type SignUpState = {
   code: string;
   email: string;
   number: string;
@@ -63,7 +63,7 @@ export type State = {
   isEmailCheck: boolean;
 };
 
-export const initialState: State = {
+export const initialState: SignUpState = {
   code: '',
   email: '',
   emailCode: '',
@@ -85,7 +85,10 @@ export type SignUpActionType =
   | ReturnType<typeof reset>
   | ReturnType<typeof emailCheck>;
 
-export const SignUpState = (state: State = initialState, action: SignUpActionType): State => {
+export const SignUpState = (
+  state: SignUpState = initialState,
+  action: SignUpActionType,
+): SignUpState => {
   switch (action.type) {
     case CODE:
       return {

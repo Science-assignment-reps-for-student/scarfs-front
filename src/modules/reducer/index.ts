@@ -6,6 +6,7 @@ import Admin from './Admin';
 import AdminCreate from './AdminCreate';
 import Header from './Header';
 import Alert from './Alert';
+import Main from './Main';
 
 const rootReducer = combineReducers({
   Modal,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   AdminCreate,
   Header,
   Alert,
+  Main,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;
