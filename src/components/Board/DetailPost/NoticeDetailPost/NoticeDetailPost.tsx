@@ -14,7 +14,7 @@ const board = {
   nextNoticeNumber: 3,
 };
 
-const NoticeDetailPost: FC<{}> = () => {
+const NoticeDetailPost: FC = () => {
   return (
     <>
       <PostHeader title='공지사항' />

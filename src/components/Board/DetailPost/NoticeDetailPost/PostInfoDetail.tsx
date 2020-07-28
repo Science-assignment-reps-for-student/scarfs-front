@@ -3,7 +3,11 @@ import { NoticeDetailPost } from '../Default/';
 import * as S from '../Default/PostMain/style';
 import { getLocaleDateString } from '../../utils';
 
-const PostInfoDetail: FC<{ board: NoticeDetailPost }> = ({ board }) => {
+interface Props {
+  board: NoticeDetailPost;
+}
+
+const PostInfoDetail: FC<Props> = ({ board }) => {
   if (typeof board === 'undefined') return null;
   return (
     <>
