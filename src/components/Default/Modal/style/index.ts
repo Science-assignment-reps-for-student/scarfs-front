@@ -11,6 +11,8 @@ export const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  z-index: 4;
 `;
 
 export const Modal = styled.div`
@@ -19,7 +21,7 @@ export const Modal = styled.div`
   background-color: white;
   border-radius: 3px;
   border: 1px solid #d3d3d3;
-  z-index: 1;
+  z-index: 5;
 `;
 
 export const ModalBody = styled.div`
@@ -45,6 +47,7 @@ export const ModalHeader = styled.div`
   > div.deleteImg {
     width: 7px;
     height: 7px;
+    cursor: pointer;
     background-image: url(${deleteIcon});
   }
 `;
@@ -197,7 +200,7 @@ export const ModalBackground = styled.div`
   height: 100%;
   z-index: 0;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
 `;
 
 export const ModalErrorText = styled.div`

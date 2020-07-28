@@ -18,7 +18,9 @@ export const getStateCallback = <ReturnType>(stateName: string) => (
 
 export const stateChange = <ValueType>(actionFunc: (ValueType) => any) => {
   const dispatch = useDispatch();
-  return (value?: ValueType) => dispatch(actionFunc(value));
+  return (value?: ValueType) => {
+    dispatch(actionFunc(value));
+  };
 };
 
 export const getModalErrorText = (error: ErrorType) => {
