@@ -4,5 +4,5 @@ export const WaveCanvas = styled.canvas`
   position: fixed;
   bottom: 0;
   left: 0;
-  min-width: 1340px;
+  min-width: 1342px;
 `;

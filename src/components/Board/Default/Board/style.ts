@@ -5,7 +5,7 @@ export const BoardWrapper = styled.div`
   margin-top: 23px;
   background-color: #ffffff;
   width: 100%;
-  min-width: 1340px;
+  min-width: 1342px;
   position: relative;
 `;
 
@@ -13,7 +13,7 @@ export const Main = styled.main`
   z-index: 2;
   margin: 0 auto;
   width: 100%;
-  max-width: 1340px;
+  max-width: 1342px;
   box-sizing: border-box;
   padding: 30px;
   position: relative;
