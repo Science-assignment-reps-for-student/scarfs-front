@@ -1,36 +1,51 @@
-import React, { FC, ReactElement, MouseEvent } from 'react';
+import React, { FC, ReactElement, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as S from './style';
 import NotifyModal from './NotifyModal';
 import WarnModal from './WarnModal';
+import { setReturnValue, deleteAlert, resetReturnValue } from '../../modules/reducer/Alert';
+import { ReducerType } from 'src/modules/store';
 
 type AlertModalTypes = 'notify' | 'warn';
 
 interface Props {
   type: AlertModalTypes;
-  explain?: string;
-  setValue: (val: boolean) => void;
 }
 
-const AlertModal: FC<Props> = ({ type, explain, setValue }): ReactElement => {
-  const removeAlert = (e: MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.parentElement.parentElement.remove();
+const AlertModal: FC<Props> = ({ type, children }): ReactElement => {
+  const { isShow, explain } = useSelector((state: ReducerType) => state.Alert);
+  const dispatch = useDispatch();
+
+  const onClickCheck = () => {
+    dispatch(setReturnValue(true));
+    dispatch(deleteAlert());
   };
-  const onClickCheck = (e: MouseEvent<HTMLButtonElement>) => {
-    setValue(true);
-    removeAlert(e);
-  };
-  const onClickCancel = (e: MouseEvent<HTMLButtonElement>) => {
-    setValue(false);
-    removeAlert(e);
+  const onClickCancel = () => {
+    dispatch(setReturnValue(false));
+    dispatch(deleteAlert());
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetReturnValue());
+      dispatch(deleteAlert());
+    };
+  }, []);
+
   return (
-    <>
-      {type === 'notify' ? (
-        <NotifyModal onClickCheck={onClickCheck} explain={explain} onClickCancel={onClickCancel} />
-      ) : (
-        <WarnModal onClickCheck={onClickCheck} explain={explain} />
-      )}
-    </>
+    <div>
+      {isShow === true &&
+        (type === 'notify' ? (
+          <NotifyModal
+            onClickCheck={onClickCheck}
+            onClickCancel={onClickCancel}
+            explain={explain}
+          />
+        ) : (
+          <WarnModal onClickCheck={onClickCheck} explain={explain} />
+        ))}
+      {children}
+    </div>
   );
 };
 
