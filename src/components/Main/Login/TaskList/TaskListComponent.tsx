@@ -7,8 +7,6 @@ interface Props {
   title: string;
   isNotice: boolean;
 }
-``;
-
 const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
   return (
     <S.TaskListComponent>
