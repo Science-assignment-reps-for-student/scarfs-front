@@ -7,13 +7,14 @@ interface Props {
   title: string;
   isNotice: boolean;
 }
+``;
 
 const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
   return (
     <S.TaskListComponent>
       <S.TaskListComponentHeader>
         <p>{date}</p>
-        <p className="point">{isProgress ? '진행' : '완료'}</p>
+        <p className='point'>{isProgress ? '진행' : '완료'}</p>
       </S.TaskListComponentHeader>
       <S.TaskListComponentBody>
         <p>{title}</p>
