@@ -3,7 +3,7 @@ import { megaphone, calender, logo, logout, logoutLogo } from '../../../assets/M
 
 export const Body = styled.div`
   width: 100%;
-  min-width: 1342px;
+  min-width: 1340px;
   padding: 0px 100px 0px 100px;
   box-sizing: border-box;
   display: flex;

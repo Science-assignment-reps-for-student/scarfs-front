@@ -9,7 +9,7 @@ export const Header = styled.div`
   min-width: auto;
   position: sticky;
   top: 0;
-  min-width: 1342px;
+  min-width: 1340px;
   z-index: 3;
   > div.header {
     display: flex;

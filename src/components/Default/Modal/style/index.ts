@@ -4,7 +4,7 @@ import { circle, deleteIcon, successImg } from '../../../../assets/Modal';
 export const ModalWrapper = styled.div`
   width: 100%;
   height: 100%;
-  min-width: 1342px;
+  min-width: 1340px;
   position: absolute;
   left: 0;
   top: 0;
