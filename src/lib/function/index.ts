@@ -9,13 +9,18 @@ export const isTextEmpty = (text: string): boolean => {
   return true;
 };
 
-export const getStateCallback = (stateName: string) => (state: reducerType) => {
-  return state[stateName];
+export const getStateCallback = <ReturnType>(stateName: string) => (
+  state: reducerType,
+): ReturnType => {
+  const selectedStaet: ReturnType = state[stateName];
+  return selectedStaet;
 };
 
 export const stateChange = <ValueType>(actionFunc: (ValueType) => any) => {
   const dispatch = useDispatch();
-  return (value?: ValueType) => dispatch(actionFunc(value));
+  return (value?: ValueType) => {
+    dispatch(actionFunc(value));
+  };
 };
 
 export const getModalErrorText = (error: ErrorType) => {

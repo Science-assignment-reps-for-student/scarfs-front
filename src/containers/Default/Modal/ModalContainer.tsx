@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { SignUpCode, SignUpInfo, SignIn } from '../../../components/Default/Modal';
-import { ModalType } from '../../../modules/reducer/Modal';
+import { ModalType, ModalState } from '../../../modules/reducer/Modal';
 import { getStateCallback } from '../../../lib/function';
 
 const ModalContainer: FC = () => {
-  const { modal } = useSelector(getStateCallback('Modal'));
+  const { modal } = useSelector(getStateCallback<ModalState>('Modal'));
   return (
     <>
       {(modal as ModalType) === 'SignUpCode' && <SignUpCode />}

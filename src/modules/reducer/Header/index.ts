@@ -13,6 +13,7 @@ export const SIGNUP = 'Header/SIGNUP';
 export const SIGNUP_ERROR = 'Header/SIGNUP_ERROR' as const;
 export const EMAILSEND = 'Header/EMAILSEND' as const;
 export const EMAILCHECK = 'Header/EMAILCHECK' as const;
+export const LOADING = 'Header/LOADING' as const;
 
 export const setAccessToken = (payload: string) => ({
   type: ACCESS_TOKEN,
@@ -37,28 +38,47 @@ export const emailSend = emailSendThunk();
 
 export const emailCheck = emailCheckThunk();
 
-export const setAll = (payload: State) => ({
+export const setAll = (payload: HeaderState) => ({
   type: ALL,
   payload,
 });
 
-export type State = {
+export const setLoading = (payload: boolean) => ({
+  type: LOADING,
+  payload,
+});
+
+export type HeaderState = {
   accessToken: string;
   refreshToken: string;
+  loading: boolean;
 };
 
-const initialState: State = {
-  accessToken: '',
-  refreshToken: '',
+const getToken = (tokenType: 'accessToken' | 'refreshToken') => {
+  const localStorageToken = localStorage.getItem(tokenType);
+  if (typeof localStorageToken !== 'string') {
+    return '';
+  }
+  return localStorageToken;
+};
+
+const initialState: HeaderState = {
+  accessToken: getToken('accessToken'),
+  refreshToken: getToken('refreshToken'),
+  loading: false,
 };
 
 export type HeaderActionType =
   | ReturnType<typeof setAccessToken>
   | ReturnType<typeof setRefreshToken>
   | ReturnType<typeof signupErrorChange>
-  | ReturnType<typeof setAll>;
+  | ReturnType<typeof setAll>
+  | ReturnType<typeof setLoading>;
 
-export const HeaderState = (state: State = initialState, action: HeaderActionType): State => {
+export const HeaderState = (
+  state: HeaderState = initialState,
+  action: HeaderActionType,
+): HeaderState => {
   switch (action.type) {
     case ACCESS_TOKEN: {
       return {
@@ -80,6 +100,12 @@ export const HeaderState = (state: State = initialState, action: HeaderActionTyp
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+      };
+    }
+    case LOADING: {
+      return {
+        ...state,
+        loading: action.payload,
       };
     }
     default:
