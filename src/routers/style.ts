@@ -3,7 +3,7 @@ import { BannerImage } from '../assets/Board/Default';
 
 export const Banner = styled.div`
   background-image: url(${BannerImage});
-  min-width: 1340px;
+  min-width: 1342px;
   height: 150px;
   background-size: cover;
 `;
