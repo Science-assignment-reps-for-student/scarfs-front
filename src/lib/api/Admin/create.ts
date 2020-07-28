@@ -1,8 +1,8 @@
-import { apiDefault } from '../client';
+import { apiDefault, getApiDefault } from '../client';
 import { CreateState } from 'src/modules/reducer/AdminCreate';
 
 export const apiCreateAssignment = (data: FormData) => {
-  return apiDefault.post('/rib-eye/assignment', data, {
+  return getApiDefault().post('/rib-eye/assignment', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -16,7 +16,7 @@ export const apiUpdateAssignment = (
 ) => {
   const { deadline_1, deadline_2, deadline_3, deadline_4 } = create;
   const { title, description } = texts;
-  return apiDefault.patch(`/rib-eye/assignment/${assignmentId}`, {
+  return getApiDefault().patch(`/rib-eye/assignment/${assignmentId}`, {
     data: {
       title,
       description,
@@ -29,7 +29,7 @@ export const apiUpdateAssignment = (
 };
 
 export const apiUpdateAssignmentFiles = (data: FormData, assignmentId: string) => {
-  return apiDefault.put(`/rib-eye/assignment/${assignmentId}`, data, {
+  return getApiDefault().put(`/rib-eye/assignment/${assignmentId}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -37,5 +37,5 @@ export const apiUpdateAssignmentFiles = (data: FormData, assignmentId: string) =
 };
 
 export const apiDeleteAssignment = (assignmentId: string) => {
-  return apiDefault.delete(`/rib-eye/assignment/${assignmentId}`);
+  return getApiDefault().delete(`/rib-eye/assignment/${assignmentId}`);
 };

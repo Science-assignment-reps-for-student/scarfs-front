@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import AdminHeaderContainer from './AdminHeaderContainer';
 import { Admin } from '../../components';
-import { useDispatch } from 'react-redux';
 import {
   fetchExperimentThunk,
   fetchPersonalThunk,

@@ -78,19 +78,12 @@ export const HeaderNavItem = styled.li`
   cursor: pointer;
 `;
 
-export const HeaderAccountButtonWrap = styled.button`
-  padding: 0;
-  padding: 4px 0;
+export const HeaderLink = styled(Link)`
+  ${HeaderHoveredCommonEffect}
   border: 0;
-  color: #858585;
   background-color: transparent;
   font-size: 12px;
   font-weight: bold;
-  cursor: pointer;
-`;
-
-export const HeaderLink = styled(Link)`
-  ${HeaderHoveredCommonEffect}
   &.visit {
     color: white !important;
   }
