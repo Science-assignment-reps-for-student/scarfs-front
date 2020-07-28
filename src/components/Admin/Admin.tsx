@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState, MouseEvent, useEffect } from 'react';
+import React, { FC, ReactElement, useState, MouseEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as S from './style';
 import AdminSection from './Section';
@@ -31,12 +31,6 @@ const Admin: FC<Props> = (): ReactElement => {
     const id = e.currentTarget.id;
     setFilter(prev => ({ ...prev, [id]: !prev[id] }));
   };
-
-  useEffect(() => {
-    if (!localStorage.getItem('accessToken')) {
-      history.push('/admin/login');
-    }
-  }, []);
 
   return (
     <S.AdminWrap>
