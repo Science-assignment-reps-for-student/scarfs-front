@@ -6,15 +6,18 @@ export interface SignUpType {
   name: string;
   authCode: string;
   password: string;
+  loading: boolean;
 }
 
 export interface EmailCheckType {
   email: string;
   code: string;
+  loading: boolean;
 }
 
 export interface EmailSendType {
   email: string;
+  loading: boolean;
 }
 
 export const signup = async (body: SignUpType): Promise<AxiosResponse<any>> => {
