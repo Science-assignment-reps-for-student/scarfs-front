@@ -8,21 +8,27 @@ import {
   isTextEmpty,
   getModalErrorText,
 } from '../../../../lib/function';
-import { setEmail, setPassword } from '../../../../modules/reducer/SignIn';
-import { setError, setModal, ErrorType, ModalType } from '../../../../modules/reducer/Modal';
+import { setEmail, setPassword, SignInState } from '../../../../modules/reducer/SignIn';
+import {
+  setError,
+  setModal,
+  ErrorType,
+  ModalType,
+  ModalState,
+} from '../../../../modules/reducer/Modal';
 import { signin } from '../../../../modules/reducer/Header';
 import { SignInType } from '../../../../lib/api/Header/signin';
 
 const SignInModal: FC = () => {
-  const state = useSelector(getStateCallback('SignIn'));
-  const { error } = useSelector(getStateCallback('Modal'));
+  const state = useSelector(getStateCallback<SignInState>('SignIn'));
+  const { error } = useSelector(getStateCallback<ModalState>('Modal'));
   const { email, password } = state;
   const emailChange = stateChange<string>(setEmail);
   const passwordChange = stateChange<string>(setPassword);
   const errorChange = stateChange<ErrorType>(setError);
   const modalChange = stateChange<ModalType>(setModal);
   const signinChange = stateChange<SignInType>(signin);
-  const isStateAble = useCallback(({ email, password }: ReturnType<typeof state>) => {
+  const isStateAble = useCallback(({ email, password }: SignInState) => {
     return !(isTextEmpty(email) || isTextEmpty(password));
   }, []);
   const buttonClickHandler = useCallback(() => {

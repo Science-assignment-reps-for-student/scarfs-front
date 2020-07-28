@@ -26,13 +26,13 @@ export const reset = () => ({
   type: RESET,
 });
 
-export type State = {
+export type ModalState = {
   error: ErrorType;
   modal: ModalType;
   errorType: string;
 };
 
-export const initialState: State = {
+export const initialState: ModalState = {
   error: '',
   modal: '',
   errorType: '',
@@ -43,7 +43,10 @@ export type ModalActionType =
   | ReturnType<typeof setModal>
   | ReturnType<typeof reset>;
 
-export const ModalState = (state: State = initialState, action: ModalActionType): State => {
+export const ModalState = (
+  state: ModalState = initialState,
+  action: ModalActionType,
+): ModalState => {
   switch (action.type) {
     case ERROR:
       return {

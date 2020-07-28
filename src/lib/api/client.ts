@@ -7,3 +7,13 @@ export const apiDefault = axios.create({
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
   },
 });
+
+export const getApiDefault = () => {
+  return axios.create({
+    baseURL: process.env.BASE_URL,
+    timeout: 2500,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+};

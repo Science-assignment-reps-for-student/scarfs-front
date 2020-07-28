@@ -1,8 +1,8 @@
 import React, { FC, ReactElement, useState, MouseEvent, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as S from './style';
 import AdminSection from './Section';
 import AdminAside from './Aside';
-import { useHistory } from 'react-router-dom';
 
 interface Props {}
 interface Filter {
@@ -33,7 +33,9 @@ const Admin: FC<Props> = (): ReactElement => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem('accessToken')) history.push('/admin/login');
+    if (!localStorage.getItem('accessToken')) {
+      history.push('/admin/login');
+    }
   }, []);
 
   return (

@@ -15,7 +15,14 @@ export const pwAction = (value: string) => ({
   type: PW,
   payload: { value },
 });
+
 export type LoginType = ReturnType<typeof idAction> | ReturnType<typeof pwAction>;
+
+export const loginInit: Login = {
+  type: '',
+  ID: '',
+  PW: '',
+};
 
 export const loginReducer = (state: Login, action: LoginType): Login => {
   switch (action.type) {
