@@ -1,6 +1,5 @@
 import React, { FC, ReactElement, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as S from './style';
 import NotifyModal from './NotifyModal';
 import WarnModal from './WarnModal';
 import { setReturnValue, deleteAlert, resetReturnValue } from '../../modules/reducer/Alert';
