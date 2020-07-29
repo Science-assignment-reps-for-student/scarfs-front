@@ -29,6 +29,13 @@ export interface BoardElementType {
   view: number;
 }
 
+export interface UserInfoType {
+  name: string;
+  studentNumber: number;
+  remainingAssignment: number;
+  completionAssignment: number;
+}
+
 export const getAssignment = async (): Promise<AssignmentType[]> => {
   const response = await apiDefault.get<AssignmentType[]>('/shank/homework');
   return response.data;
@@ -36,5 +43,10 @@ export const getAssignment = async (): Promise<AssignmentType[]> => {
 
 export const getBoard = async (): Promise<BoardType[]> => {
   const response = await apiDefault.get<BoardType[]>('/shank/notice');
+  return response.data;
+};
+
+export const getUserInfo = async (): Promise<UserInfoType> => {
+  const response = await apiDefault.get<UserInfoType>('/shank/user');
   return response.data;
 };
