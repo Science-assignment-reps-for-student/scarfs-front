@@ -5,12 +5,14 @@ import {
   AdminLoginContainer,
   AdminCreateContainer,
   AdminQnAContainer,
+  AdminSignUpContainer,
 } from '../containers';
 import { NotFound } from '../components';
 
 const AdminRouter: FC = (): ReactElement => {
   return (
     <Switch>
+      <Route path='/admin/register' component={AdminSignUpContainer} />
       <Route path='/admin/login' component={AdminLoginContainer} />
       <Route path='/admin/create' component={AdminCreateContainer} />
       <Route path='/admin/update/:assignmentId' component={AdminCreateContainer} />
