@@ -1,4 +1,4 @@
-import { apiDefault } from '../client';
+import { getApiDefault } from '../client';
 
 export interface SignInType {
   email: string;
@@ -14,6 +14,6 @@ export interface SignInResponseType {
 }
 
 export const signin = async (body: SignInType): Promise<SignInResponseType> => {
-  const response = await apiDefault.post<SignInResponseType>('/shank/auth', body);
+  const response = await getApiDefault().post<SignInResponseType>('/shank/auth', body);
   return response.data;
 };
