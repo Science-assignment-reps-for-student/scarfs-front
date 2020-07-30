@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import * as S from './style';
 import SubjectButtons from './SubjectButtons';
-import { CombineAdminSubjects } from 'src/modules/reducer/Admin';
+import { CombineAdminSubjects } from '../../../modules/reducer/Admin';
 
 interface Props {
   subject: CombineAdminSubjects;
