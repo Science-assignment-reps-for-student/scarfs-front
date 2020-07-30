@@ -1,5 +1,5 @@
-import { apiDefault, getApiDefault } from '../client';
-import { CreateState } from 'src/modules/reducer/AdminCreate';
+import { getApiDefault } from '../client';
+import { CreateState } from '../../../modules/reducer/AdminCreate';
 
 export const apiCreateAssignment = (data: FormData) => {
   return getApiDefault().post('/rib-eye/assignment', data, {
