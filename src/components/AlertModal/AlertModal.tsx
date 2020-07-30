@@ -2,10 +2,13 @@ import React, { FC, ReactElement, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NotifyModal from './NotifyModal';
 import WarnModal from './WarnModal';
-import { setReturnValue, deleteAlert, resetReturnValue } from '../../modules/reducer/Alert';
+import {
+  setReturnValue,
+  deleteAlert,
+  resetReturnValue,
+  AlertModalTypes,
+} from '../../modules/reducer/Alert';
 import { ReducerType } from '../../modules/store';
-
-type AlertModalTypes = 'notify' | 'warn';
 
 interface Props {
   type: AlertModalTypes;
