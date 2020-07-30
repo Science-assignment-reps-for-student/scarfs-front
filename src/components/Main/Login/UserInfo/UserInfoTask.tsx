@@ -2,11 +2,16 @@ import React, { FC } from 'react';
 import * as S from '../../style';
 import UserInfoTaskDetail from './UserInfoTaskDetail';
 
-const UserInfoTask: FC = () => {
+interface Props {
+  unCompleteTaskCount: number;
+  completeTaskCount: number;
+}
+
+const UserInfoTask: FC<Props> = ({ unCompleteTaskCount, completeTaskCount }) => {
   return (
     <S.UserInfoTask>
-      <UserInfoTaskDetail isRemainTask={true} taskCount={10} />
-      <UserInfoTaskDetail isRemainTask={false} taskCount={10} />
+      <UserInfoTaskDetail isRemainTask={true} taskCount={unCompleteTaskCount} />
+      <UserInfoTaskDetail isRemainTask={false} taskCount={completeTaskCount} />
     </S.UserInfoTask>
   );
 };

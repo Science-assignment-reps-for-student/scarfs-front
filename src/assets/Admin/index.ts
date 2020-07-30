@@ -8,3 +8,7 @@ export { default as download } from './adminDownload.svg';
 export { default as edit } from './adminEdit.svg';
 export { default as excel } from './adminExcel.svg';
 export { default as defaultLoading } from './adminDefaultLoading.svg';
+export { default as warning } from './adminWarning.svg';
+export { default as notification } from './adminNotifications.svg';
+export { default as submitted } from './adminO.svg';
+export { default as unSubmitted } from './adminX.svg';

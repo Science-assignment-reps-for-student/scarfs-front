@@ -16,12 +16,13 @@ import {
   ModalType,
   ModalState,
 } from '../../../../modules/reducer/Modal';
-import { signin } from '../../../../modules/reducer/Header';
+import { signin, HeaderState } from '../../../../modules/reducer/Header';
 import { SignInType } from '../../../../lib/api/Header/signin';
 
 const SignInModal: FC = () => {
   const state = useSelector(getStateCallback<SignInState>('SignIn'));
   const { error } = useSelector(getStateCallback<ModalState>('Modal'));
+  const { loading } = useSelector(getStateCallback<HeaderState>('Header'));
   const { email, password } = state;
   const emailChange = stateChange<string>(setEmail);
   const passwordChange = stateChange<string>(setPassword);
@@ -33,11 +34,11 @@ const SignInModal: FC = () => {
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      signinChange({ email, password });
+      signinChange({ email, password, loading });
     } else {
       errorHandler();
     }
-  }, [state]);
+  }, [state, loading]);
   const signUpButtonClickHandler = useCallback(() => {
     modalChange('SignUpInfo');
   }, []);

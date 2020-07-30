@@ -16,12 +16,13 @@ import {
   getModalErrorText,
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
-import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
+import { signup, emailCheck, emailSend, HeaderState } from '../../../../modules/reducer/Header';
 import { EmailCheckType, EmailSendType, SignUpType } from 'lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
   const { error, modal } = useSelector(getStateCallback<ModalState>('Modal'));
+  const { loading } = useSelector(getStateCallback<HeaderState>('Header'));
   const { emailCode, email, password, passwordCheck, isEmailCheck, code, name, number } = state;
   const emailChange = stateChange<string>(setEmail);
   const emailCodeChange = stateChange<string>(setEmailCode);
@@ -37,20 +38,20 @@ const SignUpModal: FC = () => {
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      signUpChange({ number, password, authCode: code, name });
+      signUpChange({ number, password, authCode: code, name, loading });
     } else {
       errorHandler();
     }
-  }, [state]);
+  }, [state, loading]);
   const errorHandler = useCallback(() => {
     errorChange('SignInError');
   }, []);
   const codeCheckButtonClickHandler = useCallback(() => {
-    emailCheckChange({ email, code: emailCode });
-  }, [email, code]);
+    emailCheckChange({ email, code: emailCode, loading });
+  }, [email, code, loading]);
   const mailSendButtonClickHandler = useCallback(() => {
-    emailSendChange({ email });
-  }, [email]);
+    emailSendChange({ email, loading });
+  }, [email, loading]);
   const isCodeOrEmailError = useCallback((error: string) => {
     return error.length > 0;
   }, []);

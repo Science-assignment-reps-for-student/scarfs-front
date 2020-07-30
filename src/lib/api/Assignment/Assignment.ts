@@ -1,4 +1,4 @@
-import { apiDefault } from '../client';
+import { getApiDefault } from '../client';
 
 export interface AssignmentType {
   totalElements: number;
@@ -29,12 +29,24 @@ export interface BoardElementType {
   view: number;
 }
 
+export interface UserInfoType {
+  name: string;
+  studentNumber: number;
+  remainingAssignment: number;
+  completionAssignment: number;
+}
+
 export const getAssignment = async (): Promise<AssignmentType[]> => {
-  const response = await apiDefault.get<AssignmentType[]>('/shank/homework');
+  const response = await getApiDefault().get<AssignmentType[]>('/shank/homework');
   return response.data;
 };
 
 export const getBoard = async (): Promise<BoardType[]> => {
-  const response = await apiDefault.get<BoardType[]>('/shank/notice');
+  const response = await getApiDefault().get<BoardType[]>('/shank/notice');
+  return response.data;
+};
+
+export const getUserInfo = async (): Promise<UserInfoType> => {
+  const response = await getApiDefault().get<UserInfoType>('/shank/user');
   return response.data;
 };
