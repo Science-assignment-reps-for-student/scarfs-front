@@ -25,6 +25,7 @@ const TaskList: FC<Props> = ({ taskListType, isNotice, getTask }) => {
           isProgress={false}
           title={board.title}
           isNotice={false}
+          noticeId={board.noticeId}
         />,
       );
     }
@@ -41,6 +42,7 @@ const TaskList: FC<Props> = ({ taskListType, isNotice, getTask }) => {
           isProgress={assignment.isFinish}
           title={assignment.title}
           isNotice={false}
+          noticeId={assignment.homeworkId}
         />,
       );
     }

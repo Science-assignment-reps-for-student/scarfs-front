@@ -6,9 +6,27 @@ const ErrorListComponent: FC = () => {
     '네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요';
   return (
     <>
-      <TaskListComponent date={errorText} isProgress={false} title={errorText} isNotice={false} />
-      <TaskListComponent date={errorText} isProgress={false} title={errorText} isNotice={false} />
-      <TaskListComponent date={errorText} isProgress={false} title={errorText} isNotice={false} />
+      <TaskListComponent
+        date={errorText}
+        isProgress={false}
+        title={errorText}
+        isNotice={false}
+        noticeId={null}
+      />
+      <TaskListComponent
+        date={errorText}
+        isProgress={false}
+        title={errorText}
+        isNotice={false}
+        noticeId={null}
+      />
+      <TaskListComponent
+        date={errorText}
+        isProgress={false}
+        title={errorText}
+        isNotice={false}
+        noticeId={null}
+      />
     </>
   );
 };
