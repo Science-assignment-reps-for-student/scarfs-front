@@ -18,7 +18,7 @@ export interface SignInThunkType {
 
 export interface RefreshTokenType {
   callback: Function;
-  accessToken: string;
+  refreshToken: string;
 }
 
 export interface RefreshTokenResponseType {
