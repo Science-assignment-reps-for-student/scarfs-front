@@ -16,6 +16,7 @@ export const PageControllButton = styled.button`
   width: 27px;
   height: 27px;
   border: 1px solid #d3d3d3;
+  border-radius: 0;
   color: #979797;
   outline: none;
   cursor: pointer;
@@ -25,6 +26,7 @@ export const PageControllButton = styled.button`
 
 export const PageButton = styled.button`
   border: 1px solid #d3d3d3;
+  border-radius: 0;
   width: 27px;
   height: 27px;
   outline: none;

@@ -1,0 +1,36 @@
+import React, { FC } from 'react';
+import * as S from '../Default/PostFooter/style';
+import { useHistory } from 'react-router-dom';
+
+interface Props {
+  type?: string;
+}
+
+const PostButtons: FC<Props> = ({ type }) => {
+  const history = useHistory();
+  const goNoticeList = () => history.push('../assignment-guide');
+  return (
+    <S.PostFooterWrapper>
+      {type === '팀' && (
+        <S.ButtonBox>
+          <S.Button borderColor='#505BFF' bgColor='#ffffff' fontColor='#505BFF'>
+            팀원추가
+          </S.Button>
+          <S.Button borderColor='#505BFF' bgColor='#ffffff' fontColor='#505BFF'>
+            상호평가
+          </S.Button>
+        </S.ButtonBox>
+      )}
+      <S.ButtonBox>
+        <S.Button bgColor='#505BFF' fontColor='#FFFFFF'>
+          제출하기
+        </S.Button>
+        <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
+          목록으로
+        </S.Button>
+      </S.ButtonBox>
+    </S.PostFooterWrapper>
+  );
+};
+
+export default PostButtons;
