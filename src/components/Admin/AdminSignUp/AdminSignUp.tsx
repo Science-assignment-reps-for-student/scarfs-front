@@ -1,25 +1,57 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, ChangeEvent } from 'react';
 import * as S from './style';
+import { defaultLoading } from '../../../assets/Admin';
 
-interface Props {}
+interface Props {
+  onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClickRegister: () => void;
+  loading: boolean;
+}
 
-const AdminSignUp: FC<Props> = (): ReactElement => {
+interface Inputs {
+  type: string;
+  text: string;
+}
+
+const inputs: Inputs[] = [
+  {
+    type: 'text',
+    text: 'email',
+  },
+  {
+    type: 'password',
+    text: 'password',
+  },
+  {
+    type: 'password',
+    text: 'confirm_password',
+  },
+  {
+    type: 'text',
+    text: 'name',
+  },
+];
+
+const AdminSignUp: FC<Props> = ({ onChangeInput, onClickRegister, loading }): ReactElement => {
   return (
     <S.AdminSignUpWrap>
       <S.SignUpFormWrap>
-        <label>
-          <div>Email</div>
-          <input type='text' placeholder='email' />
-        </label>
-        <label>
-          <div>Password</div>
-          <input type='password' placeholder='password' />
-        </label>
-        <label>
-          <div>Name</div>
-          <input type='text' placeholder='name' />
-        </label>
-        <button>회원가입</button>
+        {inputs.map(({ type, text }) => (
+          <S.SignUpLabel key={text}>
+            <S.SignUpType>{text}</S.SignUpType>
+            <S.SignUpInput
+              type={type}
+              name={text}
+              placeholder={text}
+              onChange={onChangeInput}
+              autoComplete='off'
+            />
+          </S.SignUpLabel>
+        ))}
+        <S.SignUpButton onClick={onClickRegister}>
+          <span>회원가입</span>
+          {loading && <S.SignUpLoading src={defaultLoading} alt='loading' title='loading' />}
+        </S.SignUpButton>
       </S.SignUpFormWrap>
     </S.AdminSignUpWrap>
   );

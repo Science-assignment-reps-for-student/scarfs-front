@@ -5,7 +5,7 @@ export const AlertModalCommon = styled.div`
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
-  width: 400px;
+  width: 300px;
   padding: 16px 0;
   text-align: center;
   color: #1d1d1d;
@@ -28,7 +28,20 @@ export const AlertTitle = styled.p`
 `;
 
 export const AlertExplain = styled.p`
+  max-height: 160px;
   margin: 16px 0;
+  overflow-y: scroll;
+  word-break: break-all;
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f9f9f9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+    border-radius: 16px;
+  }
 `;
 
 export const AlertButtonWrap = styled.div`

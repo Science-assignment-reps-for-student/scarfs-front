@@ -47,6 +47,6 @@ export const getBoard = async (): Promise<BoardType[]> => {
 };
 
 export const getUserInfo = async (): Promise<UserInfoType> => {
-  const response = await apiDefault.get<UserInfoType>('/shank/user');
+  const response = await getApiDefault().get<UserInfoType>('/shank/user');
   return response.data;
 };
