@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { SearchIcon } from '../../../../../assets/Board/Default';
-import { DeleteImage } from '../../../../../assets/Board/DetailPost';
+import { closeImage } from '../../../../../assets/Board/DetailPost';
 
 export const AddTeamMemberModalBox = styled.div`
   width: 614px;
@@ -189,7 +189,7 @@ export const BlueText = styled.span`
 `;
 
 export const DeleteButton = styled.img.attrs({
-  src: DeleteImage,
+  src: closeImage,
 })`
   width: 8px;
   height: 8px;
