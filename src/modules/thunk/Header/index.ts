@@ -1,14 +1,20 @@
 import { RESET, MODAL, ERROR } from '../../reducer/Modal';
-import { ALL, LOADING } from '../../reducer/Header';
-import { signin, SignInType, SignInResponseType } from '../../../lib/api/Header/signin';
+import { ALL, LOADING, REFRESH_TOKEN_SUCCESS } from '../../reducer/Header';
+import {
+  signin,
+  SignInThunkType,
+  SignInResponseType,
+  RefreshTokenThunkType,
+  refreshToken,
+} from '../../../lib/api/Header/signin';
 import { EMAIL_CHECK } from '../../../modules/reducer/SignUp';
 import {
-  SignUpType,
   signup,
-  EmailCheckType,
   emailCheck,
   emailSend,
-  EmailSendType,
+  SignUpThunkType,
+  EmailCheckThunkType,
+  EmailSendThunkType,
 } from '../../../lib/api/Header/signup';
 
 const setTokensToLocalStorage = (tokens: SignInResponseType) => {
@@ -17,11 +23,11 @@ const setTokensToLocalStorage = (tokens: SignInResponseType) => {
 };
 
 export const signinThunk = () => {
-  return (params: SignInType) => async dispatch => {
+  return (params: SignInThunkType) => async dispatch => {
     if (params.loading) return;
     dispatch({ type: LOADING, payload: true });
     try {
-      const payload = await signin(params);
+      const payload = await signin(params.serverType);
       setTokensToLocalStorage(payload);
       dispatch({ type: ALL, payload });
       dispatch({ type: RESET });
@@ -33,11 +39,11 @@ export const signinThunk = () => {
 };
 
 export const signupThunk = () => {
-  return (params: SignUpType) => async dispatch => {
+  return (params: SignUpThunkType) => async dispatch => {
     if (params.loading) return;
     dispatch({ type: LOADING, payload: true });
     try {
-      await signup(params);
+      await signup(params.serverType);
       dispatch({ type: RESET });
     } catch (err) {
       dispatch({ type: ERROR, payload: 'SignUpPasswordError' });
@@ -47,11 +53,11 @@ export const signupThunk = () => {
 };
 
 export const emailCheckThunk = () => {
-  return (params: EmailCheckType) => async dispatch => {
+  return (params: EmailCheckThunkType) => async dispatch => {
     if (params.loading) return;
     dispatch({ type: LOADING, payload: true });
     try {
-      await emailCheck(params);
+      await emailCheck(params.serverType);
       dispatch({ type: EMAIL_CHECK, payload: params });
     } catch (err) {
       dispatch({ type: ERROR, payload: 'CodeError' });
@@ -61,15 +67,34 @@ export const emailCheckThunk = () => {
 };
 
 export const emailSendThunk = () => {
-  return (params: EmailSendType) => async dispatch => {
+  return (params: EmailSendThunkType) => async dispatch => {
     if (params.loading) return;
     dispatch({ type: LOADING, payload: true });
     try {
-      await emailSend(params);
+      await emailSend(params.serverType);
       dispatch({ type: MODAL, payload: 'SignUpCode' });
     } catch (err) {
       dispatch({ type: ERROR, payload: 'SignUpEmailError' });
     }
     dispatch({ type: LOADING, payload: false });
+  };
+};
+
+export const refreshTokenThunk = () => {
+  return (params: RefreshTokenThunkType) => async dispatch => {
+    if (params.loading) return;
+    dispatch({ type: LOADING, payload: true });
+    try {
+      const response = await refreshToken(params.serverType);
+      dispatch({
+        type: REFRESH_TOKEN_SUCCESS,
+        payload: {
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+        },
+      });
+    } catch (err) {
+      dispatch({ type: err, payload: '' });
+    }
   };
 };
