@@ -35,7 +35,7 @@ export const signin = signinThunk();
 
 export const signup = signupThunk();
 
-export const refreshToken = refreshTokenThunk();
+export const sendRefreshToken = refreshTokenThunk();
 
 export const signupErrorChange = (payload: string) => ({
   type: SIGNUP_ERROR,
@@ -61,7 +61,7 @@ export const refreshTokenSuccess = (payload: { accessToken: string; refreshToken
   payload,
 });
 
-export const refreshTokenFailure = (payload: ErrorType) => ({
+export const refreshTokenFailure = (payload: Error) => ({
   type: REFRESH_TOKEN_FAILURE,
   payload,
 });
@@ -70,7 +70,7 @@ export type HeaderState = {
   accessToken: string;
   refreshToken: string;
   loading: boolean;
-  error: ErrorType | null;
+  error: Error | null;
 };
 
 const getToken = (tokenType: 'accessToken' | 'refreshToken') => {
