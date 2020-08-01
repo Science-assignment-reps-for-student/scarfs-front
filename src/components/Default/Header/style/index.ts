@@ -36,6 +36,8 @@ export const HeaderButton = styled.div`
   justify-content: center;
   flex-wrap: wrapper;
   margin-right: 60px;
+  display: flex;
+  justify-content: center;
   > p {
     color: ${DEFAULT_COLOR};
     height: 100%;
@@ -63,6 +65,8 @@ export const HeaderButton = styled.div`
 
 export const HeaderUserButton = styled(HeaderButton)`
   margin: 0px 24px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const HeaderUserButtonWrapper = styled.div`
