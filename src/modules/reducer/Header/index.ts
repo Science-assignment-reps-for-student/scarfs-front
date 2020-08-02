@@ -16,6 +16,7 @@ export const SIGNUP_ERROR = 'Header/SIGNUP_ERROR' as const;
 export const EMAILSEND = 'Header/EMAILSEND' as const;
 export const EMAILCHECK = 'Header/EMAILCHECK' as const;
 export const LOADING = 'Header/LOADING' as const;
+export const IS_LOGIN = 'Header/IS_LOGIN' as const;
 
 export const REFRESH_TOKEN_CALL = 'Header/REFRESH_TOKEN_CALL' as const;
 export const REFRESH_TOKEN_FAILURE = 'Header/REFRESH_TOKEN_FAILURE' as const;
@@ -39,6 +40,11 @@ export const sendRefreshToken = refreshTokenThunk();
 
 export const signupErrorChange = (payload: string) => ({
   type: SIGNUP_ERROR,
+  payload,
+});
+
+export const isLoginChange = (payload: boolean) => ({
+  type: IS_LOGIN,
   payload,
 });
 
@@ -71,6 +77,7 @@ export type HeaderState = {
   refreshToken: string;
   loading: boolean;
   error: Error | null;
+  isLogin: boolean;
 };
 
 const getToken = (tokenType: 'accessToken' | 'refreshToken') => {
@@ -86,6 +93,7 @@ const initialState: HeaderState = {
   refreshToken: getToken('refreshToken'),
   loading: false,
   error: null,
+  isLogin: true,
 };
 
 export type HeaderActionType =
@@ -95,7 +103,8 @@ export type HeaderActionType =
   | ReturnType<typeof setAll>
   | ReturnType<typeof setLoading>
   | ReturnType<typeof refreshTokenSuccess>
-  | ReturnType<typeof refreshTokenFailure>;
+  | ReturnType<typeof refreshTokenFailure>
+  | ReturnType<typeof isLoginChange>;
 
 export const HeaderState = (
   state: HeaderState = initialState,
@@ -141,6 +150,12 @@ export const HeaderState = (
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+      };
+    }
+    case IS_LOGIN: {
+      return {
+        ...state,
+        isLogin: action.payload,
       };
     }
     default:
