@@ -17,7 +17,7 @@ import {
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
 import { signup, emailCheck, emailSend, HeaderState } from '../../../../modules/reducer/Header';
-import { EmailCheckType, EmailSendType, SignUpType } from 'lib/api/Header/signup';
+import { EmailCheckThunkType, EmailSendThunkType, SignUpThunkType } from 'lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
@@ -29,16 +29,16 @@ const SignUpModal: FC = () => {
   const passwordChange = stateChange<string>(setPassword);
   const passwordCheckChange = stateChange<string>(setPasswordCheck);
   const errorChange = stateChange<ErrorType>(setError);
-  const emailSendChange = stateChange<EmailSendType>(emailSend);
-  const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
-  const signUpChange = stateChange<SignUpType>(signup);
+  const emailSendChange = stateChange<EmailSendThunkType>(emailSend);
+  const emailCheckChange = stateChange<EmailCheckThunkType>(emailCheck);
+  const signUpChange = stateChange<SignUpThunkType>(signup);
 
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      signUpChange({ number, password, authCode: code, name, loading });
+      signUpChange({ serverType: { number, password, authCode: code, name }, loading });
     } else {
       errorHandler();
     }
@@ -47,10 +47,13 @@ const SignUpModal: FC = () => {
     errorChange('SignInError');
   }, []);
   const codeCheckButtonClickHandler = useCallback(() => {
-    emailCheckChange({ email, code: emailCode, loading });
+    emailCheckChange({ serverType: { email, code: emailCode }, loading });
   }, [email, code, loading]);
   const mailSendButtonClickHandler = useCallback(() => {
-    emailSendChange({ email, loading });
+    emailSendChange({
+      serverType: { email },
+      loading,
+    });
   }, [email, loading]);
   const isCodeOrEmailError = useCallback((error: string) => {
     return error.length > 0;

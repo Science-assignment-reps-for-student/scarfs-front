@@ -17,7 +17,7 @@ import {
   ModalState,
 } from '../../../../modules/reducer/Modal';
 import { signin, HeaderState } from '../../../../modules/reducer/Header';
-import { SignInType } from '../../../../lib/api/Header/signin';
+import { SignInThunkType } from '../../../../lib/api/Header/signin';
 
 const SignInModal: FC = () => {
   const state = useSelector(getStateCallback<SignInState>('SignIn'));
@@ -28,13 +28,19 @@ const SignInModal: FC = () => {
   const passwordChange = stateChange<string>(setPassword);
   const errorChange = stateChange<ErrorType>(setError);
   const modalChange = stateChange<ModalType>(setModal);
-  const signinChange = stateChange<SignInType>(signin);
+  const signinChange = stateChange<SignInThunkType>(signin);
   const isStateAble = useCallback(({ email, password }: SignInState) => {
     return !(isTextEmpty(email) || isTextEmpty(password));
   }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      signinChange({ email, password, loading });
+      signinChange({
+        serverType: {
+          password,
+          email,
+        },
+        loading,
+      });
     } else {
       errorHandler();
     }
