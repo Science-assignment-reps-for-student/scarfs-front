@@ -17,7 +17,6 @@ export interface SignInThunkType {
 }
 
 export interface RefreshTokenType {
-  callback: Function;
   refreshToken: string;
 }
 
@@ -30,6 +29,7 @@ export interface RefreshTokenResponseType {
 export interface RefreshTokenThunkType {
   serverType: RefreshTokenType;
   loading: boolean;
+  callback: () => void;
 }
 
 export const signin = async (body: SignInType): Promise<SignInResponseType> => {
@@ -37,11 +37,9 @@ export const signin = async (body: SignInType): Promise<SignInResponseType> => {
   return response.data;
 };
 
-export const refreshToken = async (body: RefreshTokenType): Promise<RefreshTokenResponseType> => {
-  try {
-    const response = await getApiDefault().post<RefreshTokenResponseType>('/shank/auth', body);
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
+export const sendRefreshToken = async (
+  body: RefreshTokenType,
+): Promise<RefreshTokenResponseType> => {
+  const response = await getApiDefault().post<RefreshTokenResponseType>('/shank/auth', body);
+  return response.data;
 };
