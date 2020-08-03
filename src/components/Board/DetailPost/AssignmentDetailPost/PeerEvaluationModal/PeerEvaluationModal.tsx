@@ -5,8 +5,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 const PeerEvaluationModal: FC<{}> = () => {
   const history = useHistory();
-  const pathname = location.pathname.split('/');
-  const paramId = pathname[pathname.length - 1];
+  const paramId = location.pathname.split('/')[3];
   return (
     <Modal>
       <S.PeerEvaluationModalBox>
@@ -18,7 +17,11 @@ const PeerEvaluationModal: FC<{}> = () => {
           </S.StudentInfoBox>
           <S.EvaluationStatusBox>
             <S.BlueText>완료</S.BlueText>
-            <S.ViewButton onClick={() => history.push(`${paramId}/evaluation?type=self`)} />
+            <S.ViewButton
+              onClick={() =>
+                history.push(`/board/assignment-guide/${paramId}/evaluation?type=self`)
+              }
+            />
           </S.EvaluationStatusBox>
         </S.StudentBox>
         <S.Label>팀원</S.Label>
@@ -33,13 +36,19 @@ const PeerEvaluationModal: FC<{}> = () => {
                 </S.StudentInfoBox>
                 <S.EvaluationStatusBox>
                   <S.OrangeText>미완료</S.OrangeText>
-                  <S.EditButton onClick={() => history.push(`${paramId}/evaluation?type=mutual`)} />
+                  <S.EditButton
+                    onClick={() =>
+                      history.push(`/board/assignment-guide/${paramId}/evaluation?type=mutual`)
+                    }
+                  />
                 </S.EvaluationStatusBox>
               </S.StudentBox>
             </React.Fragment>
           ))}
       </S.PeerEvaluationModalBox>
-      <S.AllEvaluateButton onClick={() => history.push(`${paramId}/evaluation?type=all`)}>
+      <S.AllEvaluateButton
+        onClick={() => history.push(`/board/assignment-guide/${paramId}/evaluation?type=all`)}
+      >
         전체 평가
       </S.AllEvaluateButton>
     </Modal>
