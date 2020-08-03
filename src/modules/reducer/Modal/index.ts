@@ -8,6 +8,7 @@ export type ModalType =
   | 'SignUpInfo'
   | 'SignIn'
   | 'SignUpEmail'
+  | 'FileSubmit'
   | 'PeerEvaluation'
   | 'AddTeamMember'
   | '';
