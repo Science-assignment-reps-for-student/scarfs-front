@@ -12,10 +12,10 @@ const SkeletonAdmin: FC<Props> = () => {
         <S.SSubject key={subject}>
           <S.SBone width='100%' height='48px' />
           <S.SClasses>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
+            <S.SBone className='back' width='49%' height='240px' />
+            <S.SBone className='back' width='49%' height='240px' />
+            <S.SBone className='back' width='49%' height='240px' />
+            <S.SBone className='back' width='49%' height='240px' />
           </S.SClasses>
         </S.SSubject>
       ))}
