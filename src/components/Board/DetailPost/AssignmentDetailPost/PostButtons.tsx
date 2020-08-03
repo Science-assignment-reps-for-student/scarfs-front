@@ -12,6 +12,7 @@ const PostButtons: FC<Props> = ({ type }) => {
   const history = useHistory();
   const goNoticeList = () => history.push('../assignment-guide');
   const openModal = stateChange(setModal);
+  const openFileSubmitModal = () => openModal('FileSubmit');
   const openPeerEvaluationModal = () => openModal('PeerEvaluation');
   const openAddTeamMemberModal = () => openModal('AddTeamMember');
   return (
@@ -37,7 +38,7 @@ const PostButtons: FC<Props> = ({ type }) => {
         </S.ButtonBox>
       )}
       <S.ButtonBox>
-        <S.Button bgColor='#505BFF' fontColor='#FFFFFF'>
+        <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
           제출하기
         </S.Button>
         <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
