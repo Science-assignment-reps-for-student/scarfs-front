@@ -1,0 +1,1 @@
+export { closeImage } from './Modal';
