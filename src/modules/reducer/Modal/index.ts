@@ -29,13 +29,11 @@ export const reset = () => ({
 export type ModalState = {
   error: ErrorType;
   modal: ModalType;
-  errorType: string;
 };
 
 export const initialState: ModalState = {
   error: '',
   modal: '',
-  errorType: '',
 };
 
 export type ModalActionType =

@@ -65,13 +65,19 @@ export const InfoTitle = styled.li`
 export const FileBox = styled.div`
   flex: 1;
   width: calc(100% - 85px);
-  overflow: scroll;
+  overflow: auto;
   display: flex;
   flex-direction: column;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   &::-webkit-scrollbar {
-    display: none;
+    width: 2px;
+    height: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f9f9f9;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+    border-radius: 16px;
   }
 `;
 
@@ -92,6 +98,23 @@ export const File = styled.a`
   & + & {
     margin-top: 10px;
   }
+`;
+
+export const LeaderText = styled.span`
+  font-size: 13px;
+  line-height: 13px;
+  height: 16px;
+  font-weight: 600;
+  color: #505bff;
+`;
+
+export const TeamText = styled.span`
+  font-size: 13px;
+  line-height: 13px;
+  height: 16px;
+  font-weight: 500;
+  color: #000000;
+  margin-left: 4px;
 `;
 
 export const PostContentBox = styled.section`

@@ -5,6 +5,7 @@ import { stateChange } from '../../../../lib/function';
 import HeaderButton from './HeaderButton';
 import HeaderSearch from './HeaderSearch';
 import HeaderUserButton from './HeaderUserButton';
+import { Link } from 'react-router-dom';
 
 const Header: FC = () => {
   const modalChange = stateChange(setModal);
@@ -12,12 +13,14 @@ const Header: FC = () => {
     <S.Header>
       <div className='header'>
         <div className='wrapper'>
-          <S.HeaderTitle>SCARFS</S.HeaderTitle>
+          <Link to='/'>
+            <S.HeaderTitle>SCARFS</S.HeaderTitle>
+          </Link>
           <HeaderSearch />
-          <HeaderButton>메인</HeaderButton>
-          <HeaderButton>공지사항</HeaderButton>
-          <HeaderButton>과제</HeaderButton>
-          <HeaderButton>게시판</HeaderButton>
+          <HeaderButton link='/'>메인</HeaderButton>
+          <HeaderButton link='/board/notice'>공지사항</HeaderButton>
+          <HeaderButton link='/board/assignment-guide'>과제</HeaderButton>
+          <HeaderButton link='/board/class'>게시판</HeaderButton>
         </div>
         <S.HeaderUserButtonWrapper>
           <HeaderUserButton onClick={modalChange} value='SignIn'>
