@@ -11,9 +11,9 @@ export interface TeamSubject extends SubjectCommon {
 export const dummyTeam1: Team = {
   team_assignment: Array(3)
     .fill(0)
-    .map(() => {
+    .map((_, i) => {
       return {
-        id: 4,
+        id: 4 + i,
         title: '정우영의 전구공장4',
         description: 'description of homework',
         created_at: new Date().getTime() - 3600,
@@ -69,9 +69,9 @@ export const dummyTeam1: Team = {
 export const dummyTeam2: Team = {
   team_assignment: Array(3)
     .fill(0)
-    .map(() => {
+    .map((_, i) => {
       return {
-        id: 4,
+        id: 4 + i,
         title: '정우영의 전구공장4',
         description: 'description of homework',
         created_at: new Date().getTime() - 3600,
@@ -127,9 +127,9 @@ export const dummyTeam2: Team = {
 export const dummyTeam3: Team = {
   team_assignment: Array(3)
     .fill(0)
-    .map(() => {
+    .map((_, i) => {
       return {
-        id: 4,
+        id: 4 + i,
         title: '정우영의 전구공장4',
         description: 'description of homework',
         created_at: new Date().getTime() - 3600,
@@ -185,9 +185,9 @@ export const dummyTeam3: Team = {
 export const dummyTeam4: Team = {
   team_assignment: Array(3)
     .fill(0)
-    .map(() => {
+    .map((_, i) => {
       return {
-        id: 4,
+        id: 4 + i,
         title: '정우영의 전구공장4',
         description: 'description of homework',
         created_at: new Date().getTime() - 3600,

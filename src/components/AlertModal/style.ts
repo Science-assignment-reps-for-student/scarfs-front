@@ -27,7 +27,7 @@ export const AlertTitle = styled.p`
   }
 `;
 
-export const AlertExplain = styled.p`
+export const AlertExplain = styled.div`
   max-height: 160px;
   margin: 16px 0;
   overflow-y: scroll;
