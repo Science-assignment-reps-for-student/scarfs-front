@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { useRouteMatch, Redirect } from 'react-router-dom';
+import React, { FC } from 'react';
+import { useParams, Redirect } from 'react-router-dom';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
 
@@ -30,7 +30,7 @@ const board = {
 };
 
 const AssignmentDetailPost: FC = () => {
-  const paramId = Number(useRouteMatch<{ id: string }>().params.id);
+  const paramId = Number(useParams<{ id: string }>().id);
   if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
   return (
     <>
