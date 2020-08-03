@@ -26,48 +26,30 @@ const QuestionOne: FC<Props> = ({
   );
   const [communicationScore, setCommunicationScore] = useState<number>(communication);
   const [cooperationScore, setCooperationScore] = useState<number>(cooperation);
-  const getScientificAccuracyScoreCheckButtons = useCallback(() => {
+  const state = {
+    scientific: scientificAccuracyScore,
+    communication: communicationScore,
+    cooperation: cooperationScore,
+  };
+  const setMethod = {
+    scientific: setScientificAccuracyScore,
+    communication: setCommunicationScore,
+    cooperation: setCooperationScore,
+  };
+  const getScoreCheckButtonsByType = (type: 'scientific' | 'communication' | 'cooperation') => {
     const buffer = [];
     for (let i = 3; i >= 1; i--) {
       buffer.push(
         <S.ScoreCheckButton
-          key={`scientific_${i}`}
-          onClick={!studentNo ? () => setScientificAccuracyScore(i) : () => {}}
+          key={`${type}${i}`}
+          onClick={!studentNo ? () => setMethod[type](i) : () => {}}
         >
-          {scientificAccuracyScore === i && <S.BlackDot />}
+          {state[type] === i && <S.BlackDot />}
         </S.ScoreCheckButton>,
       );
     }
     return buffer;
-  }, [scientificAccuracyScore]);
-  const getCommunicationScoreCheckButtons = useCallback(() => {
-    const buffer = [];
-    for (let i = 3; i >= 1; i--) {
-      buffer.push(
-        <S.ScoreCheckButton
-          key={`communication_${i}`}
-          onClick={!studentNo ? () => setCommunicationScore(i) : () => {}}
-        >
-          {communicationScore === i && <S.BlackDot />}
-        </S.ScoreCheckButton>,
-      );
-    }
-    return buffer;
-  }, [communicationScore]);
-  const getCooperationScoreCheckButtons = useCallback(() => {
-    const buffer = [];
-    for (let i = 3; i >= 1; i--) {
-      buffer.push(
-        <S.ScoreCheckButton
-          key={`cooperation_${i}`}
-          onClick={!studentNo ? () => setCooperationScore(i) : () => {}}
-        >
-          {cooperationScore === i && <S.BlackDot />}
-        </S.ScoreCheckButton>,
-      );
-    }
-    return buffer;
-  }, [cooperationScore]);
+  };
   return (
     <>
       <S.FormHeader>
@@ -97,7 +79,7 @@ const QuestionOne: FC<Props> = ({
                   실험 내용과 관련 과학 내용을 정확히 이해하고 있는가?
                 </S.QuestionExplain>
               </S.LeftAside>
-              <S.RightAside>{getScientificAccuracyScoreCheckButtons()}</S.RightAside>
+              <S.RightAside>{getScoreCheckButtonsByType('scientific')}</S.RightAside>
             </div>
             <div>
               <S.LeftAside>
@@ -107,7 +89,7 @@ const QuestionOne: FC<Props> = ({
                   활동에 기여 하였는가?
                 </S.QuestionExplain>
               </S.LeftAside>
-              <S.RightAside>{getCommunicationScoreCheckButtons()}</S.RightAside>
+              <S.RightAside>{getScoreCheckButtonsByType('communication')}</S.RightAside>
             </div>
             {type === 'self' && (
               <div>
@@ -117,7 +99,7 @@ const QuestionOne: FC<Props> = ({
                     모둠 활동에 적극적으로 참여하였으며, 맡은 역할을 충실히 참여하였는가?
                   </S.QuestionExplain>
                 </S.LeftAside>
-                <S.RightAside>{getCooperationScoreCheckButtons()}</S.RightAside>
+                <S.RightAside>{getScoreCheckButtonsByType('cooperation')}</S.RightAside>
               </div>
             )}
           </S.QuestionBox>
