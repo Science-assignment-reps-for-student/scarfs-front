@@ -3,6 +3,7 @@ export { ClassBoardContainer } from './ClassBoard';
 export { NoticeBoardContainer } from './NoticeBoard';
 export {
   AssignmentDetailPostContainer,
+  ClassDetailPostContainer,
   NoticeDetailPostContainer,
   EvaluationContainer,
 } from './DetailPost';

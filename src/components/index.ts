@@ -3,6 +3,7 @@ export {
   ClassBoard,
   NoticeBoard,
   AssignmentDetailPost,
+  ClassDetailPost,
   NoticeDetailPost,
   Evaluation,
 } from './Board';
