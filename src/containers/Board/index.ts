@@ -1,4 +1,8 @@
 export { AssignmentGuideBoardContainer } from './AssignmentGuideBoard';
 export { ClassBoardContainer } from './ClassBoard';
 export { NoticeBoardContainer } from './NoticeBoard';
-export { AssignmentDetailPostContainer, NoticeDetailPostContainer } from './DetailPost';
+export {
+  AssignmentDetailPostContainer,
+  NoticeDetailPostContainer,
+  EvaluationContainer,
+} from './DetailPost';
