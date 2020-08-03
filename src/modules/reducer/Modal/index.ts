@@ -3,7 +3,13 @@ export const MODAL = 'Modal/MODAL' as const;
 export const RESET = 'Modal/RESET' as const;
 export const ERROR_MESSAGE = 'Modal/ERROR_MESSAGE' as const;
 
-export type ModalType = 'SignUpCode' | 'SignUpInfo' | 'SignIn' | 'SignUpEmail' | '';
+export type ModalType =
+  | 'SignUpCode'
+  | 'SignUpInfo'
+  | 'SignIn'
+  | 'SignUpEmail'
+  | 'AddTeamMember'
+  | '';
 export type ErrorType =
   | 'CodeError'
   | 'SignInError'
