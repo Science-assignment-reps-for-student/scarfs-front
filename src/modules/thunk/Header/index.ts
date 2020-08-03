@@ -1,11 +1,11 @@
 import { RESET, MODAL, ERROR } from '../../reducer/Modal';
-import { ALL, LOADING, REFRESH_TOKEN_SUCCESS } from '../../reducer/Header';
+import { ALL, IS_LOGIN, LOADING, REFRESH_TOKEN_SUCCESS } from '../../reducer/Header';
 import {
   signin,
   SignInThunkType,
   SignInResponseType,
   RefreshTokenThunkType,
-  refreshToken,
+  sendRefreshToken,
 } from '../../../lib/api/Header/signin';
 import { EMAIL_CHECK } from '../../../modules/reducer/SignUp';
 import {
@@ -76,7 +76,6 @@ export const emailSendThunk = () => {
     } catch (err) {
       dispatch({ type: ERROR, payload: 'SignUpEmailError' });
     }
-    dispatch({ type: LOADING, payload: false });
   };
 };
 
@@ -85,7 +84,7 @@ export const refreshTokenThunk = () => {
     if (params.loading) return;
     dispatch({ type: LOADING, payload: true });
     try {
-      const response = await refreshToken(params.serverType);
+      const response = await sendRefreshToken(params.serverType);
       dispatch({
         type: REFRESH_TOKEN_SUCCESS,
         payload: {
@@ -94,7 +93,8 @@ export const refreshTokenThunk = () => {
         },
       });
     } catch (err) {
-      dispatch({ type: err, payload: '' });
+      dispatch({ type: IS_LOGIN, payload: false });
+      dispatch({ type: MODAL, payload: 'SignIn' });
     }
   };
 };

@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { sendRefreshToken } from 'src/modules/reducer/Header';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
 
@@ -16,7 +17,7 @@ export const getStateCallback = <ReturnType>(stateName: string) => (
   return selectedStaet;
 };
 
-export const stateChange = <ValueType>(actionFunc: (ValueType) => any) => {
+export const stateChange = <ValueType>(actionFunc: (value: ValueType) => any) => {
   const dispatch = useDispatch();
   return (value?: ValueType) => {
     dispatch(actionFunc(value));
