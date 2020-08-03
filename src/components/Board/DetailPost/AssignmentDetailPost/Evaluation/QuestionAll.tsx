@@ -2,57 +2,43 @@ import React, { FC, useState, useCallback } from 'react';
 import * as S from './style';
 
 const QuestionAll: FC = () => {
-  const [s1, setS1] = useState<{
+  const [student1, setStudent1] = useState<{
     communication: number;
     cooperation: number;
   }>({ communication: 0, cooperation: 0 });
-  const [s2, setS2] = useState<{
+  const [student2, setStudent2] = useState<{
     communication: number;
     cooperation: number;
   }>({ communication: 0, cooperation: 0 });
-  const getS1ScoreCheckButtonsByQuestion = useCallback(
-    (question: 'communication' | 'cooperation') => {
+  const setMethod = {
+    student1: setStudent1,
+    student2: setStudent2,
+  };
+  const state = {
+    student1: student1,
+    student2: student2,
+  };
+  const getScoreCheckButtonsByQeustionAndType = useCallback(
+    (question: 'communication' | 'cooperation', type: 'student1' | 'student2') => {
       const buffer = [];
       for (let i = 3; i >= 1; i--) {
         buffer.push(
           <S.ScoreCheckButton
-            key={`s1_${question}_${i}`}
+            key={`${type}_${question}_${i}`}
             onClick={() =>
-              setS1({
-                ...s1,
+              setMethod[type]({
+                ...state[type],
                 [question]: i,
               })
             }
           >
-            {s1[question] === i && <S.BlackDot />}
+            {state[type][question] === i && <S.BlackDot />}
           </S.ScoreCheckButton>,
         );
       }
       return buffer;
     },
-    [s1],
-  );
-  const getS2ScoreCheckButtonsByQuestion = useCallback(
-    (question: 'communication' | 'cooperation') => {
-      const buffer = [];
-      for (let i = 3; i >= 1; i--) {
-        buffer.push(
-          <S.ScoreCheckButton
-            key={`s1_${question}_${i}`}
-            onClick={() =>
-              setS2({
-                ...s1,
-                [question]: i,
-              })
-            }
-          >
-            {s2[question] === i && <S.BlackDot />}
-          </S.ScoreCheckButton>,
-        );
-      }
-      return buffer;
-    },
-    [s2],
+    [student1, student2],
   );
   return (
     <>
@@ -82,7 +68,9 @@ const QuestionAll: FC = () => {
                   실험 과정과 결과 등을 다른 모둠원에게 쉽게 설명할 수 있는가?
                 </S.QuestionExplain>
               </S.LeftAside>
-              <S.RightAside>{getS1ScoreCheckButtonsByQuestion('communication')}</S.RightAside>
+              <S.RightAside>
+                {getScoreCheckButtonsByQeustionAndType('communication', 'student1')}
+              </S.RightAside>
             </div>
             <div>
               <S.LeftAside>
@@ -91,7 +79,9 @@ const QuestionAll: FC = () => {
                   실험에 적극적으로 참여하였으며 맡은 역할을 충실히 참여하였는가?
                 </S.QuestionExplain>
               </S.LeftAside>
-              <S.RightAside>{getS1ScoreCheckButtonsByQuestion('cooperation')}</S.RightAside>
+              <S.RightAside>
+                {getScoreCheckButtonsByQeustionAndType('cooperation', 'student1')}
+              </S.RightAside>
             </div>
           </S.QuestionBox>
           <S.QuestionBox>
@@ -106,7 +96,9 @@ const QuestionAll: FC = () => {
                   실험 과정과 결과 등을 다른 모둠원에게 쉽게 설명할 수 있는가?
                 </S.QuestionExplain>
               </S.LeftAside>
-              <S.RightAside>{getS2ScoreCheckButtonsByQuestion('communication')}</S.RightAside>
+              <S.RightAside>
+                {getScoreCheckButtonsByQeustionAndType('communication', 'student2')}
+              </S.RightAside>
             </div>
             <div>
               <S.LeftAside>
@@ -115,7 +107,9 @@ const QuestionAll: FC = () => {
                   실험에 적극적으로 참여하였으며 맡은 역할을 충실히 참여하였는가?
                 </S.QuestionExplain>
               </S.LeftAside>
-              <S.RightAside>{getS2ScoreCheckButtonsByQuestion('cooperation')}</S.RightAside>
+              <S.RightAside>
+                {getScoreCheckButtonsByQeustionAndType('cooperation', 'student2')}
+              </S.RightAside>
             </div>
           </S.QuestionBox>
         </S.ContentHeader>
