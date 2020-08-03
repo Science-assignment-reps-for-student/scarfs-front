@@ -1,11 +1,18 @@
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import * as S from '../../style';
 
-const TaskButton: FC = () => {
+interface Props {
+  link: string;
+}
+
+const TaskButton: FC<Props> = ({ link }) => {
   return (
-    <S.TaskListComponentAddButton>
-      <p>+ 더보기</p>
-    </S.TaskListComponentAddButton>
+    <Link to={link}>
+      <S.TaskListComponentAddButton>
+        <p>+ 더보기</p>
+      </S.TaskListComponentAddButton>
+    </Link>
   );
 };
 

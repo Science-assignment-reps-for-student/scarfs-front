@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { apiDefault, getApiDefault } from '../client';
-import { Team } from 'src/modules/reducer/Admin/adminTeam';
-import { Personal } from 'src/modules/reducer/Admin/adminPersonal';
-import { Experiment } from 'src/modules/reducer/Admin/adminExperiment';
 import { useHistory } from 'react-router-dom';
+import { apiDefault, getApiDefault } from '../client';
+import { Team } from '../../../modules/reducer/Admin/adminTeam';
+import { Personal } from '../../../modules/reducer/Admin/adminPersonal';
+import { Experiment } from '../../../modules/reducer/Admin/adminExperiment';
 
 export const getAssignmentPersonal = (classNum: number) => {
   return getApiDefault().get<Personal>(`/admin/personal-assignment?class=${classNum}`);

@@ -5,6 +5,7 @@ export {
   AdminHeaderContainer,
   AdminLoginContainer,
   AdminQnAContainer,
+  AdminSignUpContainer,
 } from './Admin';
 export { MainContainer } from './Main';
 export {

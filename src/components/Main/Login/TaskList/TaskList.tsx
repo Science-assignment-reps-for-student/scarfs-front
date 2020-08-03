@@ -54,7 +54,7 @@ const TaskList: FC<Props> = ({ taskListType, isNotice, getTask }) => {
       <TaskHeader taskListType={taskListType} />
       <S.TaskList>
         {isNotice ? setBoardComponents() : setAssignmentComponents()}
-        <TaskButton />
+        <TaskButton link={isNotice ? '/board/class' : '/board/assignment-guide'} />
       </S.TaskList>
     </div>
   );

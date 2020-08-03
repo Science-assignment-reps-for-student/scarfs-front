@@ -9,10 +9,10 @@ interface Props {
 const AdminQnAModal: FC<Props> = ({ onClickToggleModal }): ReactElement => {
   return (
     <S.ModalHeader>
-      <S.HeaderCloseWrap className='close'>
+      <S.HeaderCloseWrap>
         <S.HeaderClose src={close} alt='close' title='close' onClick={onClickToggleModal} />
       </S.HeaderCloseWrap>
-      <S.HeaderInputWrap className='inputWrap'>
+      <S.HeaderInputWrap>
         <S.HeaderInputInner>
           <img src={search} alt='search' title='search' />
           <S.HeaderInput type='text' placeholder='학번이나 이름으로 검색하세요.' />

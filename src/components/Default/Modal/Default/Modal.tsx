@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { reset, setModal } from '../../../../modules/reducer/Modal';
+import { reset } from '../../../../modules/reducer/Modal';
 import { stateChange } from '../../../../lib/function';
 import * as S from '../style';
 
@@ -8,10 +8,8 @@ interface Props {
 }
 
 const Modal: FC<Props> = ({ children }) => {
-  const deleteModal = stateChange(setModal);
   const resetModal = stateChange(reset);
   const deleteButtonClickHandler = useCallback(() => {
-    deleteModal('');
     resetModal();
   }, []);
   return (

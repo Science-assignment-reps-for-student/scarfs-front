@@ -24,6 +24,8 @@ type AlertAction =
   | ReturnType<typeof resetReturnValue>
   | ReturnType<typeof setReturnValue>;
 
+export type AlertModalTypes = 'notify' | 'warn';
+
 export type AlertState = {
   isShow: boolean;
   returnValue: boolean | undefined;

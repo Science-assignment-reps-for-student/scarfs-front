@@ -1,10 +1,19 @@
-import React, { FC } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { BoardRouter } from './';
 import { HeaderContainer, MainContainer, WaveContainer, ModalContainer } from '../containers';
 import { Banner } from './style';
+import { stateChange, getStateCallback } from '../lib/function';
+import ModalState, { reset, ModalType } from '../modules/reducer/Modal';
+import { useSelector } from 'react-redux';
 
 const UserRouter: FC = () => {
+  const location = useLocation();
+  const closeModal = stateChange(reset);
+  const { modal } = useSelector(getStateCallback<ModalState>('Modal'));
+  useEffect(() => {
+    if (modal) closeModal();
+  }, [location]);
   return (
     <>
       <HeaderContainer />
