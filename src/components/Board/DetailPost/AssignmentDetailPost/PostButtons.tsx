@@ -12,6 +12,7 @@ const PostButtons: FC<Props> = ({ type }) => {
   const history = useHistory();
   const goNoticeList = () => history.push('../assignment-guide');
   const openModal = stateChange(setModal);
+  const openPeerEvaluationModal = () => openModal('PeerEvaluation');
   const openAddTeamMemberModal = () => openModal('AddTeamMember');
   return (
     <S.PostFooterWrapper>
@@ -25,7 +26,12 @@ const PostButtons: FC<Props> = ({ type }) => {
           >
             팀원추가
           </S.Button>
-          <S.Button borderColor='#505BFF' bgColor='#ffffff' fontColor='#505BFF'>
+          <S.Button
+            borderColor='#505BFF'
+            bgColor='#ffffff'
+            fontColor='#505BFF'
+            onClick={openPeerEvaluationModal}
+          >
             상호평가
           </S.Button>
         </S.ButtonBox>
