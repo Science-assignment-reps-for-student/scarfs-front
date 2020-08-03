@@ -19,31 +19,26 @@ interface Props {
 }
 
 const Evaluation: FC<Props> = ({ submitSelf, submitMutal }) => {
-  class Submit {
-    static self() {
-      submitSelf();
-    }
-    static mutal() {
-      submitMutal();
-    }
-    static all() {
-      submitMutal();
-    }
-  }
   const { type, target } = queryString.parse(location.search);
   if (types.indexOf(type as string) === -1 || typeof target === 'object')
     return <Redirect to='/error' />;
+  const evaluationType = type as string;
+  const submitMethod = {
+    self: submitSelf,
+    mutal: submitMutal,
+    all: submitMutal,
+  };
   return (
     <>
       <Header />
       <EvaluationFormWrapper>
-        {(type as string) === 'all' && <QuestionAll />}
-        {((type as string) === 'mutual' || (type as string) === 'self') && (
-          <QuestionOne type={type as string} submitStatus={submitStatus} />
+        {evaluationType === 'all' && <QuestionAll />}
+        {(evaluationType === 'mutual' || evaluationType === 'self') && (
+          <QuestionOne type={evaluationType} submitStatus={submitStatus} />
         )}
       </EvaluationFormWrapper>
       {!!submitStatus.studentNo && (
-        <SubmitButton onClick={Submit[type as string]}>제출하기</SubmitButton>
+        <SubmitButton onClick={submitMethod[evaluationType]}>제출하기</SubmitButton>
       )}
     </>
   );
