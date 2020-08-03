@@ -27,6 +27,13 @@ const AlertModal: FC<Props> = ({ type, children }): ReactElement => {
     dispatch(deleteAlert());
   };
 
+  const separateExplain = (explain: string) => {
+    return explain
+      .split('.')
+      .filter((value: string) => value)
+      .map((sentence: string, i: number) => <p key={sentence + i}>{sentence}.</p>);
+  };
+
   useEffect(() => {
     return () => {
       dispatch(resetReturnValue());
@@ -41,10 +48,10 @@ const AlertModal: FC<Props> = ({ type, children }): ReactElement => {
           <NotifyModal
             onClickCheck={onClickCheck}
             onClickCancel={onClickCancel}
-            explain={explain}
+            explain={separateExplain(explain)}
           />
         ) : (
-          <WarnModal onClickCheck={onClickCheck} explain={explain} />
+          <WarnModal onClickCheck={onClickCheck} explain={separateExplain(explain)} />
         ))}
       {children}
     </div>
