@@ -170,6 +170,7 @@ export const ModifyTeamMemberButton = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 0;
+  outline: none;
 `;
 
 export const TextWrapper = styled.div`
