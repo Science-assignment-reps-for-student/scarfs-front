@@ -1,4 +1,10 @@
-export { AssignmentGuideBoard, ClassBoard, NoticeBoard, NoticeDetailPost } from './Board';
+export {
+  AssignmentGuideBoard,
+  ClassBoard,
+  NoticeBoard,
+  AssignmentDetailPost,
+  NoticeDetailPost,
+} from './Board';
 export { default as Admin } from './Admin/AdminMain/Admin';
 export { default as AdminHeader } from './Admin/AdminHeader/AdminHeader';
 export { default as AdminLogin } from './Admin/AdminLogin/AdminLogin';
