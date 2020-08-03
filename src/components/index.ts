@@ -4,6 +4,7 @@ export {
   NoticeBoard,
   AssignmentDetailPost,
   NoticeDetailPost,
+  Evaluation,
 } from './Board';
 export { default as Admin } from './Admin/AdminMain/Admin';
 export { default as AdminHeader } from './Admin/AdminHeader/AdminHeader';
