@@ -147,8 +147,6 @@ export const BlackDot = styled.div`
   border-radius: 50%;
 `;
 
-//////////////////////////////
-
 export const SubmitButton = styled.button`
   width: 117px;
   height: 41px;
