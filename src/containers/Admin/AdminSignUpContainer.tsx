@@ -11,7 +11,12 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { AlertModal, AdminSignUp } from '../../components';
-import { SignUp, signUpReducer, signUpInit, SignUpAction } from '../../modules/reducer/AdminSignUp';
+import {
+  SignUp,
+  signUpReducer,
+  signUpInit,
+  SignUpAction,
+} from '../../modules/reducer/AdminSignUp/reducer';
 import { createAlert } from '../../modules/reducer/Alert';
 import { apiSignUp } from '../../lib/api/Admin/signUp';
 
