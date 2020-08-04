@@ -17,3 +17,4 @@ export {
   NoticeDetailPostContainer,
   EvaluationContainer,
 } from './Board';
+export { ChattingContainer } from './Chatting';
