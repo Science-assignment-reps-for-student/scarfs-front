@@ -1,5 +1,5 @@
+import { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
-import { sendRefreshToken } from 'src/modules/reducer/Header';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
 
@@ -44,4 +44,13 @@ export const getModalErrorText = (error: ErrorType) => {
     default:
       return '';
   }
+};
+
+export const isNetworkError = (error: AxiosError | null): boolean => {
+  if (!error) return;
+  const errorJson = error.toJSON() as { message: string };
+  if (errorJson.message === 'Network Error') {
+    return true;
+  }
+  return false;
 };

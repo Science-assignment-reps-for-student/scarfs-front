@@ -4,7 +4,7 @@ import * as S from '../../style';
 import UserInfoTask from './UserInfoTask';
 import UserInfoButton from './UserInfoButton';
 import { getUserInfo, MainState } from '../../../../modules/reducer/Main';
-import { stateChange, getStateCallback } from '../../../../lib/function';
+import { stateChange, getStateCallback, isNetworkError } from '../../../../lib/function';
 import { HeaderState, sendRefreshToken } from '../../../../modules/reducer/Header';
 
 const UserInfo: FC = () => {
@@ -31,6 +31,7 @@ const UserInfo: FC = () => {
   }, []);
   useEffect(() => {
     if (!error) return;
+    if (isNetworkError(error)) return;
     const statusCode = error.response.status;
     serverErrorHandler(statusCode);
   }, [error]);
