@@ -8,6 +8,7 @@ export const Body = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 100px;
 `;
 
 export const Wrapper = styled.div<{ margin: number }>`

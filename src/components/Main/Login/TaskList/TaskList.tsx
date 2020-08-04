@@ -2,7 +2,7 @@ import React, { FC, useEffect, useCallback } from 'react';
 import * as S from '../../style';
 import { useSelector } from 'react-redux';
 import { TaskButton, TaskHeader, TaskListComponent, ErrorListComponent } from '.';
-import { stateChange, getStateCallback } from '../../../../lib/function/index';
+import { stateChange, getStateCallback, isNetworkError } from '../../../../lib/function';
 import { MainState } from '../../../../modules/reducer/Main';
 import { HeaderState, sendRefreshToken } from '../../../../modules/reducer/Header';
 import { RefreshTokenThunkType } from 'lib/api/Header/signin';
@@ -36,6 +36,7 @@ const TaskList: FC<Props> = ({ taskListType, isNotice, getTask }) => {
   }, []);
   useEffect(() => {
     if (!error) return;
+    if (isNetworkError(error)) return;
     const status = error.response.status;
     serverErrorHandler(status);
   }, [error]);
@@ -56,6 +57,7 @@ const TaskList: FC<Props> = ({ taskListType, isNotice, getTask }) => {
     return buffer;
   }, [isNotice, boardPreview]);
   const setAssignmentComponents = useCallback((): React.ReactNode => {
+    if (isNetworkError(error)) return <ErrorListComponent />;
     if (!boardPreview) return <ErrorListComponent />;
     const buffer = [];
     for (let i: number = 0; i < 3; i++) {
@@ -70,7 +72,7 @@ const TaskList: FC<Props> = ({ taskListType, isNotice, getTask }) => {
       );
     }
     return buffer;
-  }, [isNotice, assignmentPreview]);
+  }, [isNotice, assignmentPreview, error]);
   useEffect(() => {
     getTaskChange();
   }, []);
