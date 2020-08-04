@@ -13,6 +13,7 @@ export {
   ClassBoardContainer,
   NoticeBoardContainer,
   AssignmentDetailPostContainer,
+  ClassDetailPostContainer,
   NoticeDetailPostContainer,
   EvaluationContainer,
 } from './Board';

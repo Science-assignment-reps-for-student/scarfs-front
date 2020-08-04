@@ -5,6 +5,7 @@ import {
   ClassBoardContainer,
   NoticeBoardContainer,
   AssignmentDetailPostContainer,
+  ClassDetailPostContainer,
   NoticeDetailPostContainer,
   EvaluationContainer,
 } from '../containers';
@@ -22,6 +23,7 @@ const BoardRouter: FC = () => {
           component={EvaluationContainer}
         />
         <Route exact path='/board/class' component={ClassBoardContainer} />
+        <Route exact path='/board/class/:id' component={ClassDetailPostContainer} />
         <Route exact path='/board/notice' component={NoticeBoardContainer} />
         <Route exact path='/board/notice/:id' component={NoticeDetailPostContainer} />
         <Redirect path='*' to='/error' />

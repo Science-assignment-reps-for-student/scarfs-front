@@ -1,3 +1,9 @@
 export { AssignmentDetailPost } from './AssignmentDetailPost';
+export { ClassDetailPost } from './ClassDetailPost';
 export { NoticeDetailPost } from './NoticeDetailPost';
-export { PeerEvaluationModal, AddTeamMemberModal, Evaluation } from './AssignmentDetailPost';
+export {
+  FileSubmitModal,
+  PeerEvaluationModal,
+  AddTeamMemberModal,
+  Evaluation,
+} from './AssignmentDetailPost';

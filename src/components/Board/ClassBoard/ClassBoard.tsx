@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react';
 import { CardView } from '../Default';
 import { BoardHeader, TableView, PaginationBar } from '../Default';
 import { ClassCard, ClassTableItem } from './';
+import * as S from './style';
+import { useHistory } from 'react-router-dom';
 
 const dummyBoards = [
   {
@@ -82,6 +84,7 @@ const boards = dummyBoards.map(board => ({
 }));
 
 const ClassBoard: FC = () => {
+  const history = useHistory();
   const [isTableView, setIsTableView] = useState(true);
   return (
     <>
@@ -100,7 +103,10 @@ const ClassBoard: FC = () => {
       ) : (
         <CardView boards={boards} CardTemplate={ClassCard} />
       )}
-      <PaginationBar />
+      <S.Footer>
+        <PaginationBar />
+        <S.Button onClick={() => history.push('/board/class/write')}>게시물작성</S.Button>
+      </S.Footer>
     </>
   );
 };
