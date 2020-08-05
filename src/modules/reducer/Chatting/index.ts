@@ -3,6 +3,8 @@ import { AxiosError } from 'axios';
 export const PARTNER = 'Chatting/PARTNER' as const;
 export const CHATTING_LIST = 'Chatting/CHATTING_LIST' as const;
 export const ERROR = 'Chatting/ERROR' as const;
+export const INPUT = 'Chatting/INPUT' as const;
+export const IS_ABLE = 'Chatting/IS_ABLE' as const;
 
 export type ChattingContentType = {
   text: string;
@@ -24,22 +26,38 @@ export const setError = (payload: AxiosError) => ({
   payload,
 });
 
+export const setInput = (payload: string) => ({
+  type: INPUT,
+  payload,
+});
+
+export const setIsAble = (payload: boolean) => ({
+  type: IS_ABLE,
+  payload,
+});
+
 export type ChattingState = {
   partner: string;
   chattingList: ChattingContentType[];
+  input: string;
   error: AxiosError | null;
+  isAble: boolean;
 };
 
 export const initialState: ChattingState = {
-  partner: '',
+  partner: '박지연 선생님',
   chattingList: [],
+  input: '',
   error: null,
+  isAble: false,
 };
 
 export type ChattingType =
   | ReturnType<typeof setPartner>
   | ReturnType<typeof setChattingList>
-  | ReturnType<typeof setError>;
+  | ReturnType<typeof setError>
+  | ReturnType<typeof setInput>
+  | ReturnType<typeof setIsAble>;
 
 const ChattingState = (
   state: ChattingState = initialState,
@@ -62,6 +80,18 @@ const ChattingState = (
       return {
         ...state,
         error: action.payload,
+      };
+    }
+    case INPUT: {
+      return {
+        ...state,
+        input: action.payload,
+      };
+    }
+    case IS_ABLE: {
+      return {
+        ...state,
+        isAble: action.payload,
       };
     }
     default:
