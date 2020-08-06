@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
@@ -16,7 +17,7 @@ export const getStateCallback = <ReturnType>(stateName: string) => (
   return selectedStaet;
 };
 
-export const stateChange = <ValueType>(actionFunc: (ValueType) => any) => {
+export const stateChange = <ValueType>(actionFunc: (value: ValueType) => any) => {
   const dispatch = useDispatch();
   return (value?: ValueType) => {
     dispatch(actionFunc(value));
@@ -43,6 +44,15 @@ export const getModalErrorText = (error: ErrorType) => {
     default:
       return '';
   }
+};
+
+export const isNetworkError = (error: AxiosError | null): boolean => {
+  if (!error) return;
+  const errorJson = error.toJSON() as { message: string };
+  if (errorJson.message === 'Network Error') {
+    return true;
+  }
+  return false;
 };
 
 export const readFileAsDataURL = async (file: File) => {
