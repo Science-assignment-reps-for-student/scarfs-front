@@ -16,5 +16,6 @@ export {
   ClassDetailPostContainer,
   NoticeDetailPostContainer,
   EvaluationContainer,
+  ClassBoardWriteContainer,
 } from './Board';
 export { ChattingContainer } from './Chatting';

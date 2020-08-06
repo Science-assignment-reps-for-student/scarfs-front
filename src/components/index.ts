@@ -1,6 +1,7 @@
 export {
   AssignmentGuideBoard,
   ClassBoard,
+  ClassBoardWrite,
   NoticeBoard,
   AssignmentDetailPost,
   ClassDetailPost,
