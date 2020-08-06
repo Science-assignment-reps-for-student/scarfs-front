@@ -1,18 +1,14 @@
 import React, { FC, useCallback } from 'react';
 import * as S from '../style';
 import ChattingBodyContent from './ChattingBodyContent';
-
-type chatting = {
-  text: string;
-  isMine: boolean;
-};
+import { ChattingContentType } from '../../../modules/reducer/Chatting';
 
 interface Props {
-  chattingList: chatting[];
+  chattingList: ChattingContentType[];
 }
 
 const ChattingBody: FC<Props> = ({ chattingList }) => {
-  const setChattingList = useCallback((chattingList: chatting[]) => {
+  const setChattingList = useCallback((chattingList: ChattingContentType[]) => {
     const buffer = chattingList.map(chatting => {
       const { text, isMine } = chatting;
       return <ChattingBodyContent text={text} isMine={isMine} />;
