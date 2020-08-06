@@ -9,14 +9,21 @@ import {
 import { WriteTextarea, WriteFooterButtons, ImagePreview } from './';
 import { readFileAsDataURL } from '../../../../lib/function';
 
-const WriteMain: FC = () => {
+interface Props {
+  data?: {
+    title: string;
+    content: string;
+  };
+}
+
+const WriteMain: FC<Props> = ({ data }) => {
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [imgFiles, setImgFiles] = useState<Array<File>>([]);
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState<Array<string>>([]);
+  const [title, setTitle] = useState(data.title ? data.title : '');
+  const [contents, setContents] = useState<Array<string>>([data.content ? data.content : '']);
   const titleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
@@ -27,6 +34,7 @@ const WriteMain: FC = () => {
       refValue={textareaRef}
       hasPlaceholder={true}
       setContents={setContents}
+      value={contents[0]}
     />,
   ]);
   const fileChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +84,7 @@ const WriteMain: FC = () => {
               type='text'
               placeholder='제목을 입력하세요.'
               ref={inputTitleRef}
+              value={title}
               onChange={titleChangeHandler}
             />
           </S.Box>
@@ -95,7 +104,7 @@ const WriteMain: FC = () => {
           ref={inputFileRef}
         />
       </PostMainWrapper>
-      <WriteFooterButtons />
+      <WriteFooterButtons isEditMode={data.title ? true : false} />
     </>
   );
 };
