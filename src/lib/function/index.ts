@@ -63,12 +63,3 @@ export const readFileAsDataURL = async (file: File) => {
   });
   return result as string;
 };
-
-export const isNetworkError = (error: AxiosError | null): boolean => {
-  if (!error) return;
-  const errorJson = error.toJSON() as { message: string };
-  if (errorJson.message === 'Network Error') {
-    return true;
-  }
-  return false;
-};
