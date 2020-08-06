@@ -4,8 +4,9 @@ import { Modal } from '../../Modal';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 const PeerEvaluationModal: FC<{}> = () => {
+  const PARAM_ID_INDEX = 3;
   const history = useHistory();
-  const paramId = location.pathname.split('/')[3];
+  const paramId = location.pathname.split('/')[PARAM_ID_INDEX];
   return (
     <Modal>
       <S.PeerEvaluationModalBox>

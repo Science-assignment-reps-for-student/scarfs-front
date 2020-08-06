@@ -4,5 +4,8 @@ import logo from './logo.png';
 import logout from './icon_logout.png';
 import background from './background.png';
 import logoutLogo from './logoutLogo.png';
+import chatting from './chatting.png';
+import deleteImg from './delete.png';
+import send from './send.png';
 
-export { calender, megaphone, logo, logout, background, logoutLogo };
+export { calender, megaphone, logo, logout, background, logoutLogo, chatting, deleteImg, send };

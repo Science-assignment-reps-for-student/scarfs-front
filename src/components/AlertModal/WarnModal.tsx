@@ -3,13 +3,13 @@ import { warning } from '../../assets/Admin';
 import * as S from './style';
 
 interface Props {
-  explain: string;
   onClickCheck: (e: MouseEvent<HTMLButtonElement>) => void;
+  explain: JSX.Element[];
 }
 
 const WarnModal: FC<Props> = ({
   onClickCheck,
-  explain = '모든 빈칸을 채워주세요.',
+  explain = '오류가 발생하였습니다. 잠시 후 다시 시도해주세요.',
 }): ReactElement => {
   return (
     <S.WarnWrap>

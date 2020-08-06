@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Logo from './Logo';
-import TaskList from './TaskList';
+import { TaskList } from './TaskList';
 import UserInfo from './UserInfo';
 import * as S from '../style';
 import { getAssignment, getBoard } from '../../../modules/reducer/Main';

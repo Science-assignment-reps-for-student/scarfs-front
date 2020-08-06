@@ -18,3 +18,4 @@ export {
   EvaluationContainer,
   ClassBoardWriteContainer,
 } from './Board';
+export { ChattingContainer } from './Chatting';
