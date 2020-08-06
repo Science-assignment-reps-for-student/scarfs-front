@@ -16,4 +16,5 @@ export {
   ClassDetailPostContainer,
   NoticeDetailPostContainer,
   EvaluationContainer,
+  ClassBoardWriteContainer,
 } from './Board';
