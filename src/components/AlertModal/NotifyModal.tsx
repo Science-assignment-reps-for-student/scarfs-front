@@ -1,4 +1,5 @@
 import React, { FC, ReactElement, MouseEvent } from 'react';
+
 import * as S from './style';
 
 import { notification } from '../../assets/Admin';
@@ -9,11 +10,7 @@ interface Props {
   explain: JSX.Element[];
 }
 
-const NotifyModal: FC<Props> = ({
-  onClickCheck,
-  onClickCancel,
-  explain = '오류가 발생하였습니다. 잠시 후 다시 시도해주세요.',
-}): ReactElement => {
+const NotifyModal: FC<Props> = ({ onClickCheck, onClickCancel, explain }): ReactElement => {
   return (
     <S.NotifyWrap>
       <S.AlertTitle>
