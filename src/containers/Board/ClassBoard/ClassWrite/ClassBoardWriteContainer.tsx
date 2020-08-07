@@ -1,8 +1,12 @@
 import React, { FC } from 'react';
-import { ClassBoardWrite } from '../../../../components';
+import { ClassBoardWrite, AlertModal } from '../../../../components';
 
 const ClassBoardWriteContainer: FC = () => {
-  return <ClassBoardWrite />;
+  return (
+    <AlertModal type='notify'>
+      <ClassBoardWrite />)
+    </AlertModal>
+  );
 };
 
 export default ClassBoardWriteContainer;
