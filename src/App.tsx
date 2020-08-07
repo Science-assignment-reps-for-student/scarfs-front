@@ -8,7 +8,7 @@ const App: FC = (): React.ReactElement => {
   const history = useHistory();
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    if (accessToken.length <= 0) {
+    if (!accessToken || accessToken.length <= 0) {
       history.push('/');
     }
   }, []);

@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { AssignmentType, BoardType, UserInfoType } from '../../../lib/api/Assignment/Assignment';
 import { getAssignmentThunk, getBoardThunk, getUserInfoThunk } from '../../thunk/Main';
 
@@ -38,7 +39,7 @@ export const setUserInfo = (payload: UserInfoType) => ({
   payload,
 });
 
-export const getAssignmentFailure = (payload: Error) => ({
+export const getAssignmentFailure = (payload: AxiosError) => ({
   type: GET_ASSIGNMENT_FAILURE,
   payload,
 });
@@ -48,7 +49,7 @@ export const getAssignmentSuccess = (payload: AssignmentType) => ({
   payload,
 });
 
-export const getBoardFailure = (payload: Error) => ({
+export const getBoardFailure = (payload: AxiosError) => ({
   type: GET_BOARD_FAILURE,
   payload,
 });
@@ -63,7 +64,7 @@ export const getUserInfoSuccess = (payload: UserInfoType) => ({
   payload,
 });
 
-export const getUserInfoFailure = (payload: Error) => ({
+export const getUserInfoFailure = (payload: AxiosError) => ({
   type: GET_USER_INFO_FAILURE,
   payload,
 });
@@ -77,7 +78,7 @@ export type MainState = {
   boardPreview: BoardType | null;
   assignmentPreview: AssignmentType | null;
   userInfo: UserInfoType;
-  error: Error | null;
+  error: AxiosError | null;
   loading: boolean;
 };
 
@@ -85,10 +86,10 @@ const initialState: MainState = {
   boardPreview: null,
   assignmentPreview: null,
   userInfo: {
-    name: '에러에러에러에러에러',
-    studentNumber: 9999,
-    remainingAssignment: 99,
-    completionAssignment: 99,
+    name: '',
+    studentNumber: 1111,
+    remainingAssignment: 0,
+    completionAssignment: 0,
   },
   error: null,
   loading: false,

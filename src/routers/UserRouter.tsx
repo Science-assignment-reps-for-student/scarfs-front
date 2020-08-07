@@ -1,10 +1,16 @@
 import React, { FC, useEffect } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { BoardRouter } from './';
-import { HeaderContainer, MainContainer, WaveContainer, ModalContainer } from '../containers';
+import {
+  HeaderContainer,
+  MainContainer,
+  WaveContainer,
+  ModalContainer,
+  ChattingContainer,
+} from '../containers';
 import { Banner } from './style';
 import { stateChange, getStateCallback } from '../lib/function';
-import ModalState, { reset, ModalType } from '../modules/reducer/Modal';
+import ModalState, { reset } from '../modules/reducer/Modal';
 import { useSelector } from 'react-redux';
 
 const UserRouter: FC = () => {
@@ -16,6 +22,7 @@ const UserRouter: FC = () => {
   }, [location]);
   return (
     <>
+      <ChattingContainer />
       <HeaderContainer />
       <ModalContainer />
       <Banner />

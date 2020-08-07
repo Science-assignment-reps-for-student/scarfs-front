@@ -5,7 +5,10 @@ import {
   ClassBoardContainer,
   NoticeBoardContainer,
   AssignmentDetailPostContainer,
+  ClassDetailPostContainer,
   NoticeDetailPostContainer,
+  EvaluationContainer,
+  ClassBoardWriteContainer,
 } from '../containers';
 import { Board } from '../components/Board/Default';
 
@@ -15,7 +18,14 @@ const BoardRouter: FC = () => {
       <Switch>
         <Route exact path='/board/assignment-guide' component={AssignmentGuideBoardContainer} />
         <Route exact path='/board/assignment-guide/:id' component={AssignmentDetailPostContainer} />
+        <Route
+          exact
+          path='/board/assignment-guide/:id/evaluation'
+          component={EvaluationContainer}
+        />
         <Route exact path='/board/class' component={ClassBoardContainer} />
+        <Route exact path='/board/class/write' component={ClassBoardWriteContainer} />
+        <Route exact path='/board/class/:id' component={ClassDetailPostContainer} />
         <Route exact path='/board/notice' component={NoticeBoardContainer} />
         <Route exact path='/board/notice/:id' component={NoticeDetailPostContainer} />
         <Redirect path='*' to='/error' />

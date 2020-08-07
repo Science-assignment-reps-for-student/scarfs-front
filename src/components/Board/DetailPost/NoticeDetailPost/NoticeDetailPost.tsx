@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
+import { useParams, Redirect } from 'react-router-dom';
 
 const board = {
   title: '잘가',
@@ -15,6 +16,8 @@ const board = {
 };
 
 const NoticeDetailPost: FC = () => {
+  const paramId = Number(useParams<{ id: string }>().id);
+  if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
   return (
     <>
       <PostHeader title='공지사항' />

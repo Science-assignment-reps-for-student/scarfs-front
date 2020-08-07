@@ -4,9 +4,11 @@ import SignUp from './SignUp';
 import SignIn from './SignIn';
 import Admin from './Admin';
 import AdminCreate from './AdminCreate';
+import AdminLogin from './AdminLogin';
 import Header from './Header';
 import Alert from './Alert';
 import Main from './Main';
+import Chatting from './Chatting';
 
 const rootReducer = combineReducers({
   Modal,
@@ -14,9 +16,11 @@ const rootReducer = combineReducers({
   SignUp,
   Admin,
   AdminCreate,
+  AdminLogin,
   Header,
   Alert,
   Main,
+  Chatting,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;

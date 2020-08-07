@@ -142,7 +142,6 @@ export const NearbyPost = styled.div`
   &:first-of-type {
     border-bottom: 1px solid #979797;
   }
-  box-sizing: border-box;
 `;
 
 export const NearbyPostTitle = styled.span`
