@@ -1,5 +1,5 @@
 export { AssignmentGuideBoardContainer } from './AssignmentGuideBoard';
-export { ClassBoardContainer } from './ClassBoard';
+export { ClassBoardContainer, ClassBoardWriteContainer } from './ClassBoard';
 export { NoticeBoardContainer } from './NoticeBoard';
 export {
   AssignmentDetailPostContainer,

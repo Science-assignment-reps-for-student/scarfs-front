@@ -54,3 +54,12 @@ export const isNetworkError = (error: AxiosError | null): boolean => {
   }
   return false;
 };
+
+export const readFileAsDataURL = async (file: File) => {
+  let result = await new Promise(resolve => {
+    let reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+  return result as string;
+};

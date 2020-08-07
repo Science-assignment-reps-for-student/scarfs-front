@@ -8,6 +8,7 @@ import {
   ClassDetailPostContainer,
   NoticeDetailPostContainer,
   EvaluationContainer,
+  ClassBoardWriteContainer,
 } from '../containers';
 import { Board } from '../components/Board/Default';
 
@@ -23,6 +24,7 @@ const BoardRouter: FC = () => {
           component={EvaluationContainer}
         />
         <Route exact path='/board/class' component={ClassBoardContainer} />
+        <Route exact path='/board/class/write' component={ClassBoardWriteContainer} />
         <Route exact path='/board/class/:id' component={ClassDetailPostContainer} />
         <Route exact path='/board/notice' component={NoticeBoardContainer} />
         <Route exact path='/board/notice/:id' component={NoticeDetailPostContainer} />
