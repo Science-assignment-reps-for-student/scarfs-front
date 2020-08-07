@@ -1,16 +1,15 @@
 import React, { FC, ReactElement, MouseEvent } from 'react';
-import { warning } from '../../assets/Admin';
+
 import * as S from './style';
+
+import { warning } from '../../assets/Admin';
 
 interface Props {
   onClickCheck: (e: MouseEvent<HTMLButtonElement>) => void;
   explain: JSX.Element[];
 }
 
-const WarnModal: FC<Props> = ({
-  onClickCheck,
-  explain = '오류가 발생하였습니다. 잠시 후 다시 시도해주세요.',
-}): ReactElement => {
+const WarnModal: FC<Props> = ({ onClickCheck, explain }): ReactElement => {
   return (
     <S.WarnWrap>
       <S.AlertTitle>
