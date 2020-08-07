@@ -35,7 +35,7 @@ export type AlertState = {
 const initialPersonal: AlertState = {
   isShow: false,
   returnValue: undefined,
-  explain: '',
+  explain: '오류가 발생하였습니다. \n 잠시 후 다시 시도해주세요.',
 };
 
 const alert = (state = initialPersonal, action: AlertAction): AlertState => {
