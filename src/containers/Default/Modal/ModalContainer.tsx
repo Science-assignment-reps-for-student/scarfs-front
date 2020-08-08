@@ -5,6 +5,7 @@ import {
   FileSubmitModal,
   PeerEvaluationModal,
   AddTeamMemberModal,
+  CommentModal,
 } from '../../../components/Board/DetailPost';
 import { ModalType, ModalState } from '../../../modules/reducer/Modal';
 import { getStateCallback } from '../../../lib/function';
@@ -20,6 +21,7 @@ const ModalContainer: FC = () => {
       {(modal as ModalType) === 'FileSubmit' && <FileSubmitModal />}
       {(modal as ModalType) === 'PeerEvaluation' && <PeerEvaluationModal />}
       {(modal as ModalType) === 'AddTeamMember' && <AddTeamMemberModal />}
+      {(modal as ModalType) === 'CommentModal' && <CommentModal />}
       {(modal as ModalType) === '' && ''}
     </>
   );
