@@ -1,11 +1,10 @@
-import React, { FC } from 'react';
-import { setModal } from '../../../../modules/reducer/Modal';
+import React, { FC, useCallback } from 'react';
 import * as S from '../style';
-import { stateChange } from '../../../../lib/function';
 import HeaderButton from './HeaderButton';
 import HeaderSearch from './HeaderSearch';
 import HeaderUserButton from './HeaderUserButton';
 import { Link } from 'react-router-dom';
+import AlertModal from '../../../../components/AlertModal/AlertModal';
 
 interface Props {
   isLogin: boolean;
@@ -17,6 +16,7 @@ interface Props {
 const Header: FC<Props> = ({ logoutHandler, modalChange, isLogin, userName }) => {
   return (
     <S.Header>
+      <AlertModal type='warn' />
       <div className='header'>
         <div className='wrapper'>
           <Link to='/'>
