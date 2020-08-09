@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ChattingState, PARTNER, INPUT } from '../../modules/reducer/Chatting';
+import { ChattingState, PARTNER, INPUT, IS_ABLE } from '../../modules/reducer/Chatting';
 import { ChattingHeader } from './Header';
 import { ChattingBody } from './Body';
 import { ChattingInput } from './Input';
@@ -16,9 +16,16 @@ const Chatting: FC = () => {
   const headerChange = (payload: string) => {
     dispatch({ type: PARTNER, payload });
   };
+  const isAbleChange = (payload: boolean) => {
+    dispatch({ type: IS_ABLE, payload });
+  };
   return (
     <S.ChattingWrapper>
-      <ChattingHeader selectedPerson={partner} headerChange={headerChange} />
+      <ChattingHeader
+        selectedPerson={partner}
+        headerChange={headerChange}
+        isAbleChange={isAbleChange}
+      />
       <ChattingBody chattingList={chattingList} />
       <ChattingInput value={input} inputChange={inputChange} />
     </S.ChattingWrapper>

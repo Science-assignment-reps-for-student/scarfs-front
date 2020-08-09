@@ -1,13 +1,12 @@
 import React, { FC, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import * as S from '../style';
-import { PARTNER } from '../../../modules/reducer/Chatting';
 interface Props {
   selectedPerson: string;
   headerChange: (value: string) => void;
+  isAbleChange: (value: boolean) => void;
 }
 
-const ChattingHeader: FC<Props> = ({ selectedPerson, headerChange }) => {
+const ChattingHeader: FC<Props> = ({ selectedPerson, headerChange, isAbleChange }) => {
   const isSelected = useCallback(
     (person: string) => {
       return selectedPerson === person ? true : false;
@@ -19,7 +18,7 @@ const ChattingHeader: FC<Props> = ({ selectedPerson, headerChange }) => {
   }, []);
   return (
     <S.ChattingHeader>
-      <S.ChattingDeleteButton />
+      <S.ChattingDeleteButton onClick={() => isAbleChange(false)} />
       <S.ChattingHeaderContent
         isSelected={isSelected('박지연 선생님')}
         onClick={() => headerChangeHandler('박지연 선생님')}
