@@ -8,13 +8,13 @@ import { HeaderState } from '../../../../modules/reducer/Header';
 interface Props {
   children: string;
   link: string;
+  isLogin: boolean;
 }
 
-const HeaderButton: FC<Props> = ({ children, link }) => {
+const HeaderButton: FC<Props> = ({ children, link, isLogin }) => {
   const history = useHistory();
-  const { accessToken } = useSelector(getStateCallback<HeaderState>('Header'));
   const buttonClickHandler = () => {
-    if (accessToken.length > 0) {
+    if (isLogin) {
       history.push(link);
     }
   };
