@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as S from '../style';
-import { getStateCallback } from '../../../../lib/function';
-import { HeaderState } from '../../../../modules/reducer/Header';
+import { createAlert } from '../../../../modules/reducer/Alert';
 
 interface Props {
   children: string;
@@ -12,11 +11,14 @@ interface Props {
 }
 
 const HeaderButton: FC<Props> = ({ children, link, isLogin }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const buttonClickHandler = () => {
     if (isLogin) {
       history.push(link);
+      return;
     }
+    dispatch(createAlert('로그인 해주세요.'));
   };
   return (
     <S.HeaderButton onClick={buttonClickHandler}>
