@@ -3,7 +3,7 @@ import * as S from '../style';
 
 interface Props {
   children: string;
-  onClick: (payload: string) => void;
+  onClick: Function;
   value: string;
 }
 
