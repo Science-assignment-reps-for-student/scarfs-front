@@ -20,7 +20,7 @@ const createRequestThunk = (type, request) => {
         type: FAILURE,
         payload: error,
       });
-      dispatch(startLoading(type));
+      dispatch(finishLoading(type));
       throw e;
     }
   };
