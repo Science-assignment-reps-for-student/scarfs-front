@@ -6,6 +6,7 @@ import * as S from './style';
 import { useHistory } from 'react-router-dom';
 import { SBone } from '../../../components/Admin/AdminMain/style';
 import { ClassBoard } from '../../../lib/api/ClassBoard';
+import { useUser } from '../../../lib/function';
 
 interface Props {
   isLoading: boolean;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
+  const { studentNumber } = useUser();
+  const studentClass = useMemo(() => studentNumber.toString().split('')[1], [studentNumber]);
   const boards = useMemo(
     () =>
       classBoard.boardResponses.map(board => ({
@@ -38,7 +41,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
         <SBone width='1280px' height='45px' />
       ) : (
         <BoardHeader
-          title='2반 게시판'
+          title={`${studentClass}반 게시판`}
           searchTitle=''
           isTableView={isTableView}
           setIsTableView={setIsTableView}
