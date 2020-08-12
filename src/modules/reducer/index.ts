@@ -9,6 +9,7 @@ import Header from './Header';
 import Alert from './Alert';
 import Main from './Main';
 import Chatting from './Chatting';
+import Loading from './Loading';
 
 const rootReducer = combineReducers({
   Modal,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   Alert,
   Main,
   Chatting,
+  Loading,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;
