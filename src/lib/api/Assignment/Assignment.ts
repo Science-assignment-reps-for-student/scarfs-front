@@ -36,13 +36,13 @@ export interface UserInfoType {
   completionAssignment: number;
 }
 
-export const getAssignment = async (): Promise<AssignmentType[]> => {
-  const response = await getApiDefault().get<AssignmentType[]>('/shank/homework');
+export const getAssignment = async (): Promise<AssignmentType> => {
+  const response = await getApiDefault().get<AssignmentType>('/shank/homework');
   return response.data;
 };
 
-export const getBoard = async (): Promise<BoardType[]> => {
-  const response = await getApiDefault().get<BoardType[]>('/shank/notice');
+export const getBoard = async (): Promise<BoardType> => {
+  const response = await getApiDefault().get<BoardType>('/shank/notice');
   return response.data;
 };
 
