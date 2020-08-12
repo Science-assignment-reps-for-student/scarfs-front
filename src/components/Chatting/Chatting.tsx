@@ -1,22 +1,33 @@
 import React, { FC } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { ChattingState, PARTNER, INPUT, IS_ABLE } from '../../modules/reducer/Chatting';
 import { ChattingHeader } from './Header';
 import { ChattingBody } from './Body';
 import { ChattingInput } from './Input';
 import * as S from './style';
-
-const chattingList = [
-  {
-    isMine: true,
-    text: '시발',
-  },
-];
+import { getStateCallback } from '../../lib/function';
 
 const Chatting: FC = () => {
+  const dispatch = useDispatch();
+  const { partner, chattingList, input } = useSelector(getStateCallback<ChattingState>('Chatting'));
+  const inputChange = (payload: string) => {
+    dispatch({ type: INPUT, payload });
+  };
+  const headerChange = (payload: string) => {
+    dispatch({ type: PARTNER, payload });
+  };
+  const isAbleChange = (payload: boolean) => {
+    dispatch({ type: IS_ABLE, payload });
+  };
   return (
     <S.ChattingWrapper>
-      <ChattingHeader selectedPerson='박지연 선생님' />
+      <ChattingHeader
+        selectedPerson={partner}
+        headerChange={headerChange}
+        isAbleChange={isAbleChange}
+      />
       <ChattingBody chattingList={chattingList} />
-      <ChattingInput />
+      <ChattingInput value={input} inputChange={inputChange} />
     </S.ChattingWrapper>
   );
 };

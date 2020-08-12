@@ -1,5 +1,5 @@
 export { AssignmentDetailPost } from './AssignmentDetailPost';
-export { ClassDetailPost } from './ClassDetailPost';
+export { ClassDetailPost, CommentModal } from './ClassDetailPost';
 export { NoticeDetailPost } from './NoticeDetailPost';
 export {
   FileSubmitModal,

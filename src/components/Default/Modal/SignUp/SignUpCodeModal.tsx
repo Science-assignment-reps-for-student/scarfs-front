@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalCodeInput, ModalEmailInput } from '../Default';
 import * as S from '../style';
@@ -57,6 +57,9 @@ const SignUpModal: FC = () => {
   }, [email, loading]);
   const isCodeOrEmailError = useCallback((error: string) => {
     return error.length > 0;
+  }, []);
+  useEffect(() => {
+    errorChange('');
   }, []);
   return (
     <Modal>

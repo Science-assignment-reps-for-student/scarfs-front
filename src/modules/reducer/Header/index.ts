@@ -5,7 +5,6 @@ import {
   emailSendThunk,
   refreshTokenThunk,
 } from '../../../modules/thunk/Header';
-import { ErrorType } from '../Modal';
 
 export const ACCESS_TOKEN = 'Header/ACCESS_TOKEN' as const;
 export const REFRESH_TOKEN = 'Header/REFRESH_TOKEN' as const;
@@ -43,7 +42,7 @@ export const signupErrorChange = (payload: string) => ({
   payload,
 });
 
-export const isLoginChange = (payload: boolean) => ({
+export const setIsLogin = (payload: boolean) => ({
   type: IS_LOGIN,
   payload,
 });
@@ -93,7 +92,7 @@ const initialState: HeaderState = {
   refreshToken: getToken('refreshToken'),
   loading: false,
   error: null,
-  isLogin: true,
+  isLogin: false,
 };
 
 export type HeaderActionType =
@@ -104,7 +103,7 @@ export type HeaderActionType =
   | ReturnType<typeof setLoading>
   | ReturnType<typeof refreshTokenSuccess>
   | ReturnType<typeof refreshTokenFailure>
-  | ReturnType<typeof isLoginChange>;
+  | ReturnType<typeof setIsLogin>;
 
 export const HeaderState = (
   state: HeaderState = initialState,

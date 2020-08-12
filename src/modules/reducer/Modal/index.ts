@@ -11,6 +11,7 @@ export type ModalType =
   | 'FileSubmit'
   | 'PeerEvaluation'
   | 'AddTeamMember'
+  | 'CommentModal'
   | '';
 export type ErrorType =
   | 'CodeError'

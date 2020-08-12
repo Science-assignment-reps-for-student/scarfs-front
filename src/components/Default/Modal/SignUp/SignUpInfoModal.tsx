@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalHalfInput } from '../Default';
 import * as S from '../style';
@@ -43,6 +43,9 @@ const SignUpInfoModal: FC = () => {
   }, []);
   const errorHandler = useCallback(() => {
     errorChange('SignInError');
+  }, []);
+  useEffect(() => {
+    errorChange('');
   }, []);
   return (
     <Modal>

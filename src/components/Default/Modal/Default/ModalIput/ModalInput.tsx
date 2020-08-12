@@ -25,6 +25,7 @@ const ModalInput: FC<Props> = ({ text, value, valueChange, type, placeholder }) 
         onChange={inputChangeHandler}
         isEmpty={isTextEmpty(value)}
         type={type}
+        value={value}
         placeholder={placeholder}
       />
     </S.ModalInputWrapper>

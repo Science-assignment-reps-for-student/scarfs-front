@@ -1,22 +1,24 @@
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as S from '../style';
-import { getStateCallback } from '../../../../lib/function';
-import { HeaderState } from '../../../../modules/reducer/Header';
+import { createAlert } from '../../../../modules/reducer/Alert';
 
 interface Props {
   children: string;
   link: string;
+  isLogin: boolean;
 }
 
-const HeaderButton: FC<Props> = ({ children, link }) => {
+const HeaderButton: FC<Props> = ({ children, link, isLogin }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
-  const { accessToken } = useSelector(getStateCallback<HeaderState>('Header'));
   const buttonClickHandler = () => {
-    if (accessToken.length > 0) {
+    if (isLogin) {
       history.push(link);
+      return;
     }
+    dispatch(createAlert('로그인 해주세요.'));
   };
   return (
     <S.HeaderButton onClick={buttonClickHandler}>

@@ -21,7 +21,7 @@ const Modal: FC<Props> = ({ children }) => {
         <S.ModalBody>{children}</S.ModalBody>
         <S.ModalSubTitle>DAEDEOK SOFTWARE MEISTER HIGH SCHOOL</S.ModalSubTitle>
       </S.Modal>
-      <S.ModalBackground />
+      <S.ModalBackground onClick={deleteButtonClickHandler} />
     </S.ModalWrapper>
   );
 };
