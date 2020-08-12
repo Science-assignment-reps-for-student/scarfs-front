@@ -20,9 +20,9 @@ export const GET_USER_INFO_FAILURE = 'MAIN/GET_USER_INFO_FAILURE' as const;
 
 export const LOADING = 'MAIN/LOADING' as const;
 
-export const getAssignment = getAssignmentThunk();
-export const getBoard = getBoardThunk();
-export const getUserInfo = () => getUserInfoThunk();
+export const getAssignment = getAssignmentThunk;
+export const getBoard = getBoardThunk;
+export const getUserInfo = getUserInfoThunk;
 
 export const setBoard = (payload: BoardType) => ({
   type: BOARD,
@@ -77,7 +77,7 @@ export const setLoading = (payload: boolean) => ({
 export type MainState = {
   boardPreview: BoardType | null;
   assignmentPreview: AssignmentType | null;
-  userInfo: UserInfoType;
+  userInfo: UserInfoType | null;
   error: AxiosError | null;
   loading: boolean;
 };
@@ -85,12 +85,7 @@ export type MainState = {
 const initialState: MainState = {
   boardPreview: null,
   assignmentPreview: null,
-  userInfo: {
-    name: '',
-    studentNumber: 1111,
-    remainingAssignment: 0,
-    completionAssignment: 0,
-  },
+  userInfo: null,
   error: null,
   loading: false,
 };
