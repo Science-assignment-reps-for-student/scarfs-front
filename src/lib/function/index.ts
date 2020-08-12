@@ -39,7 +39,7 @@ export const getModalErrorText = (error: ErrorType) => {
       return '비밀번호가 똑같지 않습니다.';
     }
     case 'SignUpEmailError': {
-      return '올바른 이메일인지 확인해 주세요';
+      return '올바른 이메일인지 확인해 주세요.';
     }
     default:
       return '';
