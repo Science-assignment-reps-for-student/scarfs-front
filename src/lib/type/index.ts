@@ -4,3 +4,10 @@ export type ErrorType = {
     status: number;
   };
 };
+
+export const errorInitialState = {
+  message: '',
+  response: {
+    status: 0,
+  },
+};
