@@ -7,11 +7,9 @@ export const CardViewWrapper = styled.div`
 export const Top = styled.div`
   display: flex;
   > div {
-    &:not(:last-child) {
-      flex: 2;
-    }
-    &:last-child {
-      flex: 1;
+    width: 486.5px;
+    &:nth-child(3) {
+      width: 287px;
     }
   }
   margin-bottom: 10px;
@@ -20,7 +18,7 @@ export const Top = styled.div`
 export const Bottom = styled.div`
   display: flex;
   > div {
-    flex: 1;
+    width: 312.5px;
   }
 `;
 
