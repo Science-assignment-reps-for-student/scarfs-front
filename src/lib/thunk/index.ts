@@ -1,6 +1,5 @@
 import { startLoading, finishLoading } from '../../modules/reducer/Loading';
-import { ErrorType } from 'src/modules/reducer/Modal';
-
+import { ErrorType } from '../../modules/reducer/Modal';
 export const createRequestThunk = (type, request) => {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
