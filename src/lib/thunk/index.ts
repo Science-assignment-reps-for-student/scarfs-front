@@ -1,7 +1,7 @@
 import { startLoading, finishLoading } from '../../modules/reducer/Loading';
 import { ErrorType } from 'src/modules/reducer/Modal';
 
-const createRequestThunk = (type, request) => {
+export const createRequestThunk = (type, request) => {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
   return params => async dispatch => {
@@ -26,4 +26,8 @@ const createRequestThunk = (type, request) => {
   };
 };
 
-export { createRequestThunk };
+export const createRequestActionTypes = (type: string) => {
+  const SUCCESS = `${type}_SUCCESS`;
+  const FAILURE = `${type}_FAILURE`;
+  return [type, SUCCESS, FAILURE];
+};
