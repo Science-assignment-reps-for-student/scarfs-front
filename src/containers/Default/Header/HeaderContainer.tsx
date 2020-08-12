@@ -25,7 +25,7 @@ const HeaderContainer: FC = () => {
       logoutHandler={logOutClickHandler}
       isLogin={isLogin}
       modalChange={modalChange}
-      userName={userInfo.name}
+      userName={userInfo ? userInfo.name : ''}
     />
   );
 };
