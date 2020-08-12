@@ -5,9 +5,8 @@ interface Props {
   date: string;
   isProgress: boolean;
   title: string;
-  isNotice: boolean;
 }
-const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
+const AssignmentTaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
   return (
     <S.TaskListComponent>
       <S.TaskListComponentHeader>
@@ -21,4 +20,4 @@ const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
   );
 };
 
-export default TaskListComponent;
+export default AssignmentTaskListComponent;
