@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   GET_ASSIGNMENT,
   GET_USER_INFO,
-  GET_BOARD,
+  GET_BOARD_CALL,
   MainState,
   getAssignment,
   getBoard,
@@ -56,7 +56,7 @@ const Main: FC = () => {
       boardTask={boardPreview}
       userInfo={userInfo}
       isAssignmentLoading={LoadingState[GET_ASSIGNMENT]}
-      isBoardLoading={LoadingState[GET_BOARD]}
+      isBoardLoading={LoadingState[GET_BOARD_CALL]}
       isUserInfoLoading={LoadingState[GET_USER_INFO]}
     />
   ) : (
