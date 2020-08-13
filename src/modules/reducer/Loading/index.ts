@@ -1,3 +1,5 @@
+import { GET_BOARD } from '../ClassBoard';
+
 export const START_LOADING = 'loading/START_LOADING';
 export const FINISH_LOADING = 'loading/FINISH_LOADING';
 
@@ -12,9 +14,13 @@ export const finishLoading = (payload: string) => ({
 
 export type LoadingAction = ReturnType<typeof startLoading> | ReturnType<typeof finishLoading>;
 
-type LoadingState = {};
+export type LoadingState = {
+  [GET_BOARD]: boolean;
+};
 
-const initialState: LoadingState = {};
+const initialState: LoadingState = {
+  [GET_BOARD]: false,
+};
 
 export default function loading(state: LoadingState = initialState, action: LoadingAction) {
   switch (action.type) {

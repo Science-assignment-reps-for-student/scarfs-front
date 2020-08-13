@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 const PostButtons: FC = () => {
   const history = useHistory();
-  const goNoticeList = () => history.push('../notice');
+  const goNoticeList = () => history.push('/board/notice');
   return (
     <S.PostFooterWrapper>
       <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
