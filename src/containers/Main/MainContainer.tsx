@@ -15,8 +15,8 @@ import { HeaderState, sendRefreshToken, setIsLogin } from '../../modules/reducer
 import { LoadingState } from 'src/modules/reducer/Loading';
 
 const Main: FC = () => {
-  const getAssignmentChange = stateChange(getAssignment);
-  const getBoardChange = stateChange(getBoard);
+  const getAssignmentChange = stateChange<{ size: number; page: number }>(getAssignment);
+  const getBoardChange = stateChange<{ size: number; page: number }>(getBoard);
   const isLoginChange = stateChange<boolean>(setIsLogin);
   const refreshTokenChange = stateChange(sendRefreshToken);
   const getUserInfoChange = stateChange(getUserInfo);
@@ -46,8 +46,8 @@ const Main: FC = () => {
     serverErrorHandler(statusCode);
   }, [error]);
   useEffect(() => {
-    getAssignmentChange();
-    getBoardChange();
+    getAssignmentChange({ size: 3, page: 1 });
+    getBoardChange({ size: 3, page: 1 });
     getUserInfoChange();
   }, []);
   return isLogin ? (
