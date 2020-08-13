@@ -9,20 +9,18 @@ interface Props {
 }
 
 const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
-  const isDataAble = (boardType: BoardType, isLoading: boolean) =>
-    boardType && !isLoading ? true : false;
-
-  const setBoardComponents = useCallback(
-    (boardPreview: BoardType): React.ReactNode => {
-      if (!isDataAble(boardPreview, isLoading)) return <ErrorListComponent />;
-      const buffer = [];
-      boardPreview.boardResponses.map(board => {
-        buffer.push(<BoardTaskListComponent date={board.createdAt} title={board.title} />);
-      });
-      return buffer;
-    },
-    [boardPreview],
+  const isDataAble = useCallback(
+    (boardType: BoardType, isLoading: boolean) => (boardType && !isLoading ? true : false),
+    [],
   );
+  const setBoardComponents = useCallback((boardPreview: BoardType): React.ReactNode => {
+    if (!isDataAble(boardPreview, isLoading)) return <ErrorListComponent />;
+    const buffer = [];
+    boardPreview.boardResponses.map(board => {
+      buffer.push(<BoardTaskListComponent date={board.createdAt} title={board.title} />);
+    });
+    return buffer;
+  }, []);
   return (
     <div>
       <TaskHeader taskListType='calender' />

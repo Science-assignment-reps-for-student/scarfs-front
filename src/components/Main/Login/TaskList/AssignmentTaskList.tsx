@@ -8,10 +8,12 @@ interface Props {
   isLoading: boolean;
 }
 
-const isDataAble = (assignmentPreview: AssignmentType, isLoading: boolean) =>
-  assignmentPreview && !isLoading ? true : false;
-
 const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
+  const isDataAble = useCallback(
+    (assignmentPreview: AssignmentType, isLoading: boolean) =>
+      assignmentPreview && !isLoading ? true : false,
+    [],
+  );
   const setAssignmentComponents = useCallback(
     (assignmentPreview: AssignmentType): React.ReactNode => {
       if (!isDataAble(assignmentPreview, isLoading)) return <ErrorListComponent />;
@@ -27,7 +29,7 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
       });
       return buffer;
     },
-    [assignmentPreview],
+    [],
   );
   return (
     <div>
