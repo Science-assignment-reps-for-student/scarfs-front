@@ -10,7 +10,7 @@ interface Props {
 
 const PostButtons: FC<Props> = ({ type }) => {
   const history = useHistory();
-  const goNoticeList = () => history.push('../assignment-guide');
+  const goNoticeList = () => history.push('/board/assignment-guide');
   const openModal = stateChange(setModal);
   const openFileSubmitModal = () => openModal('FileSubmit');
   const openPeerEvaluationModal = () => openModal('PeerEvaluation');

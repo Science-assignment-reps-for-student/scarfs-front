@@ -37,6 +37,10 @@ export const BodyColumn = styled.td`
   overflow: hidden;
   white-space: nowrap;
   &:nth-child(2) {
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
     text-align: left;
   }
 `;

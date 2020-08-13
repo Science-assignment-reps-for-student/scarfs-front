@@ -40,7 +40,9 @@ const FileSubmitModal: FC<{}> = () => {
           </S.FileItem>
         </S.FileListBox>
         <S.ButtonsBox>
-          <S.SubmitButton onClick={() => history.push('.')}>제출</S.SubmitButton>
+          <S.SubmitButton onClick={() => history.push('/board/assignment-guide')}>
+            제출
+          </S.SubmitButton>
           <S.CancleButton onClick={cancelButtonClickHandler}>취소</S.CancleButton>
         </S.ButtonsBox>
       </S.FileSubmitModalBox>

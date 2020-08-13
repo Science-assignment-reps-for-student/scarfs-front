@@ -1,7 +1,8 @@
 import { AxiosError } from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
+import { MainState } from '../../modules/reducer/Main';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -62,4 +63,9 @@ export const readFileAsDataURL = async (file: File) => {
     reader.readAsDataURL(file);
   });
   return result as string;
+};
+
+export const useUser = () => {
+  const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
+  return userInfo;
 };

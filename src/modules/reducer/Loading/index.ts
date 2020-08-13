@@ -1,5 +1,6 @@
 import { GET_ASSIGNMENT, GET_BOARD, GET_USER_INFO } from '../Main';
 import { SIGNIN, SIGNUP, REFRESH_TOKEN_CALL, EMAILCHECK, EMAILSEND } from '../Header';
+import { GET_BOARD } from '../ClassBoard';
 
 export const START_LOADING = 'loading/START_LOADING';
 export const FINISH_LOADING = 'loading/FINISH_LOADING';
@@ -25,6 +26,7 @@ export type LoadingState = {
   [EMAILCHECK]: boolean;
   [EMAILSEND]: boolean;
   [REFRESH_TOKEN_CALL]: boolean;
+  [GET_BOARD]: boolean;
 };
 
 const initialState: LoadingState = {
@@ -37,7 +39,9 @@ const initialState: LoadingState = {
   [EMAILCHECK]: false,
   [EMAILSEND]: false,
   [REFRESH_TOKEN_CALL]: false,
+  [GET_BOARD]: false,
 };
+  
 
 export default function loading(state: LoadingState = initialState, action: LoadingAction) {
   switch (action.type) {
