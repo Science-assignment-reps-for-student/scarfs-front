@@ -36,13 +36,20 @@ export interface UserInfoType {
   completionAssignment: number;
 }
 
-export const getAssignment = async (): Promise<AssignmentType> => {
-  const response = await getApiDefault().get<AssignmentType>('/shank/homework');
+export type PagenationType = {
+  size: number;
+  page: number;
+};
+
+export const getAssignment = async ({ size, page }: PagenationType): Promise<AssignmentType> => {
+  const response = await getApiDefault().get<AssignmentType>(
+    `/shank/homework?size=${size}&?page=${page}`,
+  );
   return response.data;
 };
 
-export const getBoard = async (): Promise<BoardType> => {
-  const response = await getApiDefault().get<BoardType>('/shank/notice');
+export const getBoard = async ({ size, page }: PagenationType): Promise<BoardType> => {
+  const response = await getApiDefault().get<BoardType>(`/shank/notice?size=${size}&?page=${page}`);
   return response.data;
 };
 
