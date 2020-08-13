@@ -16,10 +16,9 @@ const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
     (boardPreview: BoardType): React.ReactNode => {
       if (!isDataAble(boardPreview, isLoading)) return <ErrorListComponent />;
       const buffer = [];
-      for (let i: number = 0; i < 3; i++) {
-        const board = boardPreview.boardResponses[i];
+      boardPreview.boardResponses.map(board => {
         buffer.push(<BoardTaskListComponent date={board.createdAt} title={board.title} />);
-      }
+      });
       return buffer;
     },
     [boardPreview],
