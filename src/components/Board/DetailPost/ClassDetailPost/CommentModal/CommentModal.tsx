@@ -6,71 +6,6 @@ import { AlertState, createAlert } from '../../../../../modules/reducer/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStateCallback } from '../../../../../lib/function';
 
-const comments = [
-  {
-    commentId: 1,
-    isMine: true,
-    content:
-      '맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ',
-    writerName: '이대성',
-    writerNumber: '2309',
-    cocomments: [
-      {
-        cocommentId: 1,
-        content: 'ㅇㅈ!!',
-        isMine: true,
-        writerName: '임용성',
-        writerNumber: '2309',
-      },
-      {
-        cocommentId: 2,
-        content: 'ㄹㅇ',
-        isMine: true,
-        writerName: '손민기',
-        writerNumber: '2309',
-      },
-      {
-        cocommentId: 3,
-        content: '아빠!!',
-        isMine: true,
-        writerName: '강신희',
-        writerNumber: '2309',
-      },
-    ],
-  },
-  {
-    commentId: 2,
-    content: 'ㅋㅋㅋㅋ',
-    isMine: false,
-    writerName: '이우찬',
-    writerNumber: '2116',
-    cocomments: [
-      {
-        cocommentId: 1,
-        content: 'ㅎㅎ 바보~',
-        isMine: false,
-        writerName: '오준상',
-        writerNumber: '2309',
-      },
-      {
-        cocommentId: 2,
-        content: '여기 핫플이네',
-        isMine: false,
-        writerName: '김어진',
-        writerNumber: '2309',
-      },
-      {
-        cocommentId: 3,
-        content: '나한테 왜그래ㅠ',
-        isMine: false,
-
-        writerName: '이성진',
-        writerNumber: '2309',
-      },
-    ],
-  },
-];
-
 export interface Comment {
   commentId: number;
   content: string;
@@ -134,7 +69,6 @@ const CommonComment: FC<CommonCommentProps> = ({
         ) : (
           <S.Content>{content}</S.Content>
         )}
-
         {children}
       </S.Main>
     </>
@@ -185,7 +119,11 @@ const CommentItem: FC<CommentItempProps> = ({ comment }) => {
   );
 };
 
-const CommentModal: FC = () => {
+interface Props {
+  comments: Comment[];
+}
+
+const CommentModal: FC<Props> = ({ comments }) => {
   return (
     <AlertModal type='notify'>
       <Modal>
