@@ -68,6 +68,14 @@ export const readFileAsDataURL = async (file: File) => {
 
 export const useUser = () => {
   const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
+  if (userInfo === null)
+    return {
+      name: '',
+      studentNumber: 0,
+      remainingAssignment: 0,
+      completionAssignment: 0,
+      classNumber: 0,
+    };
   const returnValue = useMemo(
     () => ({
       ...userInfo,
