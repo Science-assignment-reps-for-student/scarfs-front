@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
 import { MainState } from '../../modules/reducer/Main';
+import { useMemo } from 'react';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -67,5 +68,12 @@ export const readFileAsDataURL = async (file: File) => {
 
 export const useUser = () => {
   const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
-  return userInfo;
+  const returnValue = useMemo(
+    () => ({
+      ...userInfo,
+      classNumber: userInfo.studentNumber.toString().split('')[1],
+    }),
+    [userInfo],
+  );
+  return returnValue;
 };
