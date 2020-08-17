@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import { getApiDefault } from '../client';
 
 export interface SignInType {
@@ -9,11 +10,6 @@ export interface SignInResponseType {
   accessToken: string;
   refreshToken: string;
   tokenType: string;
-}
-
-export interface SignInThunkType {
-  serverType: SignInType;
-  loading: boolean;
 }
 
 export interface RefreshTokenType {
@@ -28,7 +24,6 @@ export interface RefreshTokenResponseType {
 
 export interface RefreshTokenThunkType {
   serverType: RefreshTokenType;
-  loading: boolean;
   callback: () => void;
 }
 

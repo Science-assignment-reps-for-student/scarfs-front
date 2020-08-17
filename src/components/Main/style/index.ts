@@ -42,6 +42,11 @@ export const TaskListComponent = styled.div`
   cursor: pointer;
 `;
 
+export const SkeletonTaskListComponent = styled(TaskListComponent)`
+  background-color: #e5e1de;
+  box-shadow: none;
+`;
+
 export const TaskListComponentHeader = styled.div`
   width: 100%;
   font-size: 0.8125rem;
@@ -167,6 +172,12 @@ export const UserInfo = styled.div`
   border: 1px solid #d3d3d3;
 `;
 
+export const SkeletonUserInfo = styled(UserInfo)`
+  background-color: #e5e1de;
+  box-shadow: none;
+  border: none;
+`;
+
 export const UserInfoName = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
@@ -215,6 +226,12 @@ export const UserInfoButton = styled.div`
       font-weight: 500;
     }
   }
+`;
+
+export const SkeletonUserInfoButton = styled(UserInfoButton)`
+  background-color: #e5e1de;
+  box-shadow: none;
+  border: none;
 `;
 
 export const SideBar = styled.div`
