@@ -1,15 +1,21 @@
 import React, { FC } from 'react';
 import * as S from './style';
 
-interface Props {
+interface Buttons {
   type?: string;
-  ButtonsTemplate: FC<{ type?: string }>;
+  isMine?: boolean;
 }
 
-const PostFooter: FC<Props> = ({ type, ButtonsTemplate }) => {
+interface Props {
+  type?: string;
+  isMine?: boolean;
+  ButtonsTemplate: FC<Buttons>;
+}
+
+const PostFooter: FC<Props> = ({ type, isMine, ButtonsTemplate }) => {
   return (
     <S.PostFooterWrapper>
-      <ButtonsTemplate type={type} />
+      <ButtonsTemplate type={type} isMine={isMine} />
     </S.PostFooterWrapper>
   );
 };
