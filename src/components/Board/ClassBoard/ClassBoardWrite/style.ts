@@ -125,8 +125,9 @@ export const FooterWrapper = styled.footer`
 `;
 
 export const Button = styled.button`
-  width: 131px;
-  height: 49px;
+  width: 117px;
+  height: 41px;
+  padding: 0;
   font-size: 13px;
   color: #ffffff;
   border: none;
