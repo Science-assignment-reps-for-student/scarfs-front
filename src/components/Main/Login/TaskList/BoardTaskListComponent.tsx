@@ -3,16 +3,14 @@ import * as S from '../../style';
 
 interface Props {
   date: string;
-  isProgress: boolean;
   title: string;
-  isNotice: boolean;
 }
-const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
+const BoardTaskListComponent: FC<Props> = ({ date, title }) => {
   return (
     <S.TaskListComponent>
       <S.TaskListComponentHeader>
         <p>{date}</p>
-        <p className='point'>{isProgress ? '진행' : '완료'}</p>
+        <p className='point'>공지</p>
       </S.TaskListComponentHeader>
       <S.TaskListComponentBody>
         <p>{title}</p>
@@ -21,4 +19,4 @@ const TaskListComponent: FC<Props> = ({ date, isProgress, title }) => {
   );
 };
 
-export default TaskListComponent;
+export default BoardTaskListComponent;
