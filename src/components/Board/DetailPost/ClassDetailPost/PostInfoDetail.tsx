@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { ClassDtailPost } from '../Default/';
+import { ClassDetailPost } from '../Default';
 import * as S from '../Default/PostMain/style';
 import { getLocaleDateString } from '../../utils';
 
-const PostInfoDetail: FC<{ board: ClassDtailPost }> = ({ board }) => {
+const PostInfoDetail: FC<{ board: ClassDetailPost }> = ({ board }) => {
   if (typeof board === 'undefined') return null;
   return (
     <>
