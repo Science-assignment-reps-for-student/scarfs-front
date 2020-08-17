@@ -1,4 +1,5 @@
-import { GET_BOARD } from '../ClassBoard';
+import { GET_BOARD as GET_BOARD_CLASS } from '../ClassBoard';
+import { GET_DETAIL_POST as GET_DETAIL_POST_CLASS } from '../ClassDetailPost';
 
 export const START_LOADING = 'loading/START_LOADING';
 export const FINISH_LOADING = 'loading/FINISH_LOADING';
@@ -15,11 +16,13 @@ export const finishLoading = (payload: string) => ({
 export type LoadingAction = ReturnType<typeof startLoading> | ReturnType<typeof finishLoading>;
 
 export type LoadingState = {
-  [GET_BOARD]: boolean;
+  [GET_BOARD_CLASS]: boolean;
+  [GET_DETAIL_POST_CLASS]: boolean;
 };
 
 const initialState: LoadingState = {
-  [GET_BOARD]: false,
+  [GET_BOARD_CLASS]: false,
+  [GET_DETAIL_POST_CLASS]: false,
 };
 
 export default function loading(state: LoadingState = initialState, action: LoadingAction) {
