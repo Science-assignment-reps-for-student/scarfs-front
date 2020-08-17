@@ -29,7 +29,7 @@ interface CommonCommentProps {
 }
 
 const CommonComment: FC<CommonCommentProps> = ({
-  comment: { content, writerNumber, writerName },
+  comment: { content, writerNumber, isMine, writerName },
   children,
 }) => {
   const [text, setText] = useState(content);
@@ -51,11 +51,13 @@ const CommonComment: FC<CommonCommentProps> = ({
           <S.GrayText>{new Date().toLocaleDateString()}</S.GrayText>
           <S.GrayText>13:57</S.GrayText>
         </div>
-        <div>
-          <S.GrayText onClick={onClickEdit}>수정</S.GrayText>
-          <S.GrayText>|</S.GrayText>
-          <S.GrayText onClick={onClickDelete}>삭제</S.GrayText>
-        </div>
+        {isMine && (
+          <div>
+            <S.GrayText onClick={onClickEdit}>수정</S.GrayText>
+            <S.GrayText>|</S.GrayText>
+            <S.GrayText onClick={onClickDelete}>삭제</S.GrayText>
+          </div>
+        )}
       </S.Header>
       <S.Main>
         {isEditMode ? (
