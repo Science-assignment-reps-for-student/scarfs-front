@@ -11,6 +11,7 @@ import Main from './Main';
 import Chatting from './Chatting';
 import Loading from './Loading';
 import ClassBoard from './ClassBoard';
+import ClassDetailPost from './ClassDetailPost';
 
 const rootReducer = combineReducers({
   Modal,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   Chatting,
   Loading,
   ClassBoard,
+  ClassDetailPost,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;

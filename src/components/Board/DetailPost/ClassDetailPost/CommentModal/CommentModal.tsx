@@ -9,6 +9,7 @@ import { getStateCallback } from '../../../../../lib/function';
 const comments = [
   {
     commentId: 1,
+    isMine: true,
     content:
       '맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ맞습니다 ㅎㅎ',
     writerName: '이대성',
@@ -17,18 +18,21 @@ const comments = [
       {
         cocommentId: 1,
         content: 'ㅇㅈ!!',
+        isMine: true,
         writerName: '임용성',
         writerNumber: '2309',
       },
       {
         cocommentId: 2,
         content: 'ㄹㅇ',
+        isMine: true,
         writerName: '손민기',
         writerNumber: '2309',
       },
       {
         cocommentId: 3,
         content: '아빠!!',
+        isMine: true,
         writerName: '강신희',
         writerNumber: '2309',
       },
@@ -37,24 +41,29 @@ const comments = [
   {
     commentId: 2,
     content: 'ㅋㅋㅋㅋ',
+    isMine: false,
     writerName: '이우찬',
     writerNumber: '2116',
     cocomments: [
       {
         cocommentId: 1,
         content: 'ㅎㅎ 바보~',
+        isMine: false,
         writerName: '오준상',
         writerNumber: '2309',
       },
       {
         cocommentId: 2,
         content: '여기 핫플이네',
+        isMine: false,
         writerName: '김어진',
         writerNumber: '2309',
       },
       {
         cocommentId: 3,
         content: '나한테 왜그래ㅠ',
+        isMine: false,
+
         writerName: '이성진',
         writerNumber: '2309',
       },
@@ -62,17 +71,19 @@ const comments = [
   },
 ];
 
-interface Comment {
+export interface Comment {
   commentId: number;
   content: string;
+  isMine: boolean;
   writerNumber: string;
   writerName: string;
   cocomments: ReComment[];
 }
 
-interface ReComment {
+export interface ReComment {
   cocommentId: number;
   content: string;
+  isMine: boolean;
   writerNumber: string;
   writerName: string;
 }

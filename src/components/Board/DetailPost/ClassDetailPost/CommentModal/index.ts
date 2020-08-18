@@ -1,1 +1,1 @@
-export { default as CommentModal } from './CommentModal';
+export { default as CommentModal, Comment, ReComment } from './CommentModal';

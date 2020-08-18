@@ -13,8 +13,9 @@ export interface AssignmentDetailPost {
   files: string[];
 }
 
-export interface ClassDtailPost {
+export interface ClassDetailPost {
   title: string;
+  isMine: boolean;
   writerName: string;
   createdAt: string;
   view: number;
@@ -44,9 +45,9 @@ interface Props {
   prevPostTitle: string;
   nextPostTitle: string;
   content: string;
-  board: AssignmentDetailPost | ClassDtailPost | NoticeDetailPost;
+  board: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   InfoDetailTemplate: FC<{
-    board?: AssignmentDetailPost | ClassDtailPost | NoticeDetailPost;
+    board?: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   }>;
 }
 
