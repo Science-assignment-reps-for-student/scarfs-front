@@ -21,7 +21,7 @@ export type LoadingState = {
   [GET_BOARD_CLASS]: boolean;
   [GET_DETAIL_POST_CLASS]: boolean;
   [GET_ASSIGNMENT]: boolean;
-  [GET_BOARD_CALL]: boolean;
+  [GET_BOARD_MAIN]: boolean;
   [GET_USER_INFO]: boolean;
   [SIGNIN]: boolean;
   [SIGNUP]: boolean;
@@ -35,7 +35,7 @@ const initialState: LoadingState = {
   [GET_BOARD_CLASS]: false,
   [GET_DETAIL_POST_CLASS]: false,
   [GET_ASSIGNMENT]: false,
-  [GET_BOARD_CALL]: false,
+  [GET_BOARD_MAIN]: false,
   [GET_USER_INFO]: false,
   [SIGNIN]: false,
   [SIGNUP]: false,
