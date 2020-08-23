@@ -1,6 +1,6 @@
 import { GET_BOARD as GET_BOARD_CLASS } from '../ClassBoard';
 import { GET_DETAIL_POST as GET_DETAIL_POST_CLASS } from '../ClassDetailPost';
-import { GET_ASSIGNMENT, GET_BOARD_CALL, GET_USER_INFO } from '../Main';
+import { GET_ASSIGNMENT, GET_BOARD_MAIN, GET_USER_INFO } from '../Main';
 import { SIGNIN, SIGNUP, REFRESH_TOKEN_CALL, EMAILCHECK, EMAILSEND } from '../Header';
 
 export const START_LOADING = 'loading/START_LOADING';
