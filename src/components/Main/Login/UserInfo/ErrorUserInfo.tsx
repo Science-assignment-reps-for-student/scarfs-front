@@ -5,7 +5,6 @@ const ErrorUserInfo: FC = () => {
   return (
     <>
       <S.SkeletonUserInfo />
-      <S.SkeletonUserInfoButton />
     </>
   );
 };
