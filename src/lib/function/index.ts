@@ -82,7 +82,7 @@ export const useUser = () => {
   const returnValue = useMemo(
     () => ({
       ...userInfo,
-      classNumber: userInfo.student_number.toString().split('')[1],
+      classNumber: userInfo.studentNumber.toString().split('')[1],
     }),
     [userInfo],
   );

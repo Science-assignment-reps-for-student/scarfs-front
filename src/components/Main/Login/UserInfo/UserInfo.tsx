@@ -21,12 +21,12 @@ const UserInfo: FC<Props> = ({ userInfo, isLoading, logout }) => {
           <>
             <S.UserInfo>
               <S.UserInfoName>
-                <span>{userInfo.student_number}</span>
+                <span>{userInfo.studentNumber}</span>
                 <span>{userInfo.name}</span>
               </S.UserInfoName>
               <UserInfoTask
-                unCompleteTaskCount={userInfo.remaining_assignment}
-                completeTaskCount={userInfo.completion_assignment}
+                unCompleteTaskCount={userInfo.remainingAssignment}
+                completeTaskCount={userInfo.completionAssignment}
               />
             </S.UserInfo>
           </>

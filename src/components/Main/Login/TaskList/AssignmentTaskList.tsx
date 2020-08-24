@@ -18,7 +18,7 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
     (assignmentPreview: AssignmentType): React.ReactNode => {
       if (!isDataAble(assignmentPreview, isLoading)) return <ErrorListComponent />;
       const buffer = [];
-      assignmentPreview.application_responses.map(assignment => {
+      assignmentPreview.applicationResponses.map(assignment => {
         buffer.push(
           <AssignmentTaskListComponent
             date={assignment.createdAt}

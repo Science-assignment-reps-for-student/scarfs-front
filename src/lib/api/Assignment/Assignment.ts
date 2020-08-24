@@ -2,6 +2,12 @@ import { AxiosResponse } from 'axios';
 import { getApiDefault } from '../client';
 
 export interface AssignmentType {
+  totalElements: number;
+  totalPages: number;
+  applicationResponses: AssignmentElementType[];
+}
+
+export interface AssignmentResponseType {
   total_elements: number;
   total_pages: number;
   application_responses: AssignmentElementType[];
@@ -18,6 +24,12 @@ export interface AssignmentElementType {
 }
 
 export interface BoardType {
+  totalElements: number;
+  totalPages: number;
+  applicationResponses: BoardElementType[];
+}
+
+export interface BoardResponseType {
   total_elements: number;
   total_pages: number;
   application_responses: BoardElementType[];
@@ -32,6 +44,13 @@ export interface BoardElementType {
 
 export interface UserInfoType {
   name: string;
+  studentNumber: number;
+  remainingAssignment: number;
+  completionAssignment: number;
+}
+
+export interface UserInfoResponseType {
+  name: string;
   student_number: number;
   remaining_assignment: number;
   completion_assignment: number;
@@ -43,14 +62,16 @@ export type PagenationType = {
 };
 
 export const getAssignment = async ({ size, page }: PagenationType): Promise<AxiosResponse> => {
-  const response = await getApiDefault().get<AssignmentType>(
+  const response = await getApiDefault().get<AssignmentResponseType>(
     `/shank/homework?size=${size}&page=${page}`,
   );
   return response;
 };
 
 export const getBoard = async ({ size, page }: PagenationType): Promise<AxiosResponse> => {
-  const response = await getApiDefault().get<BoardType>(`/shank/notice?size=${size}&page=${page}`);
+  const response = await getApiDefault().get<BoardResponseType>(
+    `/shank/notice?size=${size}&page=${page}`,
+  );
   return response;
 };
 
