@@ -12,6 +12,7 @@ interface Props {
   isAssignmentLoading: boolean;
   userInfo: UserInfoType;
   isUserInfoLoading: boolean;
+  logout: () => void;
 }
 
 const Main: FC<Props> = ({
@@ -21,6 +22,7 @@ const Main: FC<Props> = ({
   isAssignmentLoading,
   userInfo,
   isUserInfoLoading,
+  logout,
 }) => {
   return (
     <S.Body>
@@ -35,7 +37,7 @@ const Main: FC<Props> = ({
       </S.Wrapper>
       <S.Wrapper margin={106}>
         <Logo />
-        <UserInfo userInfo={userInfo} isLoading={isUserInfoLoading} />
+        <UserInfo userInfo={userInfo} isLoading={isUserInfoLoading} logout={logout} />
       </S.Wrapper>
     </S.Body>
   );

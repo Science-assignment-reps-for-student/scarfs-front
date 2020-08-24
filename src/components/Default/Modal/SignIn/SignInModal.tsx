@@ -30,7 +30,7 @@ const SignInModal: FC = () => {
   const isStateAble = useCallback(({ email, password }: SignInState) => {
     return !(isTextEmpty(email) || isTextEmpty(password));
   }, []);
-  const buttonClickHandler = useCallback(() => {
+  const SignIn = useCallback((email, password) => {
     if (isStateAble({ email, password })) {
       signinChange({
         password,
@@ -39,7 +39,18 @@ const SignInModal: FC = () => {
     } else {
       errorHandler();
     }
+  }, []);
+  const buttonClickHandler = useCallback(() => {
+    SignIn(email, password);
   }, [email, password]);
+  const inputKeyPressHandler = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        SignIn(email, password);
+      }
+    },
+    [email, password],
+  );
   const signUpButtonClickHandler = useCallback(() => {
     modalChange('SignUpInfo');
   }, []);
@@ -60,6 +71,7 @@ const SignInModal: FC = () => {
         value={email}
         valueChange={emailChange}
         placeholder='sample@dsm.hs.kr'
+        onKeyPress={inputKeyPressHandler}
       />
       <ModalInput
         text='패스워드'
@@ -67,6 +79,7 @@ const SignInModal: FC = () => {
         valueChange={passwordChange}
         type='password'
         placeholder='*******'
+        onKeyPress={inputKeyPressHandler}
       />
       <S.ModalErrorText>{getModalErrorText(error)}</S.ModalErrorText>
       <S.ModalButtonWrapper>

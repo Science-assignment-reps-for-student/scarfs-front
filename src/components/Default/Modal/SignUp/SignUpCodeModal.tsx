@@ -16,8 +16,8 @@ import {
   getModalErrorText,
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
-import { signup, emailCheck, emailSend, HeaderState } from '../../../../modules/reducer/Header';
-import { EmailCheckType, EmailSendType, SignUpType } from 'lib/api/Header/signup';
+import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
+import { EmailCheckType, EmailSendType, SignUpType } from '../../../../lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
@@ -35,16 +35,18 @@ const SignUpModal: FC = () => {
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
   }, []);
+  const isPasswordCheckAble = useCallback(({ password, passwordCheck }: SignUpState): boolean => {
+    return password === passwordCheck;
+  }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
       signUpChange({ number, password, authCode: code, name });
+    } else if (isPasswordCheckAble(state)) {
+      errorChange('SignUpPasswordError');
     } else {
-      errorHandler();
+      errorChange('SignInError');
     }
   }, [state]);
-  const errorHandler = useCallback(() => {
-    errorChange('SignInError');
-  }, []);
   const codeCheckButtonClickHandler = useCallback(() => {
     emailCheckChange({ email, code: emailCode });
   }, [email, code]);

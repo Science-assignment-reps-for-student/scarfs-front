@@ -8,9 +8,10 @@ interface Props {
   valueChange: (text: string) => void;
   type?: string;
   placeholder?: string;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const ModalInput: FC<Props> = ({ text, value, valueChange, type, placeholder }) => {
+const ModalInput: FC<Props> = ({ text, value, valueChange, type, placeholder, onKeyPress }) => {
   const inputChangeHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     valueChange(value);
@@ -27,6 +28,7 @@ const ModalInput: FC<Props> = ({ text, value, valueChange, type, placeholder }) 
         type={type}
         value={value}
         placeholder={placeholder}
+        onKeyPress={onKeyPress}
       />
     </S.ModalInputWrapper>
   );

@@ -28,17 +28,25 @@ import {
 import { startLoading, finishLoading } from '../../../modules/reducer/Loading';
 
 const setTokensToLocalStorage = (tokens: SignInResponseType) => {
-  localStorage.setItem('accessToken', tokens.accessToken);
-  localStorage.setItem('refreshToken', tokens.refreshToken);
+  localStorage.setItem('accessToken', tokens.access_token);
+  localStorage.setItem('refreshToken', tokens.refresh_token);
 };
 
 export const signinThunk = () => {
   return (params: SignInType) => async dispatch => {
     dispatch(startLoading(SIGNIN));
     try {
-      const payload = await signin(params);
-      setTokensToLocalStorage(payload);
-      dispatch(setAll({ ...payload, loading: true, error: null, isLogin: true }));
+      const { access_token, refresh_token, tokenType } = await signin(params);
+      setTokensToLocalStorage({ access_token, refresh_token, tokenType });
+      dispatch(
+        setAll({
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          loading: false,
+          error: null,
+          isLogin: true,
+        }),
+      );
       dispatch(reset());
     } catch (err) {
       dispatch(setError('SignInError'));
