@@ -16,35 +16,41 @@ import {
   ModalType,
   ModalState,
 } from '../../../../modules/reducer/Modal';
-import { signin, HeaderState } from '../../../../modules/reducer/Header';
-import { SignInThunkType } from '../../../../lib/api/Header/signin';
+import { signin } from '../../../../modules/reducer/Header';
+import { SignInType } from '../../../../lib/api/Header/signin';
 
 const SignInModal: FC = () => {
-  const state = useSelector(getStateCallback<SignInState>('SignIn'));
+  const { email, password } = useSelector(getStateCallback<SignInState>('SignIn'));
   const { error } = useSelector(getStateCallback<ModalState>('Modal'));
-  const { loading } = useSelector(getStateCallback<HeaderState>('Header'));
-  const { email, password } = state;
   const emailChange = stateChange<string>(setEmail);
   const passwordChange = stateChange<string>(setPassword);
   const errorChange = stateChange<ErrorType>(setError);
   const modalChange = stateChange<ModalType>(setModal);
-  const signinChange = stateChange<SignInThunkType>(signin);
+  const signinChange = stateChange<SignInType>(signin);
   const isStateAble = useCallback(({ email, password }: SignInState) => {
     return !(isTextEmpty(email) || isTextEmpty(password));
   }, []);
-  const buttonClickHandler = useCallback(() => {
-    if (isStateAble(state)) {
+  const SignIn = useCallback((email, password) => {
+    if (isStateAble({ email, password })) {
       signinChange({
-        serverType: {
-          password,
-          email,
-        },
-        loading,
+        password,
+        email,
       });
     } else {
       errorHandler();
     }
-  }, [state, loading]);
+  }, []);
+  const buttonClickHandler = useCallback(() => {
+    SignIn(email, password);
+  }, [email, password]);
+  const inputKeyPressHandler = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        SignIn(email, password);
+      }
+    },
+    [email, password],
+  );
   const signUpButtonClickHandler = useCallback(() => {
     modalChange('SignUpInfo');
   }, []);
@@ -65,6 +71,7 @@ const SignInModal: FC = () => {
         value={email}
         valueChange={emailChange}
         placeholder='sample@dsm.hs.kr'
+        onKeyPress={inputKeyPressHandler}
       />
       <ModalInput
         text='패스워드'
@@ -72,6 +79,7 @@ const SignInModal: FC = () => {
         valueChange={passwordChange}
         type='password'
         placeholder='*******'
+        onKeyPress={inputKeyPressHandler}
       />
       <S.ModalErrorText>{getModalErrorText(error)}</S.ModalErrorText>
       <S.ModalButtonWrapper>

@@ -1,3 +1,4 @@
+import { errorInitialState, ErrorType } from '../../../lib/type';
 import {
   signinThunk,
   signupThunk,
@@ -9,17 +10,28 @@ import {
 export const ACCESS_TOKEN = 'Header/ACCESS_TOKEN' as const;
 export const REFRESH_TOKEN = 'Header/REFRESH_TOKEN' as const;
 export const ALL = 'Header/ALL' as const;
-export const SIGNIN = 'Header/SIGNIN';
-export const SIGNUP = 'Header/SIGNUP';
 export const SIGNUP_ERROR = 'Header/SIGNUP_ERROR' as const;
-export const EMAILSEND = 'Header/EMAILSEND' as const;
-export const EMAILCHECK = 'Header/EMAILCHECK' as const;
-export const LOADING = 'Header/LOADING' as const;
 export const IS_LOGIN = 'Header/IS_LOGIN' as const;
 
 export const REFRESH_TOKEN_CALL = 'Header/REFRESH_TOKEN_CALL' as const;
 export const REFRESH_TOKEN_FAILURE = 'Header/REFRESH_TOKEN_FAILURE' as const;
 export const REFRESH_TOKEN_SUCCESS = 'Header/REFRESH_TOKEN_SUCCESS' as const;
+
+export const EMAILSEND = 'Header/EMAILSEND' as const;
+export const EMAILSEND_SUCCESS = 'Header/EMAILSEND_SUCCESS' as const;
+export const EMAILSEND_FAILURE = 'Header/EMAILSEND_FAILURE' as const;
+
+export const EMAILCHECK = 'Header/EMAILCHECK' as const;
+export const EMAILCHECK_SUCCESS = 'Header/EMAILCHECK_SUCCESS' as const;
+export const EMAILCHECK_FAILURE = 'Header/EMAILCHECK_FAILURE' as const;
+
+export const SIGNIN = 'Header/SIGNIN' as const;
+export const SIGNIN_SUCCESS = 'Header/SIGNIN_SUCCESS' as const;
+export const SIGNIN_FAILURE = 'Header/SIGNIN_FAILURE' as const;
+
+export const SIGNUP = 'Header/SIGNUP' as const;
+export const SIGNUP_SUCCESS = 'Header/SIGNUP_SUCCESS' as const;
+export const SIGNUP_FAILURE = 'Header/SIGNUP_FAILURE' as const;
 
 export const setAccessToken = (payload: string) => ({
   type: ACCESS_TOKEN,
@@ -56,26 +68,57 @@ export const setAll = (payload: HeaderState) => ({
   payload,
 });
 
-export const setLoading = (payload: boolean) => ({
-  type: LOADING,
-  payload,
-});
-
 export const refreshTokenSuccess = (payload: { accessToken: string; refreshToken: string }) => ({
   type: REFRESH_TOKEN_SUCCESS,
   payload,
 });
 
-export const refreshTokenFailure = (payload: Error) => ({
+export const refreshTokenFailure = (payload: ErrorType) => ({
   type: REFRESH_TOKEN_FAILURE,
   payload,
+});
+
+export const emailSendFailure = (payload: ErrorType) => ({
+  type: EMAILSEND_FAILURE,
+  payload,
+});
+
+export const emailSendSuccess = () => ({
+  type: EMAILSEND_SUCCESS,
+});
+
+export const emailCheckFailure = (payload: ErrorType) => ({
+  type: EMAILCHECK_FAILURE,
+  payload,
+});
+
+export const emailCheckSuccess = () => ({
+  type: EMAILCHECK_SUCCESS,
+});
+
+export const signInFailure = (payload: ErrorType) => ({
+  type: SIGNIN_FAILURE,
+  payload,
+});
+
+export const signinSuccess = () => ({
+  type: SIGNIN_SUCCESS,
+});
+
+export const signUpFailure = (payload: ErrorType) => ({
+  type: SIGNUP_FAILURE,
+  payload,
+});
+
+export const signUpSuccess = () => ({
+  type: SIGNUP_SUCCESS,
 });
 
 export type HeaderState = {
   accessToken: string;
   refreshToken: string;
   loading: boolean;
-  error: Error | null;
+  error: ErrorType;
   isLogin: boolean;
 };
 
@@ -91,8 +134,8 @@ const initialState: HeaderState = {
   accessToken: getToken('accessToken'),
   refreshToken: getToken('refreshToken'),
   loading: false,
-  error: null,
-  isLogin: false,
+  error: errorInitialState,
+  isLogin: getToken('accessToken').length > 0,
 };
 
 export type HeaderActionType =
@@ -100,10 +143,17 @@ export type HeaderActionType =
   | ReturnType<typeof setRefreshToken>
   | ReturnType<typeof signupErrorChange>
   | ReturnType<typeof setAll>
-  | ReturnType<typeof setLoading>
   | ReturnType<typeof refreshTokenSuccess>
   | ReturnType<typeof refreshTokenFailure>
-  | ReturnType<typeof setIsLogin>;
+  | ReturnType<typeof setIsLogin>
+  | ReturnType<typeof signInFailure>
+  | ReturnType<typeof signinSuccess>
+  | ReturnType<typeof signUpFailure>
+  | ReturnType<typeof signUpSuccess>
+  | ReturnType<typeof emailCheckFailure>
+  | ReturnType<typeof emailCheckSuccess>
+  | ReturnType<typeof emailSendFailure>
+  | ReturnType<typeof emailSendSuccess>;
 
 export const HeaderState = (
   state: HeaderState = initialState,
@@ -126,17 +176,7 @@ export const HeaderState = (
       if (typeof action.payload !== 'object') {
         return;
       }
-      return {
-        ...state,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
-      };
-    }
-    case LOADING: {
-      return {
-        ...state,
-        loading: action.payload,
-      };
+      return action.payload;
     }
     case REFRESH_TOKEN_FAILURE: {
       return {
@@ -149,6 +189,30 @@ export const HeaderState = (
         ...state,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+      };
+    }
+    case SIGNIN_FAILURE: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+    case SIGNUP_FAILURE: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+    case EMAILCHECK_FAILURE: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+    case EMAILSEND_FAILURE: {
+      return {
+        ...state,
+        error: action.payload,
       };
     }
     case IS_LOGIN: {

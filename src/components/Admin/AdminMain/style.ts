@@ -263,13 +263,14 @@ interface ISkeletonBone {
   side?: string;
   width?: string;
   height?: string;
+  margin?: string;
 }
 
 export const SBone = styled.div`
   display: inline-block;
   width: ${({ side, width = '0' }: ISkeletonBone) => (side ? side : width)};
   height: ${({ side, height = '0' }: ISkeletonBone) => (side ? side : height)};
-  margin-top: 50px;
+  margin: ${({ margin = '0 0 0 0' }: ISkeletonBone) => margin};
   border-radius: 4px;
   background: linear-gradient(-90deg, #d9d9d9 0%, white 50%, #d9d9d9 100%);
   animation: bone 1.2s infinite linear;
@@ -306,7 +307,7 @@ export const SClasses = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  > .back {
+  > div {
     margin: 24px 0;
   }
 `;

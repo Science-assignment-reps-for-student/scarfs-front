@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
 import { MainState } from '../../modules/reducer/Main';
+import { useMemo } from 'react';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -40,7 +41,7 @@ export const getModalErrorText = (error: ErrorType) => {
       return '비밀번호가 똑같지 않습니다.';
     }
     case 'SignUpEmailError': {
-      return '올바른 이메일인지 확인해 주세요';
+      return '올바른 이메일인지 확인해 주세요.';
     }
     default:
       return '';
@@ -67,5 +68,20 @@ export const readFileAsDataURL = async (file: File) => {
 
 export const useUser = () => {
   const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
-  return userInfo;
+  if (userInfo === null)
+    return {
+      name: '',
+      studentNumber: 0,
+      remainingAssignment: 0,
+      completionAssignment: 0,
+      classNumber: 0,
+    };
+  const returnValue = useMemo(
+    () => ({
+      ...userInfo,
+      classNumber: userInfo.studentNumber.toString().split('')[1],
+    }),
+    [userInfo],
+  );
+  return returnValue;
 };

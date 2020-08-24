@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
-import { TaskListComponent } from '.';
+import * as S from '../../style';
 
 const ErrorListComponent: FC = () => {
-  const errorText =
-    '네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요네트워크를 확인해 주세요';
   return (
     <>
-      <TaskListComponent date={errorText} isProgress={false} title={errorText} isNotice={false} />
-      <TaskListComponent date={errorText} isProgress={false} title={errorText} isNotice={false} />
-      <TaskListComponent date={errorText} isProgress={false} title={errorText} isNotice={false} />
+      <S.SkeletonTaskListComponent />
+      <S.SkeletonTaskListComponent />
+      <S.SkeletonTaskListComponent />
+      <S.SkeletonTaskListComponent />
     </>
   );
 };

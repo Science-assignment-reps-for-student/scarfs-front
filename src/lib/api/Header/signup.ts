@@ -8,19 +8,9 @@ export interface SignUpType {
   password: string;
 }
 
-export interface SignUpThunkType {
-  serverType: SignUpType;
-  loading: boolean;
-}
-
 export interface EmailCheckType {
   email: string;
   code: string;
-}
-
-export interface EmailCheckThunkType {
-  serverType: EmailCheckType;
-  loading: boolean;
 }
 
 export interface EmailSendType {
@@ -37,12 +27,12 @@ export const signup = async (body: SignUpType): Promise<AxiosResponse<any>> => {
   return response;
 };
 
-export const emailCheck = (body: EmailCheckType): Promise<AxiosResponse<any>> => {
-  const response = getApiDefault().put('/shank/user/eamil/verify', body);
+export const emailCheck = async (body: EmailCheckType): Promise<AxiosResponse<any>> => {
+  const response = await getApiDefault().put('/shank/user/eamil/verify', body);
   return response;
 };
 
-export const emailSend = (body: EmailSendType): Promise<AxiosResponse<any>> => {
-  const response = getApiDefault().post('/shank/user/email/verify', body);
+export const emailSend = async (body: EmailSendType): Promise<AxiosResponse<any>> => {
+  const response = await getApiDefault().post(`/shank/user/email/verify?email=${body.email}`);
   return response;
 };

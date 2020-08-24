@@ -16,45 +16,43 @@ import {
   getModalErrorText,
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
-import { signup, emailCheck, emailSend, HeaderState } from '../../../../modules/reducer/Header';
-import { EmailCheckThunkType, EmailSendThunkType, SignUpThunkType } from 'lib/api/Header/signup';
+import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
+import { EmailCheckType, EmailSendType, SignUpType } from '../../../../lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
   const { error, modal } = useSelector(getStateCallback<ModalState>('Modal'));
-  const { loading } = useSelector(getStateCallback<HeaderState>('Header'));
   const { emailCode, email, password, passwordCheck, isEmailCheck, code, name, number } = state;
   const emailChange = stateChange<string>(setEmail);
   const emailCodeChange = stateChange<string>(setEmailCode);
   const passwordChange = stateChange<string>(setPassword);
   const passwordCheckChange = stateChange<string>(setPasswordCheck);
   const errorChange = stateChange<ErrorType>(setError);
-  const emailSendChange = stateChange<EmailSendThunkType>(emailSend);
-  const emailCheckChange = stateChange<EmailCheckThunkType>(emailCheck);
-  const signUpChange = stateChange<SignUpThunkType>(signup);
+  const emailSendChange = stateChange<EmailSendType>(emailSend);
+  const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
+  const signUpChange = stateChange<SignUpType>(signup);
 
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
   }, []);
+  const isPasswordCheckAble = useCallback(({ password, passwordCheck }: SignUpState): boolean => {
+    return password === passwordCheck;
+  }, []);
   const buttonClickHandler = useCallback(() => {
     if (isStateAble(state)) {
-      signUpChange({ serverType: { number, password, authCode: code, name }, loading });
+      signUpChange({ number, password, authCode: code, name });
+    } else if (isPasswordCheckAble(state)) {
+      errorChange('SignUpPasswordError');
     } else {
-      errorHandler();
+      errorChange('SignInError');
     }
-  }, [state, loading]);
-  const errorHandler = useCallback(() => {
-    errorChange('SignInError');
-  }, []);
+  }, [state]);
   const codeCheckButtonClickHandler = useCallback(() => {
-    emailCheckChange({ serverType: { email, code: emailCode }, loading });
-  }, [email, code, loading]);
+    emailCheckChange({ email, code: emailCode });
+  }, [email, code]);
   const mailSendButtonClickHandler = useCallback(() => {
-    emailSendChange({
-      serverType: { email },
-      loading,
-    });
-  }, [email, loading]);
+    emailSendChange({ email });
+  }, [email]);
   const isCodeOrEmailError = useCallback((error: string) => {
     return error.length > 0;
   }, []);

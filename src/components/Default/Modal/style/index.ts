@@ -201,6 +201,7 @@ export const ModalBackground = styled.div`
   z-index: 0;
   position: absolute;
   backdrop-filter: blur(5px);
+  top: 60px;
 `;
 
 export const ModalErrorText = styled.div`

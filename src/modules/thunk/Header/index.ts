@@ -1,100 +1,111 @@
-import { RESET, MODAL, ERROR } from '../../reducer/Modal';
-import { ALL, IS_LOGIN, LOADING, REFRESH_TOKEN_SUCCESS } from '../../reducer/Header';
+import { setModal, setError, reset } from '../../reducer/Modal';
+import {
+  refreshTokenSuccess,
+  setAll,
+  setIsLogin,
+  REFRESH_TOKEN_CALL,
+  SIGNIN,
+  SIGNUP,
+  EMAILCHECK,
+  EMAILSEND,
+} from '../../reducer/Header';
 import {
   signin,
-  SignInThunkType,
+  SignInType,
   SignInResponseType,
   RefreshTokenThunkType,
   sendRefreshToken,
 } from '../../../lib/api/Header/signin';
-import { EMAIL_CHECK } from '../../../modules/reducer/SignUp';
+import { setEmailCheck } from '../../../modules/reducer/SignUp';
 import {
   signup,
   emailCheck,
   emailSend,
-  SignUpThunkType,
-  EmailCheckThunkType,
-  EmailSendThunkType,
+  EmailSendType,
+  EmailCheckType,
+  SignUpType,
 } from '../../../lib/api/Header/signup';
+import { startLoading, finishLoading } from '../../../modules/reducer/Loading';
 
 const setTokensToLocalStorage = (tokens: SignInResponseType) => {
-  localStorage.setItem('accessToken', tokens.accessToken);
-  localStorage.setItem('refreshToken', tokens.refreshToken);
+  localStorage.setItem('accessToken', tokens.access_token);
+  localStorage.setItem('refreshToken', tokens.refresh_token);
 };
 
 export const signinThunk = () => {
-  return (params: SignInThunkType) => async dispatch => {
-    if (params.loading) return;
-    dispatch({ type: LOADING, payload: true });
+  return (params: SignInType) => async dispatch => {
+    dispatch(startLoading(SIGNIN));
     try {
-      const payload = await signin(params.serverType);
-      setTokensToLocalStorage(payload);
-      dispatch({ type: ALL, payload });
-      dispatch({ type: RESET });
+      const { access_token, refresh_token, tokenType } = await signin(params);
+      setTokensToLocalStorage({ access_token, refresh_token, tokenType });
+      dispatch(
+        setAll({
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          loading: false,
+          error: null,
+          isLogin: true,
+        }),
+      );
+      dispatch(reset());
     } catch (err) {
-      dispatch({ type: ERROR, payload: 'SignInError' });
+      dispatch(setError('SignInError'));
     }
-    dispatch({ type: LOADING, payload: false });
+    dispatch(finishLoading(SIGNIN));
   };
 };
 
 export const signupThunk = () => {
-  return (params: SignUpThunkType) => async dispatch => {
-    if (params.loading) return;
-    dispatch({ type: LOADING, payload: true });
+  return (params: SignUpType) => async dispatch => {
+    dispatch(startLoading(SIGNUP));
     try {
-      await signup(params.serverType);
-      dispatch({ type: RESET });
+      await signup(params);
+      dispatch(reset());
     } catch (err) {
-      dispatch({ type: ERROR, payload: 'SignUpPasswordError' });
+      dispatch(setError('SignUpPasswordError'));
     }
-    dispatch({ type: LOADING, payload: false });
+    dispatch(finishLoading(SIGNUP));
   };
 };
 
 export const emailCheckThunk = () => {
-  return (params: EmailCheckThunkType) => async dispatch => {
-    if (params.loading) return;
-    dispatch({ type: LOADING, payload: true });
+  return (params: EmailCheckType) => async dispatch => {
+    dispatch(startLoading(EMAILCHECK));
     try {
-      await emailCheck(params.serverType);
-      dispatch({ type: EMAIL_CHECK, payload: params });
+      await emailCheck(params);
+      dispatch(setEmailCheck(true));
     } catch (err) {
-      dispatch({ type: ERROR, payload: 'CodeError' });
+      dispatch(setError('CodeError'));
     }
-    dispatch({ type: LOADING, payload: false });
+    dispatch(finishLoading(EMAILCHECK));
   };
 };
 
 export const emailSendThunk = () => {
-  return (params: EmailSendThunkType) => async dispatch => {
-    if (params.loading) return;
-    dispatch({ type: LOADING, payload: true });
+  return (params: EmailSendType) => async dispatch => {
+    dispatch(startLoading(EMAILSEND));
     try {
-      await emailSend(params.serverType);
-      dispatch({ type: MODAL, payload: 'SignUpCode' });
+      await emailSend(params);
+      dispatch(setModal('SignUpCode'));
     } catch (err) {
-      dispatch({ type: ERROR, payload: 'SignUpEmailError' });
+      dispatch(setError('SignUpEmailError'));
     }
+    dispatch(finishLoading(EMAILSEND));
   };
 };
 
 export const refreshTokenThunk = () => {
   return (params: RefreshTokenThunkType) => async dispatch => {
-    if (params.loading) return;
-    dispatch({ type: LOADING, payload: true });
+    dispatch(startLoading(REFRESH_TOKEN_CALL));
     try {
       const response = await sendRefreshToken(params.serverType);
-      dispatch({
-        type: REFRESH_TOKEN_SUCCESS,
-        payload: {
-          accessToken: response.accessToken,
-          refreshToken: response.refreshToken,
-        },
-      });
+      dispatch(refreshTokenSuccess(response));
+      dispatch(setIsLogin(true));
+      params.callback();
     } catch (err) {
-      dispatch({ type: IS_LOGIN, payload: false });
-      dispatch({ type: MODAL, payload: 'SignIn' });
+      dispatch(setModal('SignIn'));
+      dispatch(setIsLogin(false));
     }
+    dispatch(finishLoading(REFRESH_TOKEN_CALL));
   };
 };
