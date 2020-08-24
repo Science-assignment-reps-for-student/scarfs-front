@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation, useHistory } from 'react-router-dom';
 import { BoardRouter } from './';
 import {
   HeaderContainer,
@@ -17,9 +17,16 @@ const UserRouter: FC = () => {
   const location = useLocation();
   const closeModal = stateChange(reset);
   const { modal } = useSelector(getStateCallback<ModalState>('Modal'));
+  const history = useHistory();
   useEffect(() => {
     if (modal) closeModal();
   }, [location]);
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken || accessToken.length <= 0) {
+      history.push('/');
+    }
+  }, []);
   return (
     <>
       <ChattingContainer />
