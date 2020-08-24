@@ -14,12 +14,12 @@ export interface AssignmentResponseType {
 }
 
 export interface AssignmentElementType {
-  homeworkId: number;
+  homework_id: number;
   type: string;
   title: string;
-  createdAt: string;
-  daedLine: string;
-  isFinish: boolean;
+  created_at: string;
+  daed_line: string;
+  is_finish: boolean;
   view: number;
 }
 
@@ -36,9 +36,9 @@ export interface BoardResponseType {
 }
 
 export interface BoardElementType {
-  noticeId: number;
+  notice_id: number;
   title: string;
-  createdAt: string;
+  created_at: string;
   view: number;
 }
 
