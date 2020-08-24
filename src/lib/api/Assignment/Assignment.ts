@@ -1,9 +1,10 @@
+import { AxiosResponse } from 'axios';
 import { getApiDefault } from '../client';
 
 export interface AssignmentType {
-  totalElements: number;
-  totalPages: number;
-  boardResponses: AssignmentElementType[];
+  total_elements: number;
+  total_pages: number;
+  application_responses: AssignmentElementType[];
 }
 
 export interface AssignmentElementType {
@@ -17,9 +18,9 @@ export interface AssignmentElementType {
 }
 
 export interface BoardType {
-  totalElements: number;
-  totalPages: number;
-  boardResponses: BoardElementType[];
+  total_elements: number;
+  total_pages: number;
+  application_responses: BoardElementType[];
 }
 
 export interface BoardElementType {
@@ -31,9 +32,9 @@ export interface BoardElementType {
 
 export interface UserInfoType {
   name: string;
-  studentNumber: number;
-  remainingAssignment: number;
-  completionAssignment: number;
+  student_number: number;
+  remaining_assignment: number;
+  completion_assignment: number;
 }
 
 export type PagenationType = {
@@ -41,19 +42,19 @@ export type PagenationType = {
   page: number;
 };
 
-export const getAssignment = async ({ size, page }: PagenationType): Promise<AssignmentType> => {
+export const getAssignment = async ({ size, page }: PagenationType): Promise<AxiosResponse> => {
   const response = await getApiDefault().get<AssignmentType>(
     `/shank/homework?size=${size}&page=${page}`,
   );
-  return response.data;
+  return response;
 };
 
-export const getBoard = async ({ size, page }: PagenationType): Promise<BoardType> => {
+export const getBoard = async ({ size, page }: PagenationType): Promise<AxiosResponse> => {
   const response = await getApiDefault().get<BoardType>(`/shank/notice?size=${size}&page=${page}`);
-  return response.data;
+  return response;
 };
 
-export const getUserInfo = async (): Promise<UserInfoType> => {
-  const response = await getApiDefault().get<UserInfoType>('/shank/user');
-  return response.data;
+export const getUserInfo = async (): Promise<AxiosResponse> => {
+  const response = await getApiDefault().get<UserInfoType>('/shank/user/me');
+  return response;
 };
