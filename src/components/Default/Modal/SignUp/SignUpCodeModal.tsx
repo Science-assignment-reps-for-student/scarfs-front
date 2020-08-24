@@ -31,7 +31,10 @@ const SignUpModal: FC = () => {
   const emailSendChange = stateChange<EmailSendType>(emailSend);
   const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
   const signUpChange = stateChange<SignUpType>(signup);
-
+  const isPasswordAble = useCallback((password: string) => {
+    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return re.exec(password) === null ? true : false;
+  }, []);
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
   }, []);
@@ -39,12 +42,14 @@ const SignUpModal: FC = () => {
     return password === passwordCheck;
   }, []);
   const buttonClickHandler = useCallback(() => {
-    if (isStateAble(state)) {
-      signUpChange({ number, password, authCode: code, name });
+    if (!isStateAble(state)) {
+      errorChange('SignInError');
+    } else if (isPasswordAble(password)) {
+      errorChange('SignUpPasswordRegexError');
     } else if (isPasswordCheckAble(state)) {
       errorChange('SignUpPasswordError');
     } else {
-      errorChange('SignInError');
+      signUpChange({ number, password, authCode: code, name });
     }
   }, [state]);
   const codeCheckButtonClickHandler = useCallback(() => {
