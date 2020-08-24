@@ -50,10 +50,11 @@ const Main: FC = () => {
     serverErrorHandler(statusCode);
   }, [error]);
   useEffect(() => {
+    if (!isLogin) return;
     getAssignmentChange({ size: 3, page: 1 });
     getBoardChange({ size: 3, page: 1 });
     getUserInfoChange();
-  }, []);
+  }, [isLogin]);
   return isLogin ? (
     <LoginedMain
       assignmentTask={assignmentPreview}

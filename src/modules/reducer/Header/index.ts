@@ -135,7 +135,7 @@ const initialState: HeaderState = {
   refreshToken: getToken('refreshToken'),
   loading: false,
   error: errorInitialState,
-  isLogin: true,
+  isLogin: getToken('accessToken').length > 0,
 };
 
 export type HeaderActionType =
@@ -176,11 +176,7 @@ export const HeaderState = (
       if (typeof action.payload !== 'object') {
         return;
       }
-      return {
-        ...state,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
-      };
+      return action.payload;
     }
     case REFRESH_TOKEN_FAILURE: {
       return {

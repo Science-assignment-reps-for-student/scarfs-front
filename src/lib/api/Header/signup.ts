@@ -33,6 +33,6 @@ export const emailCheck = async (body: EmailCheckType): Promise<AxiosResponse<an
 };
 
 export const emailSend = async (body: EmailSendType): Promise<AxiosResponse<any>> => {
-  const response = await getApiDefault().post('/shank/user/email/verify', body);
+  const response = await getApiDefault().post(`/shank/user/email/verify?email=${body.email}`);
   return response;
 };
