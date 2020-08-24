@@ -43,6 +43,9 @@ export const getModalErrorText = (error: ErrorType) => {
     case 'SignUpEmailError': {
       return '올바른 이메일인지 확인해 주세요.';
     }
+    case 'SignUpPasswordRegexError': {
+      return '비밀번호에 특수문자와 대문자를 넣어주세요.';
+    }
     default:
       return '';
   }
