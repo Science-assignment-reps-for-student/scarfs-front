@@ -15,8 +15,7 @@ interface Props {
 }
 
 const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
-  const { studentNumber } = useUser();
-  const studentClass = useMemo(() => studentNumber.toString().split('')[1], [studentNumber]);
+  const { classNumber } = useUser();
   const boards = useMemo(
     () =>
       classBoard.boardResponses.map(board => ({
@@ -41,7 +40,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
         <SBone width='1280px' height='45px' />
       ) : (
         <BoardHeader
-          title={`${studentClass}반 게시판`}
+          title={`${classNumber}반 게시판`}
           searchTitle=''
           isTableView={isTableView}
           setIsTableView={setIsTableView}

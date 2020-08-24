@@ -8,9 +8,10 @@ import ErrorUserInfo from './ErrorUserInfo';
 interface Props {
   userInfo: UserInfoType | null;
   isLoading: boolean;
+  logout: () => void;
 }
 
-const UserInfo: FC<Props> = ({ userInfo, isLoading }) => {
+const UserInfo: FC<Props> = ({ userInfo, isLoading, logout }) => {
   return (
     <S.UserMain>
       <div>
@@ -25,9 +26,9 @@ const UserInfo: FC<Props> = ({ userInfo, isLoading }) => {
                 completeTaskCount={userInfo.completionAssignment}
               />
             </S.UserInfo>
-            <UserInfoButton />
           </>
         )}
+        <UserInfoButton logoutButtonHandler={logout} />
       </div>
     </S.UserMain>
   );

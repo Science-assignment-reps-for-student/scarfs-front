@@ -7,8 +7,8 @@ export interface SignInType {
 }
 
 export interface SignInResponseType {
-  accessToken: string;
-  refreshToken: string;
+  access_token: string;
+  refresh_token: string;
   tokenType: string;
 }
 

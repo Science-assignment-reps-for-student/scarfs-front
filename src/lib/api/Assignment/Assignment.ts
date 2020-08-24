@@ -43,13 +43,13 @@ export type PagenationType = {
 
 export const getAssignment = async ({ size, page }: PagenationType): Promise<AssignmentType> => {
   const response = await getApiDefault().get<AssignmentType>(
-    `/shank/homework?size=${size}&?page=${page}`,
+    `/shank/homework?size=${size}&page=${page}`,
   );
   return response.data;
 };
 
 export const getBoard = async ({ size, page }: PagenationType): Promise<BoardType> => {
-  const response = await getApiDefault().get<BoardType>(`/shank/notice?size=${size}&?page=${page}`);
+  const response = await getApiDefault().get<BoardType>(`/shank/notice?size=${size}&page=${page}`);
   return response.data;
 };
 
