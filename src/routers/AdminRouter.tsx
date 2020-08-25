@@ -14,7 +14,9 @@ const AdminRouter: FC = (): ReactElement => {
   const history = useHistory();
 
   useEffect(() => {
-    if (!localStorage.getItem('accessToken')) {
+    const splitPath = history.location.pathname.split('/');
+    const lastPath = splitPath[splitPath.length - 1];
+    if ((lastPath === 'register') !== !localStorage.getItem('accessToken')) {
       history.push('/admin/login');
     }
   }, []);
