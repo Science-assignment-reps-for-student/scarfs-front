@@ -1,3 +1,3 @@
 export { AssignmentDetailPostContainer, EvaluationContainer } from './AssignmentDetailPost';
-export { ClassDetailPostContainer } from './ClassDetailPost';
+export { ClassDetailPostContainer, CommentModalContainer } from './ClassDetailPost';
 export { NoticeDetailPostContainer } from './NoticeDetailPost';
