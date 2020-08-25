@@ -10,4 +10,6 @@ export const logout = () => async dispatch => {
   dispatch(setAccessToken(''));
   dispatch(setRefreshToken(''));
   dispatch(setIsLogin(false));
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
 };
