@@ -21,8 +21,8 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
       assignmentPreview.applicationResponses.map(assignment => {
         buffer.push(
           <AssignmentTaskListComponent
-            date={assignment.createdAt}
-            isProgress={assignment.isFinish}
+            date={assignment.created_at}
+            isProgress={assignment.is_finish}
             title={assignment.title}
           />,
         );
