@@ -18,7 +18,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
   const { classNumber } = useUser();
   const boards = useMemo(
     () =>
-      classBoard.boardResponses.map(board => ({
+      classBoard.application_responses.map(board => ({
         ...board,
         id: board.boardId,
       })),
@@ -37,7 +37,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
   return (
     <>
       {isLoading ? (
-        <SBone width='1280px' height='45px' />
+        <SBone width='1280px' height='95px' />
       ) : (
         <BoardHeader
           title={`${classNumber}반 게시판`}
@@ -47,7 +47,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
         />
       )}
       {isLoading ? (
-        <SBone width='1280px' height='362px' />
+        <SBone width='1280px' height='362px' margin='25px 0 21px' />
       ) : isTableView ? (
         <TableView
           columnNames={['유형', '제목', '작성자', '등록일', '조회수']}
@@ -61,7 +61,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
         <SBone width='1280px' height='50px' />
       ) : (
         <S.Footer>
-          <PaginationBar page={page} setPage={setPage} lastPage={classBoard.totalPages} />
+          <PaginationBar page={page} setPage={setPage} lastPage={classBoard.total_pages} />
           <S.Button onClick={() => history.push('/board/class/write')}>게시물작성</S.Button>
         </S.Footer>
       )}

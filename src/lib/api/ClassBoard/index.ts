@@ -10,9 +10,9 @@ interface ClassBoardItem {
 }
 
 export interface ClassBoard {
-  totalElements: number;
-  totalPages: number;
-  boardResponses: ClassBoardItem[];
+  total_elements: number;
+  total_pages: number;
+  application_responses: ClassBoardItem[];
 }
 
 export const getClassBoard = (data: { size: number; page: number }) =>
