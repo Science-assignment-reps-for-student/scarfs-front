@@ -26,9 +26,9 @@ export type ClassBoardState = {
 
 const initialState: ClassBoardState = {
   classBoard: {
-    totalElements: 0,
-    totalPages: 0,
-    boardResponses: [],
+    total_elements: 0,
+    total_pages: 0,
+    application_responses: [],
   },
   getBoardError: errorInitialState,
 };
