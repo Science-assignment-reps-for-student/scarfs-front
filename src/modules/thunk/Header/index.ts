@@ -17,6 +17,7 @@ import {
   sendRefreshToken,
 } from '../../../lib/api/Header/signin';
 import { setEmailCheck } from '../../../modules/reducer/SignUp';
+import { setEmail, setPassword } from '../../../modules/reducer/SignIn';
 import {
   signup,
   emailCheck,
@@ -47,6 +48,9 @@ export const signinThunk = () => {
           isLogin: true,
         }),
       );
+      dispatch(setPassword(''));
+      dispatch(setEmail(''));
+      dispatch(setEmail(''));
       dispatch(reset());
     } catch (err) {
       dispatch(setError('SignInError'));

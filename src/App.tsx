@@ -5,13 +5,6 @@ import { UserRouter, AdminRouter } from './routers';
 import { NotFound } from './components';
 
 const App: FC = (): React.ReactElement => {
-  const history = useHistory();
-  useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken || accessToken.length <= 0) {
-      history.push('/');
-    }
-  }, []);
   return (
     <>
       <GlobalStyle />

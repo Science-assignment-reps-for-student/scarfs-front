@@ -32,8 +32,8 @@ const SignUpModal: FC = () => {
   const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
   const signUpChange = stateChange<SignUpType>(signup);
   const isPasswordAble = useCallback((password: string) => {
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return re.exec(password) === null ? true : false;
+    const reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return reg.exec(password) === null ? true : false;
   }, []);
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
