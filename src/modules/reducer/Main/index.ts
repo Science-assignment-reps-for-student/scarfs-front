@@ -1,5 +1,12 @@
 import { AxiosError } from 'axios';
-import { AssignmentType, BoardType, UserInfoType } from '../../../lib/api/Assignment/Assignment';
+import {
+  AssignmentResponseType,
+  AssignmentType,
+  BoardResponseType,
+  BoardType,
+  UserInfoResponseType,
+  UserInfoType,
+} from '../../../lib/api/Assignment/Assignment';
 
 export const ASSIGNMENT = 'Main/ASSIGNMENT' as const;
 export const BOARD = 'Main/BOARD' as const;
@@ -37,7 +44,7 @@ export const getAssignmentFailure = (payload: AxiosError) => ({
   payload,
 });
 
-export const getAssignmentSuccess = (payload: AssignmentType) => ({
+export const getAssignmentSuccess = (payload: AssignmentResponseType) => ({
   type: GET_ASSIGNMENT_SUCCESS,
   payload,
 });
@@ -47,12 +54,12 @@ export const getBoardFailure = (payload: AxiosError) => ({
   payload,
 });
 
-export const getBoardSuccess = (payload: BoardType) => ({
+export const getBoardSuccess = (payload: BoardResponseType) => ({
   type: GET_BOARD_SUCCESS,
   payload,
 });
 
-export const getUserInfoSuccess = (payload: UserInfoType) => ({
+export const getUserInfoSuccess = (payload: UserInfoResponseType) => ({
   type: GET_USER_INFO_SUCCESS,
   payload,
 });
@@ -103,21 +110,37 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
       };
     }
     case GET_ASSIGNMENT_SUCCESS: {
+      const { application_responses, total_elements, total_pages } = action.payload;
       return {
         ...state,
-        assignmentPreview: action.payload,
+        assignmentPreview: {
+          applicationResponses: application_responses,
+          totalElements: total_elements,
+          totalPages: total_pages,
+        },
       };
     }
     case GET_BOARD_SUCCESS: {
+      const { application_responses, total_elements, total_pages } = action.payload;
       return {
         ...state,
-        boardPreview: action.payload,
+        boardPreview: {
+          applicationResponses: application_responses,
+          totalElements: total_elements,
+          totalPages: total_pages,
+        },
       };
     }
     case GET_USER_INFO_SUCCESS: {
+      const { name, student_number, remaining_assignment, completion_assignment } = action.payload;
       return {
         ...state,
-        userInfo: action.payload,
+        userInfo: {
+          name,
+          studentNumber: student_number,
+          remainingAssignment: remaining_assignment,
+          completionAssignment: completion_assignment,
+        },
       };
     }
     case GET_USER_INFO_FAILURE: {

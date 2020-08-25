@@ -16,7 +16,7 @@ const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
   const setBoardComponents = useCallback((boardPreview: BoardType): React.ReactNode => {
     if (!isDataAble(boardPreview, isLoading)) return <ErrorListComponent />;
     const buffer = [];
-    boardPreview.boardResponses.map(board => {
+    boardPreview.applicationResponses.map(board => {
       buffer.push(<BoardTaskListComponent date={board.createdAt} title={board.title} />);
     });
     return buffer;
