@@ -1,5 +1,6 @@
-import React, { FC, ReactElement } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { FC, ReactElement, useEffect } from 'react';
+import { Switch, Route, useHistory } from 'react-router-dom';
+
 import {
   AdminContainer,
   AdminLoginContainer,
@@ -10,6 +11,14 @@ import {
 import { NotFound } from '../components';
 
 const AdminRouter: FC = (): ReactElement => {
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) {
+      history.push('/admin/login');
+    }
+  }, []);
+
   return (
     <Switch>
       <Route path='/admin/register' component={AdminSignUpContainer} />
