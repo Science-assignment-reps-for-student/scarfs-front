@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { ErrorType } from 'lib/type';
 import {
   AssignmentResponseType,
   AssignmentType,
@@ -28,7 +29,7 @@ export const setAssignment = (payload: AssignmentType) => ({
   payload,
 });
 
-export const getAssignmentFailure = (payload: AxiosError) => ({
+export const getAssignmentFailure = (payload: ErrorType) => ({
   type: GET_ASSIGNMENT_FAILURE,
   payload,
 });
@@ -38,7 +39,7 @@ export const getAssignmentSuccess = (payload: AssignmentResponseType) => ({
   payload,
 });
 
-export const getBoardFailure = (payload: AxiosError) => ({
+export const getBoardFailure = (payload: ErrorType) => ({
   type: GET_BOARD_FAILURE,
   payload,
 });
@@ -51,7 +52,7 @@ export const getBoardSuccess = (payload: BoardResponseType) => ({
 export type MainState = {
   boardPreview: BoardType | null;
   assignmentPreview: AssignmentType | null;
-  error: AxiosError | null;
+  error: ErrorType | null;
   loading: boolean;
 };
 

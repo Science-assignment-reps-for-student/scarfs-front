@@ -1,5 +1,5 @@
-import { UserInfoResponseType } from 'lib/api/Header/userInfo';
-import { UserInfoType } from 'lib/api/Header/userInfo';
+import { UserInfoResponseType } from '../../../lib/api/Header/userInfo';
+import { UserInfoType } from '../../../lib/api/Header/userInfo';
 import { errorInitialState, ErrorType } from '../../../lib/type';
 import {
   signinThunk,
