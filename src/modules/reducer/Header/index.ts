@@ -254,11 +254,13 @@ export const HeaderState = (
         remaining_assignment,
         completion_assignment,
         id,
+        type,
       } = action.payload;
       return {
         ...state,
         userInfo: {
           name,
+          type,
           studentNumber: student_number,
           remainingAssignment: remaining_assignment,
           completionAssignment: completion_assignment,

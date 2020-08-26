@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { ErrorType } from 'lib/type';
 import {
   AssignmentResponseType,

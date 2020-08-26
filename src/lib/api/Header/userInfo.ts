@@ -7,6 +7,7 @@ export interface UserInfoType {
   remainingAssignment: number;
   completionAssignment: number;
   id: number;
+  type: string;
 }
 
 export interface UserInfoResponseType {
@@ -15,6 +16,7 @@ export interface UserInfoResponseType {
   remaining_assignment: number;
   completion_assignment: number;
   id: number;
+  type: string;
 }
 
 export const getUserInfo = async (): Promise<AxiosResponse> => {
