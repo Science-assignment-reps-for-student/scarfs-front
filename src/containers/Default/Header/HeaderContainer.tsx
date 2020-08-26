@@ -14,8 +14,10 @@ const HeaderContainer: FC = () => {
   const { isLogin, userInfo } = useSelector(getStateCallback<HeaderState>('Header'));
 
   useEffect(() => {
-    getUserInfoChange();
-  }, []);
+    if (isLogin) {
+      getUserInfoChange();
+    }
+  }, [isLogin]);
   return (
     <Header
       logoutHandler={logOutClickHandler}
