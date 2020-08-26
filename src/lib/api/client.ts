@@ -6,7 +6,7 @@ const isTextHaveKorean = (text: string): boolean => {
 };
 
 export const apiDefault = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: process.env.BASE_URL,
   timeout: 2500,
   headers: {
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -17,7 +17,7 @@ export const getApiDefault = () => {
   const accessToken = localStorage.getItem('accessToken');
   if (isTextHaveKorean(accessToken)) window.location.href = '/error';
   return axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: process.env.BASE_URL,
     timeout: 2500,
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -27,7 +27,7 @@ export const getApiDefault = () => {
 
 export const getRefreshApiDefault = () => {
   return axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: process.env.BASE_URL,
     timeout: 2500,
     headers: {
       'X-Refresh-Token': localStorage.getItem('refreshToken'),
