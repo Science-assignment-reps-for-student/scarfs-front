@@ -15,7 +15,6 @@ import { getAssignmentThunk, getBoardThunk, logout } from '../../modules/thunk/M
 const Main: FC = () => {
   const getAssignmentChange = stateChange<{ size: number; page: number }>(getAssignmentThunk);
   const getBoardChange = stateChange<{ size: number; page: number }>(getBoardThunk);
-  const isLoginChange = stateChange<boolean>(setIsLogin);
   const refreshTokenChange = stateChange(sendRefreshToken);
   const logoutChange = stateChange(logout);
   const { isLogin, refreshToken, userInfo } = useSelector(getStateCallback<HeaderState>('Header'));
