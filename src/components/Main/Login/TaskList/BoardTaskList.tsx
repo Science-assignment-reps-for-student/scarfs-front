@@ -24,7 +24,7 @@ const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
   }, []);
   return (
     <div>
-      <TaskHeader taskListType='calender' />
+      <TaskHeader taskListType='megaphone' />
       <S.TaskList>
         {setBoardComponents(boardPreview)}
         {isDataAble(boardPreview, isLoading) ? <TaskButton link='/board/class' /> : ''}

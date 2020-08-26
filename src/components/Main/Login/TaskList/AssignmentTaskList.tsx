@@ -33,7 +33,7 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
   );
   return (
     <div>
-      <TaskHeader taskListType='megaphone' />
+      <TaskHeader taskListType='calender' />
       <S.TaskList>
         {setAssignmentComponents(assignmentPreview)}
         {isDataAble(assignmentPreview, isLoading) ? (
