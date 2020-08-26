@@ -10,7 +10,8 @@ interface Props {
 
 const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
   const isDataAble = useCallback(
-    (boardType: BoardType, isLoading: boolean) => (boardType && !isLoading ? true : false),
+    (boardType: BoardType, isLoading: boolean) =>
+      boardType && boardType.applicationResponses && !isLoading ? true : false,
     [],
   );
   const setBoardComponents = useCallback((boardPreview: BoardType): React.ReactNode => {

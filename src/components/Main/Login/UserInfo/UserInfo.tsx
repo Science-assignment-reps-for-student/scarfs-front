@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import * as S from '../../style';
 import UserInfoTask from './UserInfoTask';
 import UserInfoButton from './UserInfoButton';
-import { UserInfoType } from 'lib/api/Assignment/Assignment';
+import { UserInfoType } from 'lib/api/Header/userInfo';
 import ErrorUserInfo from './ErrorUserInfo';
 
 interface Props {
