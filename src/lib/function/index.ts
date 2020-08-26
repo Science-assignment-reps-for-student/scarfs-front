@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
-import { MainState } from '../../modules/reducer/Main';
+import { HeaderState } from '../../modules/reducer/Header';
 import { useMemo } from 'react';
 
 export const isTextEmpty = (text: string): boolean => {
@@ -70,7 +70,7 @@ export const readFileAsDataURL = async (file: File) => {
 };
 
 export const useUser = () => {
-  const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
+  const { userInfo } = useSelector(getStateCallback<HeaderState>('Header'));
   if (userInfo === null)
     return {
       name: '',
