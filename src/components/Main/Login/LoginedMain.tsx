@@ -3,7 +3,7 @@ import Logo from './Logo';
 import { BoardTaskList, AssignmentTaskList } from './TaskList';
 import UserInfo from './UserInfo';
 import * as S from '../style';
-import { AssignmentType, BoardType } from 'lib/api/Assignment/Assignment';
+import { AssignmentType, BoardType } from '../../../lib/api/Assignment/Assignment';
 import { UserInfoType } from '../../../lib/api/Header/userInfo';
 
 interface Props {
