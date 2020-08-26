@@ -1,47 +1,43 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  GET_ASSIGNMENT,
-  GET_USER_INFO,
-  GET_BOARD_MAIN,
-  MainState,
-} from '../../modules/reducer/Main';
+import { GET_ASSIGNMENT, GET_BOARD_MAIN, MainState } from '../../modules/reducer/Main';
 import { LoginedMain, LogOutedMain } from '../../components/Main';
 import { getStateCallback, isNetworkError, stateChange } from '../../lib/function/index';
-import { HeaderState, sendRefreshToken, setIsLogin } from '../../modules/reducer/Header';
-import { LoadingState } from 'src/modules/reducer/Loading';
 import {
-  getAssignmentThunk,
-  getBoardThunk,
-  getUserInfoThunk,
-  logout,
-} from '../../modules/thunk/Main';
+  GET_USER_INFO,
+  HeaderState,
+  sendRefreshToken,
+  setIsLogin,
+} from '../../modules/reducer/Header';
+import { LoadingState } from '../../../src/modules/reducer/Loading';
+import { getAssignmentThunk, getBoardThunk, logout } from '../../modules/thunk/Main';
 
 const Main: FC = () => {
   const getAssignmentChange = stateChange<{ size: number; page: number }>(getAssignmentThunk);
   const getBoardChange = stateChange<{ size: number; page: number }>(getBoardThunk);
-  const isLoginChange = stateChange<boolean>(setIsLogin);
   const refreshTokenChange = stateChange(sendRefreshToken);
-  const getUserInfoChange = stateChange(getUserInfoThunk);
   const logoutChange = stateChange(logout);
-  const { isLogin, refreshToken } = useSelector(getStateCallback<HeaderState>('Header'));
-  const { assignmentPreview, boardPreview, error, userInfo } = useSelector(
+  const { isLogin, refreshToken, userInfo } = useSelector(getStateCallback<HeaderState>('Header'));
+  const { assignmentPreview, boardPreview, error } = useSelector(
     getStateCallback<MainState>('Main'),
   );
   const LoadingState = useSelector(getStateCallback<LoadingState>('Loading'));
   const serverErrorHandler = useCallback((status: number) => {
-    isLoginChange(false);
     switch (status) {
-      case 401: {
+      case 403: {
         const params = {
           serverType: {
             refreshToken,
           },
-          callback: getUserInfoChange,
+          callback: initPage,
         };
         refreshTokenChange(params);
       }
     }
+  }, []);
+  const initPage = useCallback(() => {
+    getAssignmentChange({ size: 3, page: 1 });
+    getBoardChange({ size: 3, page: 1 });
   }, []);
   useEffect(() => {
     if (!error) return;
@@ -51,9 +47,7 @@ const Main: FC = () => {
   }, [error]);
   useEffect(() => {
     if (!isLogin) return;
-    getAssignmentChange({ size: 3, page: 1 });
-    getBoardChange({ size: 3, page: 1 });
-    getUserInfoChange();
+    initPage();
   }, [isLogin]);
   return isLogin ? (
     <LoginedMain

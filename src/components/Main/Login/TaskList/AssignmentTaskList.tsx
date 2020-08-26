@@ -11,7 +11,7 @@ interface Props {
 const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
   const isDataAble = useCallback(
     (assignmentPreview: AssignmentType, isLoading: boolean) =>
-      assignmentPreview && !isLoading ? true : false,
+      assignmentPreview && assignmentPreview.applicationResponses && !isLoading ? true : false,
     [],
   );
   const setAssignmentComponents = useCallback(
@@ -33,7 +33,7 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
   );
   return (
     <div>
-      <TaskHeader taskListType='megaphone' />
+      <TaskHeader taskListType='calender' />
       <S.TaskList>
         {setAssignmentComponents(assignmentPreview)}
         {isDataAble(assignmentPreview, isLoading) ? (
