@@ -1,3 +1,5 @@
+import { UserInfoResponseType } from '../../../lib/api/Header/userInfo';
+import { UserInfoType } from '../../../lib/api/Header/userInfo';
 import { errorInitialState, ErrorType } from '../../../lib/type';
 import {
   signinThunk,
@@ -12,6 +14,7 @@ export const REFRESH_TOKEN = 'Header/REFRESH_TOKEN' as const;
 export const ALL = 'Header/ALL' as const;
 export const SIGNUP_ERROR = 'Header/SIGNUP_ERROR' as const;
 export const IS_LOGIN = 'Header/IS_LOGIN' as const;
+export const USERINFO = 'Header/USERINFO' as const;
 
 export const REFRESH_TOKEN_CALL = 'Header/REFRESH_TOKEN_CALL' as const;
 export const REFRESH_TOKEN_FAILURE = 'Header/REFRESH_TOKEN_FAILURE' as const;
@@ -32,6 +35,10 @@ export const SIGNIN_FAILURE = 'Header/SIGNIN_FAILURE' as const;
 export const SIGNUP = 'Header/SIGNUP' as const;
 export const SIGNUP_SUCCESS = 'Header/SIGNUP_SUCCESS' as const;
 export const SIGNUP_FAILURE = 'Header/SIGNUP_FAILURE' as const;
+
+export const GET_USER_INFO = 'Header/GET_USER_INFO' as const;
+export const GET_USER_INFO_SUCCESS = 'Header/GET_USER_INFO_SUCCESS' as const;
+export const GET_USER_INFO_FAILURE = 'Header/GET_USER_INFO_FAILURE' as const;
 
 export const setAccessToken = (payload: string) => ({
   type: ACCESS_TOKEN,
@@ -114,12 +121,28 @@ export const signUpSuccess = () => ({
   type: SIGNUP_SUCCESS,
 });
 
+export const getUserInfoSuccess = (payload: UserInfoResponseType) => ({
+  type: GET_USER_INFO_SUCCESS,
+  payload,
+});
+
+export const getUserInfoFailure = (payload: ErrorType) => ({
+  type: GET_USER_INFO_FAILURE,
+  payload,
+});
+
+export const setUserInfo = (payload: UserInfoType) => ({
+  type: USERINFO,
+  payload,
+});
+
 export type HeaderState = {
   accessToken: string;
   refreshToken: string;
   loading: boolean;
   error: ErrorType;
   isLogin: boolean;
+  userInfo: UserInfoType | null;
 };
 
 const getToken = (tokenType: 'accessToken' | 'refreshToken') => {
@@ -136,6 +159,7 @@ const initialState: HeaderState = {
   loading: false,
   error: errorInitialState,
   isLogin: getToken('accessToken').length > 0,
+  userInfo: null,
 };
 
 export type HeaderActionType =
@@ -153,7 +177,9 @@ export type HeaderActionType =
   | ReturnType<typeof emailCheckFailure>
   | ReturnType<typeof emailCheckSuccess>
   | ReturnType<typeof emailSendFailure>
-  | ReturnType<typeof emailSendSuccess>;
+  | ReturnType<typeof emailSendSuccess>
+  | ReturnType<typeof getUserInfoFailure>
+  | ReturnType<typeof getUserInfoSuccess>;
 
 export const HeaderState = (
   state: HeaderState = initialState,
@@ -219,6 +245,33 @@ export const HeaderState = (
       return {
         ...state,
         isLogin: action.payload,
+      };
+    }
+    case GET_USER_INFO_SUCCESS: {
+      const {
+        name,
+        student_number,
+        remaining_assignment,
+        completion_assignment,
+        id,
+        type,
+      } = action.payload;
+      return {
+        ...state,
+        userInfo: {
+          name,
+          type,
+          studentNumber: student_number,
+          remainingAssignment: remaining_assignment,
+          completionAssignment: completion_assignment,
+          id,
+        },
+      };
+    }
+    case GET_USER_INFO_FAILURE: {
+      return {
+        ...state,
+        error: action.payload,
       };
     }
     default:
