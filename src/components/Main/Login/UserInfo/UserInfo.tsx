@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import * as S from '../../style';
 import UserInfoTask from './UserInfoTask';
 import UserInfoButton from './UserInfoButton';
-import { UserInfoType } from 'lib/api/Assignment/Assignment';
+import { UserInfoType } from 'lib/api/Header/userInfo';
 import ErrorUserInfo from './ErrorUserInfo';
 
 interface Props {
@@ -20,7 +20,10 @@ const UserInfo: FC<Props> = ({ userInfo, isLoading, logout }) => {
         ) : (
           <>
             <S.UserInfo>
-              <S.UserInfoName>{userInfo.name}</S.UserInfoName>
+              <S.UserInfoName>
+                <span>{userInfo.studentNumber}</span>
+                <span>{userInfo.name}</span>
+              </S.UserInfoName>
               <UserInfoTask
                 unCompleteTaskCount={userInfo.remainingAssignment}
                 completeTaskCount={userInfo.completionAssignment}

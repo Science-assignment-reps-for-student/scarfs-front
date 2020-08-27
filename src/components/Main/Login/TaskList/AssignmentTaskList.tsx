@@ -11,18 +11,18 @@ interface Props {
 const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
   const isDataAble = useCallback(
     (assignmentPreview: AssignmentType, isLoading: boolean) =>
-      assignmentPreview && !isLoading ? true : false,
+      assignmentPreview && assignmentPreview.applicationResponses && !isLoading ? true : false,
     [],
   );
   const setAssignmentComponents = useCallback(
     (assignmentPreview: AssignmentType): React.ReactNode => {
       if (!isDataAble(assignmentPreview, isLoading)) return <ErrorListComponent />;
       const buffer = [];
-      assignmentPreview.boardResponses.map(assignment => {
+      assignmentPreview.applicationResponses.map(assignment => {
         buffer.push(
           <AssignmentTaskListComponent
-            date={assignment.createdAt}
-            isProgress={assignment.isFinish}
+            date={assignment.created_at}
+            isProgress={assignment.is_finish}
             title={assignment.title}
           />,
         );
@@ -33,7 +33,7 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
   );
   return (
     <div>
-      <TaskHeader taskListType='megaphone' />
+      <TaskHeader taskListType='calender' />
       <S.TaskList>
         {setAssignmentComponents(assignmentPreview)}
         {isDataAble(assignmentPreview, isLoading) ? (
