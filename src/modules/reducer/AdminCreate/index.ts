@@ -1,14 +1,22 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+
 import {
   apiCreateAssignment,
   apiUpdateAssignment,
   apiUpdateAssignmentFiles,
   apiDeleteAssignment,
 } from '../../../lib/api/Admin/create';
-import { useHistory } from 'react-router-dom';
 
 export type AssignmentTypings = 'PERSONAL' | 'TEAM' | 'EXPERIMENT';
+
+export interface Update {
+  assignmentId: string;
+  fd: FormData;
+  create: Create;
+  title: string;
+  description: string;
+}
 
 interface Create {
   files: File[];
@@ -68,53 +76,46 @@ export const fetchCreateThunk: ActionCreator<ThunkAction<
   CreateAction,
   null,
   CreateAction
->> = (data: FormData) => async dispatch => {
+>> = (data: FormData, history: { push: (to: string) => void }) => async dispatch => {
   try {
     await apiCreateAssignment(data);
     dispatch(reset());
-    alert('과제를 성공적으로 생성했습니다.');
-    useHistory().push('/admin');
+    history.push('/admin');
   } catch (err) {
-    // err.response.status
     console.log(err);
   }
 };
+
 export const fetchUpdateThunk: ActionCreator<ThunkAction<
   Promise<void>,
   CreateAction,
   null,
   CreateAction
 >> = (
-  assignmentId: string,
-  fd: FormData,
-  create: Create,
-  texts: { title: string; description: string },
+  { assignmentId, create, description, fd, title }: Update,
+  history: { push: (to: string) => void },
 ) => async dispatch => {
-  const { title, description } = texts;
   try {
-    await apiUpdateAssignmentFiles(fd, assignmentId);
+    // await apiUpdateAssignmentFiles(fd, assignmentId);
     await apiUpdateAssignment(assignmentId, create, { title, description });
     dispatch(reset());
-    alert('과제를 성공적으로 수정했습니다.');
-    useHistory().push('/admin');
+    history.push('/admin');
   } catch (err) {
-    // err.response.status
     console.log(err);
   }
 };
+
 export const fetchDeleteThunk: ActionCreator<ThunkAction<
   Promise<void>,
   CreateAction,
   null,
   CreateAction
->> = (assignmentId: string) => async dispatch => {
+>> = (assignmentId: string, history: { push: (to: string) => void }) => async dispatch => {
   try {
     await apiDeleteAssignment(assignmentId);
     dispatch(reset());
-    alert('과제를 성공적으로 삭제했습니다.');
-    useHistory().push('/admin');
+    history.push('/admin');
   } catch (err) {
-    // err.response.status
     console.log(err);
   }
 };
