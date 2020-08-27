@@ -10,20 +10,21 @@ interface Props {
 
 const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
   const isDataAble = useCallback(
-    (boardType: BoardType, isLoading: boolean) => (boardType && !isLoading ? true : false),
+    (boardType: BoardType, isLoading: boolean) =>
+      boardType && boardType.applicationResponses && !isLoading ? true : false,
     [],
   );
   const setBoardComponents = useCallback((boardPreview: BoardType): React.ReactNode => {
     if (!isDataAble(boardPreview, isLoading)) return <ErrorListComponent />;
     const buffer = [];
-    boardPreview.boardResponses.map(board => {
-      buffer.push(<BoardTaskListComponent date={board.createdAt} title={board.title} />);
+    boardPreview.applicationResponses.map(board => {
+      buffer.push(<BoardTaskListComponent date={board.created_at} title={board.title} />);
     });
     return buffer;
   }, []);
   return (
     <div>
-      <TaskHeader taskListType='calender' />
+      <TaskHeader taskListType='megaphone' />
       <S.TaskList>
         {setBoardComponents(boardPreview)}
         {isDataAble(boardPreview, isLoading) ? <TaskButton link='/board/class' /> : ''}

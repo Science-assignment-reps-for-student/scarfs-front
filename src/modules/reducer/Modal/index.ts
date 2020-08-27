@@ -19,6 +19,7 @@ export type ErrorType =
   | 'SignUpInfoError'
   | 'SignUpPasswordError'
   | 'SignUpEmailError'
+  | 'SignUpPasswordRegexError'
   | '';
 
 export const setError = (payload: ErrorType) => ({
