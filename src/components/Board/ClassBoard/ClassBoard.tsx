@@ -90,7 +90,9 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
       ) : (
         <S.Footer>
           <PaginationBar page={page} setPage={setPage} lastPage={classBoard.total_pages} />
-          <S.Button onClick={() => history.push('/board/class/write')}>게시물작성</S.Button>
+          {type === 'ADMIN' && (
+            <S.Button onClick={() => history.push('/board/class/write')}>게시물작성</S.Button>
+          )}
         </S.Footer>
       )}
     </>
