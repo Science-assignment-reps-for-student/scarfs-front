@@ -8,6 +8,7 @@ import {
   SIGNUP,
   EMAILCHECK,
   EMAILSEND,
+  GET_USER_INFO,
 } from '../../reducer/Header';
 import {
   signin,
@@ -27,6 +28,8 @@ import {
   SignUpType,
 } from '../../../lib/api/Header/signup';
 import { startLoading, finishLoading } from '../../../modules/reducer/Loading';
+import { createRequestThunk } from '../../../lib/thunk';
+import { getUserInfo } from '../../../lib/api/Header/userInfo';
 
 const setTokensToLocalStorage = (tokens: SignInResponseType) => {
   localStorage.setItem('accessToken', tokens.access_token);
@@ -37,8 +40,8 @@ export const signinThunk = () => {
   return (params: SignInType) => async dispatch => {
     dispatch(startLoading(SIGNIN));
     try {
-      const { access_token, refresh_token, tokenType } = await signin(params);
-      setTokensToLocalStorage({ access_token, refresh_token, tokenType });
+      const { access_token, refresh_token, token_type } = await signin(params);
+      setTokensToLocalStorage({ access_token, refresh_token, token_type });
       dispatch(
         setAll({
           accessToken: access_token,
@@ -46,6 +49,7 @@ export const signinThunk = () => {
           loading: false,
           error: null,
           isLogin: true,
+          userInfo: null,
         }),
       );
       dispatch(setPassword(''));
@@ -103,8 +107,13 @@ export const refreshTokenThunk = () => {
     dispatch(startLoading(REFRESH_TOKEN_CALL));
     try {
       const response = await sendRefreshToken(params.serverType);
-      dispatch(refreshTokenSuccess(response));
+      const sneakToCamel = {
+        accessToken: response.access_token,
+        refreshToken: response.refresh_token,
+      };
+      dispatch(refreshTokenSuccess(sneakToCamel));
       dispatch(setIsLogin(true));
+      setTokensToLocalStorage(response);
       params.callback();
     } catch (err) {
       dispatch(setModal('SignIn'));
