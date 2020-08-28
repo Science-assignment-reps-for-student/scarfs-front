@@ -6,9 +6,10 @@ interface Props {
   searchTitle: string;
   isTableView: boolean;
   setIsTableView: React.Dispatch<React.SetStateAction<boolean>>;
+  children?: React.ReactNode;
 }
 
-const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableView }) => {
+const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableView, children }) => {
   const turnOnTableView = useCallback(() => {
     setIsTableView(true);
   }, []);
@@ -20,6 +21,7 @@ const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableVie
   return (
     <S.BoardHeaderWrapper>
       <S.Header>
+        {children}
         HOME {'>'} <S.Bold>{title}</S.Bold>
       </S.Header>
       <S.Main>
