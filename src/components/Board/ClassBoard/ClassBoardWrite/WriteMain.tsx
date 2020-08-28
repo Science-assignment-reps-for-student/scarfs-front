@@ -86,6 +86,9 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
     if (!contents.some(content => content)) {
       return alert('내용은 빌 수 없습니다.');
     }
+    if (contents.some(content => content.indexOf('%{') !== -1)) {
+      return alert('포함할 수 없는 문자입니다.');
+    }
     const data = new FormData();
     let content = '';
     let count = 0;
