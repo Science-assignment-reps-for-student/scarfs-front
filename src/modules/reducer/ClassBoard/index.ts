@@ -36,6 +36,7 @@ const initialState: ClassBoardState = {
     total_elements: 0,
     total_pages: 0,
     application_responses: [],
+    class_number: 1,
   },
   getBoardError: errorInitialState,
 };
