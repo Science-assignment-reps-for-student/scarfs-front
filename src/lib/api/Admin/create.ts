@@ -6,25 +6,23 @@ export const apiCreateAssignment = (data: FormData) => {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+    timeout: 10000,
   });
 };
 
 export const apiUpdateAssignment = (
   assignmentId: string,
-  create: CreateState,
-  texts: { title: string; description: string },
+  { deadline_1, deadline_2, deadline_3, deadline_4, typing }: CreateState,
+  { description, title }: { title: string; description: string },
 ) => {
-  const { deadline_1, deadline_2, deadline_3, deadline_4 } = create;
-  const { title, description } = texts;
   return getApiDefault().patch(`/rib-eye/assignment/${assignmentId}`, {
-    data: {
-      title,
-      description,
-      deadline_1,
-      deadline_2,
-      deadline_3,
-      deadline_4,
-    },
+    title,
+    description,
+    deadline_1,
+    deadline_2,
+    deadline_3,
+    deadline_4,
+    type: typing,
   });
 };
 
