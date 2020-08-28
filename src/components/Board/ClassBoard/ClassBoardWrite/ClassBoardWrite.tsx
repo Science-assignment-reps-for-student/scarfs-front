@@ -1,11 +1,9 @@
-import React, { FC, createElement, useRef, useState, useEffect } from 'react';
-import * as S from './style';
+import React, { FC, useState, useEffect } from 'react';
 import { Select } from '../style';
 import { Header, WriteMain } from './';
 import queryString from 'query-string';
 import { Redirect, useHistory } from 'react-router-dom';
 import { ErrorType } from '../../../../lib/type';
-import { useUser } from '../../../../lib/function';
 
 interface Props {
   writeBoard: (data: FormData) => void;

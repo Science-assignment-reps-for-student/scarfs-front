@@ -7,15 +7,18 @@ import { getStateCallback } from '../../../../lib/function';
 
 interface Props {
   isEditMode: boolean;
+  writeOrEditClickHandler: () => void;
 }
 
-const WriteFooterButtons: FC<Props> = ({ isEditMode }) => {
+const WriteFooterButtons: FC<Props> = ({ isEditMode, writeOrEditClickHandler }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { returnValue } = useSelector(getStateCallback<AlertState>('Alert'));
+
   const onClickDelete = () => {
     dispatch(createAlert('게시글을 정말 삭제하시겠습니까?'));
   };
+
   useEffect(() => {
     if (returnValue) {
       console.log('삭제함 ㅅㄱ');
@@ -23,9 +26,12 @@ const WriteFooterButtons: FC<Props> = ({ isEditMode }) => {
       console.log('삭제안할게 ㅎㅎ');
     }
   }, [returnValue]);
+
   return (
     <S.FooterWrapper>
-      <S.BlueButton>{isEditMode ? '수정하기' : '등록하기'}</S.BlueButton>
+      <S.BlueButton onClick={writeOrEditClickHandler}>
+        {isEditMode ? '수정하기' : '등록하기'}
+      </S.BlueButton>
       {isEditMode && <S.BlueButton onClick={onClickDelete}>삭제하기</S.BlueButton>}
       <S.BlackButton onClick={() => history.push('/board/class')}>취소</S.BlackButton>
     </S.FooterWrapper>

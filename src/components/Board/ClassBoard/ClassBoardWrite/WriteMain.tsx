@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, ReactElement, useEffect, useMemo } from 'react';
+import React, { FC, useRef, useState, ReactElement, useEffect, useMemo, useCallback } from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import * as S from './style';
 import {
@@ -8,26 +8,26 @@ import {
 } from '../../DetailPost/Default/PostMain/style';
 import { WriteTextarea, WriteFooterButtons, ImagePreview } from './';
 import { readFileAsDataURL } from '../../../../lib/function';
+import { writeBoardSuccess } from 'src/modules/reducer/ClassBoardWrite';
 
 interface Props {
   data?: {
     title: string;
     content: string;
   };
+  writeBoard: (data: FormData) => void;
+  classNumber: number;
 }
 
-const WriteMain: FC<Props> = ({ data }) => {
+const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [imgFiles, setImgFiles] = useState<Array<File>>([]);
-  const [title, setTitle] = useState(data.title ? data.title : '');
-  const [contents, setContents] = useState<Array<string>>([data.content ? data.content : '']);
-  const titleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-  const [writeContentComponents, setWriteContentComponents] = useState<any[]>([
+  const [imgFiles, setImgFiles] = useState<Array<File>>([undefined]);
+  const [title, setTitle] = useState('');
+  const [contents, setContents] = useState<string[]>([]);
+  const [writeContentComponents, setWriteContentComponents] = useState<React.ReactElement[]>([
     <WriteTextarea
       key={0}
       index={0}
@@ -37,15 +37,22 @@ const WriteMain: FC<Props> = ({ data }) => {
       value={contents[0]}
     />,
   ]);
+
+  const titleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   const fileChangeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     const components = [...writeContentComponents];
     const imgs = [...imgFiles];
+    const newContents = [...contents];
     for await (const file of Array.from(files)) {
-      const result = await readFileAsDataURL(file);
       inputFileRef.current.value = '';
+      const result = await readFileAsDataURL(file);
       let index = components.length;
       imgs[index] = file;
+      newContents[index] = '';
       components.push(
         <ImagePreview
           key={index}
@@ -64,17 +71,48 @@ const WriteMain: FC<Props> = ({ data }) => {
           setContents={setContents}
         />,
       );
+      newContents[index] = '';
+      imgs[index] = undefined;
     }
     setImgFiles(imgs);
+    setContents(newContents);
     setWriteContentComponents(components);
   };
-  useEffect(() => {
-    console.log(1);
-    textareaRef.current.focus();
-  }, [writeContentComponents]);
+
+  const writeClickHandler = useCallback(() => {
+    if (!title) {
+      return alert('제목은 빌 수 없습니다.');
+    }
+    if (!contents.some(content => content)) {
+      return alert('내용은 빌 수 없습니다.');
+    }
+    const data = new FormData();
+    let content = '';
+    let count = 0;
+    data.append('title', title);
+    writeContentComponents.forEach((component, index) => {
+      if (!component) return;
+      if (Number(component.key) % 2 === 0) {
+        content += `${contents[index]}\n`;
+      } else if (Number(component.key) % 2 === 1) {
+        count++;
+        content += `%{image${count}}\n`;
+        data.append('images', imgFiles[index]);
+      }
+    });
+    data.append('content', content);
+    data.append('class_number', classNumber.toString());
+    writeBoard(data);
+  }, [title, contents, imgFiles, writeContentComponents, classNumber]);
+
   useEffect(() => {
     inputTitleRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    textareaRef.current.focus();
+  }, [writeContentComponents]);
+
   return (
     <>
       <PostMainWrapper>
@@ -104,7 +142,7 @@ const WriteMain: FC<Props> = ({ data }) => {
           ref={inputFileRef}
         />
       </PostMainWrapper>
-      <WriteFooterButtons isEditMode={data.title ? true : false} />
+      <WriteFooterButtons isEditMode={false} writeOrEditClickHandler={writeClickHandler} />
     </>
   );
 };
