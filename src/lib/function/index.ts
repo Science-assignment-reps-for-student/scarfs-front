@@ -77,13 +77,12 @@ export const useUser = () => {
       remainingAssignment: 0,
       completionAssignment: 0,
       classNumber: 0,
+      id: 0,
+      type: 'STUDENT',
     };
-  const returnValue = useMemo(
-    () => ({
-      ...userInfo,
-      classNumber: userInfo.studentNumber.toString().split('')[1],
-    }),
-    [userInfo],
-  );
+  const returnValue = {
+    ...userInfo,
+    classNumber: parseInt(userInfo.studentNumber.toString().split('')[1]),
+  };
   return returnValue;
 };

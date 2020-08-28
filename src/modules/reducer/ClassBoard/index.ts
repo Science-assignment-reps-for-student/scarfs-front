@@ -5,6 +5,8 @@ export const GET_BOARD = 'ClassBoard/GET_BOARD' as const;
 export const GET_BOARD_SUCCESS = 'ClassBoard/GET_BOARD_SUCCESS' as const;
 export const GET_BOARD_FAILURE = 'ClassBoard/GET_BOARD_FAILURE' as const;
 
+export const RESET_GET_BOARD = 'ClassBoard/RESET_GET_BOARD' as const;
+
 export const getBoardSuccess = (payload: ClassBoard) => ({
   type: GET_BOARD_SUCCESS,
   payload,
@@ -15,9 +17,14 @@ export const getBoardFailure = (error: ErrorType) => ({
   payload: error,
 });
 
+export const resetBoard = () => ({
+  type: RESET_GET_BOARD,
+});
+
 export type ClassBoardAction =
   | ReturnType<typeof getBoardSuccess>
-  | ReturnType<typeof getBoardFailure>;
+  | ReturnType<typeof getBoardFailure>
+  | ReturnType<typeof resetBoard>;
 
 export type ClassBoardState = {
   classBoard: ClassBoard;
@@ -49,6 +56,8 @@ export default function ClassBoard(
         ...state,
         getBoardError: action.payload,
       };
+    case RESET_GET_BOARD:
+      return initialState;
     default:
       return state;
   }

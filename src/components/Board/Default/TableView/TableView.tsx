@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import * as S from './style';
+import { ClassBoardItem } from '../../../../lib/api/ClassBoard';
 
 export interface AssignmentGuideBoard {
   id: number;
@@ -13,14 +14,8 @@ export interface AssignmentGuideBoard {
   view: number;
 }
 
-export interface ClassBoard {
+export interface ClassBoard extends ClassBoardItem {
   id: number;
-  boardId: number;
-  title: string;
-  previewContent: string;
-  writerName: string;
-  createdAt: string;
-  view: number;
 }
 
 export interface NoticeBoard {
