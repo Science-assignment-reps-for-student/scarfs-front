@@ -49,7 +49,6 @@ export default function ClassBoardWriter(
 ) {
   switch (action.type) {
     case WRITE_BOARD_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         writeBoardSuccess: action.payload,
