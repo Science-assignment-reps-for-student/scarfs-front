@@ -4,6 +4,7 @@ import { Header, WriteMain } from './';
 import queryString from 'query-string';
 import { Redirect, useHistory } from 'react-router-dom';
 import { ErrorType } from '../../../../lib/type';
+import { useWriteClassNumber } from '../../../../lib/function';
 
 interface Props {
   writeBoard: (data: FormData) => void;
@@ -19,7 +20,7 @@ const ClassBoardWrite: FC<Props> = ({
   writeBoardError,
 }) => {
   const history = useHistory();
-  const [classNumber, setClassNumber] = useState(1);
+  const [classNumber, setClassNumber] = useWriteClassNumber();
 
   const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setClassNumber(parseInt(e.target.value));
@@ -47,7 +48,7 @@ const ClassBoardWrite: FC<Props> = ({
   }, [writeBoardSuccess]);
   return (
     <>
-      <Header title={id ? '게시판 수정' : '게시판 작성'}>
+      <Header title={id ? '게시글 수정' : `${classNumber}반 게시글 작성`}>
         {!id && (
           <Select value={classNumber} onChange={selectChangeHandler}>
             <option value='1'>1반</option>
