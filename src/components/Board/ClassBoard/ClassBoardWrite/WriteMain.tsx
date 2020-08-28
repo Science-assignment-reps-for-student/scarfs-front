@@ -1,5 +1,4 @@
-import React, { FC, useRef, useState, ReactElement, useEffect, useMemo, useCallback } from 'react';
-import ReactDOM, { createPortal } from 'react-dom';
+import React, { FC, useRef, useState, useEffect, useCallback } from 'react';
 import * as S from './style';
 import {
   PostMainWrapper,
@@ -8,7 +7,6 @@ import {
 } from '../../DetailPost/Default/PostMain/style';
 import { WriteTextarea, WriteFooterButtons, ImagePreview } from './';
 import { readFileAsDataURL } from '../../../../lib/function';
-import { writeBoardSuccess } from 'src/modules/reducer/ClassBoardWrite';
 
 interface Props {
   data?: {
