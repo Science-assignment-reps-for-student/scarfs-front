@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import HeaderState from '../../../src/modules/reducer/Header';
+import HeaderState, { sendRefreshToken } from '../../../src/modules/reducer/Header';
 import Chatting, { ChattingOpenButton } from '../../components/Chatting';
-import { getStateCallback } from '../../lib/function';
+import { getStateCallback, isNetworkError } from '../../lib/function';
 import {
   ChattingState,
   pushAdminChattingList,
@@ -22,6 +22,9 @@ import {
 import IO from './WebSocket';
 import { ChattingContentType, ChattingListType } from 'lib/api/Chatting/Chatting';
 
+const TEACHER_TYPE = 1;
+const ADMIN_TYPE = 2;
+
 const ChattingContainer: FC = () => {
   const dispatch = useDispatch();
   const {
@@ -34,20 +37,39 @@ const ChattingContainer: FC = () => {
     alarm,
     chattingLog,
     isDelete,
+    error,
   } = useSelector(getStateCallback<ChattingState>('Chatting'));
-  const { isLogin, userInfo, accessToken } = useSelector(getStateCallback<HeaderState>('Header'));
+  const { isLogin, userInfo, accessToken, refreshToken } = useSelector(
+    getStateCallback<HeaderState>('Header'),
+  );
   const io = useRef<IO>();
   const chattingBody = useRef<HTMLDivElement>();
+
   const isTeacher = useCallback((parter: string) => {
     if (parter === '박지연 선생님') return true;
     return false;
   }, []);
+
   const sendMessage = useCallback(
     (message: string) => {
-      io.current.send(message, userInfo.id, isTeacher(partner) ? 1 : 2);
+      io.current.send(message, userInfo.id, isTeacher(partner) ? TEACHER_TYPE : ADMIN_TYPE);
     },
     [partner, userInfo],
   );
+
+  const serverErrorHandler = useCallback((status: number) => {
+    switch (status) {
+      case 403: {
+        const params = {
+          serverType: {
+            refreshToken,
+          },
+          callback: initPage,
+        };
+        dispatch(sendRefreshToken(params));
+      }
+    }
+  }, []);
 
   const partnerChange = useCallback((payload: string) => {
     dispatch(setPartner(payload));
@@ -71,21 +93,19 @@ const ChattingContainer: FC = () => {
 
   const updateChatting = useCallback(
     (response: ChattingContentType) => {
-      if (!isAble) {
-        alarmChange(true);
-      }
-      if (response.target === 1) {
+      if (response.target === TEACHER_TYPE) {
         dispatch(pushTeacherChattingList(response));
       } else {
         dispatch(pushAdminChattingList(response));
       }
-      chattingBody.current.scrollTop = chattingBody.current.scrollHeight;
+      chattingBodyScrollDown(chattingBody.current);
     },
     [partner, isAble],
   );
   const chattingBodyScrollDown = useCallback((chattingBody: HTMLDivElement) => {
     if (chattingBody) chattingBody.scrollTop = chattingBody.scrollHeight;
   }, []);
+
   const setSocketUrl = useCallback(
     (io: IO, adminType: number) => {
       io.setUrl(
@@ -94,6 +114,13 @@ const ChattingContainer: FC = () => {
     },
     [userInfo, accessToken],
   );
+
+  const initPage = useCallback(() => {
+    dispatch(getAdminChattingListThunk(ADMIN_TYPE));
+    dispatch(getTeacherChattingListThunk(TEACHER_TYPE));
+    dispatch(getChattingLogThunk(0));
+  }, []);
+
   const alarmSetting = useCallback((chattingLog: ChattingListType[]) => {
     chattingLog.map(log => {
       if (!log.show) {
@@ -101,31 +128,45 @@ const ChattingContainer: FC = () => {
       }
     });
   }, []);
-  useEffect(() => {
-    dispatch(getAdminChattingListThunk(2));
-    dispatch(getTeacherChattingListThunk(1));
-    dispatch(getChattingLogThunk(0));
-  }, []);
-  useEffect(() => {
-    if (!accessToken || !userInfo) return;
-    setSocketUrl(io.current, 2);
+
+  const chattingSetting = useCallback(() => {
+    setSocketUrl(io.current, ADMIN_TYPE);
     io.current.connect();
     dispatch(setIsConnected(true));
-    io.current.joinRoom(userInfo.id, 1);
-    io.current.joinRoom(userInfo.id, 2);
+    io.current.joinRoom(userInfo.id, TEACHER_TYPE);
+    io.current.joinRoom(userInfo.id, ADMIN_TYPE);
     io.current.receive(updateChatting);
     io.current.error(() => dispatch(setIsConnected(false)));
+  }, [io, userInfo]);
+
+  useEffect(() => {
+    initPage();
+  }, []);
+
+  useEffect(() => {
+    if (!accessToken || !userInfo) return;
+    chattingSetting();
   }, [userInfo]);
+
   useEffect(() => {
     io.current = new IO();
   }, []);
+
   useEffect(() => {
     chattingBodyScrollDown(chattingBody.current);
   }, [partner, isAble]);
+
   useEffect(() => {
     if (!chattingLog) return;
     alarmSetting(chattingLog);
   }, [chattingLog]);
+
+  useEffect(() => {
+    if (!error) return;
+    if (isNetworkError(error)) return;
+    const statusCode = error.response.status;
+    serverErrorHandler(statusCode);
+  }, [error]);
 
   return isLogin ? (
     isAble ? (
