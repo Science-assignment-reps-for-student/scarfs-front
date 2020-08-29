@@ -29,7 +29,11 @@ const ChattingBodyContent: FC<Props> = ({
       {isMine ? (
         <S.MyChattingLog>
           <div onMouseEnter={logMouseOverHandler} onMouseLeave={logMouseLeaveHandler}>
-            <div className='img' ref={trashRef} onClick={() => deleteButtonClickHandler(id)} />
+            {isDelete ? (
+              <></>
+            ) : (
+              <div className='img' ref={trashRef} onClick={() => deleteButtonClickHandler(id)} />
+            )}
             {childNode}
           </div>
         </S.MyChattingLog>
