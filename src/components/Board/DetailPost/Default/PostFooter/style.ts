@@ -24,7 +24,7 @@ export const Button = styled.div<{
     borderColor
       ? css`
           padding: 12px 0 10px;
-          border: 1.5px solid ${borderColor};
+          border: 1px solid ${borderColor};
         `
       : css`
           padding: 14px 0 10px;
@@ -43,5 +43,8 @@ export const Button = styled.div<{
   cursor: pointer;
   & + & {
     margin-left: 15px;
+  }
+  &:nth-child(2) {
+    margin-right: 20px;
   }
 `;
