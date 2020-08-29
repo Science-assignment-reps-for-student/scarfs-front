@@ -4,15 +4,17 @@ import { Comment, ReComment } from '../../../components/Board/DetailPost/ClassDe
 export interface ClassDetailPost {
   title: string;
   isMine: boolean;
-  writerName: string;
-  createdAt: string;
+  writer_name: string;
+  created_at: string;
   view: number;
   content: string;
-  nextBoardTitle: string;
-  preBoardTitle: string;
-  nextBoardId: number;
-  preBoardId: number;
+  next_board_title: string | null;
+  pre_board_title: string | null;
+  next_board_id: number | null;
+  pre_board_id: number | null;
   comments: Comment[];
+  images: string[];
+  class_number: number;
 }
 
 export const getClassDetailPost = (boardId: number) =>
