@@ -14,13 +14,14 @@ export interface AssignmentResponseType {
 }
 
 export interface AssignmentElementType {
-  homework_id: number;
+  assignment_id: number;
   type: string;
   title: string;
   created_at: string;
   daed_line: string;
   is_finish: boolean;
   view: number;
+  complete: boolean;
 }
 
 export interface BoardType {
