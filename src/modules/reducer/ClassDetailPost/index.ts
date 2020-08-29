@@ -27,7 +27,6 @@ export type ClassDetailPostState = {
 const initialState: ClassDetailPostState = {
   classDetailPost: {
     title: '',
-    isMine: false,
     writer_name: '',
     created_at: '',
     view: 0,
