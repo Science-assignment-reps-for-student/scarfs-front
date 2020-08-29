@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ClassBoardWrite, AlertModal } from '../../../../components';
+import { ClassBoardWrite } from '../../../../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStateCallback } from '../../../../lib/function';
 import { ClassBoardWriteState, writeBoardReset } from '../../../../modules/reducer/ClassBoardWrite';
@@ -32,14 +32,12 @@ const ClassBoardWriteContainer: FC = () => {
   }
 
   return (
-    <AlertModal type='notify'>
-      <ClassBoardWrite
-        writeBoard={writeBoard}
-        resetWriteBoard={resetWriteBoard}
-        writeBoardSuccess={writeBoardSuccess}
-        writeBoardError={writeBoardError}
-      />
-    </AlertModal>
+    <ClassBoardWrite
+      writeBoard={writeBoard}
+      resetWriteBoard={resetWriteBoard}
+      writeBoardSuccess={writeBoardSuccess}
+      writeBoardError={writeBoardError}
+    />
   );
 };
 
