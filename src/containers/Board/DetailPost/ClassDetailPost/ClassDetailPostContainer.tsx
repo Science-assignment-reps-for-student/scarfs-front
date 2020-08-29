@@ -8,7 +8,7 @@ import { LoadingState } from 'src/modules/reducer/Loading';
 
 const ClassDetailPostContainer: FC<{}> = () => {
   const dispatch = useDispatch();
-  const { classDetailPost } = useSelector(
+  const { classDetailPost, getDetailPostError } = useSelector(
     getStateCallback<ClassDetailPostState>('ClassDetailPost'),
   );
   const { 'ClassDetailPost/GET_DETAIL_POST': isLoading } = useSelector(
@@ -21,6 +21,7 @@ const ClassDetailPostContainer: FC<{}> = () => {
     <ClassDetailPost
       isLoading={isLoading}
       classDetailPost={classDetailPost}
+      getDetailPostError={getDetailPostError}
       getDetailPost={getDetailPost}
     />
   );
