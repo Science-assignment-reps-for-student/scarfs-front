@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import NotifyModal from './NotifyModal';
@@ -17,17 +17,21 @@ interface Props {
 }
 
 const AlertModal: FC<Props> = ({ type, children }): ReactElement => {
-  const { isShow, explain } = useSelector((state: ReducerType) => state.Alert);
+  const { isShow, explain, checkCallback, cancelCallback } = useSelector(
+    (state: ReducerType) => state.Alert,
+  );
   const dispatch = useDispatch();
 
-  const onClickCheck = () => {
+  const onClickCheck = useCallback(() => {
+    checkCallback();
     dispatch(setReturnValue(true));
     dispatch(deleteAlert());
-  };
-  const onClickCancel = () => {
+  }, [checkCallback]);
+  const onClickCancel = useCallback(() => {
+    cancelCallback();
     dispatch(setReturnValue(false));
     dispatch(deleteAlert());
-  };
+  }, [cancelCallback]);
 
   const separateExplain = (explain: string) => {
     return explain

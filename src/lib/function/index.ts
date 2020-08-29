@@ -1,9 +1,12 @@
-import { AxiosError } from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
-import { MainState } from '../../modules/reducer/Main';
-import { useMemo } from 'react';
+import { HeaderState } from '../../modules/reducer/Header';
+import * as Type from '../../lib/type';
+import {
+  ClassBoardWriteState,
+  setWriteBoardClassNumber,
+} from '../../modules/reducer/ClassBoardWrite';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -43,15 +46,17 @@ export const getModalErrorText = (error: ErrorType) => {
     case 'SignUpEmailError': {
       return '올바른 이메일인지 확인해 주세요.';
     }
+    case 'SignUpPasswordRegexError': {
+      return '비밀번호에 특수문자와 대문자를 넣어주세요.';
+    }
     default:
       return '';
   }
 };
 
-export const isNetworkError = (error: AxiosError | null): boolean => {
+export const isNetworkError = (error: Type.ErrorType | null): boolean => {
   if (!error) return;
-  const errorJson = error.toJSON() as { message: string };
-  if (errorJson.message === 'Network Error') {
+  if (error.message === 'Network Error') {
     return true;
   }
   return false;
@@ -67,7 +72,7 @@ export const readFileAsDataURL = async (file: File) => {
 };
 
 export const useUser = () => {
-  const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
+  const { userInfo } = useSelector(getStateCallback<HeaderState>('Header'));
   if (userInfo === null)
     return {
       name: '',
@@ -75,13 +80,23 @@ export const useUser = () => {
       remainingAssignment: 0,
       completionAssignment: 0,
       classNumber: 0,
+      id: 0,
+      type: 'STUDENT',
     };
-  const returnValue = useMemo(
-    () => ({
-      ...userInfo,
-      classNumber: userInfo.studentNumber.toString().split('')[1],
-    }),
-    [userInfo],
-  );
+  const returnValue = {
+    ...userInfo,
+    classNumber: parseInt(userInfo.studentNumber.toString().split('')[1]),
+  };
   return returnValue;
+};
+
+export const useWriteClassNumber = (): [number, (classNumber: number) => void] => {
+  const dispatch = useDispatch();
+  const { classNumber } = useSelector(getStateCallback<ClassBoardWriteState>('ClassBoardWrite'));
+
+  const setClassNumber = (classNumber: number) => {
+    dispatch(setWriteBoardClassNumber(classNumber));
+  };
+
+  return [classNumber, setClassNumber];
 };

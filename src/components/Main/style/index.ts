@@ -29,7 +29,6 @@ export const TaskList = styled.div`
   height: 190px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
 `;
 
 export const TaskListComponent = styled.div`
@@ -182,6 +181,9 @@ export const UserInfoName = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   text-align: right;
+  > span {
+    margin-left: 10px;
+  }
 `;
 
 export const UserInfoTask = styled.div`

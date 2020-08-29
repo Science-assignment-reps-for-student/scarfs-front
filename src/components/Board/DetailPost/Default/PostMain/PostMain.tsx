@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
+import { ClassDetailPost } from '../../../../../lib/api/ClassDetailPost';
+import { ImagePreviewBox } from '../../../ClassBoard/ClassBoardWrite/style';
 
 export interface AssignmentDetailPost {
   homeworkId: number;
@@ -11,19 +13,6 @@ export interface AssignmentDetailPost {
   isFinish: boolean;
   view: number;
   files: string[];
-}
-
-export interface ClassDetailPost {
-  title: string;
-  isMine: boolean;
-  writerName: string;
-  createdAt: string;
-  view: number;
-  content: string;
-  nextBoardTitle: string;
-  preBoardTitle: string;
-  nextBoardNumber: number;
-  preBoardNumber: number;
 }
 
 export interface NoticeDetailPost {
@@ -45,6 +34,7 @@ interface Props {
   prevPostTitle: string;
   nextPostTitle: string;
   content: string;
+  images?: string[];
   board: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   InfoDetailTemplate: FC<{
     board?: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
@@ -59,9 +49,31 @@ const PostMain: FC<Props> = ({
   prevPostTitle,
   nextPostTitle,
   content,
+  images,
   board,
   InfoDetailTemplate,
 }) => {
+  const getContentWithImages = useCallback(() => {
+    const jsx = [];
+    let imageStartIndex = 0;
+    let imageEndIndex = 0;
+    let count = 0;
+    while (content.indexOf('%{', imageEndIndex) !== -1) {
+      imageStartIndex = content.indexOf('%{', imageEndIndex);
+      jsx.push(
+        <Fragment key={count}>
+          <pre>{content.slice(imageEndIndex, imageStartIndex)}</pre>
+          <ImagePreviewBox>
+            <img src={`${process.env.BASE_URL}/shank/image/${images[count]}`} />
+          </ImagePreviewBox>
+        </Fragment>,
+      );
+      imageEndIndex = content.indexOf('}', imageStartIndex) + 1;
+      count++;
+    }
+    jsx.push(<pre key={count}>{content.slice(imageEndIndex)}</pre>);
+    return jsx;
+  }, [content, images, board]);
   return (
     <S.PostMainWrapper>
       <S.LeftAside>
@@ -89,7 +101,7 @@ const PostMain: FC<Props> = ({
           )}
         </S.NearbyPost>
       </S.LeftAside>
-      <S.PostContentBox>{content}</S.PostContentBox>
+      <S.PostContentBox>{getContentWithImages()}</S.PostContentBox>
     </S.PostMainWrapper>
   );
 };

@@ -1,18 +1,22 @@
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+
 import { apiDefault, getApiDefault } from '../client';
 import { Team } from '../../../modules/reducer/Admin/adminTeam';
 import { Personal } from '../../../modules/reducer/Admin/adminPersonal';
 import { Experiment } from '../../../modules/reducer/Admin/adminExperiment';
 
+interface RefreshToken {
+  access_token: string;
+}
+
 export const getAssignmentPersonal = (classNum: number) => {
-  return getApiDefault().get<Personal>(`/admin/personal-assignment?class=${classNum}`);
+  return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
 };
 export const getAssignmentTeam = (classNum: number) => {
-  return getApiDefault().get<Team>(`/admin/team-assignment?class=${classNum}`);
+  return getApiDefault().get<Team>(`/chateaubriand/team-assignment?class=${classNum}`);
 };
 export const getAssignmentExperiment = (classNum: number) => {
-  return getApiDefault().get<Experiment>(`/admin/experiment-assignment?class=${classNum}`);
+  return getApiDefault().get<Experiment>(`/chateaubriand/experiment-assignment?class=${classNum}`);
 };
 
 export const downloadAssignmentFiles = (assignmentId: number, assignmentType: string) => {
@@ -29,20 +33,17 @@ export const updateAssignmentExcel = (assignmentId: number, assignmentType: stri
 
 export const tokenReIssuance = async () => {
   try {
-    const { data } = await axios({
-      method: 'POST',
-      url: `${process.env.TEST_BASE_URL}/admin/token`,
-      data: {
-        access_token: localStorage.getItem('accessToken'),
-        refresh_token: localStorage.getItem('refreshToken'),
-      },
+    const { data } = await axios.post<RefreshToken>(`${process.env.BASE_URL}/chateaubriand/token`, {
+      access_token: localStorage.getItem('accessToken'),
+      refresh_token: localStorage.getItem('refreshToken'),
     });
     localStorage.setItem('accessToken', data.access_token);
   } catch (err) {
-    console.log(err);
     const code = err?.response?.status;
     if (code === 403) {
-      useHistory().push('/admin/login');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      window.location.href = '/admin/login';
     }
   }
 };

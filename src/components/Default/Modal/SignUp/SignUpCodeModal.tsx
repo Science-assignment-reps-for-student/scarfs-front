@@ -16,8 +16,8 @@ import {
   getModalErrorText,
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
-import { signup, emailCheck, emailSend, HeaderState } from '../../../../modules/reducer/Header';
-import { EmailCheckType, EmailSendType, SignUpType } from 'lib/api/Header/signup';
+import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
+import { EmailCheckType, EmailSendType, SignUpType } from '../../../../lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
@@ -31,20 +31,27 @@ const SignUpModal: FC = () => {
   const emailSendChange = stateChange<EmailSendType>(emailSend);
   const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
   const signUpChange = stateChange<SignUpType>(signup);
-
+  const isPasswordAble = useCallback((password: string) => {
+    const reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return reg.exec(password) === null ? true : false;
+  }, []);
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
   }, []);
+  const isPasswordCheckAble = useCallback(({ password, passwordCheck }: SignUpState): boolean => {
+    return password === passwordCheck;
+  }, []);
   const buttonClickHandler = useCallback(() => {
-    if (isStateAble(state)) {
-      signUpChange({ number, password, authCode: code, name });
+    if (!isStateAble(state)) {
+      errorChange('SignInError');
+    } else if (isPasswordAble(password)) {
+      errorChange('SignUpPasswordRegexError');
+    } else if (isPasswordCheckAble(state)) {
+      errorChange('SignUpPasswordError');
     } else {
-      errorHandler();
+      signUpChange({ number, password, authCode: code, name });
     }
   }, [state]);
-  const errorHandler = useCallback(() => {
-    errorChange('SignInError');
-  }, []);
   const codeCheckButtonClickHandler = useCallback(() => {
     emailCheckChange({ email, code: emailCode });
   }, [email, code]);
@@ -87,7 +94,7 @@ const SignUpModal: FC = () => {
         text='비밀번호'
         value={password}
         valueChange={passwordChange}
-        placeholder='6 ~ 12자, 영문과 숫자 조합으로 만드세요.'
+        placeholder='대문자와 특수문자를 반드시 포함하세요.'
         type='password'
       />
       <ModalInput
