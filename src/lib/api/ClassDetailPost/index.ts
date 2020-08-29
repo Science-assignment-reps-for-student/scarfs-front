@@ -3,7 +3,6 @@ import { Comment, ReComment } from '../../../components/Board/DetailPost/ClassDe
 
 export interface ClassDetailPost {
   title: string;
-  isMine: boolean;
   writer_name: string;
   created_at: string;
   view: number;
