@@ -1,24 +1,37 @@
-import React, { FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { ChattingState, PARTNER, INPUT, IS_ABLE } from '../../modules/reducer/Chatting';
+import React, { FC, MutableRefObject } from 'react';
 import { ChattingHeader } from './Header';
 import { ChattingBody } from './Body';
 import { ChattingInput } from './Input';
 import * as S from './style';
-import { getStateCallback } from '../../lib/function';
+import { ChattingContentType } from 'lib/api/Chatting/Chatting';
 
-const Chatting: FC = () => {
-  const dispatch = useDispatch();
-  const { partner, chattingList, input } = useSelector(getStateCallback<ChattingState>('Chatting'));
-  const inputChange = (payload: string) => {
-    dispatch({ type: INPUT, payload });
-  };
-  const headerChange = (payload: string) => {
-    dispatch({ type: PARTNER, payload });
-  };
-  const isAbleChange = (payload: boolean) => {
-    dispatch({ type: IS_ABLE, payload });
-  };
+interface Props {
+  isConnected: boolean;
+  partner: string;
+  chattingList: ChattingContentType[];
+  input: string;
+  isDelete: boolean;
+  inputChange: (payload: string) => void;
+  headerChange: (payload: string) => void;
+  isAbleChange: (payload: boolean) => void;
+  sendMessage: (payload: string) => void;
+  chattingBodyRef: MutableRefObject<HTMLDivElement>;
+  isDeleteChange: (payload: boolean) => void;
+}
+
+const Chatting: FC<Props> = ({
+  partner,
+  chattingList,
+  input,
+  inputChange,
+  headerChange,
+  isAbleChange,
+  sendMessage,
+  chattingBodyRef,
+  isConnected,
+  isDelete,
+  isDeleteChange,
+}) => {
   return (
     <S.ChattingWrapper>
       <ChattingHeader
@@ -26,8 +39,18 @@ const Chatting: FC = () => {
         headerChange={headerChange}
         isAbleChange={isAbleChange}
       />
-      <ChattingBody chattingList={chattingList} />
-      <ChattingInput value={input} inputChange={inputChange} />
+      <ChattingBody
+        chattingList={chattingList}
+        chattingBodyRef={chattingBodyRef}
+        isDeleteChange={isDeleteChange}
+        isDelete={isDelete}
+      />
+      <ChattingInput
+        value={input}
+        inputChange={inputChange}
+        sendMessage={sendMessage}
+        isConnected={isConnected}
+      />
     </S.ChattingWrapper>
   );
 };
