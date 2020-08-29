@@ -32,19 +32,20 @@ const PostButtons: FC = () => {
   return (
     <S.PostFooterWrapper>
       {type === 'ADMIN' && (
-        <>
+        <div>
           <S.Button
-            bgColor='#FFFFFF'
+            bgColor='#ffffff'
             fontColor='#000000'
             borderColor='#000000'
+            borderPx='1'
             onClick={() => history.push(`/board/class/write?id=${paramId}`)}
           >
             수정하기
           </S.Button>
-          <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={onClickDelete}>
+          <S.Button bgColor='#FF5700' fontColor='#FFFFFF' onClick={onClickDelete}>
             삭제하기
           </S.Button>
-        </>
+        </div>
       )}
       <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openCommentModal}>
         댓글보기
