@@ -9,7 +9,7 @@ import { MainState } from '../../../../src/modules/reducer/Main';
 
 const HeaderContainer: FC = () => {
   const modalChange = stateChange(setModal);
-  const logOutClickHandler = stateChange(logout);
+  const logoutChange = stateChange(logout);
   const getUserInfoChange = stateChange(getUserInfoThunk);
   const { isLogin, refreshToken, userInfo, error } = useSelector(
     getStateCallback<HeaderState>('Header'),
@@ -28,7 +28,9 @@ const HeaderContainer: FC = () => {
       }
     }
   }, []);
-
+  const logoutClickHandler = useCallback(() => {
+    logoutChange();
+  }, []);
   useEffect(() => {
     if (isLogin) {
       getUserInfoChange();
@@ -42,7 +44,7 @@ const HeaderContainer: FC = () => {
   }, [error]);
   return (
     <Header
-      logoutHandler={logOutClickHandler}
+      logoutHandler={logoutClickHandler}
       isLogin={isLogin}
       modalChange={modalChange}
       userName={userInfo ? userInfo.name : ''}
