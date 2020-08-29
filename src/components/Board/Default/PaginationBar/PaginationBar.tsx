@@ -30,7 +30,7 @@ const PaginationBar: FC<Props> = ({ page, setPage, lastPage }) => {
       );
     }
     return jsx;
-  }, [startPage]);
+  }, [startPage, lastPage]);
   return (
     <S.PaginationBarWrapper>
       <nav>
