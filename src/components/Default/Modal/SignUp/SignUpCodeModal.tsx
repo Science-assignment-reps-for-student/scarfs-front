@@ -17,7 +17,13 @@ import {
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
 import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
-import { EmailCheckType, EmailSendType, SignUpType } from '../../../../lib/api/Header/signup';
+import {
+  EmailCheckThunkType,
+  EmailCheckType,
+  EmailSendType,
+  SignUpThunkType,
+  SignUpType,
+} from '../../../../lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
@@ -29,8 +35,8 @@ const SignUpModal: FC = () => {
   const passwordCheckChange = stateChange<string>(setPasswordCheck);
   const errorChange = stateChange<ErrorType>(setError);
   const emailSendChange = stateChange<EmailSendType>(emailSend);
-  const emailCheckChange = stateChange<EmailCheckType>(emailCheck);
-  const signUpChange = stateChange<SignUpType>(signup);
+  const emailCheckChange = stateChange<EmailCheckThunkType>(emailCheck);
+  const signUpChange = stateChange<SignUpThunkType>(signup);
   const isPasswordAble = useCallback((password: string) => {
     const reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return reg.exec(password) !== null;
