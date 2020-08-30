@@ -7,10 +7,23 @@ export interface SignUpType {
   auth_code: string;
   password: string;
   email: string;
+}
+
+export interface SignUpThunkType {
+  number: string;
+  name: string;
+  auth_code: string;
+  password: string;
+  email: string;
   timerNumber: number;
 }
 
 export interface EmailCheckType {
+  email: string;
+  code: string;
+}
+
+export interface EmailCheckThunkType {
   email: string;
   code: string;
   timerNumber: number;
