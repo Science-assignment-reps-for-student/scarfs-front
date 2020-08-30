@@ -21,7 +21,7 @@ import { EmailCheckType, EmailSendType, SignUpType } from '../../../../lib/api/H
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
-  const { error, modal } = useSelector(getStateCallback<ModalState>('Modal'));
+  const { error, modal, timerNumber } = useSelector(getStateCallback<ModalState>('Modal'));
   const { emailCode, email, password, passwordCheck, isEmailCheck, code, name, number } = state;
   const emailChange = stateChange<string>(setEmail);
   const emailCodeChange = stateChange<string>(setEmailCode);
@@ -33,7 +33,7 @@ const SignUpModal: FC = () => {
   const signUpChange = stateChange<SignUpType>(signup);
   const isPasswordAble = useCallback((password: string) => {
     const reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return reg.exec(password) === null ? true : false;
+    return reg.exec(password) !== null;
   }, []);
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
@@ -44,25 +44,22 @@ const SignUpModal: FC = () => {
   const buttonClickHandler = useCallback(() => {
     if (!isStateAble(state)) {
       errorChange('SignInError');
-    } else if (isPasswordAble(password)) {
+    } else if (!isPasswordAble(password)) {
       errorChange('SignUpPasswordRegexError');
-    } else if (isPasswordCheckAble(state)) {
+    } else if (!isPasswordCheckAble(state)) {
       errorChange('SignUpPasswordError');
     } else {
-      signUpChange({ number, password, authCode: code, name });
+      signUpChange({ number, password, auth_code: code, name, email, timerNumber });
     }
   }, [state]);
   const codeCheckButtonClickHandler = useCallback(() => {
-    emailCheckChange({ email, code: emailCode });
-  }, [email, code]);
+    emailCheckChange({ email, code: emailCode, timerNumber });
+  }, [email, emailCode, timerNumber]);
   const mailSendButtonClickHandler = useCallback(() => {
     emailSendChange({ email });
   }, [email]);
-  const isCodeOrEmailError = useCallback((error: string) => {
-    return error.length > 0;
-  }, []);
-  useEffect(() => {
-    errorChange('');
+  const isCodeOrEmailError = useCallback((error: ErrorType) => {
+    return error === 'SignUpEmailError' || error === 'CodeError';
   }, []);
   return (
     <Modal>
