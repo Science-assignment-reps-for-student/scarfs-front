@@ -140,11 +140,12 @@ const ChattingContainer: FC = () => {
   }, [io, userInfo]);
 
   useEffect(() => {
+    if (!isLogin) return;
     initPage();
   }, []);
 
   useEffect(() => {
-    if (!accessToken || !userInfo) return;
+    if (!userInfo || !isLogin) return;
     chattingSetting();
   }, [userInfo]);
 
