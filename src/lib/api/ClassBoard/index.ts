@@ -13,6 +13,7 @@ export interface ClassBoard {
   total_elements: number;
   total_pages: number;
   application_responses: ClassBoardItem[];
+  class_number: number;
 }
 
 export const getClassBoard = (data: { size: number; page: number; classNumber?: number }) =>
