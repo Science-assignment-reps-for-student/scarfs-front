@@ -15,6 +15,7 @@ export const ALL = 'Header/ALL' as const;
 export const SIGNUP_ERROR = 'Header/SIGNUP_ERROR' as const;
 export const IS_LOGIN = 'Header/IS_LOGIN' as const;
 export const USERINFO = 'Header/USERINFO' as const;
+export const RESET = 'Header/RESET' as const;
 
 export const REFRESH_TOKEN_CALL = 'Header/REFRESH_TOKEN_CALL' as const;
 export const REFRESH_TOKEN_FAILURE = 'Header/REFRESH_TOKEN_FAILURE' as const;
@@ -136,14 +137,9 @@ export const setUserInfo = (payload: UserInfoType) => ({
   payload,
 });
 
-export type HeaderState = {
-  accessToken: string;
-  refreshToken: string;
-  loading: boolean;
-  error: ErrorType;
-  isLogin: boolean;
-  userInfo: UserInfoType | null;
-};
+export const resetHeader = () => ({
+  type: RESET,
+});
 
 const getToken = (tokenType: 'accessToken' | 'refreshToken') => {
   const localStorageToken = localStorage.getItem(tokenType);
@@ -151,6 +147,15 @@ const getToken = (tokenType: 'accessToken' | 'refreshToken') => {
     return '';
   }
   return localStorageToken;
+};
+
+export type HeaderState = {
+  accessToken: string;
+  refreshToken: string;
+  loading: boolean;
+  error: ErrorType;
+  isLogin: boolean;
+  userInfo: UserInfoType | null;
 };
 
 const initialState: HeaderState = {
@@ -179,7 +184,8 @@ export type HeaderActionType =
   | ReturnType<typeof emailSendFailure>
   | ReturnType<typeof emailSendSuccess>
   | ReturnType<typeof getUserInfoFailure>
-  | ReturnType<typeof getUserInfoSuccess>;
+  | ReturnType<typeof getUserInfoSuccess>
+  | ReturnType<typeof resetHeader>;
 
 export const HeaderState = (
   state: HeaderState = initialState,
@@ -272,6 +278,16 @@ export const HeaderState = (
       return {
         ...state,
         error: action.payload,
+      };
+    }
+    case RESET: {
+      return {
+        accessToken: '',
+        refreshToken: '',
+        loading: false,
+        error: null,
+        isLogin: false,
+        userInfo: null,
       };
     }
     default:
