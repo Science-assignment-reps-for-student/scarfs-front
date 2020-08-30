@@ -4,8 +4,22 @@ import logo from './logo.svg';
 import logout from './icon_logout.png';
 import background from './background.png';
 import logoutLogo from './logoutLogo.svg';
-import chatting from './chatting.png';
+import chatting from './chatting.svg';
+import alarmChatting from './chattingAlarm.svg';
 import deleteImg from './delete.png';
 import send from './send.png';
+import trash from './trash.svg';
 
-export { calender, megaphone, logo, logout, background, logoutLogo, chatting, deleteImg, send };
+export {
+  calender,
+  megaphone,
+  logo,
+  logout,
+  background,
+  logoutLogo,
+  chatting,
+  deleteImg,
+  send,
+  alarmChatting,
+  trash,
+};
