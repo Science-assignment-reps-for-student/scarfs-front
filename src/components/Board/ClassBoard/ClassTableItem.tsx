@@ -13,12 +13,12 @@ const ClassTableItem: FC<Props> = ({ board }) => {
   if (typeof board === 'undefined') return null;
   return (
     <S.BodyRow>
-      <S.BodyColumn>{board.boardId}</S.BodyColumn>
+      <S.BodyColumn>{board.board_id}</S.BodyColumn>
       <S.BodyColumn onClick={() => history.push(`/board/class/${board.id}`)}>
         {board.title}
       </S.BodyColumn>
-      <S.BodyColumn>{board.writerName}</S.BodyColumn>
-      <S.BodyColumn>{getLocaleDateString(board.createdAt)}</S.BodyColumn>
+      <S.BodyColumn>{board.name}</S.BodyColumn>
+      <S.BodyColumn>{getLocaleDateString(board.created_at)}</S.BodyColumn>
       <S.BodyColumn>{board.view}</S.BodyColumn>
     </S.BodyRow>
   );

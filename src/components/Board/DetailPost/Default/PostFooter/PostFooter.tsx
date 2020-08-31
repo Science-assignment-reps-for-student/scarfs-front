@@ -3,19 +3,17 @@ import * as S from './style';
 
 interface Buttons {
   type?: string;
-  isMine?: boolean;
 }
 
 interface Props {
   type?: string;
-  isMine?: boolean;
   ButtonsTemplate: FC<Buttons>;
 }
 
-const PostFooter: FC<Props> = ({ type, isMine, ButtonsTemplate }) => {
+const PostFooter: FC<Props> = ({ type, ButtonsTemplate }) => {
   return (
     <S.PostFooterWrapper>
-      <ButtonsTemplate type={type} isMine={isMine} />
+      <ButtonsTemplate type={type} />
     </S.PostFooterWrapper>
   );
 };

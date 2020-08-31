@@ -12,6 +12,7 @@ import Chatting from './Chatting';
 import Loading from './Loading';
 import ClassBoard from './ClassBoard';
 import ClassDetailPost from './ClassDetailPost';
+import ClassBoardWrite from './ClassBoardWrite';
 
 const rootReducer = combineReducers({
   Modal,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   Loading,
   ClassBoard,
   ClassDetailPost,
+  ClassBoardWrite,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;

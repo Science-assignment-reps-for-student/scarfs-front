@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const Select = styled.select`
+  width: 50px;
+  outline: none;
+  margin-right: 8px;
+`;
+
 export const Footer = styled.footer``;
 
 export const Button = styled.button`

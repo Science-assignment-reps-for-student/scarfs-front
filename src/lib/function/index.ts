@@ -2,8 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
 import { HeaderState } from '../../modules/reducer/Header';
-import { useMemo } from 'react';
 import * as Type from '../../lib/type';
+import {
+  ClassBoardWriteState,
+  setWriteBoardClassNumber,
+} from '../../modules/reducer/ClassBoardWrite';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -77,13 +80,23 @@ export const useUser = () => {
       remainingAssignment: 0,
       completionAssignment: 0,
       classNumber: 0,
+      id: 0,
+      type: 'STUDENT',
     };
-  const returnValue = useMemo(
-    () => ({
-      ...userInfo,
-      classNumber: userInfo.studentNumber.toString().split('')[1],
-    }),
-    [userInfo],
-  );
+  const returnValue = {
+    ...userInfo,
+    classNumber: parseInt(userInfo.studentNumber.toString().split('')[1]),
+  };
   return returnValue;
+};
+
+export const useWriteClassNumber = (): [number, (classNumber: number) => void] => {
+  const dispatch = useDispatch();
+  const { classNumber } = useSelector(getStateCallback<ClassBoardWriteState>('ClassBoardWrite'));
+
+  const setClassNumber = (classNumber: number) => {
+    dispatch(setWriteBoardClassNumber(classNumber));
+  };
+
+  return [classNumber, setClassNumber];
 };
