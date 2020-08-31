@@ -13,7 +13,7 @@ export const createRequestThunk = (type, request) => {
       });
       dispatch(finishLoading(type));
     } catch (e) {
-      const error: ErrorType = e;
+      const error: ErrorType = e.response;
       dispatch({
         type: FAILURE,
         payload: error,
