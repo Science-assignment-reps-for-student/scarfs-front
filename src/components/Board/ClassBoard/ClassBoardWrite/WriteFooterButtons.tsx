@@ -11,7 +11,9 @@ const WriteFooterButtons: FC<Props> = ({ isEditMode, writeOrEditClickHandler }) 
   const history = useHistory();
   return (
     <S.FooterWrapper>
-      <S.BlueButton>{isEditMode ? '수정하기' : '등록하기'}</S.BlueButton>
+      <S.BlueButton onClick={writeOrEditClickHandler}>
+        {isEditMode ? '수정하기' : '등록하기'}
+      </S.BlueButton>
       <S.BlackButton onClick={() => history.push('/board/class')}>취소</S.BlackButton>
     </S.FooterWrapper>
   );
