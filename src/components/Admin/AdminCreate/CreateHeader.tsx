@@ -51,7 +51,7 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
     return false;
   };
 
-  const onClickCreate = () => {
+  const handleCreate = () => {
     if (isDataDefault()) {
       dispatch(createAlert('과제생성 요소들을 모두 입력해주세요.'));
       return;
@@ -59,7 +59,7 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
     dispatch(fetchCreateThunk(getFilesFormData(), history, dispatch));
   };
 
-  const onClickUpdate = () => {
+  const handleUpdate = () => {
     if (isDataDefault()) {
       dispatch(createAlert('과제생성 요소들을 모두 입력해주세요.'));
       return;
@@ -74,10 +74,19 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
     dispatch(fetchUpdateThunk(update, history));
   };
 
-  const onClickDelete = () => {
+  const handleDelete = () => {
     dispatch(
       setCheckCallback(() => {
         dispatch(fetchDeleteThunk(assignmentId, history, dispatch));
+      }),
+    );
+    dispatch(createAlert('정말로 삭제하시겠습니까?\n삭제하시면 복구가 불가능합니다.'));
+  };
+
+  const handleCancel = () => {
+    dispatch(
+      setCheckCallback(() => {
+        history.push('/admin');
       }),
     );
     dispatch(createAlert('정말로 삭제하시겠습니까?\n삭제하시면 복구가 불가능합니다.'));
@@ -88,12 +97,12 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
       <S.Title>{assignmentId ? '과제수정' : '과제생성'}</S.Title>
       <S.HeaderOption>
         <S.ButtonWrap>
-          <OptionButton
-            onClick={assignmentId ? onClickUpdate : onClickCreate}
-            imgType='saveImg'
-            text={assignmentId ? '수정' : '저장'}
-          />
-          {assignmentId && <OptionButton onClick={onClickDelete} imgType='trashImg' text='삭제' />}
+          <OptionButton onClick={assignmentId ? handleUpdate : handleCreate} imgType='saveImg'>
+            {assignmentId ? '수정' : '저장'}
+          </OptionButton>
+          <OptionButton onClick={assignmentId ? handleDelete : handleCancel} imgType='trashImg'>
+            {assignmentId ? '삭제' : '취소'}
+          </OptionButton>
         </S.ButtonWrap>
       </S.HeaderOption>
     </S.Header>

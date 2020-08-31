@@ -2,9 +2,10 @@ import React, { FC, ReactElement } from 'react';
 import * as S from './style';
 import { download, edit, excel } from '../../../assets/Admin';
 import {
-  downloadAssignmentFiles,
+  downloadAssignmentFileIndex,
   downloadAssignmentExcel,
   updateAssignmentExcel,
+  downloadAssignmentFiles,
 } from '../../../lib/api/Admin/admin';
 
 interface Props {
@@ -13,11 +14,13 @@ interface Props {
 }
 
 const SubjectButtons: FC<Props> = ({ assignmentId, typing }): ReactElement => {
-  const subjectType = typing === '개인' ? 'personal' : typing === '팀' ? 'team' : 'experiment';
+  const assignmentType = typing === '개인' ? 'personal' : typing === '팀' ? 'team' : 'experiment';
 
   const onClickDownloadFile = async () => {
     try {
-      const fileRes = await downloadAssignmentFiles(assignmentId, subjectType);
+      const fileIndex = await downloadAssignmentFileIndex(assignmentId, assignmentType);
+      const files = await downloadAssignmentFiles(assignmentId, assignmentType);
+      console.log(fileIndex, files);
     } catch (err) {
       console.log(err);
     }
@@ -25,7 +28,7 @@ const SubjectButtons: FC<Props> = ({ assignmentId, typing }): ReactElement => {
 
   const onClickDownloadExcel = async () => {
     try {
-      await updateAssignmentExcel(assignmentId, subjectType);
+      await updateAssignmentExcel(assignmentId, assignmentType);
       const excelRes = await downloadAssignmentExcel(assignmentId);
     } catch (err) {
       console.log(err);
