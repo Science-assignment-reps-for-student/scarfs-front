@@ -49,6 +49,9 @@ export const getModalErrorText = (error: ErrorType) => {
     case 'SignUpPasswordRegexError': {
       return '비밀번호에 특수문자와 대문자를 넣어주세요.';
     }
+    case 'TimeOutError': {
+      return '세션이 만료되었습니다. 처음부터 진행해 주세요.';
+    }
     default:
       return '';
   }
