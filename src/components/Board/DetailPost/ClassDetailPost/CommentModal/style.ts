@@ -88,6 +88,7 @@ export const CommentItemBox = styled.div`
   padding: 14px 0 16px;
   &:last-child {
     border-bottom: 1px solid #979797;
+    margin-bottom: 10px;
   }
 `;
 
