@@ -103,11 +103,19 @@ export const WriterText = styled.p`
   }
 `;
 
+export const AdminText = styled.p`
+  display: inline-block;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: 600;
+  color: #ff5700;
+`;
+
 export const Header = styled.header`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  > div {
+  > div:last-child {
     display: inline-block;
     > p {
       &:first-child,
