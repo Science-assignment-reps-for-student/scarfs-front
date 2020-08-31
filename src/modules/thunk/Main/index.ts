@@ -3,6 +3,7 @@ import {
   setAccessToken,
   setIsLogin,
   setRefreshToken,
+  setUserInfo,
 } from '../../../modules/reducer/Header';
 import { getAssignment, getBoard } from '../../../lib/api/Assignment/Assignment';
 import { createRequestThunk } from '../../../lib/thunk';
@@ -16,6 +17,7 @@ export const logout = () => async dispatch => {
   dispatch(setAccessToken(''));
   dispatch(setRefreshToken(''));
   dispatch(setIsLogin(false));
+  dispatch(setUserInfo(null));
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
 };

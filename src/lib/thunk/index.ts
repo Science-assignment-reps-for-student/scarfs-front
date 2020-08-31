@@ -1,5 +1,6 @@
 import { startLoading, finishLoading } from '../../modules/reducer/Loading';
-import { ErrorType } from '../../modules/reducer/Modal';
+import { ErrorType } from '../../lib/type';
+
 export const createRequestThunk = (type, request) => {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
@@ -13,7 +14,7 @@ export const createRequestThunk = (type, request) => {
       });
       dispatch(finishLoading(type));
     } catch (e) {
-      const error: ErrorType = e;
+      const error: ErrorType = e.response.data;
       dispatch({
         type: FAILURE,
         payload: error,

@@ -9,6 +9,15 @@ interface RefreshToken {
   access_token: string;
 }
 
+interface Files {
+  file_information: File[];
+}
+
+interface File {
+  file_id: number;
+  file_name: string;
+}
+
 export const getAssignmentPersonal = (classNum: number) => {
   return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
 };
@@ -19,8 +28,17 @@ export const getAssignmentExperiment = (classNum: number) => {
   return getApiDefault().get<Experiment>(`/chateaubriand/experiment-assignment?class=${classNum}`);
 };
 
-export const downloadAssignmentFiles = (assignmentId: number, assignmentType: string) => {
-  return apiDefault.get(`/rib-eye/${assignmentType}-files/${assignmentId}`);
+export const downloadAssignmentFileIndex = (
+  assignmentId: number,
+  assignmentType: 'personal' | 'team' | 'experiment',
+) => {
+  return apiDefault.get<Files>(`/rib-eye/${assignmentType}-files/${assignmentId}`);
+};
+export const downloadAssignmentFiles = (
+  assignmentId: number,
+  assignmentType: 'personal' | 'team' | 'experiment',
+) => {
+  return apiDefault.get<{}>(`/rib-eye/${assignmentType}-file/${assignmentId}`);
 };
 
 export const downloadAssignmentExcel = (assignmentId: number) => {

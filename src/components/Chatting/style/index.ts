@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { chatting, send, deleteImg } from '../../../assets/Main';
+import { alarmChatting, chatting, send, trash } from '../../../assets/Main';
 import { deleteIcon } from '../../../assets/Modal';
 
-export const ChattingOpenButton = styled.div`
+export const ChattingOpenButton = styled.div<{ alarm: boolean }>`
   position: fixed;
   bottom: 50px;
   right: 40px;
@@ -10,7 +10,7 @@ export const ChattingOpenButton = styled.div`
   width: 55px;
   z-index: 5;
   height: 55px;
-  background-image: url(${chatting});
+  background-image: url(${props => (props.alarm ? alarmChatting : chatting)});
 `;
 
 export const ChattingWrapper = styled.div`
@@ -30,7 +30,8 @@ export const ChattingBody = styled.div`
   width: 320px;
   border-radius: 10px;
   overflow: scroll;
-  > div {
+  position: relative;
+  > div.body {
     padding-top: 30px;
     box-sizing: border-box;
     width: 100%;
@@ -108,14 +109,29 @@ export const MyChattingLog = styled.div`
   display: flex;
   justify-content: flex-end;
   > div {
-    background-color: #578fff;
-    color: white;
-    max-width: 140px;
-    padding: 7px;
-    width: auto;
-    display: inline-block;
-    margin-right: 7px;
-    margin-left: 0px;
+    display: flex;
+    align-items: center;
+
+    > div.text {
+      background-color: #578fff;
+      color: white;
+      max-width: 160px;
+      padding: 7px;
+      width: auto;
+      word-break: break-all;
+      display: inline-block;
+      margin-right: 7px;
+      margin-left: 0px;
+      cursor: pointer;
+    }
+    > .img {
+      width: 11px;
+      height: 13px;
+      background-image: url(${trash});
+      background-repeat: no-repeat;
+      margin-right: 5px;
+      display: none;
+    }
   }
 `;
 
@@ -124,9 +140,42 @@ export const YourChattingLog = styled(MyChattingLog)`
   display: flex;
   justify-content: flex-start;
   > div {
-    background-color: #f2f2f2;
-    margin-right: 0px;
-    margin-left: 7px;
-    color: black;
+    > div.text {
+      background-color: #f2f2f2;
+      margin-right: 0px;
+      margin-left: 7px;
+      color: black;
+    }
   }
+`;
+
+export const DeleteAlertBackground = styled.div`
+  color: black;
+  position: fixed;
+  transform: translate(60px, 180px);
+`;
+
+export const DeleteAlertBody = styled.div`
+  width: 200px;
+  height: 80px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 1px 1px #d3d3d3;
+`;
+
+export const DeleteAlertText = styled.div`
+  font-size: 13px;
+  text-align: center;
+`;
+
+export const DeleteAlertButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const DeleteAlertButton = styled.p<{ isApproveButton: boolean }>`
+  color: ${props => (props.isApproveButton ? '#FF5700' : '#464646')};
+  font-size: 13px;
+  margin: 20px;
+  cursor: pointer;
 `;
