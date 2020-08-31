@@ -14,7 +14,7 @@ export const createRequestThunk = (type, request) => {
       });
       dispatch(finishLoading(type));
     } catch (e) {
-      const error: ErrorType = e.response;
+      const error: ErrorType = e.response.data;
       dispatch({
         type: FAILURE,
         payload: error,
