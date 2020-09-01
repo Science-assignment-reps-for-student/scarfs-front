@@ -5,14 +5,6 @@ const isTextHaveKorean = (text: string): boolean => {
   return rxg.test(text);
 };
 
-export const apiDefault = axios.create({
-  baseURL: process.env.BASE_URL,
-  timeout: 2500,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  },
-});
-
 export const getApiDefault = (contentType?: string) => {
   const accessToken = localStorage.getItem('accessToken');
   if (isTextHaveKorean(accessToken)) window.location.href = '/error';

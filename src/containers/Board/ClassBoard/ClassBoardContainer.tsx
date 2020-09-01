@@ -20,15 +20,15 @@ const ClassBoardContainer: FC = () => {
   };
 
   useEffect(() => {
-    if (getBoardError.response && getBoardError.response.status) {
-      alert(`ERROR: CODE[${getBoardError.response.status}]`);
+    if (getBoardError.status) {
+      alert(`ERROR: CODE[${getBoardError.status}]`);
     }
     return () => {
       dispatch(resetBoard());
     };
   }, [getBoardError]);
 
-  if (!getBoardError.response) {
+  if (getBoardError.status === undefined || getBoardError.status === 500) {
     alert('서버 오류 발생!');
     return <Redirect to='/error' />;
   }

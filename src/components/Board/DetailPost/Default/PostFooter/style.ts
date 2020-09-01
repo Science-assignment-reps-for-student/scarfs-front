@@ -40,6 +40,7 @@ export const Button = styled.button<ButtonProps>`
   height: 41px;
   box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  outline: none;
   & + & {
     margin-left: 15px;
   }

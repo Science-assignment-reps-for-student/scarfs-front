@@ -117,7 +117,8 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
     dispatch(fetchPersonal(personalList));
     dispatch(fetchLoading());
   } catch (err) {
-    assignmentErrorHandle(err, dispatch);
+    await assignmentErrorHandle(err, dispatch);
+    fetchPersonalThunk();
   }
 };
 export const fetchTeamThunk: ActionCreator<ThunkAction<
@@ -140,7 +141,8 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
 
     dispatch(fetchTeam(teamList));
   } catch (err) {
-    assignmentErrorHandle(err, dispatch);
+    await assignmentErrorHandle(err, dispatch);
+    fetchTeamThunk();
   }
 };
 export const fetchExperimentThunk: ActionCreator<ThunkAction<
@@ -164,11 +166,12 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
     dispatch(fetchExperiment(experimentList));
     dispatch(fetchLoading());
   } catch (err) {
-    assignmentErrorHandle(err, dispatch);
+    await assignmentErrorHandle(err, dispatch);
+    fetchExperimentThunk();
   }
 };
 
-const assignmentErrorHandle = (err: AxiosError, dispatch: Dispatch) => {
+const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch) => {
   if ((err.toJSON() as { message: string }).message === 'Network Error') {
     dispatch(fetchPersonal(networkError));
     dispatch(fetchLoading());
@@ -177,7 +180,7 @@ const assignmentErrorHandle = (err: AxiosError, dispatch: Dispatch) => {
   const code = err.response.status;
   if (!code) return;
   if (code === 401) {
-    tokenReIssuance();
+    await tokenReIssuance();
   }
 };
 

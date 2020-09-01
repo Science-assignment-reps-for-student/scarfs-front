@@ -39,7 +39,7 @@ const HeaderContainer: FC = () => {
   useEffect(() => {
     if (!error) return;
     if (isNetworkError(error)) return;
-    const status = error.response.status;
+    const status = error.status;
     serverErrorHandler(status);
   }, [error]);
   return (

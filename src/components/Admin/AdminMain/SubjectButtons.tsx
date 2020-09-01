@@ -1,34 +1,59 @@
 import React, { FC, ReactElement } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import * as S from './style';
+
 import { download, edit, excel } from '../../../assets/Admin';
 import {
-  downloadAssignmentFiles,
   downloadAssignmentExcel,
   updateAssignmentExcel,
+  downloadCompressedAssignments,
+  tokenReIssuance,
 } from '../../../lib/api/Admin/admin';
+import { downBlobByClick } from '../../../lib/function/admin';
 
 interface Props {
   assignmentId: number;
-  typing: string;
 }
 
-const SubjectButtons: FC<Props> = ({ assignmentId, typing }): ReactElement => {
-  const subjectType = typing === '개인' ? 'personal' : typing === '팀' ? 'team' : 'experiment';
+const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
+  const history = useHistory();
 
   const onClickDownloadFile = async () => {
     try {
-      const fileRes = await downloadAssignmentFiles(assignmentId, subjectType);
+      const { data } = await downloadCompressedAssignments(assignmentId);
+      const blob: Blob = new Blob([data], { type: 'application/json' });
+      downBlobByClick(blob, 'test.zip');
     } catch (err) {
-      console.log(err);
+      const code = err?.response?.status;
+      if (code === 401) {
+        await tokenReIssuance();
+        const { data } = await downloadCompressedAssignments(assignmentId);
+        const blob: Blob = new Blob([data], { type: 'application/json' });
+        downBlobByClick(blob, 'test.zip');
+      } else if (code === 403) {
+        history.push('/admin/login');
+      }
     }
   };
 
   const onClickDownloadExcel = async () => {
     try {
-      await updateAssignmentExcel(assignmentId, subjectType);
-      const excelRes = await downloadAssignmentExcel(assignmentId);
+      await updateAssignmentExcel(assignmentId);
+      const { data } = await downloadAssignmentExcel(assignmentId);
+      const blob: Blob = new Blob([data], { type: 'application/json' });
+      downBlobByClick(blob, 'test.xls');
     } catch (err) {
-      console.log(err);
+      const code = err?.response?.status;
+      if (code === 401) {
+        await tokenReIssuance();
+        await updateAssignmentExcel(assignmentId);
+        const { data } = await downloadAssignmentExcel(assignmentId);
+        const blob: Blob = new Blob([data], { type: 'application/json' });
+        downBlobByClick(blob, 'test.xls');
+      } else if (code === 403) {
+        history.push('/admin/login');
+      }
     }
   };
 

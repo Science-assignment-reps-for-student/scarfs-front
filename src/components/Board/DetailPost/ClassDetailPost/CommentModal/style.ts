@@ -88,6 +88,7 @@ export const CommentItemBox = styled.div`
   padding: 14px 0 16px;
   &:last-child {
     border-bottom: 1px solid #979797;
+    margin-bottom: 10px;
   }
 `;
 
@@ -102,11 +103,19 @@ export const WriterText = styled.p`
   }
 `;
 
+export const AdminText = styled.p`
+  display: inline-block;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: 600;
+  color: #ff5700;
+`;
+
 export const Header = styled.header`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  > div {
+  > div:last-child {
     display: inline-block;
     > p {
       &:first-child,
@@ -154,6 +163,7 @@ export const CommentEditBox = styled.div`
 
 export const ReCommentButton = styled.p`
   display: inline-block;
+  width: 45px;
   font-size: 12px;
   line-height: 12px;
   color: #1d1d1d;
