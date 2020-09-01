@@ -7,3 +7,6 @@ export const addCommnt = ({ boardId, content }: { boardId: number; content: stri
 
 export const updateComment = ({ commentId, content }) =>
   getApiDefault().put<number>(`/shank/comment/${commentId}`, { content });
+
+export const deleteComment = ({ commentId }) =>
+  getApiDefault().delete(`/shank/comment/${commentId}`);

@@ -7,7 +7,11 @@ import {
   CommentState,
   resetCommentState as creaetResetCommentAction,
 } from '../../../../../modules/reducer/Comment';
-import { addCommentThunk, updateCommentThunk } from '../../../../../modules/thunk/Comment';
+import {
+  addCommentThunk,
+  updateCommentThunk,
+  deleteCommentThunk,
+} from '../../../../../modules/thunk/Comment';
 import { getDetailPostThunk } from '../../../../../modules/thunk/ClassDetailPost';
 
 const CommentModalContainer: FC = () => {
@@ -20,6 +24,8 @@ const CommentModalContainer: FC = () => {
     addCommentError,
     updateCommentSuccess,
     updateCommentError,
+    deleteCommentSuccess,
+    deleteCommentError,
   } = useSelector(getStateCallback<CommentState>('Comment'));
 
   const getDetailPost = (boardId: number) => {
@@ -40,6 +46,13 @@ const CommentModalContainer: FC = () => {
     [dispatch],
   );
 
+  const deleteComment = useCallback(
+    (commentId: number) => {
+      dispatch(deleteCommentThunk({ commentId }));
+    },
+    [dispatch],
+  );
+
   const resetCommentState = useCallback(() => {
     dispatch(creaetResetCommentAction());
   }, [dispatch]);
@@ -54,6 +67,9 @@ const CommentModalContainer: FC = () => {
       updateComment={updateComment}
       updateCommentSuccess={updateCommentSuccess}
       updateCommentError={updateCommentError}
+      deleteComment={deleteComment}
+      deleteCommentSuccess={deleteCommentSuccess}
+      deleteCommentError={deleteCommentError}
       resetCommentState={resetCommentState}
     />
   );
