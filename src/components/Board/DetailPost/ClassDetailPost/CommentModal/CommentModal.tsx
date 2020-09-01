@@ -3,10 +3,7 @@ import { useLocation } from 'react-router-dom';
 import * as S from './style';
 import { Modal } from '../../Modal';
 import { AlertModal } from '../../../../';
-import { AlertState, createAlert } from '../../../../../modules/reducer/Alert';
-import { useDispatch, useSelector } from 'react-redux';
 import { ErrorType } from '../../../../../lib/type';
-import { getStateCallback } from '../../../../../lib/function';
 import { getLocaleDateString } from '../../../utils';
 
 export interface CommonComment {
@@ -32,6 +29,7 @@ interface CommonCommentProps {
   isComment: boolean;
   updateComment?: (commentId: number, content: string) => void;
   updateCommentSuccess?: number;
+  deleteComment?: (commentId: number) => void;
   resetCommentState?: () => void;
   children?: React.ReactNode;
 }
@@ -42,14 +40,14 @@ const CommonComment: FC<CommonCommentProps> = ({
   isComment,
   updateComment,
   updateCommentSuccess,
+  deleteComment,
   resetCommentState,
   children,
 }) => {
   const { comment_id } = comment as Comment;
   const [text, setText] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
-  const dispatch = useDispatch();
-  const { returnValue } = useSelector(getStateCallback<AlertState>('Alert'));
+
   const createdHourAndMinute = useMemo(() => {
     const date = new Date(created_at);
     const hour = date.getHours().toString().padStart(2, '0');
@@ -57,10 +55,6 @@ const CommonComment: FC<CommonCommentProps> = ({
 
     return `${hour}:${minute}`;
   }, [created_at]);
-
-  const onClickDelete = () => {
-    dispatch(createAlert('댓글을 정말 삭제하시겠습니까?'));
-  };
 
   const onClickEdit = () => setIsEditMode(true);
 
@@ -75,6 +69,12 @@ const CommonComment: FC<CommonCommentProps> = ({
       updateComment(comment_id, text);
     }
   }, [text]);
+
+  const deleteCommentClickHandler = () => {
+    if (confirm('댓글을 정말로 삭제하시겠습니까?')) {
+      deleteComment(comment_id);
+    }
+  };
 
   useEffect(() => {
     if (!isEditMode && content !== text) {
@@ -114,7 +114,13 @@ const CommonComment: FC<CommonCommentProps> = ({
           <div>
             <S.GrayText onClick={onClickEdit}>수정</S.GrayText>
             <S.GrayText>|</S.GrayText>
-            <S.GrayText onClick={onClickDelete}>삭제</S.GrayText>
+            {isComment ? (
+              <S.GrayText onClick={deleteCommentClickHandler}>삭제</S.GrayText>
+            ) : (
+              <S.GrayText onClick={() => alert('todo: deleteReCommentClickHanler')}>
+                삭제
+              </S.GrayText>
+            )}
           </div>
         )}
       </S.Header>
@@ -163,6 +169,7 @@ interface CommentItempProps {
   };
   updateComment: (commentId: number, content: string) => void;
   updateCommentSuccess: number;
+  deleteComment: (commentId: number) => void;
   resetCommentState: () => void;
 }
 
@@ -170,6 +177,7 @@ const CommentItem: FC<CommentItempProps> = ({
   comment,
   updateComment,
   updateCommentSuccess,
+  deleteComment,
   resetCommentState,
 }) => {
   const [isOpenRecomment, setIsOpenRecomment] = useState(false);
@@ -184,6 +192,7 @@ const CommentItem: FC<CommentItempProps> = ({
         isComment={true}
         updateComment={updateComment}
         updateCommentSuccess={updateCommentSuccess}
+        deleteComment={deleteComment}
         resetCommentState={resetCommentState}
       >
         <S.ReCommentButton onClick={() => setIsOpenRecomment(prev => !prev)}>
@@ -212,6 +221,9 @@ interface Props {
   updateComment: (commentId: number, content: string) => void;
   updateCommentSuccess: number;
   updateCommentError: ErrorType;
+  deleteComment: (commentId: number) => void;
+  deleteCommentSuccess: boolean;
+  deleteCommentError: ErrorType;
   resetCommentState: () => void;
 }
 
@@ -224,6 +236,9 @@ const CommentModal: FC<Props> = ({
   updateComment,
   updateCommentSuccess,
   updateCommentError,
+  deleteComment,
+  deleteCommentSuccess,
+  deleteCommentError,
   resetCommentState,
 }) => {
   const BOARD_ID_INDEX = 3;
@@ -240,14 +255,16 @@ const CommentModal: FC<Props> = ({
   }, [comment, addComment]);
 
   useEffect(() => {
-    if (addCommentSuccess || updateCommentSuccess) {
+    if (addCommentSuccess || updateCommentSuccess || deleteCommentSuccess) {
       getDetailPost(boardId);
     }
-    if (addCommentSuccess) {
+    if (addCommentSuccess || deleteCommentSuccess) {
       resetCommentState();
+    }
+    if (addCommentSuccess) {
       setComment('');
     }
-  }, [addCommentSuccess, updateCommentSuccess]);
+  }, [addCommentSuccess, updateCommentSuccess, deleteCommentSuccess]);
 
   useEffect(() => {
     if (addCommentError.status) {
@@ -264,6 +281,14 @@ const CommentModal: FC<Props> = ({
       alert(updateCommentError.message);
     }
   }, [updateCommentError]);
+
+  useEffect(() => {
+    if (deleteCommentError.status) {
+      alert(`Error code: ${deleteCommentError.status} 댓글 삭제 실패`);
+    } else if (deleteCommentError.message) {
+      alert(deleteCommentError.message);
+    }
+  }, [deleteCommentError]);
 
   return (
     <AlertModal type='notify'>
@@ -287,6 +312,7 @@ const CommentModal: FC<Props> = ({
                   comment={comment}
                   updateComment={updateComment}
                   updateCommentSuccess={updateCommentSuccess}
+                  deleteComment={deleteComment}
                   resetCommentState={resetCommentState}
                 />
               ))}
