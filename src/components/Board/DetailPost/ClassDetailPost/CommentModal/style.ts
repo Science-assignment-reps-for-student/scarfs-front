@@ -163,6 +163,7 @@ export const CommentEditBox = styled.div`
 
 export const ReCommentButton = styled.p`
   display: inline-block;
+  width: 45px;
   font-size: 12px;
   line-height: 12px;
   color: #1d1d1d;

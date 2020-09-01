@@ -29,14 +29,24 @@ export interface ReComment extends CommonComment {
 
 interface CommonCommentProps {
   comment: Comment | ReComment;
+  isComment: boolean;
+  updateComment?: (commentId: number, content: string) => void;
+  updateCommentSuccess?: number;
+  resetCommentState?: () => void;
   children?: React.ReactNode;
 }
 
 const CommonComment: FC<CommonCommentProps> = ({
+  comment,
   comment: { content, writer_name, mine, student_number, created_at, type },
+  isComment,
+  updateComment,
+  updateCommentSuccess,
+  resetCommentState,
   children,
 }) => {
-  const [text, setText] = useState(content);
+  const { comment_id } = comment as Comment;
+  const [text, setText] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
   const { returnValue } = useSelector(getStateCallback<AlertState>('Alert'));
@@ -57,6 +67,33 @@ const CommonComment: FC<CommonCommentProps> = ({
   const onClickCancel = () => setIsEditMode(false);
 
   const onChangeInput = e => setText(e.target.value);
+
+  const updateCommentClickHandler = useCallback(() => {
+    if (!text) {
+      alert('빈 댓글은 입력할 수 없습니다.');
+    } else {
+      updateComment(comment_id, text);
+    }
+  }, [text]);
+
+  useEffect(() => {
+    if (!isEditMode && content !== text) {
+      setText(content);
+    }
+  }, [isEditMode]);
+
+  useEffect(() => {
+    if (content !== text) {
+      setText(content);
+    }
+  }, [content]);
+
+  useEffect(() => {
+    if (isComment && updateCommentSuccess === comment_id) {
+      setIsEditMode(false);
+      resetCommentState();
+    }
+  }, [updateCommentSuccess]);
 
   return (
     <>
@@ -86,7 +123,15 @@ const CommonComment: FC<CommonCommentProps> = ({
           <S.CommentEditBox>
             <S.ReCommentInput widthFull value={text} onChange={onChangeInput} />
             <div>
-              <S.Button blue>수정</S.Button>
+              {isComment ? (
+                <S.Button blue onClick={updateCommentClickHandler}>
+                  수정
+                </S.Button>
+              ) : (
+                <S.Button blue onClick={() => alert('todo: updateReCommentClickHandler')}>
+                  수정
+                </S.Button>
+              )}
               <S.Button onClick={onClickCancel}>취소</S.Button>
             </div>
           </S.CommentEditBox>
@@ -107,7 +152,7 @@ const ReCommentItem: FC<ReCommentItemProps> = ({ comment }) => {
   return (
     <S.ReCommentBox>
       <S.ReCommentPointer />
-      <CommonComment comment={comment} />
+      <CommonComment comment={comment} isComment={false} />
     </S.ReCommentBox>
   );
 };
@@ -116,16 +161,31 @@ interface CommentItempProps {
   comment: Comment & {
     cocomments: Array<ReComment>;
   };
+  updateComment: (commentId: number, content: string) => void;
+  updateCommentSuccess: number;
+  resetCommentState: () => void;
 }
 
-const CommentItem: FC<CommentItempProps> = ({ comment }) => {
+const CommentItem: FC<CommentItempProps> = ({
+  comment,
+  updateComment,
+  updateCommentSuccess,
+  resetCommentState,
+}) => {
   const [isOpenRecomment, setIsOpenRecomment] = useState(false);
   const { cocomments } = comment;
   const [text, setText] = useState('');
   const onChange = e => setText(e.target.value);
+
   return (
     <S.CommentItemBox>
-      <CommonComment comment={comment}>
+      <CommonComment
+        comment={comment}
+        isComment={true}
+        updateComment={updateComment}
+        updateCommentSuccess={updateCommentSuccess}
+        resetCommentState={resetCommentState}
+      >
         <S.ReCommentButton onClick={() => setIsOpenRecomment(prev => !prev)}>
           {isOpenRecomment ? '닫기' : '답글쓰기'}
         </S.ReCommentButton>
@@ -149,6 +209,9 @@ interface Props {
   addComment: (boardId: number, content: string) => void;
   addCommentSuccess: boolean;
   addCommentError: ErrorType;
+  updateComment: (commentId: number, content: string) => void;
+  updateCommentSuccess: number;
+  updateCommentError: ErrorType;
   resetCommentState: () => void;
 }
 
@@ -158,6 +221,9 @@ const CommentModal: FC<Props> = ({
   addComment,
   addCommentSuccess,
   addCommentError,
+  updateComment,
+  updateCommentSuccess,
+  updateCommentError,
   resetCommentState,
 }) => {
   const BOARD_ID_INDEX = 3;
@@ -174,12 +240,14 @@ const CommentModal: FC<Props> = ({
   }, [comment, addComment]);
 
   useEffect(() => {
-    if (addCommentSuccess) {
+    if (addCommentSuccess || updateCommentSuccess) {
       getDetailPost(boardId);
+    }
+    if (addCommentSuccess) {
       resetCommentState();
       setComment('');
     }
-  }, [addCommentSuccess]);
+  }, [addCommentSuccess, updateCommentSuccess]);
 
   useEffect(() => {
     if (addCommentError.status) {
@@ -188,6 +256,14 @@ const CommentModal: FC<Props> = ({
       alert(addCommentError.message);
     }
   }, [addCommentError]);
+
+  useEffect(() => {
+    if (updateCommentError.status) {
+      alert(`Error code: ${updateCommentError.status} 댓글 수정 실패`);
+    } else if (updateCommentError.message) {
+      alert(updateCommentError.message);
+    }
+  }, [updateCommentError]);
 
   return (
     <AlertModal type='notify'>
@@ -206,7 +282,13 @@ const CommentModal: FC<Props> = ({
             <S.Title>전체 댓글</S.Title>
             <S.CommentListBox>
               {comments.map(comment => (
-                <CommentItem key={`co_${comment.comment_id}`} comment={comment} />
+                <CommentItem
+                  key={`co_${comment.comment_id}`}
+                  comment={comment}
+                  updateComment={updateComment}
+                  updateCommentSuccess={updateCommentSuccess}
+                  resetCommentState={resetCommentState}
+                />
               ))}
             </S.CommentListBox>
           </S.CommentListBox>
