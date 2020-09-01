@@ -1,28 +1,30 @@
-import React, { FC, useState, useCallback, useEffect } from 'react';
+import React, { FC, useState, useCallback, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as S from './style';
 import { Modal } from '../../Modal';
 import { AlertModal } from '../../../../';
 import { AlertState, createAlert } from '../../../../../modules/reducer/Alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStateCallback } from '../../../../../lib/function';
 import { ErrorType } from '../../../../../lib/type';
+import { getStateCallback } from '../../../../../lib/function';
+import { getLocaleDateString } from '../../../utils';
 
-export interface Comment {
-  commentId: number;
+export interface CommonComment {
   content: string;
-  isMine: boolean;
-  writerNumber: string;
-  writerName: string;
+  mine: boolean;
+  student_number: string;
+  writer_name: string;
+  created_at: string;
+  type: 'ADMIN' | 'STUDENT';
+}
+
+export interface Comment extends CommonComment {
+  comment_id: number;
   cocomments: ReComment[];
 }
 
-export interface ReComment {
-  cocommentId: number;
-  content: string;
-  isMine: boolean;
-  writerNumber: string;
-  writerName: string;
+export interface ReComment extends CommonComment {
+  cocomment_id: number;
 }
 
 interface CommonCommentProps {
@@ -31,29 +33,47 @@ interface CommonCommentProps {
 }
 
 const CommonComment: FC<CommonCommentProps> = ({
-  comment: { content, writerNumber, isMine, writerName },
+  comment: { content, writer_name, mine, student_number, created_at, type },
   children,
 }) => {
   const [text, setText] = useState(content);
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
   const { returnValue } = useSelector(getStateCallback<AlertState>('Alert'));
+  const createdHourAndMinute = useMemo(() => {
+    const date = new Date(created_at);
+    const hour = date.getHours().toString().padStart(2, '0');
+    const minute = date.getMinutes().toString().padStart(2, '0');
+
+    return `${hour}:${minute}`;
+  }, [created_at]);
+
   const onClickDelete = () => {
     dispatch(createAlert('댓글을 정말 삭제하시겠습니까?'));
   };
+
   const onClickEdit = () => setIsEditMode(true);
+
   const onClickCancel = () => setIsEditMode(false);
+
   const onChangeInput = e => setText(e.target.value);
+
   return (
     <>
       <S.Header>
         <div>
-          <S.WriterText>{writerNumber}</S.WriterText>
-          <S.WriterText>{writerName}</S.WriterText>
-          <S.GrayText>{new Date().toLocaleDateString()}</S.GrayText>
-          <S.GrayText>13:57</S.GrayText>
+          {type === 'ADMIN' ? (
+            <S.AdminText>관리자</S.AdminText>
+          ) : (
+            <>
+              <S.WriterText>{student_number}</S.WriterText>
+              <S.WriterText>{writer_name}</S.WriterText>
+            </>
+          )}
+          <S.GrayText>{getLocaleDateString(created_at)}</S.GrayText>
+          <S.GrayText>{createdHourAndMinute}</S.GrayText>
         </div>
-        {isMine && (
+        {mine && (
           <div>
             <S.GrayText onClick={onClickEdit}>수정</S.GrayText>
             <S.GrayText>|</S.GrayText>
@@ -116,7 +136,7 @@ const CommentItem: FC<CommentItempProps> = ({ comment }) => {
           </S.ReCommentInputBox>
         )}
         {cocomments.map(comment => (
-          <ReCommentItem key={comment.cocommentId} comment={comment} />
+          <ReCommentItem key={`reco_${comment.cocomment_id}`} comment={comment} />
         ))}
       </CommonComment>
     </S.CommentItemBox>
@@ -186,7 +206,7 @@ const CommentModal: FC<Props> = ({
             <S.Title>전체 댓글</S.Title>
             <S.CommentListBox>
               {comments.map(comment => (
-                <CommentItem key={comment.commentId} comment={comment} />
+                <CommentItem key={`co_${comment.comment_id}`} comment={comment} />
               ))}
             </S.CommentListBox>
           </S.CommentListBox>
