@@ -162,8 +162,8 @@ const CommentModal: FC<Props> = ({
   }, [addCommentSuccess]);
 
   useEffect(() => {
-    if (addCommentError.response && addCommentError.response.status) {
-      alert(`Error code: ${addCommentError.response.status}`);
+    if (addCommentError.status) {
+      alert(`Error code: ${addCommentError.status}`);
     } else if (addCommentError.message) {
       alert(addCommentError.message);
     }
