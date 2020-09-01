@@ -13,6 +13,7 @@ import Loading from './Loading';
 import ClassBoard from './ClassBoard';
 import ClassDetailPost from './ClassDetailPost';
 import ClassBoardWrite from './ClassBoardWrite';
+import Comment from './Comment';
 
 const rootReducer = combineReducers({
   Modal,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   ClassBoard,
   ClassDetailPost,
   ClassBoardWrite,
+  Comment,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;
