@@ -118,7 +118,7 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
     dispatch(fetchLoading());
   } catch (err) {
     await assignmentErrorHandle(err, dispatch);
-    await fetchPersonalThunk();
+    fetchPersonalThunk();
   }
 };
 export const fetchTeamThunk: ActionCreator<ThunkAction<
@@ -142,7 +142,7 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
     dispatch(fetchTeam(teamList));
   } catch (err) {
     await assignmentErrorHandle(err, dispatch);
-    await fetchTeamThunk();
+    fetchTeamThunk();
   }
 };
 export const fetchExperimentThunk: ActionCreator<ThunkAction<
@@ -167,7 +167,7 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
     dispatch(fetchLoading());
   } catch (err) {
     await assignmentErrorHandle(err, dispatch);
-    await fetchExperimentThunk();
+    fetchExperimentThunk();
   }
 };
 
