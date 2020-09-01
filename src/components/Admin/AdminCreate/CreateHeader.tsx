@@ -25,7 +25,7 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
   const create = useSelector((state: ReducerType) => state.AdminCreate);
   const dispatch = useDispatch();
 
-  const getFilesFormData = (): FormData => {
+  const getFormData = (): FormData => {
     const data = new FormData();
     const { files } = create;
     files.length !== 0 &&
@@ -56,7 +56,7 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
       dispatch(createAlert('과제생성 요소들을 모두 입력해주세요.'));
       return;
     }
-    dispatch(fetchCreateThunk(getFilesFormData(), history, dispatch));
+    dispatch(fetchCreateThunk(getFormData(), history, dispatch));
   };
 
   const handleUpdate = () => {
@@ -64,14 +64,7 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
       dispatch(createAlert('과제생성 요소들을 모두 입력해주세요.'));
       return;
     }
-    const update: Update = {
-      assignmentId: assignmentId,
-      create: create,
-      description: descRef.current.value,
-      fd: getFilesFormData(),
-      title: titleRef.current.value,
-    };
-    dispatch(fetchUpdateThunk(update, history));
+    dispatch(fetchUpdateThunk(assignmentId, getFormData(), history, dispatch));
   };
 
   const handleDelete = () => {
