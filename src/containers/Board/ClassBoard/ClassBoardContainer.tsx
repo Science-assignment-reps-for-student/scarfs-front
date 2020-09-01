@@ -28,7 +28,7 @@ const ClassBoardContainer: FC = () => {
     };
   }, [getBoardError]);
 
-  if (getBoardError.status === undefined) {
+  if (getBoardError.status === undefined || getBoardError.status === 500) {
     alert('서버 오류 발생!');
     return <Redirect to='/error' />;
   }
