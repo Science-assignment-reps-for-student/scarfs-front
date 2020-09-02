@@ -20,6 +20,10 @@ export const UPDATE_RE_COMMENT = 'Comment/UPDATE_RE_COMMENT' as const;
 export const UPDATE_RE_COMMENT_SUCCESS = 'Comment/UPDATE_RE_COMMENT_SUCCESS' as const;
 export const UPDATE_RE_COMMENT_FAILURE = 'Comment/UPDATE_RE_COMMENT_FAILURE' as const;
 
+export const DELETE_RE_COMMENT = 'Comment/DELETE_RE_COMMENT' as const;
+export const DELETE_RE_COMMENT_SUCCESS = 'Comment/DELETE_RE_COMMENT_SUCCESS' as const;
+export const DELETE_RE_COMMENT_FAILURE = 'Comment/DELETE_RE_COMMENT_FAILURE' as const;
+
 export const RESET_COMMENT_STATE = 'Comment/RESET_COMMENT_STATE' as const;
 
 export const addCommentSuccess = () => ({
@@ -70,6 +74,15 @@ export const updateReCommentFailure = (error: ErrorType) => ({
   payload: error,
 });
 
+export const deleteReCommentSuccess = () => ({
+  type: DELETE_RE_COMMENT_SUCCESS,
+});
+
+export const deleteReCommentFailure = (error: ErrorType) => ({
+  type: DELETE_RE_COMMENT_FAILURE,
+  payload: error,
+});
+
 export const resetCommentState = () => ({
   type: RESET_COMMENT_STATE,
 });
@@ -85,6 +98,8 @@ export type ClassBoardWriterAction =
   | ReturnType<typeof addReCommentFailure>
   | ReturnType<typeof updateReCommentSuccess>
   | ReturnType<typeof updateReCommentFailure>
+  | ReturnType<typeof deleteReCommentSuccess>
+  | ReturnType<typeof deleteReCommentFailure>
   | ReturnType<typeof resetCommentState>;
 
 export type CommentState = {
@@ -98,6 +113,8 @@ export type CommentState = {
   addReCommentError: ErrorType;
   updateReCommentSuccess: number;
   updateReCommentError: ErrorType;
+  deleteReCommentSuccess: boolean;
+  deleteReCommentError: ErrorType;
 };
 
 const initialState: CommentState = {
@@ -111,6 +128,8 @@ const initialState: CommentState = {
   addReCommentError: errorInitialState,
   updateReCommentSuccess: 0,
   updateReCommentError: errorInitialState,
+  deleteReCommentSuccess: false,
+  deleteReCommentError: errorInitialState,
 };
 
 export default function Comment(
@@ -167,6 +186,16 @@ export default function Comment(
       return {
         ...initialState,
         updateReCommentError: action.payload,
+      };
+    case DELETE_RE_COMMENT_SUCCESS:
+      return {
+        ...initialState,
+        deleteReCommentSuccess: true,
+      };
+    case DELETE_RE_COMMENT_FAILURE:
+      return {
+        ...initialState,
+        deleteReCommentError: action.payload,
       };
     case RESET_COMMENT_STATE:
       return initialState;
