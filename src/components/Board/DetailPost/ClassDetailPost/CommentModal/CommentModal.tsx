@@ -8,6 +8,7 @@ import { getLocaleDateString } from '../../../utils';
 import {
   useAddReCommentRedux,
   useUpdateReCommentRedux,
+  useDeleteReCommentRedux,
 } from '../../../../../containers/Board/DetailPost/ClassDetailPost/CommentModal';
 
 export interface CommonComment {
@@ -53,6 +54,7 @@ const CommonComment: FC<CommonCommentProps> = ({
   const [text, setText] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [updateReCommentSuccess, updateReCommentError, updateReComment] = useUpdateReCommentRedux();
+  const [, , deleteReComment] = useDeleteReCommentRedux();
 
   const createdHourAndMinute = useMemo(() => {
     const date = new Date(created_at);
@@ -67,6 +69,11 @@ const CommonComment: FC<CommonCommentProps> = ({
   const onClickCancel = () => setIsEditMode(false);
 
   const onChangeInput = e => setText(e.target.value);
+
+  const updateSuccessHandler = useCallback(() => {
+    setIsEditMode(false);
+    resetCommentState();
+  }, []);
 
   const updateCommentClickHandler = useCallback(() => {
     if (!text) {
@@ -90,10 +97,11 @@ const CommonComment: FC<CommonCommentProps> = ({
     }
   }, [text]);
 
-  const updateSuccessHandler = useCallback(() => {
-    setIsEditMode(false);
-    resetCommentState();
-  }, []);
+  const deleteReCommentClickHandler = () => {
+    if (confirm('댓글을 정말로 삭제하시겠습니까?')) {
+      deleteReComment(cocomment_id);
+    }
+  };
 
   useEffect(() => {
     if (!isEditMode && content !== text) {
@@ -141,9 +149,7 @@ const CommonComment: FC<CommonCommentProps> = ({
             {isComment ? (
               <S.GrayText onClick={deleteCommentClickHandler}>삭제</S.GrayText>
             ) : (
-              <S.GrayText onClick={() => alert('todo: deleteReCommentClickHanler')}>
-                삭제
-              </S.GrayText>
+              <S.GrayText onClick={deleteReCommentClickHandler}>삭제</S.GrayText>
             )}
           </div>
         )}
@@ -298,6 +304,7 @@ const CommentModal: FC<Props> = ({
   const [comment, setComment] = useState<string>('');
   const [addReCommentSuccess, addReCommentError] = useAddReCommentRedux();
   const [updateReCommentSuccess, updateReCommentError] = useUpdateReCommentRedux();
+  const [deleteReCommentSuccess, deleteReCommentError] = useDeleteReCommentRedux();
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value);
 
@@ -314,11 +321,12 @@ const CommentModal: FC<Props> = ({
       updateCommentSuccess ||
       deleteCommentSuccess ||
       addReCommentSuccess ||
-      updateReCommentSuccess
+      updateReCommentSuccess ||
+      deleteReCommentSuccess
     ) {
       getDetailPost(boardId);
     }
-    if (addCommentSuccess || deleteCommentSuccess) {
+    if (addCommentSuccess || deleteCommentSuccess || deleteReCommentSuccess) {
       resetCommentState();
     }
     if (addCommentSuccess) {
@@ -330,6 +338,7 @@ const CommentModal: FC<Props> = ({
     deleteCommentSuccess,
     addReCommentSuccess,
     updateReCommentSuccess,
+    deleteReCommentSuccess,
   ]);
 
   useEffect(() => {
@@ -371,6 +380,14 @@ const CommentModal: FC<Props> = ({
       alert(updateReCommentError.message);
     }
   }, [updateReCommentError]);
+
+  useEffect(() => {
+    if (deleteReCommentError.status) {
+      alert(`Error code: ${deleteCommentError.status} 답글 삭제 실패`);
+    } else if (deleteReCommentError.message) {
+      alert(deleteCommentError.message);
+    }
+  }, [deleteReCommentError]);
 
   return (
     <AlertModal type='notify'>
