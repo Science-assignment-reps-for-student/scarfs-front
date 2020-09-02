@@ -23,3 +23,6 @@ export const updateReComment = ({
   reCommentId: number;
   content: string;
 }) => getApiDefault().put<number>(`/shank/comment/sub/${reCommentId}`, { content });
+
+export const deleteReComment = ({ reCommentId }: { reCommentId: number }) =>
+  getApiDefault().delete(`/shank/comment/sub/${reCommentId}`);
