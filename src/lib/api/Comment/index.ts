@@ -15,3 +15,11 @@ export const addReComment = ({ commentId, content }: { commentId: number; conten
   getApiDefault().post<number>(`/shank/comment/sub/${commentId}`, {
     content,
   });
+
+export const updateReComment = ({
+  reCommentId,
+  content,
+}: {
+  reCommentId: number;
+  content: string;
+}) => getApiDefault().put<number>(`/shank/comment/sub/${reCommentId}`, { content });

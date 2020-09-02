@@ -5,7 +5,10 @@ import { Modal } from '../../Modal';
 import { AlertModal } from '../../../../';
 import { ErrorType } from '../../../../../lib/type';
 import { getLocaleDateString } from '../../../utils';
-import { useAddReCommentRedux } from '../../../../../containers/Board/DetailPost/ClassDetailPost/CommentModal';
+import {
+  useAddReCommentRedux,
+  useUpdateReCommentRedux,
+} from '../../../../../containers/Board/DetailPost/ClassDetailPost/CommentModal';
 
 export interface CommonComment {
   content: string;
@@ -46,8 +49,10 @@ const CommonComment: FC<CommonCommentProps> = ({
   children,
 }) => {
   const { comment_id } = comment as Comment;
+  const { cocomment_id } = comment as ReComment;
   const [text, setText] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+  const [updateReCommentSuccess, updateReCommentError, updateReComment] = useUpdateReCommentRedux();
 
   const createdHourAndMinute = useMemo(() => {
     const date = new Date(created_at);
@@ -77,6 +82,19 @@ const CommonComment: FC<CommonCommentProps> = ({
     }
   };
 
+  const updateReCommentClickHandler = useCallback(() => {
+    if (!text) {
+      alert('빈 답글은 입력할 수 없습니다.');
+    } else {
+      updateReComment(cocomment_id, text);
+    }
+  }, [text]);
+
+  const updateSuccessHandler = useCallback(() => {
+    setIsEditMode(false);
+    resetCommentState();
+  }, []);
+
   useEffect(() => {
     if (!isEditMode && content !== text) {
       setText(content);
@@ -91,10 +109,15 @@ const CommonComment: FC<CommonCommentProps> = ({
 
   useEffect(() => {
     if (isComment && updateCommentSuccess === comment_id) {
-      setIsEditMode(false);
-      resetCommentState();
+      updateSuccessHandler();
     }
-  }, [updateCommentSuccess]);
+  }, [updateCommentSuccess, updateReCommentSuccess]);
+
+  useEffect(() => {
+    if (!isComment && updateReCommentSuccess === cocomment_id) {
+      updateSuccessHandler();
+    }
+  }, [updateReCommentSuccess]);
 
   return (
     <>
@@ -135,7 +158,7 @@ const CommonComment: FC<CommonCommentProps> = ({
                   수정
                 </S.Button>
               ) : (
-                <S.Button blue onClick={() => alert('todo: updateReCommentClickHandler')}>
+                <S.Button blue onClick={updateReCommentClickHandler}>
                   수정
                 </S.Button>
               )}
@@ -153,13 +176,14 @@ const CommonComment: FC<CommonCommentProps> = ({
 
 interface ReCommentItemProps {
   comment: ReComment;
+  resetCommentState: () => void;
 }
 
-const ReCommentItem: FC<ReCommentItemProps> = ({ comment }) => {
+const ReCommentItem: FC<ReCommentItemProps> = ({ comment, resetCommentState }) => {
   return (
     <S.ReCommentBox>
       <S.ReCommentPointer />
-      <CommonComment comment={comment} isComment={false} />
+      <CommonComment comment={comment} isComment={false} resetCommentState={resetCommentState} />
     </S.ReCommentBox>
   );
 };
@@ -229,7 +253,11 @@ const CommentItem: FC<CommentItempProps> = ({
           </S.ReCommentInputBox>
         )}
         {cocomments.map(comment => (
-          <ReCommentItem key={`reco_${comment.cocomment_id}`} comment={comment} />
+          <ReCommentItem
+            key={`reco_${comment.cocomment_id}`}
+            comment={comment}
+            resetCommentState={resetCommentState}
+          />
         ))}
       </CommonComment>
     </S.CommentItemBox>
@@ -269,6 +297,7 @@ const CommentModal: FC<Props> = ({
   const boardId = parseInt(useLocation().pathname.split('/')[BOARD_ID_INDEX]);
   const [comment, setComment] = useState<string>('');
   const [addReCommentSuccess, addReCommentError] = useAddReCommentRedux();
+  const [updateReCommentSuccess, updateReCommentError] = useUpdateReCommentRedux();
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value);
 
@@ -280,7 +309,13 @@ const CommentModal: FC<Props> = ({
   }, [comment, addComment]);
 
   useEffect(() => {
-    if (addCommentSuccess || updateCommentSuccess || deleteCommentSuccess || addReCommentSuccess) {
+    if (
+      addCommentSuccess ||
+      updateCommentSuccess ||
+      deleteCommentSuccess ||
+      addReCommentSuccess ||
+      updateReCommentSuccess
+    ) {
       getDetailPost(boardId);
     }
     if (addCommentSuccess || deleteCommentSuccess) {
@@ -289,11 +324,17 @@ const CommentModal: FC<Props> = ({
     if (addCommentSuccess) {
       setComment('');
     }
-  }, [addCommentSuccess, updateCommentSuccess, deleteCommentSuccess, addReCommentSuccess]);
+  }, [
+    addCommentSuccess,
+    updateCommentSuccess,
+    deleteCommentSuccess,
+    addReCommentSuccess,
+    updateReCommentSuccess,
+  ]);
 
   useEffect(() => {
     if (addCommentError.status) {
-      alert(`Error code: ${addCommentError.status}`);
+      alert(`Error code: ${addCommentError.status} 댓글 작성 실패`);
     } else if (addCommentError.message) {
       alert(addCommentError.message);
     }
@@ -317,11 +358,19 @@ const CommentModal: FC<Props> = ({
 
   useEffect(() => {
     if (addReCommentError.status) {
-      alert(`Error code: ${addReCommentError.status} 댓글 삭제 실패`);
+      alert(`Error code: ${addReCommentError.status} 답글 작성 실패`);
     } else if (addReCommentError.message) {
       alert(addReCommentError.message);
     }
   }, [addReCommentError]);
+
+  useEffect(() => {
+    if (updateReCommentError.status) {
+      alert(`Error code: ${updateReCommentError.status} 답글 수정 실패`);
+    } else if (updateReCommentError.message) {
+      alert(updateReCommentError.message);
+    }
+  }, [updateReCommentError]);
 
   return (
     <AlertModal type='notify'>
