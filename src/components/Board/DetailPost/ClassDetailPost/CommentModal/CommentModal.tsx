@@ -53,7 +53,7 @@ const CommonComment: FC<CommonCommentProps> = ({
   const { cocomment_id } = comment as ReComment;
   const [text, setText] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
-  const [updateReCommentSuccess, updateReCommentError, updateReComment] = useUpdateReCommentRedux();
+  const [updateReCommentSuccess, , updateReComment] = useUpdateReCommentRedux();
   const [, , deleteReComment] = useDeleteReCommentRedux();
 
   const createdHourAndMinute = useMemo(() => {
