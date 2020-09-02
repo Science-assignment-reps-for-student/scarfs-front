@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStateCallback } from '../../../../../lib/function';
-import { addReCommentThunk } from '../../../../../modules/thunk/Comment';
+import { addReCommentThunk, updateReCommentThunk } from '../../../../../modules/thunk/Comment';
 import { CommentState } from '../../../../../modules/reducer/Comment';
 import { ErrorType } from '../../../../../lib/type';
 
@@ -25,4 +25,24 @@ export const useAddReCommentRedux = (): [
   );
 
   return [addReCommentSuccess, addReCommentError, addReComment];
+};
+
+export const useUpdateReCommentRedux = (): [
+  number,
+  ErrorType,
+  (reCommentId: number, content: string) => void,
+] => {
+  const dispatch = useDispatch();
+  const { updateReCommentSuccess, updateReCommentError } = useSelector(
+    getStateCallback<CommentState>('Comment'),
+  );
+
+  const updateReComment = useCallback(
+    (reCommentId: number, content: string) => {
+      dispatch(updateReCommentThunk({ reCommentId, content }));
+    },
+    [dispatch],
+  );
+
+  return [updateReCommentSuccess, updateReCommentError, updateReComment];
 };
