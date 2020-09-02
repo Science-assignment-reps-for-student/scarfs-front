@@ -5,6 +5,7 @@ import { Modal } from '../../Modal';
 import { AlertModal } from '../../../../';
 import { ErrorType } from '../../../../../lib/type';
 import { getLocaleDateString } from '../../../utils';
+import { useAddReCommentRedux } from '../../../../../containers/Board/DetailPost/ClassDetailPost/CommentModal';
 
 export interface CommonComment {
   content: string;
@@ -180,10 +181,33 @@ const CommentItem: FC<CommentItempProps> = ({
   deleteComment,
   resetCommentState,
 }) => {
-  const [isOpenRecomment, setIsOpenRecomment] = useState(false);
   const { cocomments } = comment;
   const [text, setText] = useState('');
+  const [isOpenRecomment, setIsOpenRecomment] = useState(false);
+  const [addReCommentSuccess, , addReComment] = useAddReCommentRedux();
+
   const onChange = e => setText(e.target.value);
+  const addReCommentClickHandler = useCallback(() => {
+    if (!text) {
+      alert('대댓글은 빌 수 없습니다.');
+    } else {
+      addReComment(comment.comment_id, text);
+    }
+  }, [text]);
+
+  useEffect(() => {
+    if (addReCommentSuccess === comment.comment_id) {
+      setText('');
+      setIsOpenRecomment(false);
+      resetCommentState();
+    }
+  }, [addReCommentSuccess]);
+
+  useEffect(() => {
+    if (!isOpenRecomment && text) {
+      setText('');
+    }
+  }, [isOpenRecomment]);
 
   return (
     <S.CommentItemBox>
@@ -201,7 +225,7 @@ const CommentItem: FC<CommentItempProps> = ({
         {isOpenRecomment && (
           <S.ReCommentInputBox>
             <S.ReCommentInput placeholder='답글을 입력하세요' value={text} onChange={onChange} />
-            <S.Button>확인</S.Button>
+            <S.Button onClick={addReCommentClickHandler}>답글 작성</S.Button>
           </S.ReCommentInputBox>
         )}
         {cocomments.map(comment => (
@@ -244,6 +268,7 @@ const CommentModal: FC<Props> = ({
   const BOARD_ID_INDEX = 3;
   const boardId = parseInt(useLocation().pathname.split('/')[BOARD_ID_INDEX]);
   const [comment, setComment] = useState<string>('');
+  const [addReCommentSuccess, addReCommentError] = useAddReCommentRedux();
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComment(e.target.value);
 
@@ -255,7 +280,7 @@ const CommentModal: FC<Props> = ({
   }, [comment, addComment]);
 
   useEffect(() => {
-    if (addCommentSuccess || updateCommentSuccess || deleteCommentSuccess) {
+    if (addCommentSuccess || updateCommentSuccess || deleteCommentSuccess || addReCommentSuccess) {
       getDetailPost(boardId);
     }
     if (addCommentSuccess || deleteCommentSuccess) {
@@ -264,7 +289,7 @@ const CommentModal: FC<Props> = ({
     if (addCommentSuccess) {
       setComment('');
     }
-  }, [addCommentSuccess, updateCommentSuccess, deleteCommentSuccess]);
+  }, [addCommentSuccess, updateCommentSuccess, deleteCommentSuccess, addReCommentSuccess]);
 
   useEffect(() => {
     if (addCommentError.status) {
@@ -289,6 +314,14 @@ const CommentModal: FC<Props> = ({
       alert(deleteCommentError.message);
     }
   }, [deleteCommentError]);
+
+  useEffect(() => {
+    if (addReCommentError.status) {
+      alert(`Error code: ${addReCommentError.status} 댓글 삭제 실패`);
+    } else if (addReCommentError.message) {
+      alert(addReCommentError.message);
+    }
+  }, [addReCommentError]);
 
   return (
     <AlertModal type='notify'>
