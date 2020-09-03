@@ -101,7 +101,9 @@ const PostMain: FC<Props> = ({
           )}
         </S.NearbyPost>
       </S.LeftAside>
-      <S.PostContentBox>{getContentWithImages()}</S.PostContentBox>
+      <S.PostContentBox>
+        <div>{getContentWithImages()}</div>
+      </S.PostContentBox>
     </S.PostMainWrapper>
   );
 };
