@@ -42,7 +42,7 @@ const ClassDetailPost: FC<Props> = ({
   useEffect(() => {
     if (getDetailPostError.status) {
       alert(Error[getDetailPostError.status]);
-      history.goBack();
+      history.push('/error');
     }
   }, [getDetailPostError]);
 
