@@ -5,6 +5,8 @@ export const GET_DETAIL_POST = 'ClassDetailPost/GET_DETAIL_POST' as const;
 export const GET_DETAIL_POST_SUCCESS = 'ClassDetailPost/GET_DETAIL_POST_SUCCESS' as const;
 export const GET_DETAIL_POST_FAILURE = 'ClassDetailPost/GET_DETAIL_POST_FAILURE' as const;
 
+export const RESET_DETAIL_POST = 'ClassDetailPost/RESET_DETAIL_POST' as const;
+
 const getDetailPostSuccess = (payload: ClassDetailPost) => ({
   type: GET_DETAIL_POST_SUCCESS,
   payload,
@@ -15,9 +17,14 @@ const getDetailPostFailure = (error: ErrorType) => ({
   payload: error,
 });
 
+export const resetDetailPost = () => ({
+  type: RESET_DETAIL_POST,
+});
+
 type ClassDetailPostAction =
   | ReturnType<typeof getDetailPostSuccess>
-  | ReturnType<typeof getDetailPostFailure>;
+  | ReturnType<typeof getDetailPostFailure>
+  | ReturnType<typeof resetDetailPost>;
 
 export type ClassDetailPostState = {
   classDetailPost: ClassDetailPost;
@@ -58,6 +65,8 @@ export default function ClassDetailPost(
         ...state,
         getDetailPostError: action.payload,
       };
+    case RESET_DETAIL_POST:
+      return initialState;
     default:
       return state;
   }

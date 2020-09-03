@@ -16,6 +16,7 @@ interface Props {
   classDetailPost: ClassDetailPost;
   getDetailPostError: ErrorType;
   getDetailPost: (boardId: number) => void;
+  resetDetailPost: () => void;
 }
 
 const ClassDetailPost: FC<Props> = ({
@@ -23,6 +24,7 @@ const ClassDetailPost: FC<Props> = ({
   classDetailPost,
   getDetailPostError,
   getDetailPost,
+  resetDetailPost,
 }) => {
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber } = useUser();
@@ -39,6 +41,12 @@ const ClassDetailPost: FC<Props> = ({
     alert(Error[getDetailPostError.status]);
     return <Redirect to='/error' />;
   }
+
+  useEffect(() => {
+    return () => {
+      resetDetailPost();
+    };
+  }, []);
 
   return (
     <>
