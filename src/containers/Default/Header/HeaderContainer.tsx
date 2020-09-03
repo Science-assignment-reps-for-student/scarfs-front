@@ -6,14 +6,16 @@ import { stateChange, getStateCallback, isNetworkError } from '../../../lib/func
 import HeaderState, { sendRefreshToken } from '../../../../src/modules/reducer/Header';
 import { getUserInfoThunk, logout } from '../../../modules/thunk/Main';
 import { MainState } from '../../../../src/modules/reducer/Main';
+import { useHistory } from 'react-router-dom';
 
 const HeaderContainer: FC = () => {
   const modalChange = stateChange(setModal);
   const logoutChange = stateChange(logout);
   const getUserInfoChange = stateChange(getUserInfoThunk);
-  const { isLogin, refreshToken, userInfo, error } = useSelector(
+  const { isLogin, refreshToken, userInfo, error, accessToken } = useSelector(
     getStateCallback<HeaderState>('Header'),
   );
+  const history = useHistory();
   const refreshTokenChange = stateChange(sendRefreshToken);
   const serverErrorHandler = useCallback((status: number) => {
     switch (status) {
@@ -26,15 +28,16 @@ const HeaderContainer: FC = () => {
         };
         refreshTokenChange(params);
       }
+      case 401: {
+        history.push('/');
+      }
     }
   }, []);
   const logoutClickHandler = useCallback(() => {
     logoutChange();
   }, []);
   useEffect(() => {
-    if (isLogin) {
-      getUserInfoChange();
-    }
+    getUserInfoChange();
   }, [isLogin]);
   useEffect(() => {
     if (!error) return;
