@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10.473" height="10.564" viewBox="0 0 10.473 10.564">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="10.473" height="10.564" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Icon_feather-edit" data-name="Icon feather-edit" clip-path="url(#clip-path)">
+    <g id="Icon_feather-edit-2" data-name="Icon feather-edit" transform="translate(0.5 0.592)">
+      <path id="패스_56" data-name="패스 56" d="M7.234,6H3.941A.941.941,0,0,0,3,6.941v6.586a.941.941,0,0,0,.941.941h6.586a.941.941,0,0,0,.941-.941V10.234" transform="translate(-3 -4.995)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="패스_57" data-name="패스 57" d="M16.972,3.112a1,1,0,0,1,1.421,1.421l-4.5,4.5L12,9.505l.474-1.894Z" transform="translate(-9.215 -2.818)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>
