@@ -2,10 +2,10 @@ import React, { FC, ReactElement } from 'react';
 import * as S from '../style';
 import ClassListHeadCommon from '../ListCommonHead';
 import SubmitList from '../SubmitList';
-import { PrEvalCommon } from '../../../../modules/reducer/Admin';
+import { PeerEvaluationCommon } from '../../../../modules/reducer/Admin';
 
 interface Props {
-  members: PrEvalCommon[];
+  members: PeerEvaluationCommon[];
 }
 
 const TeamClassSubmit: FC<Props> = ({ members }): ReactElement => {
