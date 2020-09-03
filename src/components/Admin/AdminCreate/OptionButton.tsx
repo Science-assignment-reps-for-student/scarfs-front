@@ -4,7 +4,6 @@ import { save, trash } from '../../../assets/Admin';
 
 interface Props {
   imgType: string;
-  text: string;
   onClick: any;
 }
 
@@ -13,11 +12,11 @@ enum Img {
   trashImg = trash,
 }
 
-const OptionButton: FC<Props> = ({ imgType, text, onClick }): ReactElement => {
+const OptionButton: FC<Props> = ({ imgType, children, onClick }): ReactElement => {
   return (
     <S.Button onClick={onClick}>
       <S.ButtonImg src={Img[imgType]} alt={imgType} title={imgType} />
-      <S.ButtonText>{text}</S.ButtonText>
+      <S.ButtonText>{children}</S.ButtonText>
     </S.Button>
   );
 };

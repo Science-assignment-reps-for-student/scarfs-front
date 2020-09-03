@@ -2,8 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reducerType } from '../../modules/reducer';
 import { ErrorType } from '../../modules/reducer/Modal';
 import { HeaderState } from '../../modules/reducer/Header';
-import { useMemo } from 'react';
 import * as Type from '../../lib/type';
+import {
+  ClassBoardWriteState,
+  setWriteBoardClassNumber,
+} from '../../modules/reducer/ClassBoardWrite';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -46,6 +49,9 @@ export const getModalErrorText = (error: ErrorType) => {
     case 'SignUpPasswordRegexError': {
       return '비밀번호에 특수문자와 대문자를 넣어주세요.';
     }
+    case 'TimeOutError': {
+      return '세션이 만료되었습니다. 처음부터 진행해 주세요.';
+    }
     default:
       return '';
   }
@@ -85,4 +91,15 @@ export const useUser = () => {
     classNumber: parseInt(userInfo.studentNumber.toString().split('')[1]),
   };
   return returnValue;
+};
+
+export const useWriteClassNumber = (): [number, (classNumber: number) => void] => {
+  const dispatch = useDispatch();
+  const { classNumber } = useSelector(getStateCallback<ClassBoardWriteState>('ClassBoardWrite'));
+
+  const setClassNumber = (classNumber: number) => {
+    dispatch(setWriteBoardClassNumber(classNumber));
+  };
+
+  return [classNumber, setClassNumber];
 };

@@ -19,11 +19,14 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
       if (!isDataAble(assignmentPreview, isLoading)) return <ErrorListComponent />;
       const buffer = [];
       assignmentPreview.applicationResponses.map(assignment => {
+        console.log(assignment);
         buffer.push(
           <AssignmentTaskListComponent
             date={assignment.created_at}
-            isProgress={assignment.is_finish}
+            isProgress={assignment.complete}
             title={assignment.title}
+            id={assignment.assignment_id}
+            key={assignment.assignment_id}
           />,
         );
       });

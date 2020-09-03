@@ -35,8 +35,8 @@ const ClassDetailPost: FC<Props> = ({
     }
   }, [paramId, classNumber]);
 
-  if (getDetailPostError.response && getDetailPostError.response.status) {
-    alert(Error[getDetailPostError.response.status]);
+  if (getDetailPostError.status) {
+    alert(Error[getDetailPostError.status]);
     return <Redirect to='/error' />;
   }
 

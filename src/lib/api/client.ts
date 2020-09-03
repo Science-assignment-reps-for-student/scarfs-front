@@ -5,22 +5,15 @@ const isTextHaveKorean = (text: string): boolean => {
   return rxg.test(text);
 };
 
-export const apiDefault = axios.create({
-  baseURL: process.env.BASE_URL,
-  timeout: 2500,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  },
-});
-
-export const getApiDefault = () => {
+export const getApiDefault = (contentType?: string) => {
   const accessToken = localStorage.getItem('accessToken');
   if (isTextHaveKorean(accessToken)) window.location.href = '/error';
   return axios.create({
     baseURL: process.env.BASE_URL,
     timeout: 2500,
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      'Content-Type': contentType ? contentType : 'application/json',
     },
   });
 };

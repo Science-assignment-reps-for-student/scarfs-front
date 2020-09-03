@@ -4,13 +4,29 @@ import { getApiDefault } from '../client';
 export interface SignUpType {
   number: string;
   name: string;
-  authCode: string;
+  auth_code: string;
   password: string;
+  email: string;
+}
+
+export interface SignUpThunkType {
+  number: string;
+  name: string;
+  auth_code: string;
+  password: string;
+  email: string;
+  timerNumber: number;
 }
 
 export interface EmailCheckType {
   email: string;
   code: string;
+}
+
+export interface EmailCheckThunkType {
+  email: string;
+  code: string;
+  timerNumber: number;
 }
 
 export interface EmailSendType {
@@ -28,7 +44,7 @@ export const signup = async (body: SignUpType): Promise<AxiosResponse<any>> => {
 };
 
 export const emailCheck = async (body: EmailCheckType): Promise<AxiosResponse<any>> => {
-  const response = await getApiDefault().put('/shank/user/eamil/verify', body);
+  const response = await getApiDefault().put('/shank/user/email/verify', body);
   return response;
 };
 
