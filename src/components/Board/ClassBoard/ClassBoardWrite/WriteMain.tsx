@@ -1,5 +1,6 @@
-import React, { FC, useRef, useState, useEffect, useCallback } from 'react';
+import React, { FC, useRef, useState, useEffect, useCallback, Fragment } from 'react';
 import * as S from './style';
+import queryString from 'query-string';
 import {
   PostMainWrapper,
   LeftAside,
@@ -7,24 +8,27 @@ import {
 } from '../../DetailPost/Default/PostMain/style';
 import { WriteTextarea, WriteFooterButtons, ImagePreview } from './';
 import { readFileAsDataURL } from '../../../../lib/function';
+import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
+import { getImageFileByURL } from '../../../../lib/api/ClassBoardWrite';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
-  data?: {
-    title: string;
-    content: string;
-  };
   writeBoard: (data: FormData) => void;
   classNumber: number;
+  classDetailPost: ClassDetailPost;
+  updateBoard: (boardId: number, data: FormData) => void;
 }
 
-const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
+const WriteMain: FC<Props> = ({ writeBoard, classNumber, classDetailPost, updateBoard }) => {
+  const history = useHistory();
+  const { id } = queryString.parse(location.search);
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [imgFiles, setImgFiles] = useState<Array<File>>([undefined]);
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState<string[]>([]);
+  const [title, setTitle] = useState(classDetailPost.title);
+  const [contents, setContents] = useState<string[]>(['']);
   const [writeContentComponents, setWriteContentComponents] = useState<React.ReactElement[]>([
     <WriteTextarea
       key={0}
@@ -78,10 +82,45 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
   };
 
   const writeClickHandler = useCallback(() => {
+    if (!title.trim()) {
+      return alert('제목은 빌 수 없습니다.');
+    }
+    if (!contents.some(content => content.trim())) {
+      return alert('내용은 빌 수 없습니다.');
+    }
+    if (contents.some(content => content.indexOf('%{') !== -1)) {
+      return alert('포함할 수 없는 문자입니다.');
+    }
+    const data = new FormData();
+    let content = '';
+    let count = 0;
+    let prevIndex = 0;
+    data.append('title', title);
+    writeContentComponents.forEach((component, index) => {
+      if (!component) return;
+      if (Number(component.key) % 2 === 0) {
+        if (Number(writeContentComponents[prevIndex].key) % 2 === 0) {
+          content += `${contents[index]}\n`;
+        } else {
+          content += `${contents[index]}`;
+        }
+      } else if (Number(component.key) % 2 === 1) {
+        count++;
+        content += `%{image${count}}`;
+        data.append('images', imgFiles[index] as File);
+      }
+      prevIndex = index;
+    });
+    data.append('content', content);
+    data.append('class_number', classNumber.toString());
+    writeBoard(data);
+  }, [title, contents, imgFiles, writeContentComponents, classNumber]);
+
+  const updateClickHandler = useCallback(() => {
     if (!title) {
       return alert('제목은 빌 수 없습니다.');
     }
-    if (!contents.some(content => content)) {
+    if (!contents.some(content => content.trim())) {
       return alert('내용은 빌 수 없습니다.');
     }
     if (contents.some(content => content.indexOf('%{') !== -1)) {
@@ -91,20 +130,25 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
     let content = '';
     let count = 0;
     data.append('title', title);
+    let prevIndex = 0;
     writeContentComponents.forEach((component, index) => {
       if (!component) return;
       if (Number(component.key) % 2 === 0) {
-        content += `${contents[index]}\n`;
+        if (Number(writeContentComponents[prevIndex].key) % 2 === 0) {
+          content += `${contents[index]}\n`;
+        } else {
+          content += `${contents[index]}`;
+        }
       } else if (Number(component.key) % 2 === 1) {
         count++;
-        content += `%{image${count}}\n`;
+        content += `%{image${count}}`;
         data.append('images', imgFiles[index]);
       }
+      prevIndex = index;
     });
     data.append('content', content);
-    data.append('class_number', classNumber.toString());
-    writeBoard(data);
-  }, [title, contents, imgFiles, writeContentComponents, classNumber]);
+    updateBoard(Number(id), data);
+  }, [title, contents, imgFiles, writeContentComponents, id]);
 
   useEffect(() => {
     inputTitleRef.current.focus();
@@ -113,6 +157,83 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
   useEffect(() => {
     textareaRef.current.focus();
   }, [writeContentComponents]);
+
+  useEffect(() => {
+    const { title, content, images } = classDetailPost;
+    if (title) {
+      let nextImageStartIndex = 0;
+      let prevImageEndIndex = 0;
+      const components = [];
+      const contents = [];
+      const files: File[] = [];
+      let imageIndex = 0;
+      let index = components.length;
+
+      const setOriginalBoard = async () => {
+        await (async () => {
+          while (content.indexOf('%{', prevImageEndIndex) !== -1) {
+            index = components.length;
+            nextImageStartIndex = content.indexOf('%{', prevImageEndIndex);
+            files[index] = undefined;
+            components.push(
+              <WriteTextarea
+                key={index}
+                value={content.slice(prevImageEndIndex, nextImageStartIndex)}
+                index={index}
+                refValue={textareaRef}
+                setContents={setContents}
+              />,
+            );
+            contents.push(content.slice(prevImageEndIndex, nextImageStartIndex));
+
+            index = components.length;
+
+            components.push(
+              <ImagePreview
+                key={index}
+                index={index}
+                imgSrc={`${process.env.BASE_URL}/shank/image/${images[imageIndex]}`}
+                setImgFiles={setImgFiles}
+                setWriteContentComponents={setWriteContentComponents}
+              />,
+            );
+            contents.push('');
+
+            await getImageFileByURL(images[imageIndex])
+              .then(({ data }) => {
+                files[index] = data;
+              })
+              .catch(error => {
+                alert('사진을 불러오지 못했습니다.');
+                history.push('/error');
+                console.log(error);
+              });
+
+            prevImageEndIndex = content.indexOf('}', nextImageStartIndex) + 1;
+            imageIndex++;
+          }
+        })();
+
+        index = components.length;
+
+        contents.push(content.slice(prevImageEndIndex));
+        components.push(
+          <WriteTextarea
+            key={index}
+            value={content.slice(prevImageEndIndex)}
+            index={index}
+            refValue={textareaRef}
+            setContents={setContents}
+          />,
+        );
+        setTitle(title);
+        setContents(contents);
+        setImgFiles(files);
+        setWriteContentComponents(components);
+      };
+      setOriginalBoard();
+    }
+  }, [classDetailPost]);
 
   return (
     <>
@@ -143,7 +264,11 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber }) => {
           ref={inputFileRef}
         />
       </PostMainWrapper>
-      <WriteFooterButtons isEditMode={false} writeOrEditClickHandler={writeClickHandler} />
+      <WriteFooterButtons
+        isEditMode={id ? true : false}
+        writeOrEditClickHandler={id ? updateClickHandler : writeClickHandler}
+        boardId={Number(id)}
+      />
     </>
   );
 };

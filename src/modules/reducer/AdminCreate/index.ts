@@ -1,10 +1,9 @@
-import { ActionCreator } from 'redux';
+import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 import {
   apiCreateAssignment,
   apiUpdateAssignment,
-  apiUpdateAssignmentFiles,
   apiDeleteAssignment,
 } from '../../../lib/api/Admin/create';
 
@@ -27,11 +26,11 @@ interface Create {
   deadline_4: string;
 }
 
-export const SET_FILE = 'SET_FILE' as const;
-export const DELETE_FILE = 'DELETE_FILE' as const;
-export const SET_TYPE = 'SET_TYPE' as const;
-export const SET_DEADLINE = 'SET_DEADLINE' as const;
-export const RESET = 'RESET' as const;
+export const SET_FILE = 'Admin/Create/SET_FILE' as const;
+export const DELETE_FILE = 'Admin/Create/DELETE_FILE' as const;
+export const SET_TYPE = 'Admin/Create/SET_TYPE' as const;
+export const SET_DEADLINE = 'Admin/Create/SET_DEADLINE' as const;
+export const RESET = 'Admin/Create/RESET' as const;
 
 export const setFile = (file: File) => ({
   type: SET_FILE,
@@ -76,7 +75,11 @@ export const fetchCreateThunk: ActionCreator<ThunkAction<
   CreateAction,
   null,
   CreateAction
->> = (data: FormData, history: { push: (to: string) => void }) => async dispatch => {
+>> = (
+  data: FormData,
+  history: { push: (to: string) => void },
+  dispatchAlert: Dispatch,
+) => async dispatch => {
   try {
     await apiCreateAssignment(data);
     dispatch(reset());
@@ -92,12 +95,13 @@ export const fetchUpdateThunk: ActionCreator<ThunkAction<
   null,
   CreateAction
 >> = (
-  { assignmentId, create, description, fd, title }: Update,
+  assignmentId: string,
+  data: FormData,
   history: { push: (to: string) => void },
+  dispatchAlert: Dispatch,
 ) => async dispatch => {
   try {
-    // await apiUpdateAssignmentFiles(fd, assignmentId);
-    await apiUpdateAssignment(assignmentId, create, { title, description });
+    await apiUpdateAssignment(assignmentId, data);
     dispatch(reset());
     history.push('/admin');
   } catch (err) {
@@ -110,7 +114,11 @@ export const fetchDeleteThunk: ActionCreator<ThunkAction<
   CreateAction,
   null,
   CreateAction
->> = (assignmentId: string, history: { push: (to: string) => void }) => async dispatch => {
+>> = (
+  assignmentId: string,
+  history: { push: (to: string) => void },
+  dispatchAlert: Dispatch,
+) => async dispatch => {
   try {
     await apiDeleteAssignment(assignmentId);
     dispatch(reset());

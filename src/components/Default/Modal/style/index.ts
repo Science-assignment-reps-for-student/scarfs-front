@@ -212,6 +212,4 @@ export const ModalErrorText = styled.div`
   height: 20px;
 `;
 
-export const ModalButtonWrapper = styled.div`
-  height: 70px;
-`;
+export const ModalButtonWrapper = styled.div``;

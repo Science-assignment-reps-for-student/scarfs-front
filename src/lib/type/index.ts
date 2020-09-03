@@ -1,13 +1,9 @@
 export type ErrorType = {
   message: string;
-  response: {
-    status: number;
-  };
+  status: number;
 };
 
 export const errorInitialState = {
   message: '',
-  response: {
-    status: 0,
-  },
+  status: 0,
 };

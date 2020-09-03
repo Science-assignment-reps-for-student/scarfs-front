@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import * as S from './style';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -12,6 +12,7 @@ interface Props {
 
 const WriteTextarea: FC<Props> = ({ index, value, refValue, hasPlaceholder, setContents }) => {
   const [content, setContent] = useState(value ? value : '');
+
   const contentChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
     setContent(content);
@@ -21,6 +22,13 @@ const WriteTextarea: FC<Props> = ({ index, value, refValue, hasPlaceholder, setC
       return contents;
     });
   };
+
+  useEffect(() => {
+    if (value) {
+      setContent(value);
+    }
+  }, [value]);
+
   return (
     <S.TextareaBox>
       <TextareaAutosize

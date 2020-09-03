@@ -30,6 +30,7 @@ const Main: FC = () => {
             refreshToken,
           },
           callback: initPage,
+          page: 'Main',
         };
         refreshTokenChange(params);
       }
@@ -42,7 +43,7 @@ const Main: FC = () => {
   useEffect(() => {
     if (!error) return;
     if (isNetworkError(error)) return;
-    const statusCode = error.response.status;
+    const statusCode = error.status;
     serverErrorHandler(statusCode);
   }, [error]);
   useEffect(() => {

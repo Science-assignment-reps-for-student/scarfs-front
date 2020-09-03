@@ -2,15 +2,21 @@ import React, { FC, useCallback } from 'react';
 import { reset } from '../../../../modules/reducer/Modal';
 import { stateChange } from '../../../../lib/function';
 import * as S from '../style';
+import { resetSignIn } from '../../../../modules/reducer/SignIn';
+import { resetSignUp } from '../../../../modules/reducer/SignUp';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Modal: FC<Props> = ({ children }) => {
-  const resetModal = stateChange(reset);
+  const resetModalChange = stateChange(reset);
+  const resetSignInChange = stateChange(resetSignIn);
+  const resetSignUpChange = stateChange(resetSignUp);
   const deleteButtonClickHandler = useCallback(() => {
-    resetModal();
+    resetModalChange();
+    resetSignInChange();
+    resetSignUpChange();
   }, []);
   return (
     <S.ModalWrapper>
