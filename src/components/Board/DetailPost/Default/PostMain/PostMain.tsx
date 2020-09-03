@@ -55,23 +55,23 @@ const PostMain: FC<Props> = ({
 }) => {
   const getContentWithImages = useCallback(() => {
     const jsx = [];
-    let imageStartIndex = 0;
-    let imageEndIndex = 0;
+    let nextImageStartIndex = 0;
+    let prevImageEndIndex = 0;
     let count = 0;
-    while (content.indexOf('%{', imageEndIndex) !== -1) {
-      imageStartIndex = content.indexOf('%{', imageEndIndex);
+    while (content.indexOf('%{', prevImageEndIndex) !== -1) {
+      nextImageStartIndex = content.indexOf('%{', prevImageEndIndex);
       jsx.push(
         <Fragment key={count}>
-          <pre>{content.slice(imageEndIndex, imageStartIndex)}</pre>
+          <pre>{content.slice(prevImageEndIndex, nextImageStartIndex)}</pre>
           <ImagePreviewBox>
             <img src={`${process.env.BASE_URL}/shank/image/${images[count]}`} />
           </ImagePreviewBox>
         </Fragment>,
       );
-      imageEndIndex = content.indexOf('}', imageStartIndex) + 1;
+      prevImageEndIndex = content.indexOf('}', nextImageStartIndex) + 1;
       count++;
     }
-    jsx.push(<pre key={count}>{content.slice(imageEndIndex)}</pre>);
+    jsx.push(<pre key={count}>{content.slice(prevImageEndIndex)}</pre>);
     return jsx;
   }, [content, images, board]);
   return (
