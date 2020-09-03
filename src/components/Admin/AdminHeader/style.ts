@@ -18,7 +18,7 @@ export const HeaderLeftWrap = styled.div`
   display: flex;
 `;
 
-export const HeaderLogoLink = styled(Link)`
+export const HeaderLogoLink = styled.a`
   color: white !important;
 `;
 

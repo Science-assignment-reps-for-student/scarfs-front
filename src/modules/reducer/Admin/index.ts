@@ -51,9 +51,9 @@ export interface MemberCommon {
   student_number: string;
 }
 
-export const PERSONAL_STR = 'Admin/개인' as const;
-export const TEAM_STR = 'Admin/팀' as const;
-export const EXPERIMENT_STR = 'Admin/실험' as const;
+export const PERSONAL_STR = '개인' as const;
+export const TEAM_STR = '팀' as const;
+export const EXPERIMENT_STR = '실험' as const;
 
 export const FETCH_PERSONAL = 'Admin/Main/FETCH_PERSONAL' as const;
 export const FETCH_TEAM = 'Admin/Main/FETCH_TEAM' as const;
