@@ -1,12 +1,12 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { History } from 'history';
-
-import { apiLogin } from '../../../lib/api/Admin/login';
 import { AxiosError } from 'axios';
 
-export const FETCH_LOGIN = 'FETCH_LOGIN' as const;
-export const LOGIN_LOADING = 'LOGIN_LOADING' as const;
+import { apiLogin } from '../../../lib/api/Admin/login';
+
+export const FETCH_LOGIN = 'Admin/Login/FETCH_LOGIN' as const;
+export const LOGIN_LOADING = 'Admin/Login/LOGIN_LOADING' as const;
 
 export const fetchLogin = () => ({
   type: FETCH_LOGIN,

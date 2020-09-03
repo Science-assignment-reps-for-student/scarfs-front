@@ -1,9 +1,9 @@
-const CREATE_ALERT = 'CREATE_ALERT' as const;
-const DELETE_ALERT = 'DELETE_ALERT' as const;
-const RETURN_VALUE = 'RETURN_VALUE' as const;
-const RESET_VALUE = 'RESET_VALUE' as const;
-const SET_CHECK_CALLBACK = 'SET_CHECK_CALLBACK' as const;
-const SET_CANCEL_CALLBACK = 'SET_CANCEL_CALLBACK' as const;
+const CREATE_ALERT = 'Alert/CREATE_ALERT' as const;
+const DELETE_ALERT = 'Alert/DELETE_ALERT' as const;
+const RETURN_VALUE = 'Alert/RETURN_VALUE' as const;
+const RESET_VALUE = 'Alert/RESET_VALUE' as const;
+const SET_CHECK_CALLBACK = 'Alert/SET_CHECK_CALLBACK' as const;
+const SET_CANCEL_CALLBACK = 'Alert/SET_CANCEL_CALLBACK' as const;
 
 export const createAlert = (explain: string) => ({
   type: CREATE_ALERT,

@@ -26,11 +26,11 @@ interface Create {
   deadline_4: string;
 }
 
-export const SET_FILE = 'SET_FILE' as const;
-export const DELETE_FILE = 'DELETE_FILE' as const;
-export const SET_TYPE = 'SET_TYPE' as const;
-export const SET_DEADLINE = 'SET_DEADLINE' as const;
-export const RESET = 'RESET' as const;
+export const SET_FILE = 'Admin/Create/SET_FILE' as const;
+export const DELETE_FILE = 'Admin/Create/DELETE_FILE' as const;
+export const SET_TYPE = 'Admin/Create/SET_TYPE' as const;
+export const SET_DEADLINE = 'Admin/Create/SET_DEADLINE' as const;
+export const RESET = 'Admin/Create/RESET' as const;
 
 export const setFile = (file: File) => ({
   type: SET_FILE,
