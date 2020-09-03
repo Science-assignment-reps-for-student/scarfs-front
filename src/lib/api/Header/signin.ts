@@ -24,6 +24,7 @@ export interface RefreshTokenResponseType {
 export interface RefreshTokenThunkType {
   serverType: RefreshTokenType;
   callback: () => void;
+  page: string;
 }
 
 export const signin = async (body: SignInType): Promise<SignInResponseType> => {
