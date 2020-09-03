@@ -77,6 +77,11 @@ export const HeaderUserButtonWrapper = styled.div`
     height: 15px;
     border-right: 2px solid #979797;
   }
+  > p {
+    font-size: 15px;
+    margin-right: 24px;
+    color: #464646;
+  }
 `;
 
 export const HeaderTitle = styled.h1`

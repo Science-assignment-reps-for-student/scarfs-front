@@ -1,84 +1,81 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
+import { useUser } from '../../../../lib/function';
+import { SBone } from '../../../Admin/AdminMain/style';
+import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
+import { ErrorType } from '../../../../lib/type';
 
-const board = {
-  title: '알려주세요',
-  writerName: '이성진',
-  createdAt: '2020.07.08',
-  view: 5,
-  content: '난 바보가 맞나요?',
-  nextBoardTitle: '사랑해요',
-  preBoardTitle: 'ㅋㅋㄹㅇ 실화냐?',
-  nextBoardNumber: 5,
-  preBoardNumber: 3,
-  comments: [
-    {
-      commentId: 1,
-      content: '맞습니다 ㅎㅎ',
-      writerName: '이대성',
-      writerNumber: '2309',
-      cocomments: [
-        {
-          cocommentId: 1,
-          content: 'ㅇㅈ!!',
-          writerName: '임용성',
-        },
-        {
-          cocommentId: 2,
-          content: 'ㄹㅇ',
-          writerName: '손민기',
-        },
-        {
-          cocommentId: 3,
-          content: '아빠!!',
-          writerName: '강신희',
-        },
-      ],
-    },
-    {
-      commentId: 2,
-      content: 'ㅋㅋㅋㅋ',
-      writerName: '이우찬',
-      cocomments: [
-        {
-          cocommentId: 1,
-          content: 'ㅎㅎ 바보~',
-          writerName: '오준상',
-        },
-        {
-          cocommentId: 2,
-          content: '여기 핫플이네',
-          writerName: '김어진',
-        },
-        {
-          cocommentId: 3,
-          content: '나한테 왜그래ㅠ',
-          writerName: '이성진',
-        },
-      ],
-    },
-  ],
-};
+enum Error {
+  '본인반 외에 게시글에는 접근 불가능 합니다.' = 401,
+  '존재하지 않는 게시글입니다.' = 404,
+}
 
-const ClassDetailPost: FC<{}> = () => {
+interface Props {
+  isLoading: boolean;
+  classDetailPost: ClassDetailPost;
+  getDetailPostError: ErrorType;
+  getDetailPost: (boardId: number) => void;
+  resetDetailPost: () => void;
+}
+
+const ClassDetailPost: FC<Props> = ({
+  isLoading,
+  classDetailPost,
+  getDetailPostError,
+  getDetailPost,
+  resetDetailPost,
+}) => {
+  const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
-  if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
+  const { classNumber } = useUser();
+
+  if (isNaN(paramId) || paramId < 1) return <Redirect to='/error' />;
+
+  useEffect(() => {
+    if (classNumber !== 0) {
+      getDetailPost(paramId);
+    }
+  }, [paramId, classNumber]);
+
+  useEffect(() => {
+    if (getDetailPostError.status) {
+      alert(Error[getDetailPostError.status]);
+      history.goBack();
+    }
+  }, [getDetailPostError]);
+
+  useEffect(() => {
+    return () => {
+      resetDetailPost();
+    };
+  }, []);
+
   return (
     <>
-      <PostHeader title='2반 게시판' />
-      <PostMain
-        title={board.title}
-        prevPostNumber={board.preBoardNumber}
-        nextPostNumber={board.nextBoardNumber}
-        prevPostTitle={board.preBoardTitle}
-        nextPostTitle={board.nextBoardTitle}
-        content={board.content}
-        board={board}
-        InfoDetailTemplate={PostInfoDetail}
-      />
-      <PostFooter ButtonsTemplate={PostButtons} />
+      <PostHeader title={`${classDetailPost.class_number}반 게시판`} />
+      {isLoading ? (
+        <SBone width='1280px' height='550px' />
+      ) : (
+        <PostMain
+          title={classDetailPost.title}
+          prevPostNumber={classDetailPost.pre_board_id}
+          nextPostNumber={classDetailPost.next_board_id}
+          prevPostTitle={classDetailPost.pre_board_title}
+          nextPostTitle={classDetailPost.next_board_title}
+          content={classDetailPost.content}
+          images={classDetailPost.images}
+          board={classDetailPost}
+          InfoDetailTemplate={PostInfoDetail}
+        />
+      )}
+
+      {isLoading ? (
+        <SBone width='1280px' height='61px' />
+      ) : (
+        <PostFooter ButtonsTemplate={PostButtons} />
+      )}
     </>
   );
 };

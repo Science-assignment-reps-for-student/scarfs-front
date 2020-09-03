@@ -95,7 +95,7 @@ export const InputsCategoryWrap = styled.div`
 `;
 
 export const InputsCategory = styled.select`
-  width: 10%;
+  width: 15%;
   padding: 0 8px;
   border: 0;
   outline: none;

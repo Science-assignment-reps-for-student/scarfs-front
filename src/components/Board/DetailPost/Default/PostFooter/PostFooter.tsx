@@ -1,9 +1,13 @@
 import React, { FC } from 'react';
 import * as S from './style';
 
+interface Buttons {
+  type?: string;
+}
+
 interface Props {
   type?: string;
-  ButtonsTemplate: FC<{ type?: string }>;
+  ButtonsTemplate: FC<Buttons>;
 }
 
 const PostFooter: FC<Props> = ({ type, ButtonsTemplate }) => {

@@ -1,30 +1,43 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import NotifyModal from './NotifyModal';
 import WarnModal from './WarnModal';
+
+import { ReducerType } from '../../modules/store';
 import {
   setReturnValue,
   deleteAlert,
   resetReturnValue,
   AlertModalTypes,
 } from '../../modules/reducer/Alert';
-import { ReducerType } from '../../modules/store';
 
 interface Props {
   type: AlertModalTypes;
 }
 
 const AlertModal: FC<Props> = ({ type, children }): ReactElement => {
-  const { isShow, explain } = useSelector((state: ReducerType) => state.Alert);
+  const { isShow, explain, checkCallback, cancelCallback } = useSelector(
+    (state: ReducerType) => state.Alert,
+  );
   const dispatch = useDispatch();
 
-  const onClickCheck = () => {
+  const onClickCheck = useCallback(() => {
+    checkCallback();
     dispatch(setReturnValue(true));
     dispatch(deleteAlert());
-  };
-  const onClickCancel = () => {
+  }, [checkCallback]);
+  const onClickCancel = useCallback(() => {
+    cancelCallback();
     dispatch(setReturnValue(false));
     dispatch(deleteAlert());
+  }, [cancelCallback]);
+
+  const separateExplain = (explain: string) => {
+    return explain
+      .split('\n')
+      .filter((value: string) => value)
+      .map((sentence: string, i: number) => <p key={sentence + i}>{sentence}</p>);
   };
 
   useEffect(() => {
@@ -41,10 +54,10 @@ const AlertModal: FC<Props> = ({ type, children }): ReactElement => {
           <NotifyModal
             onClickCheck={onClickCheck}
             onClickCancel={onClickCancel}
-            explain={explain}
+            explain={separateExplain(explain)}
           />
         ) : (
-          <WarnModal onClickCheck={onClickCheck} explain={explain} />
+          <WarnModal onClickCheck={onClickCheck} explain={separateExplain(explain)} />
         ))}
       {children}
     </div>

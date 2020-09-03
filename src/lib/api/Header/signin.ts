@@ -1,4 +1,4 @@
-import { getApiDefault } from '../client';
+import { getApiDefault, getRefreshApiDefault } from '../client';
 
 export interface SignInType {
   email: string;
@@ -6,30 +6,24 @@ export interface SignInType {
 }
 
 export interface SignInResponseType {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-}
-
-export interface SignInThunkType {
-  serverType: SignInType;
-  loading: boolean;
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
 }
 
 export interface RefreshTokenType {
-  callback: Function;
   refreshToken: string;
 }
 
 export interface RefreshTokenResponseType {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
 }
 
 export interface RefreshTokenThunkType {
   serverType: RefreshTokenType;
-  loading: boolean;
+  callback: () => void;
 }
 
 export const signin = async (body: SignInType): Promise<SignInResponseType> => {
@@ -37,11 +31,9 @@ export const signin = async (body: SignInType): Promise<SignInResponseType> => {
   return response.data;
 };
 
-export const refreshToken = async (body: RefreshTokenType): Promise<RefreshTokenResponseType> => {
-  try {
-    const response = await getApiDefault().post<RefreshTokenResponseType>('/shank/auth', body);
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
+export const sendRefreshToken = async (
+  body: RefreshTokenType,
+): Promise<RefreshTokenResponseType> => {
+  const response = await getRefreshApiDefault().put<RefreshTokenResponseType>('/shank/auth', body);
+  return response.data;
 };

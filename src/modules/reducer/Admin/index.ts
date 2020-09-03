@@ -1,21 +1,25 @@
-import { ActionCreator } from 'redux';
+import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Personal, PersonalSubject } from './adminPersonal';
+import { AxiosError } from 'axios';
+
 import { Team, TeamSubject } from './adminTeam';
+import { Personal, PersonalSubject } from './adminPersonal';
 import { Experiment, ExperimentSubject } from './adminExperiment';
 import {
+  addPropsOfExperiment,
   addPropsOfPersonal,
   addPropsOfTeam,
-  addPropsOfExperiment,
+  sortExperiment,
   sortPersonal,
   sortTeam,
-  sortExperiment,
+  networkError,
 } from './adminUtil';
+
 import {
-  tokenReIssuance,
+  getAssignmentExperiment,
   getAssignmentPersonal,
   getAssignmentTeam,
-  getAssignmentExperiment,
+  tokenReIssuance,
 } from '../../../lib/api/Admin/admin';
 
 export type CombineAdmin = Personal | Team | Experiment;
@@ -37,7 +41,7 @@ export interface TeamsInfoCommon {
   members: MemberCommon[];
   team_id: number;
 }
-export interface PrEvalCommon {
+export interface PeerEvaluationCommon {
   name: string;
   student_number: string;
   submit: number;
@@ -51,10 +55,10 @@ export const PERSONAL_STR = '개인' as const;
 export const TEAM_STR = '팀' as const;
 export const EXPERIMENT_STR = '실험' as const;
 
-export const FETCH_PERSONAL = 'FETCH_PERSONAL' as const;
-export const FETCH_TEAM = 'FETCH_TEAM' as const;
-export const FETCH_EXPERIMENT = 'FETCH_EXPERIMENT' as const;
-export const LOADING = 'LOADING' as const;
+export const FETCH_PERSONAL = 'Admin/Main/FETCH_PERSONAL' as const;
+export const FETCH_TEAM = 'Admin/Main/FETCH_TEAM' as const;
+export const FETCH_EXPERIMENT = 'Admin/Main/FETCH_EXPERIMENT' as const;
+export const MAIN_LOADING = 'Admin/Main/MAIN_LOADING' as const;
 
 export const fetchPersonal = (personalList: Personal[]) => ({
   type: FETCH_PERSONAL,
@@ -69,7 +73,7 @@ export const fetchExperiment = (experimentList: Experiment[]) => ({
   payload: { experimentList },
 });
 export const fetchLoading = () => ({
-  type: LOADING,
+  type: MAIN_LOADING,
 });
 
 type AdminAction =
@@ -107,18 +111,14 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
     personals.push((await getAssignmentPersonal(4)).data);
 
     for await (const personal of personals) {
-      sortPersonal(personal);
-      addPropsOfPersonal(personal);
-      personalList.push(personal);
+      personalList.push(addPropsOfPersonal(sortPersonal(personal)));
     }
+
     dispatch(fetchPersonal(personalList));
     dispatch(fetchLoading());
   } catch (err) {
-    const code = err?.response?.status;
-    if (!code) return;
-    if (err?.response?.status === 401) {
-      tokenReIssuance();
-    }
+    await assignmentErrorHandle(err, dispatch);
+    fetchPersonalThunk();
   }
 };
 export const fetchTeamThunk: ActionCreator<ThunkAction<
@@ -136,13 +136,14 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
     teams.push((await getAssignmentTeam(4)).data);
 
     for await (const team of teams) {
-      sortTeam(team);
-      addPropsOfTeam(team);
-      teamList.push(team);
+      teamList.push(addPropsOfTeam(sortTeam(team)));
     }
+
     dispatch(fetchTeam(teamList));
-    dispatch(fetchLoading());
-  } catch (err) {}
+  } catch (err) {
+    await assignmentErrorHandle(err, dispatch);
+    fetchTeamThunk();
+  }
 };
 export const fetchExperimentThunk: ActionCreator<ThunkAction<
   Promise<void>,
@@ -159,13 +160,28 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
     experiments.push((await getAssignmentExperiment(4)).data);
 
     for await (const experiment of experiments) {
-      sortExperiment(experiment);
-      addPropsOfExperiment(experiment);
-      experimentList.push(experiment);
+      experimentList.push(addPropsOfExperiment(sortExperiment(experiment)));
     }
+
     dispatch(fetchExperiment(experimentList));
     dispatch(fetchLoading());
-  } catch (err) {}
+  } catch (err) {
+    await assignmentErrorHandle(err, dispatch);
+    fetchExperimentThunk();
+  }
+};
+
+const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch) => {
+  if ((err.toJSON() as { message: string }).message === 'Network Error') {
+    dispatch(fetchPersonal(networkError));
+    dispatch(fetchLoading());
+    return;
+  }
+  const code = err.response.status;
+  if (!code) return;
+  if (code === 401) {
+    await tokenReIssuance();
+  }
 };
 
 const admin = (state = initialPersonal, action: AdminAction): AdminState => {
@@ -185,7 +201,7 @@ const admin = (state = initialPersonal, action: AdminAction): AdminState => {
         ...state,
         experimentList: action.payload.experimentList,
       };
-    case LOADING:
+    case MAIN_LOADING:
       return {
         ...state,
         loading: false,

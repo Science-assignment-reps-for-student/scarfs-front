@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
+import { ClassDetailPost } from '../../../../../lib/api/ClassDetailPost';
+import { ImagePreviewBox } from '../../../ClassBoard/ClassBoardWrite/style';
 
 export interface AssignmentDetailPost {
   homeworkId: number;
@@ -11,18 +13,6 @@ export interface AssignmentDetailPost {
   isFinish: boolean;
   view: number;
   files: string[];
-}
-
-export interface ClassDtailPost {
-  title: string;
-  writerName: string;
-  createdAt: string;
-  view: number;
-  content: string;
-  nextBoardTitle: string;
-  preBoardTitle: string;
-  nextBoardNumber: number;
-  preBoardNumber: number;
 }
 
 export interface NoticeDetailPost {
@@ -44,9 +34,10 @@ interface Props {
   prevPostTitle: string;
   nextPostTitle: string;
   content: string;
-  board: AssignmentDetailPost | ClassDtailPost | NoticeDetailPost;
+  images?: string[];
+  board: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   InfoDetailTemplate: FC<{
-    board?: AssignmentDetailPost | ClassDtailPost | NoticeDetailPost;
+    board?: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   }>;
 }
 
@@ -58,9 +49,31 @@ const PostMain: FC<Props> = ({
   prevPostTitle,
   nextPostTitle,
   content,
+  images,
   board,
   InfoDetailTemplate,
 }) => {
+  const getContentWithImages = useCallback(() => {
+    const jsx = [];
+    let nextImageStartIndex = 0;
+    let prevImageEndIndex = 0;
+    let count = 0;
+    while (content.indexOf('%{', prevImageEndIndex) !== -1) {
+      nextImageStartIndex = content.indexOf('%{', prevImageEndIndex);
+      jsx.push(
+        <Fragment key={count}>
+          <pre>{content.slice(prevImageEndIndex, nextImageStartIndex)}</pre>
+          <ImagePreviewBox>
+            <img src={`${process.env.BASE_URL}/shank/image/${images[count]}`} />
+          </ImagePreviewBox>
+        </Fragment>,
+      );
+      prevImageEndIndex = content.indexOf('}', nextImageStartIndex) + 1;
+      count++;
+    }
+    jsx.push(<pre key={count}>{content.slice(prevImageEndIndex)}</pre>);
+    return jsx;
+  }, [content, images, board]);
   return (
     <S.PostMainWrapper>
       <S.LeftAside>
@@ -88,7 +101,9 @@ const PostMain: FC<Props> = ({
           )}
         </S.NearbyPost>
       </S.LeftAside>
-      <S.PostContentBox>{content}</S.PostContentBox>
+      <S.PostContentBox>
+        <div>{getContentWithImages()}</div>
+      </S.PostContentBox>
     </S.PostMainWrapper>
   );
 };

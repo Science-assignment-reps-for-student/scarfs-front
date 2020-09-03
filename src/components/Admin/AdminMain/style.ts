@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const AdminWrap = styled.main`
@@ -263,24 +263,51 @@ interface ISkeletonBone {
   side?: string;
   width?: string;
   height?: string;
+  margin?: string;
 }
 
 export const SBone = styled.div`
   display: inline-block;
   width: ${({ side, width = '0' }: ISkeletonBone) => (side ? side : width)};
   height: ${({ side, height = '0' }: ISkeletonBone) => (side ? side : height)};
-  margin-top: 50px;
+  margin: ${({ margin = '0 0 0 0' }: ISkeletonBone) => margin};
   border-radius: 4px;
-  background-color: #d9d9d9;
+  background: linear-gradient(-90deg, #d9d9d9 0%, white 50%, #d9d9d9 100%);
+  animation: bone 1.2s infinite linear;
+  @keyframes bone {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: ${({ side, width = '0' }: ISkeletonBone) => (side ? side : width)} 0%;
+    }
+  }
+  &.asideItem {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  @media all and (min-width: 1180px) {
+    &.asideItem {
+      margin: 4px 0;
+    }
+  }
 `;
 
-export const SSubject = styled.div``;
+export const SSubject = styled.div`
+  @media all and (min-width: 1180px) {
+    &.asideWrap {
+      display: flex;
+      flex-direction: column;
+      margin-top: 50px;
+    }
+  }
+`;
 
 export const SClasses = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  > .back {
+  > div {
     margin: 24px 0;
   }
 `;

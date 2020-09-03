@@ -8,6 +8,7 @@ export const Body = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 100px;
 `;
 
 export const Wrapper = styled.div<{ margin: number }>`
@@ -28,7 +29,6 @@ export const TaskList = styled.div`
   height: 190px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
 `;
 
 export const TaskListComponent = styled.div`
@@ -39,6 +39,11 @@ export const TaskListComponent = styled.div`
   box-shadow: 0px 0px 1px 1px #c3c3c3;
   margin: 15px 15px 0px 0px;
   cursor: pointer;
+`;
+
+export const SkeletonTaskListComponent = styled(TaskListComponent)`
+  background-color: #e5e1de;
+  box-shadow: none;
 `;
 
 export const TaskListComponentHeader = styled.div`
@@ -166,10 +171,19 @@ export const UserInfo = styled.div`
   border: 1px solid #d3d3d3;
 `;
 
+export const SkeletonUserInfo = styled(UserInfo)`
+  background-color: #e5e1de;
+  box-shadow: none;
+  border: none;
+`;
+
 export const UserInfoName = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   text-align: right;
+  > span {
+    margin-left: 10px;
+  }
 `;
 
 export const UserInfoTask = styled.div`
@@ -214,6 +228,12 @@ export const UserInfoButton = styled.div`
       font-weight: 500;
     }
   }
+`;
+
+export const SkeletonUserInfoButton = styled(UserInfoButton)`
+  background-color: #e5e1de;
+  box-shadow: none;
+  border: none;
 `;
 
 export const SideBar = styled.div`

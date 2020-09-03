@@ -119,12 +119,27 @@ export const TeamText = styled.span`
 
 export const PostContentBox = styled.section`
   flex: 1;
-  padding: 50px;
   font-size: 13px;
   color: #1d1d1d;
   border: 1px solid #c3c3c3;
   border-left: none;
   background-color: #ffffff;
+  > div {
+    overflow-y: scroll;
+    max-height: 488px;
+    margin: 30px;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 180px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2c2c2c;
+    border-radius: 0;
+  }
 `;
 
 export const NearbyPost = styled.div`
@@ -142,7 +157,6 @@ export const NearbyPost = styled.div`
   &:first-of-type {
     border-bottom: 1px solid #979797;
   }
-  box-sizing: border-box;
 `;
 
 export const NearbyPostTitle = styled.span`

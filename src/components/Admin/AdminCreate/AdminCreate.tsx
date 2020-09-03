@@ -1,13 +1,27 @@
-import React, { FC, ReactElement, useRef } from 'react';
+import React, { FC, ReactElement, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 import * as S from './style';
 import CreateHeader from './CreateHeader';
 import CreateForm from './CreateForm';
 
+import { reset } from '../../../modules/reducer/AdminCreate';
+
 interface Props {}
 
 const AdminCreate: FC<Props> = (): ReactElement => {
-  const titleRef = useRef(null);
-  const descRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const titleRef = useRef<HTMLInputElement>(null);
+  const descRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    return () => {
+      titleRef.current.value = '';
+      descRef.current.value = '';
+      dispatch(reset());
+    };
+  }, []);
 
   return (
     <S.AdminCreateWrap>

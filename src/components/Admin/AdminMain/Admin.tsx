@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useState, MouseEvent } from 'react';
-import { useHistory } from 'react-router-dom';
+
 import * as S from './style';
 import AdminSection from './Section';
 import AdminAside from './Aside';
@@ -16,7 +16,6 @@ interface Filter {
 }
 
 const Admin: FC<Props> = (): ReactElement => {
-  const history = useHistory();
   const [filter, setFilter] = useState<Filter>({
     class1: true,
     class2: true,

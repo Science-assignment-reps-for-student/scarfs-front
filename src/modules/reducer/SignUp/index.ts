@@ -43,11 +43,11 @@ export const setPasswordCheck = (payload: string) => ({
   payload: payload,
 });
 
-export const reset = () => ({
+export const resetSignUp = () => ({
   type: RESET,
 });
 
-export const emailCheck = (payload: boolean) => ({
+export const setEmailCheck = (payload: boolean) => ({
   type: EMAIL_CHECK,
   payload,
 });
@@ -82,8 +82,8 @@ export type SignUpActionType =
   | ReturnType<typeof setNumber>
   | ReturnType<typeof setPassword>
   | ReturnType<typeof setPasswordCheck>
-  | ReturnType<typeof reset>
-  | ReturnType<typeof emailCheck>;
+  | ReturnType<typeof resetSignUp>
+  | ReturnType<typeof setEmailCheck>;
 
 export const SignUpState = (
   state: SignUpState = initialState,
