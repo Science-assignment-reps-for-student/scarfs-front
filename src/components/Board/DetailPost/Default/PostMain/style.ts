@@ -119,13 +119,16 @@ export const TeamText = styled.span`
 
 export const PostContentBox = styled.section`
   flex: 1;
-  padding: 30px;
   font-size: 13px;
   color: #1d1d1d;
   border: 1px solid #c3c3c3;
   border-left: none;
   background-color: #ffffff;
-  overflow-y: scroll;
+  > div {
+    overflow-y: scroll;
+    max-height: 488px;
+    margin: 30px;
+  }
   ::-webkit-scrollbar {
     width: 8px;
     height: 180px;
