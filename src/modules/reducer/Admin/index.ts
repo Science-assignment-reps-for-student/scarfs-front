@@ -41,7 +41,7 @@ export interface TeamsInfoCommon {
   members: MemberCommon[];
   team_id: number;
 }
-export interface PrEvalCommon {
+export interface PeerEvaluationCommon {
   name: string;
   student_number: string;
   submit: number;
@@ -55,10 +55,10 @@ export const PERSONAL_STR = '개인' as const;
 export const TEAM_STR = '팀' as const;
 export const EXPERIMENT_STR = '실험' as const;
 
-export const FETCH_PERSONAL = 'FETCH_PERSONAL' as const;
-export const FETCH_TEAM = 'FETCH_TEAM' as const;
-export const FETCH_EXPERIMENT = 'FETCH_EXPERIMENT' as const;
-export const MAIN_LOADING = 'MAIN_LOADING' as const;
+export const FETCH_PERSONAL = 'Admin/Main/FETCH_PERSONAL' as const;
+export const FETCH_TEAM = 'Admin/Main/FETCH_TEAM' as const;
+export const FETCH_EXPERIMENT = 'Admin/Main/FETCH_EXPERIMENT' as const;
+export const MAIN_LOADING = 'Admin/Main/MAIN_LOADING' as const;
 
 export const fetchPersonal = (personalList: Personal[]) => ({
   type: FETCH_PERSONAL,

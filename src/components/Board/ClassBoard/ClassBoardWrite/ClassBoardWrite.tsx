@@ -5,12 +5,23 @@ import queryString from 'query-string';
 import { Redirect, useHistory } from 'react-router-dom';
 import { ErrorType } from '../../../../lib/type';
 import { useWriteClassNumber } from '../../../../lib/function';
+import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
+
+enum Error {
+  '존재하지 않는 게시글 입니다.' = 404,
+}
 
 interface Props {
   writeBoard: (data: FormData) => void;
   resetWriteBoard: () => void;
   writeBoardSuccess: number;
   writeBoardError: ErrorType;
+  getDetailPost: (boardId: number) => void;
+  classDetailPost: ClassDetailPost;
+  getDetailPostError: ErrorType;
+  updateBoard: (boardId: number, data: FormData) => void;
+  updateBoardSuccess: number;
+  updateBoardError: ErrorType;
 }
 
 const ClassBoardWrite: FC<Props> = ({
@@ -18,6 +29,12 @@ const ClassBoardWrite: FC<Props> = ({
   resetWriteBoard,
   writeBoardSuccess,
   writeBoardError,
+  getDetailPost,
+  classDetailPost,
+  getDetailPostError,
+  updateBoard,
+  updateBoardSuccess,
+  updateBoardError,
 }) => {
   const history = useHistory();
   const [classNumber, setClassNumber] = useWriteClassNumber();
@@ -30,6 +47,8 @@ const ClassBoardWrite: FC<Props> = ({
     alert('id는 숫자이어야 합니다.');
     return <Redirect to='/error' />;
   }
+
+  const boardId: number = Number(id);
 
   useEffect(() => {
     return () => {
@@ -46,6 +65,32 @@ const ClassBoardWrite: FC<Props> = ({
       history.push(`/board/class/${writeBoardSuccess}`);
     }
   }, [writeBoardSuccess]);
+
+  useEffect(() => {
+    if (boardId) {
+      getDetailPost(boardId);
+    }
+  }, [boardId]);
+
+  useEffect(() => {
+    if (getDetailPostError.status) {
+      alert(Error[getDetailPostError.status]);
+      history.goBack();
+    }
+  }, [getDetailPostError]);
+
+  useEffect(() => {
+    if (updateBoardSuccess) {
+      history.push(`/board/class/${updateBoardSuccess}`);
+    }
+  }, [updateBoardSuccess]);
+
+  useEffect(() => {
+    if (updateBoardError.status) {
+      alert(`Error code: ${updateBoardError.status} 게시글 수정 실패`);
+    }
+  }, [updateBoardError]);
+
   return (
     <>
       <Header title={id ? '게시글 수정' : `${classNumber}반 게시글 작성`}>
@@ -58,7 +103,12 @@ const ClassBoardWrite: FC<Props> = ({
           </Select>
         )}
       </Header>
-      <WriteMain classNumber={classNumber} writeBoard={writeBoard} />
+      <WriteMain
+        classNumber={classNumber}
+        writeBoard={writeBoard}
+        classDetailPost={classDetailPost}
+        updateBoard={updateBoard}
+      />
     </>
   );
 };
