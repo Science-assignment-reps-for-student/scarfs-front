@@ -14,13 +14,23 @@ export const createRequestThunk = (type, request) => {
       });
       dispatch(finishLoading(type));
     } catch (e) {
-      const error: ErrorType = e.response.data;
-      dispatch({
-        type: FAILURE,
-        payload: error,
-      });
+      if (e.response?.data) {
+        const error: ErrorType = e.response.data;
+        dispatch({
+          type: FAILURE,
+          payload: error,
+        });
+      } else {
+        dispatch({
+          type: FAILURE,
+          payload: {
+            message: `TypeError: Cannot read property 'data' of undefined`,
+            status: 500,
+          } as ErrorType,
+        });
+      }
       dispatch(finishLoading(type));
-      throw error;
+      throw e;
     }
   };
 };

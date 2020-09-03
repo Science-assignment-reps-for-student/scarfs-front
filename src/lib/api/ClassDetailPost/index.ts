@@ -1,5 +1,5 @@
 import { getApiDefault } from '../client';
-import { Comment, ReComment } from '../../../components/Board/DetailPost/ClassDetailPost';
+import { Comment } from '../../../components/Board/DetailPost/ClassDetailPost';
 
 export interface ClassDetailPost {
   title: string;

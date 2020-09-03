@@ -7,7 +7,11 @@ import {
   CommentState,
   resetCommentState as creaetResetCommentAction,
 } from '../../../../../modules/reducer/Comment';
-import { addCommentThunk } from '../../../../../modules/thunk/Comment';
+import {
+  addCommentThunk,
+  updateCommentThunk,
+  deleteCommentThunk,
+} from '../../../../../modules/thunk/Comment';
 import { getDetailPostThunk } from '../../../../../modules/thunk/ClassDetailPost';
 
 const CommentModalContainer: FC = () => {
@@ -15,9 +19,14 @@ const CommentModalContainer: FC = () => {
   const {
     classDetailPost: { comments },
   } = useSelector(getStateCallback<ClassDetailPostState>('ClassDetailPost'));
-  const { addCommentSuccess, addCommentError } = useSelector(
-    getStateCallback<CommentState>('Comment'),
-  );
+  const {
+    addCommentSuccess,
+    addCommentError,
+    updateCommentSuccess,
+    updateCommentError,
+    deleteCommentSuccess,
+    deleteCommentError,
+  } = useSelector(getStateCallback<CommentState>('Comment'));
 
   const getDetailPost = (boardId: number) => {
     dispatch(getDetailPostThunk(boardId));
@@ -26,6 +35,20 @@ const CommentModalContainer: FC = () => {
   const addComment = useCallback(
     (boardId: number, content: string) => {
       dispatch(addCommentThunk({ boardId, content }));
+    },
+    [dispatch],
+  );
+
+  const updateComment = useCallback(
+    (commentId: number, content: string) => {
+      dispatch(updateCommentThunk({ commentId, content }));
+    },
+    [dispatch],
+  );
+
+  const deleteComment = useCallback(
+    (commentId: number) => {
+      dispatch(deleteCommentThunk({ commentId }));
     },
     [dispatch],
   );
@@ -41,6 +64,12 @@ const CommentModalContainer: FC = () => {
       addComment={addComment}
       addCommentSuccess={addCommentSuccess}
       addCommentError={addCommentError}
+      updateComment={updateComment}
+      updateCommentSuccess={updateCommentSuccess}
+      updateCommentError={updateCommentError}
+      deleteComment={deleteComment}
+      deleteCommentSuccess={deleteCommentSuccess}
+      deleteCommentError={deleteCommentError}
       resetCommentState={resetCommentState}
     />
   );
