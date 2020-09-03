@@ -30,6 +30,7 @@ const Main: FC = () => {
             refreshToken,
           },
           callback: initPage,
+          page: 'Main',
         };
         refreshTokenChange(params);
       }

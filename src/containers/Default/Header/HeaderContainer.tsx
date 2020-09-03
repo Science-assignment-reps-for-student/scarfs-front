@@ -23,6 +23,7 @@ const HeaderContainer: FC = () => {
             refreshToken,
           },
           callback: getUserInfoChange,
+          page: 'Header',
         };
         refreshTokenChange(params);
       }
