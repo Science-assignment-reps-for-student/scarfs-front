@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { useUser } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
 import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
@@ -9,6 +9,7 @@ import { ErrorType } from '../../../../lib/type';
 
 enum Error {
   '본인반 외에 게시글에는 접근 불가능 합니다.' = 401,
+  '존재하지 않는 게시글입니다.' = 404,
 }
 
 interface Props {
@@ -26,6 +27,7 @@ const ClassDetailPost: FC<Props> = ({
   getDetailPost,
   resetDetailPost,
 }) => {
+  const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber } = useUser();
 
@@ -37,10 +39,12 @@ const ClassDetailPost: FC<Props> = ({
     }
   }, [paramId, classNumber]);
 
-  if (getDetailPostError.status) {
-    alert(Error[getDetailPostError.status]);
-    return <Redirect to='/error' />;
-  }
+  useEffect(() => {
+    if (getDetailPostError.status) {
+      alert(Error[getDetailPostError.status]);
+      history.push('/error');
+    }
+  }, [getDetailPostError]);
 
   useEffect(() => {
     return () => {
