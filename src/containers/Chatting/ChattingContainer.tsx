@@ -145,7 +145,7 @@ const ChattingContainer: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!userInfo || !isLogin) return;
+    if (!userInfo || !isLogin || userInfo.type === 'ADMIN') return;
     chattingSetting();
   }, [userInfo]);
 
@@ -169,7 +169,7 @@ const ChattingContainer: FC = () => {
     serverErrorHandler(statusCode);
   }, [error]);
 
-  return isLogin ? (
+  return isLogin && userInfo && userInfo.type !== 'ADMIN' ? (
     isAble ? (
       <Chatting
         partner={partner}
