@@ -1,17 +1,10 @@
 import React, { FC } from 'react';
 import * as S from './style';
 import { ClassBoardItem } from '../../../../lib/api/ClassBoard';
+import { AssignmentElementType } from '../../../../lib/api/Assignment/Assignment';
 
-export interface AssignmentGuideBoard {
+export interface AssignmentGuideBoard extends AssignmentElementType {
   id: number;
-  homeworkId: number;
-  type: string;
-  title: string;
-  previewContent: string;
-  createdAt: string;
-  deadLine: string;
-  isFinish: boolean;
-  view: number;
 }
 
 export interface ClassBoard extends ClassBoardItem {
@@ -52,9 +45,7 @@ const TableView: FC<Props> = ({ columnNames, boards, BoardTemplate }) => {
         </S.HeaderRow>
       </S.TableHeader>
       <S.TableBody>
-        {boards.map(board => (
-          <BoardTemplate key={board.id} board={board} />
-        ))}
+        {boards && boards.map(board => <BoardTemplate key={board.id} board={board} />)}
       </S.TableBody>
     </S.TableViewWrapper>
   );

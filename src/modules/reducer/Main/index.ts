@@ -18,6 +18,10 @@ export const GET_BOARD_MAIN = 'Main/GET_BOARD' as const;
 export const GET_BOARD_FAILURE = 'Main/GET_BOARD_FAILURE' as const;
 export const GET_BOARD_SUCCESS = 'Main/GET_BOARD_SUCCESS' as const;
 
+export const SET_ASSIGNMENT_CLASS_NUMBER = 'Main/SET_ASSIGNMENT_CLASS_NUMBER' as const;
+
+export const RESET_MAIN = 'Main/RESET_MAIN' as const;
+
 export const setBoard = (payload: BoardType) => ({
   type: BOARD,
   payload,
@@ -48,11 +52,21 @@ export const getBoardSuccess = (payload: BoardResponseType) => ({
   payload,
 });
 
+export const setAssignmentClassNumber = (class_number: number) => ({
+  type: SET_ASSIGNMENT_CLASS_NUMBER,
+  payload: class_number,
+});
+
+export const resetMain = () => ({
+  type: RESET_MAIN,
+});
+
 export type MainState = {
   boardPreview: BoardType | null;
   assignmentPreview: AssignmentType | null;
   error: ErrorType | null;
   loading: boolean;
+  assignmentClassNumber: number;
 };
 
 const initialState: MainState = {
@@ -60,6 +74,7 @@ const initialState: MainState = {
   assignmentPreview: null,
   error: null,
   loading: false,
+  assignmentClassNumber: 1,
 };
 
 export type MainActionType =
@@ -68,7 +83,9 @@ export type MainActionType =
   | ReturnType<typeof getAssignmentFailure>
   | ReturnType<typeof getBoardFailure>
   | ReturnType<typeof getAssignmentSuccess>
-  | ReturnType<typeof getBoardSuccess>;
+  | ReturnType<typeof getBoardSuccess>
+  | ReturnType<typeof setAssignmentClassNumber>
+  | ReturnType<typeof resetMain>;
 
 const MainState = (state: MainState = initialState, action: MainActionType): MainState => {
   switch (action.type) {
@@ -85,13 +102,14 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
       };
     }
     case GET_ASSIGNMENT_SUCCESS: {
-      const { application_responses, total_elements, total_pages } = action.payload;
+      const { application_responses, total_elements, total_pages, class_number } = action.payload;
       return {
         ...state,
         assignmentPreview: {
           applicationResponses: application_responses,
           totalElements: total_elements,
           totalPages: total_pages,
+          class_number,
         },
       };
     }
@@ -118,6 +136,16 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
         error: action.payload,
       };
     }
+    case SET_ASSIGNMENT_CLASS_NUMBER:
+      return {
+        ...state,
+        assignmentClassNumber: action.payload,
+      };
+    case RESET_MAIN:
+      return {
+        ...initialState,
+        assignmentClassNumber: state.assignmentClassNumber,
+      };
     default: {
       return state;
     }
