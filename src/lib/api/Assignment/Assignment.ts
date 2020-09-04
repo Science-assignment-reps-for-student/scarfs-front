@@ -43,6 +43,7 @@ export interface BoardElementType {
   title: string;
   created_at: string;
   view: number;
+  pre_view_content: string;
 }
 
 export type PagenationType = {
