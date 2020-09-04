@@ -9,6 +9,7 @@ import {
   EMAILSEND,
   GET_USER_INFO,
 } from '../Header';
+import { GET_NOTICE_DETAIL_POST } from '../NoticeDetailPost';
 
 export const START_LOADING = 'loading/START_LOADING';
 export const FINISH_LOADING = 'loading/FINISH_LOADING';
@@ -36,6 +37,7 @@ export type LoadingState = {
   [EMAILCHECK]: boolean;
   [EMAILSEND]: boolean;
   [REFRESH_TOKEN_CALL]: boolean;
+  [GET_NOTICE_DETAIL_POST]: boolean;
 };
 
 const initialState: LoadingState = {
@@ -50,6 +52,7 @@ const initialState: LoadingState = {
   [EMAILCHECK]: false,
   [EMAILSEND]: false,
   [REFRESH_TOKEN_CALL]: false,
+  [GET_NOTICE_DETAIL_POST]: false,
 };
 
 export default function loading(state: LoadingState = initialState, action: LoadingAction) {
