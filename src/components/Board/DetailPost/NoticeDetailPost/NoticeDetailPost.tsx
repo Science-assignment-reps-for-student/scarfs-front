@@ -6,18 +6,6 @@ import { NoticeDetailPost } from '../../../../lib/api/NoticeDetailPost';
 import { ErrorType } from 'lib/type';
 import { SBone } from '../../../Admin/AdminMain/style';
 
-const board = {
-  title: '잘가',
-  createdAt: '2020.07.08',
-  view: 5,
-  content:
-    '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
-  nextNoticeTitle: 'ㅋㅋ루삥뽕',
-  preNoticeTitle: '사랑합니다!',
-  preNoticeNumber: 1,
-  nextNoticeNumber: 3,
-};
-
 interface Props {
   isLoading: boolean;
   noticeDetailPost: NoticeDetailPost;
