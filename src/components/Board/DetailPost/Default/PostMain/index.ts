@@ -1,2 +1,2 @@
 export { default as PostMain } from './PostMain';
-export { AssignmentDetailPost } from './PostMain';
+export { AssignmentDetailPostWithFiles } from './PostMain';

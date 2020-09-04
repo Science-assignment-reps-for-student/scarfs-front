@@ -1,23 +1,46 @@
-import React, { FC } from 'react';
-import { AssignmentDetailPost } from '../Default/';
+import React, { FC, useEffect } from 'react';
 import * as S from '../Default/PostMain/style';
+import { AssignmentDetailPostWithFiles } from '../Default/PostMain';
 import { getLocaleDateString } from '../../utils';
+import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
+import { downBlobByClick } from '../../../../lib/function/admin';
+import { ErrorType } from '../../../../lib/type';
 
-const PostInfoDetail: FC<{ board: AssignmentDetailPost }> = ({ board }) => {
+interface Props {
+  board: AssignmentDetailPostWithFiles;
+}
+
+const PostInfoDetail: FC<Props> = ({ board }) => {
+  const downloadFileHandler = async (file: FileResponse) => {
+    try {
+      const { data } = await getAssignmentFile(file.file_id);
+      const blob: Blob = new Blob([data], { type: 'application/json' });
+      downBlobByClick(blob, `${file.file_name}`);
+    } catch (e) {
+      if (e.response?.data) {
+        const error: ErrorType = e.response.data;
+        if (error.status) {
+          alert(`Error Code: ${e.response.status} 다운로드 실패`);
+        }
+      }
+      alert('Error!');
+    }
+  };
+
   if (typeof board === 'undefined') return null;
   return (
     <>
       <S.InfoDetail>
         <S.InfoTitle>제출상태</S.InfoTitle>
-        <S.BlueText>{board.isFinish ? 'O' : 'X'}</S.BlueText>
+        <S.BlueText>{board.complete ? 'O' : 'X'}</S.BlueText>
       </S.InfoDetail>
       <S.InfoDetail>
         <S.InfoTitle>등록일</S.InfoTitle>
-        <S.BlueText>{getLocaleDateString(board.createdAt)}</S.BlueText>
+        <S.BlueText>{getLocaleDateString(board.created_at)}</S.BlueText>
       </S.InfoDetail>
       <S.InfoDetail>
         <S.InfoTitle>마감일</S.InfoTitle>
-        <S.BlueText>{getLocaleDateString(board.daedLine)}</S.BlueText>
+        <S.BlueText>{getLocaleDateString(board.dead_line)}</S.BlueText>
       </S.InfoDetail>
       <S.InfoDetail>
         <S.InfoTitle>조회수</S.InfoTitle>
@@ -26,9 +49,9 @@ const PostInfoDetail: FC<{ board: AssignmentDetailPost }> = ({ board }) => {
       <S.InfoDetail>
         <S.InfoTitle>첨부파일</S.InfoTitle>
         <S.FileBox>
-          {board.files.map(f => (
-            <S.File key={f} href={f} download='dummy.pdf'>
-              {f}
+          {board.files.map(file => (
+            <S.File key={file.file_id} onClick={() => downloadFileHandler(file)}>
+              {file.file_name}
             </S.File>
           ))}
         </S.FileBox>
