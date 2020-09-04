@@ -45,6 +45,7 @@ const AssignmentGuideBoard: FC<Props> = ({
       resetMain();
     };
   }, []);
+
   useEffect(() => {
     if (type === 'ADMIN') {
       getBoards(page, classNumber);

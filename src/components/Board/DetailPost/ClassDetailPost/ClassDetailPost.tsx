@@ -72,9 +72,13 @@ const ClassDetailPost: FC<Props> = ({
 
   return (
     <>
-      <PostHeader title={`${classDetailPost.class_number}반 게시판`} />
       {isLoading ? (
-        <SBone width='1280px' height='550px' />
+        <SBone width='1280px' height='45px' />
+      ) : (
+        <PostHeader title={`${classDetailPost.class_number}반 게시판`} />
+      )}
+      {isLoading ? (
+        <SBone width='1280px' height='550px' margin='31px 0 40px' />
       ) : (
         <PostMain
           title={classDetailPost.title}
@@ -88,9 +92,8 @@ const ClassDetailPost: FC<Props> = ({
           InfoDetailTemplate={PostInfoDetail}
         />
       )}
-
       {isLoading ? (
-        <SBone width='1280px' height='61px' />
+        <SBone width='1280px' height='41px' />
       ) : (
         <PostFooter ButtonsTemplate={PostButtons} deleteDetailPost={deleteDetailPost} />
       )}
