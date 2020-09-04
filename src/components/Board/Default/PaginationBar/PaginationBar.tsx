@@ -2,9 +2,9 @@ import React, { FC, useMemo, useCallback } from 'react';
 import * as S from './style';
 
 interface Props {
-  page?: number;
-  setPage?: React.Dispatch<React.SetStateAction<number>>;
-  lastPage?: number;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  lastPage: number;
 }
 
 const isCanGoPrevPage = changePage => (changePage >= 1 ? true : false);
@@ -30,7 +30,7 @@ const PaginationBar: FC<Props> = ({ page, setPage, lastPage }) => {
       );
     }
     return jsx;
-  }, [startPage, lastPage]);
+  }, [startPage, lastPage, page]);
   return (
     <S.PaginationBarWrapper>
       <nav>
