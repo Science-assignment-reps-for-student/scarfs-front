@@ -17,7 +17,7 @@ const PostButtons: FC<Props> = ({ type }) => {
   const openAddTeamMemberModal = () => openModal('AddTeamMember');
   return (
     <S.PostFooterWrapper>
-      {type === '팀' && (
+      {(type === 'TEAM' || type === 'EXPERIMENT') && (
         <S.ButtonBox>
           <S.Button
             borderColor='#505BFF'
