@@ -108,7 +108,7 @@ export const useWriteClassNumber = (): [number, (classNumber: number) => void] =
 export const useAssignmentClassNumber = (): [number, (classNumber: number) => void] => {
   const dispatch = useDispatch();
   const { assignmentClassNumber } = useSelector(getStateCallback<MainState>('Main'));
-  console.log(assignmentClassNumber);
+
   const setClassNumber = (classNumber: number) => {
     dispatch(setAssignmentClassNumber(classNumber));
   };
