@@ -15,7 +15,7 @@ const AssignmentGuideCard: FC<{
 }> = ({ board }) => {
   const history = useHistory();
   return (
-    <S.CardWrapper onClick={() => history.push(`/board/notice/${board.id}`)}>
+    <S.CardWrapper onClick={() => history.push(`/board/assignment-guide/${board.id}`)}>
       {board.complete && <S.FinishBox />}
       <S.CardBox isFinish={board.complete}>
         <S.Header>
