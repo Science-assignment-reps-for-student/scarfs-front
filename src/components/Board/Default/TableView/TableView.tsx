@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import * as S from './style';
 import { ClassBoardItem } from '../../../../lib/api/ClassBoard';
-import { AssignmentElementType } from '../../../../lib/api/Assignment/Assignment';
+import { AssignmentElementType, BoardElementType } from '../../../../lib/api/Assignment/Assignment';
 
 export interface AssignmentGuideBoard extends AssignmentElementType {
   id: number;
@@ -11,13 +11,8 @@ export interface ClassBoard extends ClassBoardItem {
   id: number;
 }
 
-export interface NoticeBoard {
+export interface NoticeBoard extends BoardElementType {
   id: number;
-  boardId: number;
-  title: string;
-  previewContent: string;
-  createdAt: string;
-  view: number;
 }
 
 interface Props {
