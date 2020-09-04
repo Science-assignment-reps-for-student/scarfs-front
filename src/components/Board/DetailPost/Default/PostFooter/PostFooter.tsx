@@ -3,17 +3,17 @@ import * as S from './style';
 
 interface Buttons {
   type?: string;
+  deleteDetailPost?: (boardId: number) => void;
 }
 
-interface Props {
-  type?: string;
+interface Props extends Buttons {
   ButtonsTemplate: FC<Buttons>;
 }
 
-const PostFooter: FC<Props> = ({ type, ButtonsTemplate }) => {
+const PostFooter: FC<Props> = ({ type, ButtonsTemplate, deleteDetailPost }) => {
   return (
     <S.PostFooterWrapper>
-      <ButtonsTemplate type={type} />
+      <ButtonsTemplate type={type} deleteDetailPost={deleteDetailPost} />
     </S.PostFooterWrapper>
   );
 };

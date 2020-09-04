@@ -5,6 +5,10 @@ export const GET_DETAIL_POST = 'ClassDetailPost/GET_DETAIL_POST' as const;
 export const GET_DETAIL_POST_SUCCESS = 'ClassDetailPost/GET_DETAIL_POST_SUCCESS' as const;
 export const GET_DETAIL_POST_FAILURE = 'ClassDetailPost/GET_DETAIL_POST_FAILURE' as const;
 
+export const DELETE_DETAIL_POST = 'ClassDetailPost/DELETE_DETAIL_POST' as const;
+export const DELETE_DETAIL_POST_SUCCESS = 'ClassDetailPost/DELETE_DETAIL_POST_SUCCESS' as const;
+export const DELETE_DETAIL_POST_FAILURE = 'ClassDetailPost/DELETE_DETAIL_POST_FAILURE' as const;
+
 export const RESET_DETAIL_POST = 'ClassDetailPost/RESET_DETAIL_POST' as const;
 
 const getDetailPostSuccess = (payload: ClassDetailPost) => ({
@@ -17,6 +21,15 @@ const getDetailPostFailure = (error: ErrorType) => ({
   payload: error,
 });
 
+const deleteDetailPostSuccess = () => ({
+  type: DELETE_DETAIL_POST_SUCCESS,
+});
+
+const deleteDetailPostFailure = (error: ErrorType) => ({
+  type: DELETE_DETAIL_POST_FAILURE,
+  payload: error,
+});
+
 export const resetDetailPost = () => ({
   type: RESET_DETAIL_POST,
 });
@@ -24,11 +37,15 @@ export const resetDetailPost = () => ({
 type ClassDetailPostAction =
   | ReturnType<typeof getDetailPostSuccess>
   | ReturnType<typeof getDetailPostFailure>
+  | ReturnType<typeof deleteDetailPostSuccess>
+  | ReturnType<typeof deleteDetailPostFailure>
   | ReturnType<typeof resetDetailPost>;
 
 export type ClassDetailPostState = {
   classDetailPost: ClassDetailPost;
   getDetailPostError: ErrorType;
+  deleteDetailPostSuccess: boolean;
+  deleteDetailPostError: ErrorType;
 };
 
 const initialState: ClassDetailPostState = {
@@ -47,6 +64,8 @@ const initialState: ClassDetailPostState = {
     class_number: 0,
   },
   getDetailPostError: errorInitialState,
+  deleteDetailPostSuccess: false,
+  deleteDetailPostError: errorInitialState,
 };
 
 export default function ClassDetailPost(
@@ -64,6 +83,16 @@ export default function ClassDetailPost(
       return {
         ...state,
         getDetailPostError: action.payload,
+      };
+    case DELETE_DETAIL_POST_SUCCESS:
+      return {
+        ...state,
+        deleteDetailPostSuccess: true,
+      };
+    case DELETE_DETAIL_POST_FAILURE:
+      return {
+        ...state,
+        deleteDetailPostError: action.payload,
       };
     case RESET_DETAIL_POST:
       return initialState;

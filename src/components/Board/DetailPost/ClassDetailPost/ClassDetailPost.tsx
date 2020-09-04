@@ -17,6 +17,9 @@ interface Props {
   classDetailPost: ClassDetailPost;
   getDetailPostError: ErrorType;
   getDetailPost: (boardId: number) => void;
+  deleteDetailPost: (boardId: number) => void;
+  deleteDetailPostSuccess: boolean;
+  deleteDetailPostError: ErrorType;
   resetDetailPost: () => void;
 }
 
@@ -25,6 +28,9 @@ const ClassDetailPost: FC<Props> = ({
   classDetailPost,
   getDetailPostError,
   getDetailPost,
+  deleteDetailPost,
+  deleteDetailPostSuccess,
+  deleteDetailPostError,
   resetDetailPost,
 }) => {
   const history = useHistory();
@@ -45,6 +51,18 @@ const ClassDetailPost: FC<Props> = ({
       history.goBack();
     }
   }, [getDetailPostError]);
+
+  useEffect(() => {
+    if (deleteDetailPostSuccess) {
+      history.push('/board/class');
+    }
+  }, [deleteDetailPostSuccess]);
+
+  useEffect(() => {
+    if (deleteDetailPostError.status) {
+      alert(`Error code: ${deleteDetailPostError.status} 게시글 삭제 실패!`);
+    }
+  }, [deleteDetailPostError]);
 
   useEffect(() => {
     return () => {
@@ -74,7 +92,7 @@ const ClassDetailPost: FC<Props> = ({
       {isLoading ? (
         <SBone width='1280px' height='61px' />
       ) : (
-        <PostFooter ButtonsTemplate={PostButtons} />
+        <PostFooter ButtonsTemplate={PostButtons} deleteDetailPost={deleteDetailPost} />
       )}
     </>
   );
