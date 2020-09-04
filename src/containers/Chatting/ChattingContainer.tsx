@@ -65,6 +65,7 @@ const ChattingContainer: FC = () => {
             refreshToken,
           },
           callback: initPage,
+          page: 'Chatting',
         };
         dispatch(sendRefreshToken(params));
       }

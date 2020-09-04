@@ -10,12 +10,12 @@ const NoticeBoard: FC<{
     <S.CardWrapper>
       <S.CardBox>
         <S.Header>
-          <S.BlueText>{getLocaleDateString(board.createdAt)}</S.BlueText>
+          <S.BlueText>{getLocaleDateString(board.created_at)}</S.BlueText>
           <S.BlueText>공지</S.BlueText>
         </S.Header>
         <S.Main>
           <S.Title>{board.title}</S.Title>
-          <S.Content>{board.previewContent}</S.Content>
+          <S.Content>{board.pre_view_content}</S.Content>
         </S.Main>
         <S.Footer>
           <S.ViewsText>조회수 {board.view}</S.ViewsText>

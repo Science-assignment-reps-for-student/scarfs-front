@@ -7,6 +7,7 @@ import {
   ClassBoardWriteState,
   setWriteBoardClassNumber,
 } from '../../modules/reducer/ClassBoardWrite';
+import { MainState, setAssignmentClassNumber } from '../../modules/reducer/Main';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -102,4 +103,15 @@ export const useWriteClassNumber = (): [number, (classNumber: number) => void] =
   };
 
   return [classNumber, setClassNumber];
+};
+
+export const useAssignmentClassNumber = (): [number, (classNumber: number) => void] => {
+  const dispatch = useDispatch();
+  const { assignmentClassNumber } = useSelector(getStateCallback<MainState>('Main'));
+  console.log(assignmentClassNumber);
+  const setClassNumber = (classNumber: number) => {
+    dispatch(setAssignmentClassNumber(classNumber));
+  };
+
+  return [assignmentClassNumber, setClassNumber];
 };

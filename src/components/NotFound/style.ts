@@ -43,4 +43,5 @@ export const Logo = styled.img.attrs({
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
+  cursor: pointer;
 `;

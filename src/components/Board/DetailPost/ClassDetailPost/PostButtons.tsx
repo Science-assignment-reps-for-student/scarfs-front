@@ -1,33 +1,45 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
+// import React, { FC, useEffect } from 'react';
 import * as S from '../Default/PostFooter/style';
 import { useHistory, useParams } from 'react-router-dom';
 import { stateChange, useUser } from '../../../../lib/function';
 import { ModalType, setModal } from '../../../../modules/reducer/Modal';
-import { createAlert, AlertModalTypes, AlertState } from '../../../../modules/reducer/Alert';
-import { getStateCallback } from '../../../../lib/function';
-import { useSelector, useDispatch } from 'react-redux';
+// import { createAlert, AlertModalTypes, AlertState } from '../../../../modules/reducer/Alert';
+// import { getStateCallback } from '../../../../lib/function';
+// import { useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 
-const PostButtons: FC = () => {
+interface Props {
+  deleteDetailPost: (boardId: number) => void;
+}
+
+const PostButtons: FC<Props> = ({ deleteDetailPost }) => {
   const paramId = Number(useParams<{ id: string }>().id);
   const history = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const openModal = stateChange<ModalType>(setModal);
   const { type } = useUser();
-  const { returnValue } = useSelector(getStateCallback<AlertState>('Alert'));
+  // const { returnValue } = useSelector(getStateCallback<AlertState>('Alert'));
 
   const openCommentModal = () => openModal('CommentModal');
 
+  // const onClickDelete = () => {
+  //   dispatch(createAlert('게시글을 정말 삭제하시겠습니까?'));
+  // };
+
   const onClickDelete = () => {
-    dispatch(createAlert('게시글을 정말 삭제하시겠습니까?'));
+    if (confirm('게시글을 정말 삭제하시겠습니까?')) {
+      deleteDetailPost(paramId);
+    }
   };
 
-  useEffect(() => {
-    if (returnValue) {
-      console.log('삭제함 ㅅㄱ');
-    } else {
-      console.log('삭제안할게 ㅎㅎ');
-    }
-  }, [returnValue]);
+  // useEffect(() => {
+  //   if (returnValue) {
+  //     console.log('삭제함 ㅅㄱ');
+  //   } else {
+  //     console.log('삭제안할게 ㅎㅎ');
+  //   }
+  // }, [returnValue]);
 
   return (
     <S.PostFooterWrapper>
