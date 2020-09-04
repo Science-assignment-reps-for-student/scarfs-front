@@ -18,3 +18,6 @@ export interface ClassDetailPost {
 
 export const getClassDetailPost = (boardId: number) =>
   getApiDefault().get<ClassDetailPost>(`/shank/board/${boardId}`);
+
+export const deleteClassDetailPost = (boardId: number) =>
+  getApiDefault().delete(`/shank/board/${boardId}`);

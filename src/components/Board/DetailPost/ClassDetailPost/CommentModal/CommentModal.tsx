@@ -2,7 +2,6 @@ import React, { FC, useState, useCallback, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as S from './style';
 import { Modal } from '../../Modal';
-import { AlertModal } from '../../../../';
 import { ErrorType } from '../../../../../lib/type';
 import { getLocaleDateString } from '../../../utils';
 import {
@@ -390,36 +389,34 @@ const CommentModal: FC<Props> = ({
   }, [deleteReCommentError]);
 
   return (
-    <AlertModal type='notify'>
-      <Modal>
-        <S.CommentModalBox>
-          <S.CommentInputBox>
-            <S.Title>댓글달기</S.Title>
-            <S.Textarea
-              placeholder='주제와 맞지 않는 댓글이나 저작권 등, 다른 사람의 권리를 침해하는 댓글은 자제해 주세요.'
-              onChange={onChange}
-              value={comment}
-            />
-            <S.Button onClick={onClick}>댓글 작성</S.Button>
-          </S.CommentInputBox>
+    <Modal>
+      <S.CommentModalBox>
+        <S.CommentInputBox>
+          <S.Title>댓글달기</S.Title>
+          <S.Textarea
+            placeholder='주제와 맞지 않는 댓글이나 저작권 등, 다른 사람의 권리를 침해하는 댓글은 자제해 주세요.'
+            onChange={onChange}
+            value={comment}
+          />
+          <S.Button onClick={onClick}>댓글 작성</S.Button>
+        </S.CommentInputBox>
+        <S.CommentListBox>
+          <S.Title>전체 댓글</S.Title>
           <S.CommentListBox>
-            <S.Title>전체 댓글</S.Title>
-            <S.CommentListBox>
-              {comments.map(comment => (
-                <CommentItem
-                  key={`co_${comment.comment_id}`}
-                  comment={comment}
-                  updateComment={updateComment}
-                  updateCommentSuccess={updateCommentSuccess}
-                  deleteComment={deleteComment}
-                  resetCommentState={resetCommentState}
-                />
-              ))}
-            </S.CommentListBox>
+            {comments.map(comment => (
+              <CommentItem
+                key={`co_${comment.comment_id}`}
+                comment={comment}
+                updateComment={updateComment}
+                updateCommentSuccess={updateCommentSuccess}
+                deleteComment={deleteComment}
+                resetCommentState={resetCommentState}
+              />
+            ))}
           </S.CommentListBox>
-        </S.CommentModalBox>
-      </Modal>
-    </AlertModal>
+        </S.CommentListBox>
+      </S.CommentModalBox>
+    </Modal>
   );
 };
 

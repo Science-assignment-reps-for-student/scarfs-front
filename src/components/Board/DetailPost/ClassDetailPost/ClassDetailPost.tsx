@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { useUser } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
 import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
@@ -9,6 +9,7 @@ import { ErrorType } from '../../../../lib/type';
 
 enum Error {
   '본인반 외에 게시글에는 접근 불가능 합니다.' = 401,
+  '존재하지 않는 게시글입니다.' = 404,
 }
 
 interface Props {
@@ -16,6 +17,9 @@ interface Props {
   classDetailPost: ClassDetailPost;
   getDetailPostError: ErrorType;
   getDetailPost: (boardId: number) => void;
+  deleteDetailPost: (boardId: number) => void;
+  deleteDetailPostSuccess: boolean;
+  deleteDetailPostError: ErrorType;
   resetDetailPost: () => void;
 }
 
@@ -24,8 +28,12 @@ const ClassDetailPost: FC<Props> = ({
   classDetailPost,
   getDetailPostError,
   getDetailPost,
+  deleteDetailPost,
+  deleteDetailPostSuccess,
+  deleteDetailPostError,
   resetDetailPost,
 }) => {
+  const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber } = useUser();
 
@@ -37,10 +45,24 @@ const ClassDetailPost: FC<Props> = ({
     }
   }, [paramId, classNumber]);
 
-  if (getDetailPostError.status) {
-    alert(Error[getDetailPostError.status]);
-    return <Redirect to='/error' />;
-  }
+  useEffect(() => {
+    if (getDetailPostError.status) {
+      alert(Error[getDetailPostError.status]);
+      history.goBack();
+    }
+  }, [getDetailPostError]);
+
+  useEffect(() => {
+    if (deleteDetailPostSuccess) {
+      history.push('/board/class');
+    }
+  }, [deleteDetailPostSuccess]);
+
+  useEffect(() => {
+    if (deleteDetailPostError.status) {
+      alert(`Error code: ${deleteDetailPostError.status} 게시글 삭제 실패!`);
+    }
+  }, [deleteDetailPostError]);
 
   useEffect(() => {
     return () => {
@@ -70,7 +92,7 @@ const ClassDetailPost: FC<Props> = ({
       {isLoading ? (
         <SBone width='1280px' height='61px' />
       ) : (
-        <PostFooter ButtonsTemplate={PostButtons} />
+        <PostFooter ButtonsTemplate={PostButtons} deleteDetailPost={deleteDetailPost} />
       )}
     </>
   );

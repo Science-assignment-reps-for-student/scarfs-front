@@ -4,12 +4,14 @@ import { getApiDefault } from '../client';
 export interface AssignmentType {
   totalElements: number;
   totalPages: number;
+  class_number: number;
   applicationResponses: AssignmentElementType[];
 }
 
 export interface AssignmentResponseType {
   total_elements: number;
   total_pages: number;
+  class_number: number;
   application_responses: AssignmentElementType[];
 }
 
@@ -18,10 +20,10 @@ export interface AssignmentElementType {
   type: string;
   title: string;
   created_at: string;
-  daed_line: string;
-  is_finish: boolean;
+  dead_line: string;
   view: number;
   complete: boolean;
+  pre_view_description: string;
 }
 
 export interface BoardType {
@@ -46,11 +48,16 @@ export interface BoardElementType {
 export type PagenationType = {
   size: number;
   page: number;
+  classNumber?: number | '';
 };
 
-export const getAssignment = async ({ size, page }: PagenationType): Promise<AxiosResponse> => {
+export const getAssignment = async ({
+  size,
+  page,
+  classNumber = '',
+}: PagenationType): Promise<AxiosResponse> => {
   const response = await getApiDefault().get<AssignmentResponseType>(
-    `/shank/assignment?size=${size}&page=${page}`,
+    `/shank/assignment?size=${size}&page=${page}&class_number=${classNumber}`,
   );
   return response;
 };

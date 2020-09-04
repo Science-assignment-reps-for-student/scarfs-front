@@ -48,7 +48,7 @@ export const InvisibleInput = styled.input`
 `;
 
 export const ContentWrapper = styled.div`
-  max-height: 448px;
+  max-height: 100%;
   font-size: 13px;
   color: #1d1d1d;
   border: none;
