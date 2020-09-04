@@ -1,52 +1,107 @@
-import React, { FC } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import React, { FC, useEffect, useMemo } from 'react';
+import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
+import { AssignmentDetailPost, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
+import { ErrorType } from '../../../../lib/type';
+import { useUser } from '../../../../lib/function';
+import { SBone } from '../../../Admin/AdminMain/style';
 
-const board = {
-  homeworkId: 1,
-  type: '팀',
-  title: '우주 행성',
-  createdAt: '2020.07.08',
-  daedLine: '2020.07.13',
-  isFinish: true,
-  view: 5,
-  content: `현재 사용되고 있는 형광등과 그 전에 쓰던 백열전구는 어떤 차이점이 있을까
-  이들이 각각 가지고 있는 원리와 특성을 알아보도록 하자
-  특히 백열전구가 사람의 몸속에서 깨진다면 안에 있는 질소나 아르곤 가스, 유리조각이 어떠한 영향을 끼치는지 조사해 파일을 제출하고
-  이것을 이용한 실험을 진행한다.`,
-  preHomeworkNumber: 3,
-  nextHomeworkNumber: 5,
-  preHomeworkTitle: 'ㅋㅋㄹㅇ 실화냐?',
-  nextHomeworkTitle: '사랑해요',
-  files: [
-    'http://blogattach.naver.net/5fca43f3e1b9bb6748a4c9f5c1235e258ddf2dc388/20140126_99_blogfile/sje0951_1390734158687_D4pCOX_pdf/Let%2BIt%2BGo%2B%28Piano%29.pdf',
-    'http://blogattach.naver.net/5fca43f3e1b9bb6748a4c9f5c1235e258ddf2dc388/20140126_99_blogfile/sje0951_1390734158687_D4pCOX_pdf/Let%2BIt%2BGo%2B%28Piano%291.pdf',
-    'http://blogattach.naver.net/5fca43f3e1b9bb6748a4c9f5c1235e258ddf2dc388/20140126_99_blogfile/sje0951_1390734158687_D4pCOX_pdf/Let%2BIt%2BGo%2B%28Piano%229.pdf',
-    'http://blogattach.naver.net/5fca43f3e1b9bb6748a4c9f5c1235e258ddf2dc388/20140126_99_blogfile/sje0951_1390734158687_D4pCOX_pdf/Let%2BIt%2BGo%2B%28Piano%239.pdf',
-    'http://blogattach.naver.net/5fca43f3e1b9bb6748a4c9f5c1235e258ddf2dc388/20140126_99_blogfile/sje0951_1390734158687_D4pCOX_pdf/Let%2BIt%2BGo%2B%28Piano%2549.pdf',
-    'http://blogattach.naver.net/5fca43f3e1b9bb6748a4c9f5c1235e258ddf2dc388/20140126_99_blogfile/sje0951_1390734158687_D4pCOX_pdf/Let%2BIt%2BGo%2B%28Piano%2965.pdf',
-  ],
-};
+interface Props {
+  isLoading: boolean;
+  detailPost: AssignmentDetailPost;
+  getDetailPostError: ErrorType;
+  getDetailPost: (id: number) => void;
+  files: FileResponse[];
+  getAssignmentFilesError: ErrorType;
+  getFiles: (id: number) => void;
+  resetDetailPost: () => void;
+}
 
-const AssignmentDetailPost: FC = () => {
+const AssignmentDetailPost: FC<Props> = ({
+  isLoading,
+  detailPost,
+  getDetailPostError,
+  getDetailPost,
+  files,
+  getFiles,
+  getAssignmentFilesError,
+  resetDetailPost,
+}) => {
+  const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
+  const { classNumber, type } = useUser();
+  const board = useMemo(
+    () => ({
+      ...detailPost,
+      files,
+    }),
+    [detailPost, files],
+  );
+
+  useEffect(() => {
+    getDetailPost(paramId);
+  }, [paramId]);
+
+  useEffect(() => {
+    if (getDetailPostError.status) {
+      alert(`Error code: ${getDetailPostError.status} 과제 불러오기 실패!`);
+      history.goBack();
+    }
+  }, [getDetailPostError]);
+
+  useEffect(() => {
+    return () => {
+      resetDetailPost();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (detailPost.title) {
+      getFiles(paramId);
+    }
+  }, [detailPost]);
+
+  useEffect(() => {
+    if (getAssignmentFilesError.status) {
+      alert(`Error code: ${getDetailPostError.status} 첨부파일 불러오기 실패!`);
+    }
+  }, [getAssignmentFilesError]);
+
   if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
   return (
     <>
-      <PostHeader title='과제안내' />
-      <PostMain
-        title={board.title}
-        type={board.type}
-        prevPostNumber={board.preHomeworkNumber}
-        nextPostNumber={board.nextHomeworkNumber}
-        prevPostTitle={board.preHomeworkTitle}
-        nextPostTitle={board.nextHomeworkTitle}
-        content={board.content}
-        board={board}
-        InfoDetailTemplate={PostInfoDetail}
-      />
-      <PostFooter type={board.type} ButtonsTemplate={PostButtons} />
+      {isLoading ? (
+        <SBone width='1280px' height='45px' />
+      ) : (
+        <PostHeader
+          title={`${
+            type === 'STUDENT'
+              ? `${classNumber}반 과제안내`
+              : '관리자는 옳바른 반의 과제가 정확하게 나오지 않을 수 있습니다.'
+          } `}
+        />
+      )}
+      {isLoading ? (
+        <SBone width='1280px' height='550px' margin='31px 0 40px' />
+      ) : (
+        <PostMain
+          title={board.title}
+          type={board.type}
+          prevPostNumber={board.pre_board_id}
+          nextPostNumber={board.next_board_id}
+          prevPostTitle={board.pre_board_title}
+          nextPostTitle={board.next_board_title}
+          content={board.description}
+          board={board}
+          InfoDetailTemplate={PostInfoDetail}
+        />
+      )}
+      {isLoading ? (
+        <SBone width='1280px' height='41px' />
+      ) : (
+        <PostFooter type={board.type} ButtonsTemplate={PostButtons} />
+      )}
     </>
   );
 };
