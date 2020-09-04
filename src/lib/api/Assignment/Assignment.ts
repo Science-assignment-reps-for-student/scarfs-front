@@ -72,3 +72,6 @@ export const getBoard = async ({ size, page }: PagenationType): Promise<AxiosRes
 
 export const searchNoticeBoards = ({ query, page }: { query: string; page: number }) =>
   getApiDefault().get(`/shank/search/notice?query=${query}&page=${page}&size=7`);
+
+export const searchAssignmentBoards = ({ query, page }: { query: string; page: number }) =>
+  getApiDefault().get(`/shank/search/assignment?query=${query}&page=${page}&size=7`);

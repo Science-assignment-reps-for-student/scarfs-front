@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 
 enum Uri {
-  '공지사항' = '/board/notice',
+  '공지' = '/board/notice',
+  '과제' = '/board/assignment-guide',
 }
 
 interface Props {
@@ -32,7 +33,7 @@ const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableVie
   }, []);
 
   const searchBoards = useCallback(() => {
-    history.push(`${Uri[title]}?query=${text}`);
+    history.push(`${Uri[searchTitle]}?query=${text}`);
   }, [text]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
