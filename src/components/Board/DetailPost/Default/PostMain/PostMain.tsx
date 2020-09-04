@@ -2,6 +2,7 @@ import React, { FC, useCallback, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 import { ClassDetailPost } from '../../../../../lib/api/ClassDetailPost';
+import { NoticeDetailPost } from '../../../../../lib/api/NoticeDetailPost';
 import { ImagePreviewBox } from '../../../ClassBoard/ClassBoardWrite/style';
 
 export interface AssignmentDetailPost {
@@ -13,17 +14,6 @@ export interface AssignmentDetailPost {
   isFinish: boolean;
   view: number;
   files: string[];
-}
-
-export interface NoticeDetailPost {
-  title: string;
-  createdAt: string;
-  view: number;
-  content: string;
-  preNoticeTitle: string;
-  nextNoticeTitle: string;
-  preNoticeNumber: number;
-  nextNoticeNumber: number;
 }
 
 interface Props {
