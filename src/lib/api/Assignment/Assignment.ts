@@ -69,3 +69,6 @@ export const getBoard = async ({ size, page }: PagenationType): Promise<AxiosRes
   );
   return response;
 };
+
+export const searchNoticeBoards = ({ query, page }: { query: string; page: number }) =>
+  getApiDefault().get(`/shank/search/notice?query=${query}&page=${page}&size=7`);

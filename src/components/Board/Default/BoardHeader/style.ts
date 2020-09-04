@@ -18,6 +18,7 @@ export const Header = styled.header`
 `;
 export const Bold = styled.span`
   font-weight: bold;
+  cursor: pointer;
 `;
 
 export const Main = styled.main`
@@ -30,6 +31,7 @@ export const Main = styled.main`
 export const Title = styled.h1`
   font-size: 30px;
   font-weight: 400;
+  cursor: pointer;
 `;
 
 export const Aside = styled.aside`
