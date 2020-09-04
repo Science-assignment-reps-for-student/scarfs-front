@@ -128,6 +128,9 @@ export const PostContentBox = styled.section`
     overflow-y: scroll;
     max-height: 488px;
     margin: 30px;
+    > pre {
+      white-space: pre-wrap;
+    }
   }
   ::-webkit-scrollbar {
     width: 8px;
