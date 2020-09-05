@@ -115,3 +115,11 @@ export const useAssignmentClassNumber = (): [number, (classNumber: number) => vo
 
   return [assignmentClassNumber, setClassNumber];
 };
+
+export const isAbleFileExt = (name: string) => {
+  const fileExtends: string = '.hwp.jpg.png.jpeg.pptx.word.pdf.zip';
+  const splitName = name.split('.');
+  return fileExtends
+    .split('.')
+    .some(ext => ext === splitName[splitName.length - 1].toLocaleLowerCase());
+};
