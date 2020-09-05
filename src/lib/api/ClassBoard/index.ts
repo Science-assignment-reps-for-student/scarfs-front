@@ -22,3 +22,6 @@ export const getClassBoard = (data: { size: number; page: number; classNumber?: 
       data.classNumber ? data.classNumber : ''
     }`,
   );
+
+export const searchClassBoard = ({ query, page }: { query: string; page: number }) =>
+  getApiDefault().get(`/shank/search/board?query=${query}&page=${page}&size=7`);

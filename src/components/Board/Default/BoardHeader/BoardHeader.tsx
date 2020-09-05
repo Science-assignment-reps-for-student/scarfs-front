@@ -6,6 +6,7 @@ import queryString from 'query-string';
 enum Uri {
   '공지' = '/board/notice',
   '과제' = '/board/assignment-guide',
+  '게시판' = '/board/class',
 }
 
 interface Props {
