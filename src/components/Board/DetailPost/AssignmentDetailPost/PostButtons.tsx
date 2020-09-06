@@ -15,6 +15,7 @@ const PostButtons: FC<Props> = ({ type }) => {
   const openFileSubmitModal = () => openModal('FileSubmit');
   const openPeerEvaluationModal = () => openModal('PeerEvaluation');
   const openAddTeamMemberModal = () => openModal('AddTeamMember');
+
   return (
     <S.PostFooterWrapper>
       {(type === 'TEAM' || type === 'EXPERIMENT') && (
@@ -39,7 +40,7 @@ const PostButtons: FC<Props> = ({ type }) => {
       )}
       <S.ButtonBox>
         <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
-          제출하기
+          제출하러 가기
         </S.Button>
         <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
           목록으로
