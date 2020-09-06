@@ -108,10 +108,18 @@ export const useWriteClassNumber = (): [number, (classNumber: number) => void] =
 export const useAssignmentClassNumber = (): [number, (classNumber: number) => void] => {
   const dispatch = useDispatch();
   const { assignmentClassNumber } = useSelector(getStateCallback<MainState>('Main'));
-  console.log(assignmentClassNumber);
+
   const setClassNumber = (classNumber: number) => {
     dispatch(setAssignmentClassNumber(classNumber));
   };
 
   return [assignmentClassNumber, setClassNumber];
+};
+
+export const isAbleFileExt = (name: string) => {
+  const fileExtends: string = '.hwp.jpg.png.jpeg.pptx.word.pdf.zip';
+  const splitName = name.split('.');
+  return fileExtends
+    .split('.')
+    .some(ext => ext === splitName[splitName.length - 1].toLocaleLowerCase());
 };

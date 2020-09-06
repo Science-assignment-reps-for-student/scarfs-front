@@ -95,6 +95,7 @@ export const File = styled.a`
   height: 16px;
   line-height: 13px;
   color: #ff5700;
+  cursor: pointer;
   & + & {
     margin-top: 10px;
   }

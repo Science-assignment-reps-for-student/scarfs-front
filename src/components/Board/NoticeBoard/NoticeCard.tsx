@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 import * as S from '../Default/CardView/style';
 import { NoticeBoard } from '../Default';
 import { getLocaleDateString } from '../utils';
+import { useHistory } from 'react-router-dom';
 
 const NoticeBoard: FC<{
   board?: NoticeBoard;
 }> = ({ board }) => {
+  const history = useHistory();
   return (
-    <S.CardWrapper>
+    <S.CardWrapper onClick={() => history.push(`/board/notice/${board.id}`)}>
       <S.CardBox>
         <S.Header>
           <S.BlueText>{getLocaleDateString(board.created_at)}</S.BlueText>

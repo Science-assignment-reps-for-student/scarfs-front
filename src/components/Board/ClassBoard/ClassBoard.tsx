@@ -7,14 +7,19 @@ import { useHistory } from 'react-router-dom';
 import { SBone } from '../../../components/Admin/AdminMain/style';
 import { ClassBoard } from '../../../lib/api/ClassBoard';
 import { useUser, useWriteClassNumber } from '../../../lib/function';
+import queryString from 'query-string';
+
+const ONE_PAGE_BOARD_SIZE = 7;
 
 interface Props {
   isLoading: boolean;
   classBoard: ClassBoard;
   getBoard: (data: { size: number; page: number; classNumber?: number }) => void;
+  searchBoard: (query: string, page: number) => void;
 }
 
-const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
+const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard }) => {
+  const { query } = queryString.parse(location.search);
   const user = useUser();
   const [classNumber, setClassNumber] = useWriteClassNumber();
   const { type } = user;
@@ -35,28 +40,58 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard }) => {
   };
 
   useEffect(() => {
-    const ONE_PAGE_BOARD_SIZE = 7;
-    if (type === 'STUDENT') {
-      getBoard({
-        size: ONE_PAGE_BOARD_SIZE,
-        page: page,
-      });
-    } else if (type === 'ADMIN') {
-      getBoard({
-        size: ONE_PAGE_BOARD_SIZE,
-        page: page,
-        classNumber,
-      });
+    if (!query) {
+      if (type === 'ADMIN') {
+        getBoard({ size: ONE_PAGE_BOARD_SIZE, page, classNumber });
+      }
     }
-  }, [type, page, classNumber]);
+  }, [type, classNumber]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoard(query[0], 1);
+    } else if (query) {
+      searchBoard(query, 1);
+    } else {
+      if (type === 'ADMIN') {
+        getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE, classNumber });
+      } else if (type === 'STUDENT') {
+        getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE });
+      }
+    }
+    setPage(1);
+  }, [query, classNumber]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoard(query[0], page);
+    } else if (query) {
+      searchBoard(query, page);
+    } else {
+      if (type === 'ADMIN') {
+        getBoard({ page, classNumber, size: ONE_PAGE_BOARD_SIZE });
+      } else if (type === 'STUDENT') {
+        getBoard({ page, size: ONE_PAGE_BOARD_SIZE });
+      }
+    }
+  }, [page, classNumber]);
+
   return (
     <>
       {isLoading ? (
         <SBone width='1280px' height='95px' />
       ) : (
         <BoardHeader
-          title={`${classBoard.class_number}반 게시판`}
-          searchTitle=''
+          title={
+            type === 'ADMIN' && query
+              ? '관리자의 경우 반에 해당하는 검색결과가 옳바르지 않을 수 있습니다.'
+              : classBoard
+              ? classBoard.class_number
+                ? `${classBoard.class_number}반 게시판`
+                : ''
+              : ''
+          }
+          searchTitle='게시판'
           isTableView={isTableView}
           setIsTableView={setIsTableView}
         >

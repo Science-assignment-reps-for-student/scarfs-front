@@ -2,28 +2,18 @@ import React, { FC, useCallback, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
 import { ClassDetailPost } from '../../../../../lib/api/ClassDetailPost';
+import { NoticeDetailPost } from '../../../../../lib/api/NoticeDetailPost';
+import { AssignmentDetailPost, FileResponse } from '../../../../../lib/api/AssignmentDetailPost';
 import { ImagePreviewBox } from '../../../ClassBoard/ClassBoardWrite/style';
 
-export interface AssignmentDetailPost {
-  homeworkId: number;
-  type: string;
-  title: string;
-  createdAt: string;
-  daedLine: string;
-  isFinish: boolean;
-  view: number;
-  files: string[];
+enum Type {
+  PERSONAL = '개인',
+  TEAM = '팀',
+  EXPERIMENT = '실험',
 }
 
-export interface NoticeDetailPost {
-  title: string;
-  createdAt: string;
-  view: number;
-  content: string;
-  preNoticeTitle: string;
-  nextNoticeTitle: string;
-  preNoticeNumber: number;
-  nextNoticeNumber: number;
+export interface AssignmentDetailPostWithFiles extends AssignmentDetailPost {
+  files: FileResponse[];
 }
 
 interface Props {
@@ -35,7 +25,7 @@ interface Props {
   nextPostTitle: string;
   content: string;
   images?: string[];
-  board: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
+  board: AssignmentDetailPostWithFiles | ClassDetailPost | NoticeDetailPost;
   InfoDetailTemplate: FC<{
     board?: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   }>;
@@ -80,7 +70,7 @@ const PostMain: FC<Props> = ({
         <S.PostBox>
           <S.PostHeader>
             <S.PostTitle>{title}</S.PostTitle>
-            {type ? <S.PostType>{type}</S.PostType> : ''}
+            {type ? <S.PostType>{Type[type]}</S.PostType> : ''}
           </S.PostHeader>
           <InfoDetailTemplate board={board} />
         </S.PostBox>

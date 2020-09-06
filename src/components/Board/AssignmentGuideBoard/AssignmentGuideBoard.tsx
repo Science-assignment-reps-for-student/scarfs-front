@@ -6,12 +6,14 @@ import { ErrorType } from '../../../lib/type';
 import { SBone } from '../../../components/Admin/AdminMain/style';
 import { useUser, useAssignmentClassNumber } from '../../../lib/function';
 import * as S from '../ClassBoard/style';
+import queryString from 'query-string';
 
 interface Props {
   getBoards: (page: number, classNumber?: number | '') => void;
   isLoading: boolean;
   board: AssignmentType;
   getBoardsError: ErrorType;
+  searchBoards: (query: string, page: number) => void;
   resetMain: () => void;
 }
 
@@ -20,8 +22,10 @@ const AssignmentGuideBoard: FC<Props> = ({
   isLoading,
   board,
   getBoardsError,
+  searchBoards,
   resetMain,
 }) => {
+  const { query } = queryString.parse(location.search);
   const { type } = useUser();
   const [isTableView, setIsTableView] = useState(true);
   const [classNumber, setClassNumber] = useAssignmentClassNumber();
@@ -47,12 +51,41 @@ const AssignmentGuideBoard: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (type === 'ADMIN') {
-      getBoards(page, classNumber);
-    } else if (type === 'STUDENT') {
-      getBoards(page);
+    if (!query) {
+      if (type === 'ADMIN') {
+        getBoards(page, classNumber);
+      }
     }
-  }, [page, classNumber, type]);
+  }, [type, classNumber]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoards(query[0], 1);
+    } else if (query) {
+      searchBoards(query, 1);
+    } else {
+      if (type === 'ADMIN') {
+        getBoards(1, classNumber);
+      } else if (type === 'STUDENT') {
+        getBoards(1);
+      }
+    }
+    setPage(1);
+  }, [query]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoards(query[0], page);
+    } else if (query) {
+      searchBoards(query, page);
+    } else {
+      if (type === 'ADMIN') {
+        getBoards(page, classNumber);
+      } else if (type === 'STUDENT') {
+        getBoards(page);
+      }
+    }
+  }, [page]);
 
   useEffect(() => {
     if (getBoardsError?.status) {
@@ -66,7 +99,15 @@ const AssignmentGuideBoard: FC<Props> = ({
         <SBone width='1280px' height='87px' />
       ) : (
         <BoardHeader
-          title={`${board && board.class_number}반 과제안내`}
+          title={`${
+            type === 'ADMIN' && query
+              ? '관리자의 경우 반에 해당하는 검색결과가 옳바르지 않을 수 있습니다.'
+              : board
+              ? board.class_number
+                ? `${board.class_number}반 과제안내`
+                : ''
+              : ''
+          }`}
           searchTitle='과제'
           isTableView={isTableView}
           setIsTableView={setIsTableView}

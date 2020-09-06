@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import * as S from '../Default/CardView/style';
 import { AssignmentGuideBoard } from '../Default';
 import { getLocaleDateString } from '../utils';
+import { useHistory } from 'react-router-dom';
 
 enum Type {
   PERSONAL = '개인',
@@ -12,8 +13,9 @@ enum Type {
 const AssignmentGuideCard: FC<{
   board?: AssignmentGuideBoard;
 }> = ({ board }) => {
+  const history = useHistory();
   return (
-    <S.CardWrapper>
+    <S.CardWrapper onClick={() => history.push(`/board/assignment-guide/${board.id}`)}>
       {board.complete && <S.FinishBox />}
       <S.CardBox isFinish={board.complete}>
         <S.Header>

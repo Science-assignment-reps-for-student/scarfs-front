@@ -1,10 +1,10 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import { ClassBoard } from '../../../components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStateCallback } from '../../../lib/function';
 import { ClassBoardState, resetBoard } from '../../../modules/reducer/ClassBoard';
 import { LoadingState } from '../../../modules/reducer/Loading';
-import { getBoardThunk } from '../../../modules/thunk/ClassBoard';
+import { getBoardThunk, searchClassBoardThunk } from '../../../modules/thunk/ClassBoard';
 import { Redirect } from 'react-router-dom';
 
 const ClassBoardContainer: FC = () => {
@@ -15,9 +15,17 @@ const ClassBoardContainer: FC = () => {
   const { 'ClassBoard/GET_BOARD': isLoading } = useSelector(
     getStateCallback<LoadingState>('Loading'),
   );
+
   const getBoard = (data: { size: number; page: number; classNumber?: number }) => {
     dispatch(getBoardThunk(data));
   };
+
+  const searchBoard = useCallback(
+    (query: string, page: number) => {
+      dispatch(searchClassBoardThunk({ query, page }));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     if (getBoardError.status) {
@@ -33,7 +41,14 @@ const ClassBoardContainer: FC = () => {
     return <Redirect to='/error' />;
   }
 
-  return <ClassBoard isLoading={isLoading} classBoard={classBoard} getBoard={getBoard} />;
+  return (
+    <ClassBoard
+      isLoading={isLoading}
+      classBoard={classBoard}
+      getBoard={getBoard}
+      searchBoard={searchBoard}
+    />
+  );
 };
 
 export default ClassBoardContainer;
