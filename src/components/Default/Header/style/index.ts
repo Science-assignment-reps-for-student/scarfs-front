@@ -4,9 +4,13 @@ import Magnifier from '../../../../assets/Header/Magnifier.png';
 
 export const Header = styled.div`
   width: 100%;
-  min-width: 1340px;
   height: 60px;
   background-color: white;
+  min-width: auto;
+  position: sticky;
+  top: 0;
+  min-width: 1340px;
+  z-index: 3;
   > div.header {
     display: flex;
     align-items: center;
@@ -32,6 +36,8 @@ export const HeaderButton = styled.div`
   justify-content: center;
   flex-wrap: wrapper;
   margin-right: 60px;
+  display: flex;
+  justify-content: center;
   > p {
     color: ${DEFAULT_COLOR};
     height: 100%;
@@ -59,6 +65,8 @@ export const HeaderButton = styled.div`
 
 export const HeaderUserButton = styled(HeaderButton)`
   margin: 0px 24px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const HeaderUserButtonWrapper = styled.div`
@@ -68,6 +76,11 @@ export const HeaderUserButtonWrapper = styled.div`
   div.bar {
     height: 15px;
     border-right: 2px solid #979797;
+  }
+  > p {
+    font-size: 15px;
+    margin-right: 24px;
+    color: #464646;
   }
 `;
 

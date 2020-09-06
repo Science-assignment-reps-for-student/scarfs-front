@@ -1,6 +1,8 @@
 import React, { FC, ReactElement } from 'react';
-import { AdminQnA } from '../../components';
+
 import { AdminHeaderContainer } from './';
+
+import { AdminQnA } from '../../components';
 
 interface Props {}
 

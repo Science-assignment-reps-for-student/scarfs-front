@@ -1,35 +1,82 @@
 import axios from 'axios';
-import { apiDefault } from '../client';
 
-const TEST_BASE_URL = 'http://10.156.145.110:5000' as const;
-const apiTestDefault = axios.create({
-  baseURL: TEST_BASE_URL,
-  timeout: 2500,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  },
-});
+import { getApiDefault } from '../client';
+import { Team } from '../../../modules/reducer/Admin/adminTeam';
+import { Personal } from '../../../modules/reducer/Admin/adminPersonal';
+import { Experiment } from '../../../modules/reducer/Admin/adminExperiment';
 
-export const fetchPersonalAssignment = (classNum: number) => {
-  return apiTestDefault.get(`/admin/personal-assignment?class=${classNum}`);
-  // return apiDefault.get('/tenderloin/admin/personal-assignment');
-};
-export const fetchTeamAssignment = (classNum: number) => {
-  return apiTestDefault.get(`/admin/team-assignment?class=${classNum}`);
-  // return apiDefault.get('/tenderloin/admin/team-assignment');
-};
-export const fetchExperimentAssignment = (classNum: number) => {
-  return apiTestDefault.get(`/admin/experiment-assignment?class=${classNum}`);
-  // return apiDefault.get('/tenderloin/admin/experiment-assignment');
+interface RefreshToken {
+  access_token: string;
+}
+
+interface Files {
+  file_information: File[];
+}
+
+interface File {
+  file_id: number;
+  file_name: string;
+}
+
+export const getAssignmentPersonal = (classNum: number) => {
+  return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
 };
 
-export const apiLogin = ({ ID, PW }: { ID: string; PW: string; type: string }) => {
-  return apiTestDefault.post(`/admin/auth`, {
-    email: ID,
-    password: PW,
+export const getAssignmentTeam = (classNum: number) => {
+  return getApiDefault().get<Team>(`/chateaubriand/team-assignment?class=${classNum}`);
+};
+
+export const getAssignmentExperiment = (classNum: number) => {
+  return getApiDefault().get<Experiment>(`/chateaubriand/experiment-assignment?class=${classNum}`);
+};
+
+export const downloadAssignmentFileIndex = (
+  assignmentId: number,
+  assignmentType: 'personal' | 'team' | 'experiment',
+) => {
+  return getApiDefault().get<Files>(`/rib-eye/${assignmentType}-files/${assignmentId}`);
+};
+
+export const downloadAssignmentFiles = (
+  assignmentId: number,
+  assignmentType: 'personal' | 'team' | 'experiment',
+) => {
+  return getApiDefault().get<{}>(`/rib-eye/${assignmentType}-file/${assignmentId}`);
+};
+
+export const downloadCompressedAssignments = (assignmentId: number) => {
+  return getApiDefault().get<BlobPart>(`/rib-eye/assignment/${assignmentId}`, {
+    responseType: 'blob',
   });
-  // return axios.post('/tenderloin/admin/auth', {
-  //   email: ID,
-  //   password: PW,
-  // });
+};
+
+export const deleteAssignmentFile = (assignmentId: number) => {
+  return getApiDefault().delete<{}>(`/rib-eye/assignment-file/${assignmentId}`);
+};
+
+export const downloadAssignmentExcel = (assignmentId: number) => {
+  return getApiDefault().get<BlobPart>(`/rib-eye/excel-file/${assignmentId}`, {
+    responseType: 'blob',
+  });
+};
+
+export const updateAssignmentExcel = (assignmentId: number) => {
+  return getApiDefault().patch<{}>(`/rib-eye/excel-file/${assignmentId}`);
+};
+
+export const tokenReIssuance = async () => {
+  try {
+    const { data } = await axios.post<RefreshToken>(`${process.env.BASE_URL}/chateaubriand/token`, {
+      access_token: localStorage.getItem('accessToken'),
+      refresh_token: localStorage.getItem('refreshToken'),
+    });
+    localStorage.setItem('accessToken', data.access_token);
+  } catch (err) {
+    const code = err?.response?.status;
+    if (code === 403 || code === 500) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      window.location.href = '/admin/login';
+    }
+  }
 };

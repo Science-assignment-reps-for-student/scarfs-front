@@ -1,18 +1,22 @@
 import React, { FC, useCallback } from 'react';
-import { reset, setModal } from '../../../../modules/reducer/Modal';
+import { reset } from '../../../../modules/reducer/Modal';
 import { stateChange } from '../../../../lib/function';
 import * as S from '../style';
+import { resetSignIn } from '../../../../modules/reducer/SignIn';
+import { resetSignUp } from '../../../../modules/reducer/SignUp';
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Modal: FC<Props> = ({ children }) => {
-  const deleteModal = stateChange(setModal);
-  const resetModal = stateChange(reset);
+  const resetModalChange = stateChange(reset);
+  const resetSignInChange = stateChange(resetSignIn);
+  const resetSignUpChange = stateChange(resetSignUp);
   const deleteButtonClickHandler = useCallback(() => {
-    deleteModal('');
-    resetModal();
+    resetModalChange();
+    resetSignInChange();
+    resetSignUpChange();
   }, []);
   return (
     <S.ModalWrapper>
@@ -23,7 +27,7 @@ const Modal: FC<Props> = ({ children }) => {
         <S.ModalBody>{children}</S.ModalBody>
         <S.ModalSubTitle>DAEDEOK SOFTWARE MEISTER HIGH SCHOOL</S.ModalSubTitle>
       </S.Modal>
-      <S.ModalBackground />
+      <S.ModalBackground onClick={deleteButtonClickHandler} />
     </S.ModalWrapper>
   );
 };

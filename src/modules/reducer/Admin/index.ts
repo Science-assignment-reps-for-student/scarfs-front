@@ -1,34 +1,25 @@
-import { ActionCreator } from 'redux';
+import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { AxiosError } from 'axios';
+
+import { Team, TeamSubject } from './adminTeam';
+import { Personal, PersonalSubject } from './adminPersonal';
+import { Experiment, ExperimentSubject } from './adminExperiment';
 import {
-  Personal,
-  dummyPersonal1,
-  dummyPersonal2,
-  dummyPersonal3,
-  dummyPersonal4,
-  PersonalSubject,
-} from './adminPersonal';
-import { Team, dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4, TeamSubject } from './adminTeam';
-import {
-  Experiment,
-  dummyExperiment1,
-  dummyExperiment2,
-  dummyExperiment3,
-  dummyExperiment4,
-  ExperimentSubject,
-} from './adminExperiment';
-import {
+  addPropsOfExperiment,
   addPropsOfPersonal,
   addPropsOfTeam,
-  addPropsOfExperiment,
+  sortExperiment,
   sortPersonal,
   sortTeam,
-  sortExperiment,
+  networkError,
 } from './adminUtil';
+
 import {
-  fetchPersonalAssignment,
-  fetchTeamAssignment,
-  fetchExperimentAssignment,
+  getAssignmentExperiment,
+  getAssignmentPersonal,
+  getAssignmentTeam,
+  tokenReIssuance,
 } from '../../../lib/api/Admin/admin';
 
 export type CombineAdmin = Personal | Team | Experiment;
@@ -42,9 +33,15 @@ export interface SubjectCommon {
   description: string;
   created_at: number;
   deadline: number;
-  type?: string;
+  typing?: string;
 }
-export interface PrEvalCommon {
+export interface TeamsInfoCommon {
+  team_name: string;
+  submit: number;
+  members: MemberCommon[];
+  team_id: number;
+}
+export interface PeerEvaluationCommon {
   name: string;
   student_number: string;
   submit: number;
@@ -58,10 +55,10 @@ export const PERSONAL_STR = '개인' as const;
 export const TEAM_STR = '팀' as const;
 export const EXPERIMENT_STR = '실험' as const;
 
-export const FETCH_PERSONAL = 'FETCH_PERSONAL' as const;
-export const FETCH_TEAM = 'FETCH_TEAM' as const;
-export const FETCH_EXPERIMENT = 'FETCH_EXPERIMENT' as const;
-export const LOADING = 'LOADING' as const;
+export const FETCH_PERSONAL = 'Admin/Main/FETCH_PERSONAL' as const;
+export const FETCH_TEAM = 'Admin/Main/FETCH_TEAM' as const;
+export const FETCH_EXPERIMENT = 'Admin/Main/FETCH_EXPERIMENT' as const;
+export const MAIN_LOADING = 'Admin/Main/MAIN_LOADING' as const;
 
 export const fetchPersonal = (personalList: Personal[]) => ({
   type: FETCH_PERSONAL,
@@ -76,7 +73,7 @@ export const fetchExperiment = (experimentList: Experiment[]) => ({
   payload: { experimentList },
 });
 export const fetchLoading = () => ({
-  type: LOADING,
+  type: MAIN_LOADING,
 });
 
 type AdminAction =
@@ -98,7 +95,6 @@ const initialPersonal: AdminState = {
   experimentList: [],
   loading: true,
 };
-const classNumbers = [1, 2, 3, 4];
 
 export const fetchPersonalThunk: ActionCreator<ThunkAction<
   Promise<void>,
@@ -106,24 +102,23 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   null,
   AdminAction
 >> = () => async dispatch => {
-  dispatch(fetchLoading());
   try {
     const personalList: Personal[] = [];
-    const personalList2: Personal[] = [];
-    const personals = classNumbers.map(
-      async classNum => (await fetchPersonalAssignment(classNum)).data,
-    );
+    const personals: Personal[] = [];
+    personals.push((await getAssignmentPersonal(1)).data);
+    personals.push((await getAssignmentPersonal(2)).data);
+    personals.push((await getAssignmentPersonal(3)).data);
+    personals.push((await getAssignmentPersonal(4)).data);
+
     for await (const personal of personals) {
-      personalList.push(personal);
+      personalList.push(addPropsOfPersonal(sortPersonal(personal)));
     }
-    [dummyPersonal1, dummyPersonal2, dummyPersonal3, dummyPersonal4].forEach(person => {
-      sortPersonal(person);
-      addPropsOfPersonal(person);
-      personalList2.push(person);
-    });
-    dispatch(fetchPersonal(personalList2));
+
+    dispatch(fetchPersonal(personalList));
+    dispatch(fetchLoading());
   } catch (err) {
-    throw err;
+    await assignmentErrorHandle(err, dispatch);
+    fetchPersonalThunk();
   }
 };
 export const fetchTeamThunk: ActionCreator<ThunkAction<
@@ -134,14 +129,20 @@ export const fetchTeamThunk: ActionCreator<ThunkAction<
 >> = () => async dispatch => {
   try {
     const teamList: Team[] = [];
-    [dummyTeam1, dummyTeam2, dummyTeam3, dummyTeam4].forEach(team => {
-      sortTeam(team);
-      addPropsOfTeam(team);
-      teamList.push(team);
-    });
+    const teams: Team[] = [];
+    teams.push((await getAssignmentTeam(1)).data);
+    teams.push((await getAssignmentTeam(2)).data);
+    teams.push((await getAssignmentTeam(3)).data);
+    teams.push((await getAssignmentTeam(4)).data);
+
+    for await (const team of teams) {
+      teamList.push(addPropsOfTeam(sortTeam(team)));
+    }
+
     dispatch(fetchTeam(teamList));
   } catch (err) {
-    throw err;
+    await assignmentErrorHandle(err, dispatch);
+    fetchTeamThunk();
   }
 };
 export const fetchExperimentThunk: ActionCreator<ThunkAction<
@@ -151,16 +152,35 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   AdminAction
 >> = () => async dispatch => {
   try {
-    // api get
     const experimentList: Experiment[] = [];
-    [dummyExperiment1, dummyExperiment2, dummyExperiment3, dummyExperiment4].forEach(experiment => {
-      sortExperiment(experiment);
-      addPropsOfExperiment(experiment);
-      experimentList.push(experiment);
-    });
+    const experiments: Experiment[] = [];
+    experiments.push((await getAssignmentExperiment(1)).data);
+    experiments.push((await getAssignmentExperiment(2)).data);
+    experiments.push((await getAssignmentExperiment(3)).data);
+    experiments.push((await getAssignmentExperiment(4)).data);
+
+    for await (const experiment of experiments) {
+      experimentList.push(addPropsOfExperiment(sortExperiment(experiment)));
+    }
+
     dispatch(fetchExperiment(experimentList));
+    dispatch(fetchLoading());
   } catch (err) {
-    throw err;
+    await assignmentErrorHandle(err, dispatch);
+    fetchExperimentThunk();
+  }
+};
+
+const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch) => {
+  if ((err.toJSON() as { message: string }).message === 'Network Error') {
+    dispatch(fetchPersonal(networkError));
+    dispatch(fetchLoading());
+    return;
+  }
+  const code = err.response.status;
+  if (!code) return;
+  if (code === 401) {
+    await tokenReIssuance();
   }
 };
 
@@ -180,12 +200,11 @@ const admin = (state = initialPersonal, action: AdminAction): AdminState => {
       return {
         ...state,
         experimentList: action.payload.experimentList,
-        loading: false,
       };
-    case LOADING:
+    case MAIN_LOADING:
       return {
         ...state,
-        loading: true,
+        loading: false,
       };
     default:
       return state;

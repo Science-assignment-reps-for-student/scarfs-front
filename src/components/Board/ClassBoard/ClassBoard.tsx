@@ -1,99 +1,113 @@
-import React, { FC, useState } from 'react';
-import { Board, CardView } from '../Default';
-import BoardHeader from '../Default/BoardHeader/BoardHeader';
-import TableView from '../Default/TableView/TableView';
-import PaginationBar from '../Default/PaginationBar/PaginationBar';
+import React, { FC, useState, useEffect, useMemo } from 'react';
+import { CardView } from '../Default';
+import { BoardHeader, TableView, PaginationBar } from '../Default';
 import { ClassCard, ClassTableItem } from './';
+import * as S from './style';
+import { useHistory } from 'react-router-dom';
+import { SBone } from '../../../components/Admin/AdminMain/style';
+import { ClassBoard } from '../../../lib/api/ClassBoard';
+import { useUser, useWriteClassNumber } from '../../../lib/function';
+import queryString from 'query-string';
 
-const dummyBoards = [
-  {
-    boardId: 1,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-  {
-    boardId: 2,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-  {
-    boardId: 3,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-  {
-    boardId: 4,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-  {
-    boardId: 5,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-  {
-    boardId: 6,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-  {
-    boardId: 7,
-    title: '우주 행성',
-    previewContent: `돼지돼지돼지돼지돼지돼지돼지돼지돼지돼아 이거 언제 다하냐 응애응애👶👶 내 개발은 언제함?
-    나왜 디자이너임?🤬 ㅎㅎ 이번 SMS랑 스카프 디자인 끝나면 디자인
-    때려쳐···지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지돼지···`,
-    writerName: '정우영',
-    createdAt: '2020.07.14 13:00:00',
-    view: 5,
-  },
-];
+const ONE_PAGE_BOARD_SIZE = 7;
 
-const boards = dummyBoards.map(board => ({
-  ...board,
-  id: board.boardId,
-}));
+interface Props {
+  isLoading: boolean;
+  classBoard: ClassBoard;
+  getBoard: (data: { size: number; page: number; classNumber?: number }) => void;
+  searchBoard: (query: string, page: number) => void;
+}
 
-const AssignmentGuideBoard: FC = () => {
-  const [isTableView, setIsTableView] = useState(false);
+const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard }) => {
+  const { query } = queryString.parse(location.search);
+  const user = useUser();
+  const [classNumber, setClassNumber] = useWriteClassNumber();
+  const { type } = user;
+  const boards = useMemo(
+    () =>
+      classBoard.application_responses.map(board => ({
+        ...board,
+        id: board.board_id,
+      })),
+    [classBoard],
+  );
+  const history = useHistory();
+  const [page, setPage] = useState(1);
+  const [isTableView, setIsTableView] = useState(true);
+
+  const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setClassNumber(parseInt(e.target.value));
+  };
+
+  useEffect(() => {
+    if (!query) {
+      if (type === 'ADMIN') {
+        getBoard({ size: ONE_PAGE_BOARD_SIZE, page, classNumber });
+      }
+    }
+  }, [type, classNumber]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoard(query[0], 1);
+    } else if (query) {
+      searchBoard(query, 1);
+    } else {
+      if (type === 'ADMIN') {
+        getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE, classNumber });
+      } else if (type === 'STUDENT') {
+        getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE });
+      }
+    }
+    setPage(1);
+  }, [query, classNumber]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoard(query[0], page);
+    } else if (query) {
+      searchBoard(query, page);
+    } else {
+      if (type === 'ADMIN') {
+        getBoard({ page, classNumber, size: ONE_PAGE_BOARD_SIZE });
+      } else if (type === 'STUDENT') {
+        getBoard({ page, size: ONE_PAGE_BOARD_SIZE });
+      }
+    }
+  }, [page, classNumber]);
+
   return (
-    <Board>
-      <BoardHeader
-        title='2반 게시판'
-        searchTitle=''
-        isTableView={isTableView}
-        setIsTableView={setIsTableView}
-      />
-      {isTableView ? (
+    <>
+      {isLoading ? (
+        <SBone width='1280px' height='95px' />
+      ) : (
+        <BoardHeader
+          title={
+            type === 'ADMIN' && query
+              ? '관리자의 경우 반에 해당하는 검색결과가 옳바르지 않을 수 있습니다.'
+              : classBoard
+              ? classBoard.class_number
+                ? `${classBoard.class_number}반 게시판`
+                : ''
+              : ''
+          }
+          searchTitle='게시판'
+          isTableView={isTableView}
+          setIsTableView={setIsTableView}
+        >
+          {type === 'ADMIN' && (
+            <S.Select value={classNumber} onChange={selectChangeHandler}>
+              <option value='1'>1반</option>
+              <option value='2'>2반</option>
+              <option value='3'>3반</option>
+              <option value='4'>4반</option>
+            </S.Select>
+          )}
+        </BoardHeader>
+      )}
+      {isLoading ? (
+        <SBone width='1280px' height='362px' margin='25px 0 21px' />
+      ) : isTableView ? (
         <TableView
           columnNames={['유형', '제목', '작성자', '등록일', '조회수']}
           boards={boards}
@@ -102,9 +116,18 @@ const AssignmentGuideBoard: FC = () => {
       ) : (
         <CardView boards={boards} CardTemplate={ClassCard} />
       )}
-      <PaginationBar />
-    </Board>
+      {isLoading ? (
+        <SBone width='1280px' height='50px' />
+      ) : (
+        <S.Footer>
+          <PaginationBar page={page} setPage={setPage} lastPage={classBoard.total_pages} />
+          {type === 'ADMIN' && (
+            <S.Button onClick={() => history.push('/board/class/write')}>게시글작성</S.Button>
+          )}
+        </S.Footer>
+      )}
+    </>
   );
 };
 
-export default AssignmentGuideBoard;
+export default ClassBoard;

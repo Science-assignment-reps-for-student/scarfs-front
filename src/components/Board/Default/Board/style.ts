@@ -10,6 +10,8 @@ export const BoardWrapper = styled.div`
 `;
 
 export const Main = styled.main`
+  display: flex;
+  flex-direction: column;
   z-index: 2;
   margin: 0 auto;
   width: 100%;
