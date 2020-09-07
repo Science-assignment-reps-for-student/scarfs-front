@@ -17,6 +17,7 @@ const ChatInputs: FC<Props> = ({ sendMessage }): ReactElement => {
   const sending = () => {
     if (!isConnected) return;
     sendMessage(message, 1);
+    setMessage('');
   };
 
   return (
@@ -32,6 +33,7 @@ const ChatInputs: FC<Props> = ({ sendMessage }): ReactElement => {
           }
         }}
         placeholder='학생에게 전달할 메시지를 입력하세요.'
+        value={message}
       />
       <S.ChatSend
         src={send}
