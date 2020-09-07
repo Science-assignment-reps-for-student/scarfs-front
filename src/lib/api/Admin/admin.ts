@@ -80,3 +80,16 @@ export const tokenReIssuance = async () => {
     }
   }
 };
+
+interface Me {
+  completion_assignment: number;
+  id: number;
+  name: string;
+  remaining_assignment: number;
+  student_number: string;
+  type: string;
+}
+
+export const getUserInfo = () => {
+  return getApiDefault().get<Me>(`/shank/user/me`);
+};
