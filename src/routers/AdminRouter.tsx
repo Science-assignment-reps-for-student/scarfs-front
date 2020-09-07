@@ -9,14 +9,27 @@ import {
   AdminSignUpContainer,
 } from '../containers';
 import { NotFound } from '../components';
+import { getUserInfo } from '../lib/api/Admin/admin';
 
 const AdminRouter: FC = (): ReactElement => {
   const history = useHistory();
 
+  const isAdmin = async (): Promise<boolean> => {
+    try {
+      const {
+        data: { type },
+      } = await getUserInfo();
+      if (type === 'ADMIN') return true;
+      return false;
+    } catch {
+      return false;
+    }
+  };
+
   useEffect(() => {
     const splitPath = history.location.pathname.split('/');
     const lastPath = splitPath[splitPath.length - 1];
-    if ((lastPath === 'register') !== !localStorage.getItem('accessToken')) {
+    if ((lastPath === 'register') !== !localStorage.getItem('accessToken') || isAdmin()) {
       history.push('/admin/login');
     }
   }, []);
