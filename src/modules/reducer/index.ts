@@ -5,6 +5,7 @@ import SignIn from './SignIn';
 import Admin from './Admin';
 import AdminCreate from './AdminCreate';
 import AdminLogin from './AdminLogin';
+import AdminQnA from './AdminQnA';
 import Header from './Header';
 import Alert from './Alert';
 import Main from './Main';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   Admin,
   AdminCreate,
   AdminLogin,
+  AdminQnA,
   Header,
   Alert,
   Main,
