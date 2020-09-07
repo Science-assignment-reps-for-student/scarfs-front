@@ -104,7 +104,7 @@ export const ChattingSendButton = styled.div`
   cursor: pointer;
 `;
 
-export const MyChattingLog = styled.div`
+export const MyChattingLog = styled.div<{ isHover: boolean }>`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -130,7 +130,7 @@ export const MyChattingLog = styled.div`
       background-image: url(${trash});
       background-repeat: no-repeat;
       margin-right: 5px;
-      display: none;
+      display: ${props => (props.isHover ? 'block' : 'none')};
     }
   }
 `;
