@@ -19,7 +19,12 @@ const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
     const buffer = [];
     boardPreview.applicationResponses.map(board => {
       buffer.push(
-        <BoardTaskListComponent date={board.created_at} title={board.title} id={board.notice_id} />,
+        <BoardTaskListComponent
+          key={'board' + board.notice_id}
+          date={board.created_at}
+          title={board.title}
+          id={board.notice_id}
+        />,
       );
     });
     return buffer;
