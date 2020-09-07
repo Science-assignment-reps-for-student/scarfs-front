@@ -1,51 +1,38 @@
 import React, { FC, ReactElement, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
 import * as S from './style';
 import TableRow from './TableRow';
+
+import { reducerType } from '../../../modules/reducer';
 
 interface Props {
   search: string;
 }
 
-interface QnAStudent {
-  student_number: number;
-  name: string;
-  last_message: string;
-  current_date: string;
-  read: boolean;
-}
-
-const students: QnAStudent[] = Array(20)
-  .fill(0)
-  .map((_, i) => ({
-    student_number: parseInt(`11${i + 1 < 10 ? `0${i + 1}` : `${i + 1}`}`),
-    name: `이성진${i + 1}`,
-    last_message: '마지막 메시지',
-    current_date: '2020.07.23',
-    read: i < 3 ? false : true,
-  }));
-
 const AdminTable: FC<Props> = ({ search }): ReactElement => {
-  const studentsTable = useMemo(
-    () =>
-      students
-        .filter(
-          ({ name, student_number }) =>
-            search === '' || search.match(student_number.toString()) || search.match(name),
-        )
-        .map(({ student_number, name, last_message, current_date, read }) => {
-          return (
-            <TableRow
-              key={student_number}
-              student_number={student_number.toString()}
-              name={name}
-              current_date={current_date}
-              last_message={last_message}
-              read={read}
-            />
-          );
-        }),
-    [search],
-  );
+  const { logs } = useSelector((state: reducerType) => state.AdminQnA);
+
+  const chatLogs = useMemo(() => {
+    return logs
+      .filter(
+        ({ user_name, user_number }) =>
+          search === '' || search.match(user_number.toString()) || search.match(user_name),
+      )
+      .map(({ user_number, user_id, user_name, message, message_time, show }) => {
+        return (
+          <TableRow
+            key={user_id}
+            user_number={user_number.toString()}
+            user_name={user_name}
+            user_id={user_id}
+            message_time={message_time}
+            message={message}
+            show={show}
+          />
+        );
+      });
+  }, [logs]);
 
   return (
     <S.QnATableWrap>
@@ -56,7 +43,7 @@ const AdminTable: FC<Props> = ({ search }): ReactElement => {
           <S.QnARowText>메시지</S.QnARowText>
           <S.QnARowText>최근날짜</S.QnARowText>
         </S.QnARowHead>
-        {studentsTable}
+        {chatLogs}
       </S.QnATable>
     </S.QnATableWrap>
   );

@@ -194,7 +194,7 @@ export const SectionList = styled.ul`
     width: 4px;
   }
   ::-webkit-scrollbar-track {
-    background: white;
+    background: red;
   }
   ::-webkit-scrollbar-thumb {
     background: #979797;
@@ -233,9 +233,17 @@ export const ChatHeader = styled.header`
 export const ChatInnerChatWrap = styled.div`
   height: calc(100vh - 144px);
   flex: 1;
+  padding-right: 8px;
   overflow-y: scroll;
   ::-webkit-scrollbar {
-    width: 0;
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: white;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #979797;
+    border-radius: 8px;
   }
 `;
 
