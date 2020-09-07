@@ -21,6 +21,7 @@ import {
   getAssignmentTeam,
   tokenReIssuance,
 } from '../../../lib/api/Admin/admin';
+import { setAccessToken, setRefreshToken } from '../Header';
 
 export type CombineAdmin = Personal | Team | Experiment;
 export type CombineAdmins = CombineAdmin[];
@@ -181,6 +182,8 @@ const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch) => {
   if (!code) return;
   if (code === 401) {
     await tokenReIssuance();
+    dispatch(setAccessToken(localStorage.getItem('accessToken')));
+    dispatch(setRefreshToken(localStorage.getItem('refreshToken')));
   }
 };
 
