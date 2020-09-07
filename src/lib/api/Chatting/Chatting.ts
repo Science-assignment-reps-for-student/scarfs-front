@@ -17,6 +17,7 @@ export type ChattingListType = {
   message_time: string;
   show: boolean;
   deleted: boolean;
+  mine: boolean;
 };
 
 export const getChattingList = async (id: number) => {
