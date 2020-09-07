@@ -34,7 +34,7 @@ const BoardTaskList: FC<Props> = ({ boardPreview, isLoading }) => {
       <TaskHeader taskListType='megaphone' />
       <S.TaskList>
         {setBoardComponents(boardPreview)}
-        {isDataAble(boardPreview, isLoading) ? <TaskButton link='/board/class' /> : ''}
+        {isDataAble(boardPreview, isLoading) ? <TaskButton link='/board/notice' /> : ''}
       </S.TaskList>
     </div>
   );
