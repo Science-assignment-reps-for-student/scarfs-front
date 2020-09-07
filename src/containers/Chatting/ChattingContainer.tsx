@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderState, { sendRefreshToken } from '../../../src/modules/reducer/Header';
-import Chatting, { ChattingOpenButton } from '../../components/Chatting';
+import Chatting, { ChattingOpenButton, ChattingCloseButton } from '../../components/Chatting';
 import { getStateCallback, isNetworkError } from '../../lib/function';
 import {
   ChattingState,
@@ -180,22 +180,23 @@ const ChattingContainer: FC = () => {
     const statusCode = error.status;
     serverErrorHandler(statusCode);
   }, [error]);
-
   return isLogin && userInfo && userInfo.type !== 'ADMIN' ? (
     isAble ? (
-      <Chatting
-        partner={partner}
-        input={input}
-        chattingList={isTeacher(partner) ? teacherChattingList : adminChattingList}
-        headerChange={partnerChange}
-        inputChange={inputChange}
-        isAbleChange={isAbleChange}
-        isConnected={isConnected}
-        sendMessage={sendMessage}
-        chattingBodyRef={chattingBody}
-        isDeleteChange={isDeleteChange}
-        isDelete={isDelete}
-      />
+      <>
+        <Chatting
+          partner={partner}
+          input={input}
+          chattingList={isTeacher(partner) ? teacherChattingList : adminChattingList}
+          headerChange={partnerChange}
+          inputChange={inputChange}
+          isConnected={isConnected}
+          sendMessage={sendMessage}
+          chattingBodyRef={chattingBody}
+          isDeleteChange={isDeleteChange}
+          isDelete={isDelete}
+        />
+        <ChattingCloseButton isAbleChange={isAbleChange} alarm={alarm} />
+      </>
     ) : (
       <ChattingOpenButton isAbleChange={isAbleChange} alarmChange={alarmChange} alarm={alarm} />
     )
