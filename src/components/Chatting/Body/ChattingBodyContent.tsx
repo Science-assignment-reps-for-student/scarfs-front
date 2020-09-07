@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import * as S from '../style';
 
 interface Props {
@@ -9,6 +9,19 @@ interface Props {
   isDelete: boolean;
 }
 
+interface ChattingProps {
+  text: string;
+  deleteButtonClickHandler: (id: number) => void;
+  id: number;
+  isDelete: boolean;
+  isHover: boolean;
+  logMouseLeaveHandler: () => void;
+  logMouseOverHandler: () => void;
+  children: React.ReactNode;
+}
+
+const DELETE_MESSAGE = '삭제된 메세지 입니다.';
+
 const ChattingBodyContent: FC<Props> = ({
   isMine,
   text,
@@ -16,34 +29,59 @@ const ChattingBodyContent: FC<Props> = ({
   id,
   isDelete,
 }) => {
-  const trashRef = useRef<HTMLDivElement>();
+  const [isHover, hoverChange] = useState<boolean>(false);
   const logMouseOverHandler = () => {
-    trashRef.current.style.display = 'block';
+    hoverChange(true);
   };
   const logMouseLeaveHandler = () => {
-    trashRef.current.style.display = 'none';
+    hoverChange(false);
   };
-  const childNode = <div className='text'>{isDelete ? '삭제된 메세지 입니다.' : text}</div>;
-  return (
-    <>
-      {isMine ? (
-        <S.MyChattingLog>
-          <div onMouseEnter={logMouseOverHandler} onMouseLeave={logMouseLeaveHandler}>
-            {isDelete ? (
-              <></>
-            ) : (
-              <div className='img' ref={trashRef} onClick={() => deleteButtonClickHandler(id)} />
-            )}
-            {childNode}
-          </div>
-        </S.MyChattingLog>
-      ) : (
-        <S.YourChattingLog>
-          <div>{childNode}</div>
-        </S.YourChattingLog>
-      )}
-    </>
+  const deletedMessageHandler = (message: string, isDelete: boolean) => {
+    if (isDelete) return DELETE_MESSAGE;
+    return message;
+  };
+  const checkChattingOwnerAndSetChattingLog = (props: ChattingProps) => {
+    if (isMine) return <MyChattingLog {...props} />;
+    return <YourChattingLog {...props} />;
+  };
+  const MyChattingLog = ({
+    isHover,
+    isDelete,
+    deleteButtonClickHandler,
+    id,
+    logMouseLeaveHandler,
+    logMouseOverHandler,
+    children,
+  }: ChattingProps) => {
+    return (
+      <S.MyChattingLog isHover={isHover}>
+        <div onMouseEnter={logMouseOverHandler} onMouseLeave={logMouseLeaveHandler}>
+          {isDelete ? <></> : <div className='img' onClick={() => deleteButtonClickHandler(id)} />}
+          {children}
+        </div>
+      </S.MyChattingLog>
+    );
+  };
+  const YourChattingLog = ({ children }: ChattingProps) => {
+    return (
+      <S.YourChattingLog isHover={false}>
+        <div>{children}</div>
+      </S.YourChattingLog>
+    );
+  };
+  const getText = (text: string, isDelete: boolean): React.ReactNode => (
+    <div className='text'>{deletedMessageHandler(text, isDelete)}</div>
   );
+  return checkChattingOwnerAndSetChattingLog({
+    isHover,
+    text,
+    deleteButtonClickHandler,
+    logMouseLeaveHandler,
+    logMouseOverHandler,
+    id,
+    isDelete,
+    children: getText(text, isDelete),
+  });
 };
 
 export default ChattingBodyContent;
