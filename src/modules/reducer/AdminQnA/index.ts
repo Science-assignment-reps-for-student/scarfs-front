@@ -1,3 +1,15 @@
+import { ActionCreator } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { AxiosError } from 'axios';
+
+import {
+  getChattingLog,
+  getChattingList,
+  deleteChatting,
+} from '../../../lib/api/Chatting/Chatting';
+import { tokenReIssuance } from '../../../lib/api/Admin/admin';
+import { setAccessToken, setRefreshToken } from '../Header';
+
 export interface Chat {
   deleted: boolean;
   id: number;
@@ -62,6 +74,65 @@ const adminQnAInit: AdminQnAState = {
   chats: [],
   logs: [],
   user: '학번 이름',
+};
+
+export const setChatLogThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  AdminQnAAction,
+  any,
+  AdminQnAAction
+>> = () => async dispatch => {
+  try {
+    const chatLog = await getChattingLog();
+    dispatch(setChatLog(chatLog.data));
+  } catch (err) {
+    errorHandling(err, async () => {
+      const chatLog = await getChattingLog();
+      dispatch(setChatLog(chatLog.data));
+    });
+  }
+};
+
+export const setChattingListThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  AdminQnAAction,
+  any,
+  AdminQnAAction
+>> = (userId: number) => async dispatch => {
+  try {
+    const chats = await getChattingList(userId);
+    dispatch(setChat(chats.data));
+  } catch (err) {
+    errorHandling(err, async () => {
+      const chatLog = await getChattingList(userId);
+      dispatch(setChat(chatLog.data));
+    });
+  }
+};
+
+export const deleteChatThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  AdminQnAAction,
+  any,
+  AdminQnAAction
+>> = (chatId: number, chats: Chat[]) => async dispatch => {
+  try {
+    await deleteChatting(chatId);
+    dispatch(setChat(chats.filter(chat => chat.id !== chatId)));
+  } catch (err) {
+    errorHandling(err, async () => {
+      await deleteChatting(chatId);
+    });
+  }
+};
+
+const errorHandling = async (err: AxiosError, cb: () => void) => {
+  const code = err?.response?.status;
+  if (!code) return;
+  if (code === 403) {
+    await tokenReIssuance();
+    cb();
+  }
 };
 
 const adminQnA = (state: AdminQnAState = adminQnAInit, action: AdminQnAAction) => {
