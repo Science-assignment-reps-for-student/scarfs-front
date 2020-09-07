@@ -6,14 +6,13 @@ import { AdminHeaderContainer } from './';
 
 import { AdminQnA } from '../../components';
 import IO from '../../containers/Chatting/WebSocket';
-import { getChattingList, getChattingLog } from '../../lib/api/Chatting/Chatting';
 import { reducerType } from '../../modules/reducer';
 import {
   setConnect,
-  setChatLog,
-  setChat,
   setUserInfo,
   addChat,
+  setChatLogThunk,
+  setChattingListThunk,
 } from '../../modules/reducer/AdminQnA';
 
 interface Props {}
@@ -56,13 +55,11 @@ const AdminQnAContainer: FC<Props> = (): ReactElement => {
   };
 
   const chatList = async () => {
-    const chatLog = await getChattingLog();
-    dispatch(setChatLog(chatLog.data));
+    dispatch(setChatLogThunk());
   };
 
   const chatting = async () => {
-    const chat = await getChattingList(parseInt(user_id));
-    dispatch(setChat(chat.data));
+    dispatch(setChattingListThunk(parseInt(user_id)));
   };
 
   useEffect(() => {
