@@ -25,7 +25,7 @@ const AssignmentTaskList: FC<Props> = ({ assignmentPreview, isLoading }) => {
             isProgress={assignment.complete}
             title={assignment.title}
             id={assignment.assignment_id}
-            key={assignment.assignment_id}
+            key={'assignmet' + assignment.assignment_id}
           />,
         );
       });

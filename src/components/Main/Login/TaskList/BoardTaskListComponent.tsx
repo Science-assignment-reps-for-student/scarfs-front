@@ -11,7 +11,7 @@ interface Props {
 const BoardTaskListComponent: FC<Props> = ({ date, title, id }) => {
   const history = useHistory();
   return (
-    <S.TaskListComponent onClick={() => history.push(`/notice/${id}`)}>
+    <S.TaskListComponent onClick={() => history.push(`/board/notice/${id}`)}>
       <S.TaskListComponentHeader>
         <p>{date}</p>
         <p className='point'>공지</p>

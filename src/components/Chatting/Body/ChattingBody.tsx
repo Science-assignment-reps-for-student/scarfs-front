@@ -19,9 +19,10 @@ const ChattingBody: FC<Props> = ({ chattingList, chattingBodyRef, isDelete, isDe
   const setChattingList = useCallback((chattingList: ChattingContentType[]) => {
     const buffer = chattingList.map(chatting => {
       const { message, id, deleted } = chatting;
+      const chattingId = message + id;
       return (
         <ChattingBodyContent
-          key={id}
+          key={chattingId}
           id={id}
           text={message}
           isDelete={deleted}

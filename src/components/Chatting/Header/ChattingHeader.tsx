@@ -3,10 +3,9 @@ import * as S from '../style';
 interface Props {
   selectedPerson: string;
   headerChange: (value: string) => void;
-  isAbleChange: (value: boolean) => void;
 }
 
-const ChattingHeader: FC<Props> = ({ selectedPerson, headerChange, isAbleChange }) => {
+const ChattingHeader: FC<Props> = ({ selectedPerson, headerChange }) => {
   const isSelected = useCallback(
     (person: string) => {
       return selectedPerson === person ? true : false;
@@ -18,7 +17,6 @@ const ChattingHeader: FC<Props> = ({ selectedPerson, headerChange, isAbleChange 
   }, []);
   return (
     <S.ChattingHeader>
-      <S.ChattingDeleteButton onClick={() => isAbleChange(false)} />
       <S.ChattingHeaderContent
         isSelected={isSelected('박지연 선생님')}
         onClick={() => headerChangeHandler('박지연 선생님')}
