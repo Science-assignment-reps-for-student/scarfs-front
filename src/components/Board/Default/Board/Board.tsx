@@ -1,9 +1,14 @@
 import React, { FC } from 'react';
 import * as S from './style';
 
-const Board: FC = ({ children }) => {
+interface Props {
+  isDetailBoard: boolean;
+  children?: React.ReactNode;
+}
+
+const Board: FC<Props> = ({ isDetailBoard, children }) => {
   return (
-    <S.BoardWrapper>
+    <S.BoardWrapper isDetailBoard={isDetailBoard}>
       <S.Main>
         <S.RotatedSubject>S C I E N C E</S.RotatedSubject>
         {children}
