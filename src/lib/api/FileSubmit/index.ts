@@ -23,3 +23,6 @@ export const submitFile = ({ type, assignmentId, data }: FileApiRequest & { data
       timeout: 60000,
     },
   );
+
+export const deleteSubmittedFile = ({ type, assignmentId }: FileApiRequest) =>
+  getApiDefault().delete(`/rib-eye/${type.toLocaleLowerCase()}-file/${assignmentId}`);

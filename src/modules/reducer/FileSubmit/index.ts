@@ -9,6 +9,10 @@ export const SUBMIT_FILE = 'FileSubmit/SUBMIT_FILE' as const;
 export const SUBMIT_FILE_SUCCESS = 'FileSubmit/SUBMIT_FILE_SUCCESS' as const;
 export const SUBMIT_FILE_FAILURE = 'FileSubmit/SUBMIT_FILE_FAILURE' as const;
 
+export const DELETE_SUBMITTED_FILE = 'FileSubmit/DELETE_SUBMITTED_FILE' as const;
+export const DELETE_SUBMITTED_FILE_SUCCESS = 'FileSubmit/DELETE_SUBMITTED_FILE_SUCCESS' as const;
+export const DELETE_SUBMITTED_FILE_FAILURE = 'FileSubmit/DELETE_SUBMITTED_FILE_FAILURE' as const;
+
 export const RESET_FILE_SUBMIT = 'FileSubmit/RESET_FILE_SUBMIT' as const;
 
 export const getSubmittedFilesSuccess = (payload: { file_information: FileResponse[] }) => ({
@@ -30,6 +34,15 @@ export const submitFileFailure = (error: ErrorType) => ({
   payload: error,
 });
 
+export const deleteSubmittedFileSuccess = () => ({
+  type: DELETE_SUBMITTED_FILE_SUCCESS,
+});
+
+export const deleteSubmittedFileFailure = (error: ErrorType) => ({
+  type: DELETE_SUBMITTED_FILE_FAILURE,
+  payload: error,
+});
+
 export const resetFileSubmit = () => ({
   type: RESET_FILE_SUBMIT,
 });
@@ -39,6 +52,8 @@ export type FileSubmitAcion =
   | ReturnType<typeof getSubmittedFilesFailure>
   | ReturnType<typeof submitFileSuccess>
   | ReturnType<typeof submitFileFailure>
+  | ReturnType<typeof deleteSubmittedFileSuccess>
+  | ReturnType<typeof deleteSubmittedFileFailure>
   | ReturnType<typeof resetFileSubmit>;
 
 export type FileSubmitStatus = {
@@ -46,6 +61,8 @@ export type FileSubmitStatus = {
   getSubmittedFilesError: ErrorType;
   submitFileSuccess: boolean;
   submitFileError: ErrorType;
+  deleteSubmittedFileSuccess: boolean;
+  deleteSubmittedFileError: ErrorType;
 };
 
 const initialState: FileSubmitStatus = {
@@ -53,6 +70,8 @@ const initialState: FileSubmitStatus = {
   getSubmittedFilesError: errorInitialState,
   submitFileSuccess: false,
   submitFileError: errorInitialState,
+  deleteSubmittedFileSuccess: false,
+  deleteSubmittedFileError: errorInitialState,
 };
 
 export default function FileSubmit(
@@ -82,6 +101,17 @@ export default function FileSubmit(
         ...state,
         submitFileSuccess: false,
         submitFileError: action.payload,
+      };
+    case DELETE_SUBMITTED_FILE_SUCCESS:
+      return {
+        ...state,
+        deleteSubmittedFileError: errorInitialState,
+        deleteSubmittedFileSuccess: true,
+      };
+    case DELETE_SUBMITTED_FILE_FAILURE:
+      return {
+        ...state,
+        deleteSubmittedFileError: action.payload,
       };
     case RESET_FILE_SUBMIT:
       return initialState;
