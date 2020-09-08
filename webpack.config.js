@@ -56,7 +56,7 @@ module.exports = {
     new Dotenv({
       path: path.join(__dirname, 'src/.env'),
     }),
-    // new webpack.EnvironmentPlugin(['BASE_URL']),
+    new webpack.EnvironmentPlugin(['BASE_URL']),
   ],
   devServer: {
     inline: true,
