@@ -207,7 +207,7 @@ export const SectionList = styled.ul`
   }
 `;
 
-export const SectionListItem = styled.li`
+export const SectionListItem = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -225,9 +225,23 @@ export const ChatWrap = styled.main`
 `;
 
 export const ChatHeader = styled.header`
+  position: relative;
   padding-top: 4px;
   padding-bottom: 4px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 16%);
+`;
+
+export const ChatHeaderWarning = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 2;
+  color: white;
+  background-color: #f03d25;
+  text-align: center;
+  z-index: 10;
 `;
 
 export const ChatInnerChatWrap = styled.div`
@@ -248,6 +262,7 @@ export const ChatInnerChatWrap = styled.div`
 `;
 
 export const ChatInnerChatMessageCommon = styled.div`
+  position: relative;
   display: inline-block;
   border-radius: 20px;
   padding: 8px 16px;
@@ -260,6 +275,9 @@ export const ChatInnerChatMessageCommon = styled.div`
 
 export const ChatStudent = styled.div`
   text-align: left;
+  &:hover img {
+    display: inline;
+  }
 `;
 
 export const StudentName = styled.div`
@@ -273,10 +291,29 @@ export const StudentMessage = styled(ChatInnerChatMessageCommon)`
 
 export const ChatTeacher = styled.div`
   text-align: right;
+  &:hover img {
+    display: inline;
+  }
 `;
 export const TeacherMessage = styled(ChatInnerChatMessageCommon)`
   background-color: #4898be;
   color: white;
+`;
+
+export const DeleteChat = styled.img`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  &.teacher {
+    right: calc(100% + 8px);
+  }
+  &.student {
+    left: calc(100% + 8px);
+  }
 `;
 
 export const ChatInputWrap = styled.div`

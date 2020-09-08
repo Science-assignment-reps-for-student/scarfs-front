@@ -47,7 +47,11 @@ export const AdminLoginFormInput = styled.input`
   }
 `;
 
-export const AdminLoginFormButton = styled.button`
+interface LoginButton {
+  loading: 'true' | 'false';
+}
+
+export const AdminLoginFormButton = styled.button<LoginButton>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +60,7 @@ export const AdminLoginFormButton = styled.button`
   padding: 4px;
   border: 0;
   color: white;
-  background-color: #1a1a1a;
+  background-color: ${({ loading }) => (loading === 'true' ? '#a0a0a0' : '#1a1a1a')};
   font-size: 20px;
   font-weight: bold;
   outline: none;

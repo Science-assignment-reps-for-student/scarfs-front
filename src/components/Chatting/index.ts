@@ -1,4 +1,4 @@
 import Chatting from './Chatting';
-import { ChattingOpenButton } from './Button';
+import { ChattingOpenButton, ChattingCloseButton } from './Button';
 export default Chatting;
-export { ChattingOpenButton };
+export { ChattingOpenButton, ChattingCloseButton };

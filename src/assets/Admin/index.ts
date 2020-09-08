@@ -12,3 +12,4 @@ export { default as warning } from './adminWarning.svg';
 export { default as notification } from './adminNotifications.svg';
 export { default as submitted } from './adminO.svg';
 export { default as unSubmitted } from './adminX.svg';
+export { default as deleteChat } from './adminDelete.svg';

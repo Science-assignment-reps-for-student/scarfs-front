@@ -5,7 +5,21 @@ export interface FileResponse {
   file_name: string;
 }
 
-export const getSubmittedFiles = ({ type, assignmentId }: { type: string; assignmentId: number }) =>
+interface FileApiRequest {
+  type: string;
+  assignmentId: number;
+}
+
+export const getSubmittedFiles = ({ type, assignmentId }: FileApiRequest) =>
   getApiDefault().get<FileResponse>(
     `/rib-eye/${type.toLocaleLowerCase()}-file/status/${assignmentId}`,
+  );
+
+export const submitFile = ({ type, assignmentId, data }: FileApiRequest & { data: FormData }) =>
+  getApiDefault('multipart/form-data').post(
+    `/rib-eye/${type.toLocaleLowerCase()}-file/${assignmentId}`,
+    data,
+    {
+      timeout: 60000,
+    },
   );

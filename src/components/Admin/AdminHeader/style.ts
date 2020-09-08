@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const AdminHeader = styled.header`
+  height: 60px;
   padding: 8px 100px;
   color: white;
   background-color: #23282d;
+  box-sizing: border-box;
 `;
 
 export const HeaderWrap = styled.div`
@@ -12,6 +14,7 @@ export const HeaderWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: auto;
+  height: 100%;
 `;
 
 export const HeaderLeftWrap = styled.div`

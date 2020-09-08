@@ -1,30 +1,40 @@
 import React, { FC, ReactElement, useMemo, MutableRefObject } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import * as S from './style';
+import TeacherChat from './TeacherChat';
+import StudentChat from './StudentChat';
 
 import { reducerType } from '../../../modules/reducer';
+import { deleteChatThunk } from '../../../modules/reducer/AdminQnA';
 
 interface Props {
   chatBody: MutableRefObject<HTMLDivElement>;
 }
 
 const ChatMessages: FC<Props> = ({ chatBody }): ReactElement => {
-  const { chats, user } = useSelector((state: reducerType) => state.AdminQnA);
+  const dispatch = useDispatch();
+  const { chats } = useSelector((state: reducerType) => state.AdminQnA);
+
+  const deleteChatById = async (chatId: number) => {
+    dispatch(deleteChatThunk(chatId, chats));
+  };
 
   const chatting = useMemo(() => {
     return chats.map(({ deleted, id, message, time, type }, i: number) => {
-      return !deleted && type === 'ADMIN' ? (
-        <S.ChatTeacher key={id} data-time={time}>
-          <S.TeacherMessage>{message}</S.TeacherMessage>
-        </S.ChatTeacher>
-      ) : (
-        <S.ChatStudent key={id} data-time={time}>
-          {chats[i - 1]?.type !== type && <S.StudentName>{user.split(' ')[1]}</S.StudentName>}
-          <S.StudentMessage className={`${chats[i - 1]?.type === type && 'connect'}`}>
-            {message}
-          </S.StudentMessage>
-        </S.ChatStudent>
+      return (
+        !deleted &&
+        (type === 'ADMIN' ? (
+          <TeacherChat
+            key={id}
+            deleteChatById={deleteChatById}
+            id={id}
+            message={message}
+            time={time}
+          />
+        ) : (
+          <StudentChat key={id} i={i} time={time} type={type} message={message} />
+        ))
       );
     });
   }, [chats]);
