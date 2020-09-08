@@ -30,13 +30,13 @@ const Main: FC<Props> = ({
       <S.SideBar>
         <p>SCIENCE</p>
       </S.SideBar>
-      <S.Wrapper margin={108}>
+      <S.Wrapper>
         <S.TaskListWrapper>
           <BoardTaskList boardPreview={boardTask} isLoading={isBoardLoading} />
           <AssignmentTaskList assignmentPreview={assignmentTask} isLoading={isAssignmentLoading} />
         </S.TaskListWrapper>
       </S.Wrapper>
-      <S.Wrapper margin={106}>
+      <S.Wrapper margin={20}>
         <Logo />
         <UserInfo userInfo={userInfo} isLoading={isUserInfoLoading} logout={logout} />
       </S.Wrapper>
