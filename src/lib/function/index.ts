@@ -8,6 +8,10 @@ import {
   setWriteBoardClassNumber,
 } from '../../modules/reducer/ClassBoardWrite';
 import { MainState, setAssignmentClassNumber } from '../../modules/reducer/Main';
+import {
+  BoardCommonStatus,
+  setIsDetailBoard as createSetIsDetailBoardAction,
+} from '../../modules/reducer/BoardCommon';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -122,4 +126,18 @@ export const isAbleFileExt = (name: string) => {
   return fileExtends
     .split('.')
     .some(ext => ext === splitName[splitName.length - 1].toLocaleLowerCase());
+};
+
+export const useBoardCommon = (): {
+  isDetailBoard: [boolean, (isDetailBoard: boolean) => void];
+} => {
+  const dispatch = useDispatch();
+  const { isDetailBoard } = useSelector(getStateCallback<BoardCommonStatus>('BoardCommon'));
+  const setIsDetailBoard = (isDetailBoard: boolean) => {
+    dispatch(createSetIsDetailBoardAction(isDetailBoard));
+  };
+
+  return {
+    isDetailBoard: [isDetailBoard, setIsDetailBoard],
+  };
 };
