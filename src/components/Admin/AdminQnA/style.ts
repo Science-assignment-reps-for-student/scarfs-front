@@ -207,7 +207,7 @@ export const SectionList = styled.ul`
   }
 `;
 
-export const SectionListItem = styled.li`
+export const SectionListItem = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -225,9 +225,23 @@ export const ChatWrap = styled.main`
 `;
 
 export const ChatHeader = styled.header`
+  position: relative;
   padding-top: 4px;
   padding-bottom: 4px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 16%);
+`;
+
+export const ChatHeaderWarning = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 2;
+  color: white;
+  background-color: #f03d25;
+  text-align: center;
+  z-index: 10;
 `;
 
 export const ChatInnerChatWrap = styled.div`

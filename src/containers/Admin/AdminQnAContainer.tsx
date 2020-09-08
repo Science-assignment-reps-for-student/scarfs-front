@@ -17,19 +17,17 @@ import {
 
 interface Props {}
 
-const studentId = 1;
 const ADMIN_TYPE = 2;
 
 const AdminQnAContainer: FC<Props> = (): ReactElement => {
-  const dispatch = useDispatch();
   const { user_id } = useParams<{ user_id: string }>();
+  const dispatch = useDispatch();
+  const { logs, chats } = useSelector((state: reducerType) => state.AdminQnA);
   const io = useRef<IO>();
   const chatBody = useRef<HTMLDivElement>(null);
-  const { logs, chats } = useSelector((state: reducerType) => state.AdminQnA);
-  const { accessToken } = useSelector((state: reducerType) => state.Header);
 
   const setSocketUrl = () => {
-    io.current.setUrl(`http://54.180.174.253:8001?token=${accessToken}`);
+    io.current.setUrl(`http://54.180.174.253:8001?token=${localStorage.getItem('accessToken')}`);
   };
 
   const sendMessage = (message: string, studentId: number) => {
@@ -40,11 +38,11 @@ const AdminQnAContainer: FC<Props> = (): ReactElement => {
     if (chattingBody) chattingBody.scrollTop = chattingBody.scrollHeight;
   };
 
-  const chattingSetting = () => {
+  const initChatting = () => {
     setSocketUrl();
     io.current.connect();
     dispatch(setConnect(true));
-    io.current.joinRoom(studentId, ADMIN_TYPE);
+    io.current.joinRoom(parseInt(user_id), ADMIN_TYPE);
     io.current.receive((data: any) => {
       dispatch(addChat(data));
       chattingBodyScrollDown(chatBody.current);
@@ -54,24 +52,28 @@ const AdminQnAContainer: FC<Props> = (): ReactElement => {
     });
   };
 
-  const chatList = async () => {
+  const setChatLogs = () => {
     dispatch(setChatLogThunk());
   };
 
-  const chatting = async () => {
+  const setChats = () => {
     dispatch(setChattingListThunk(parseInt(user_id)));
   };
 
   useEffect(() => {
     io.current = new IO();
-    chatList();
-    chattingSetting();
+    setChatLogs();
   }, []);
   useEffect(() => {
-    if (logs.some(log => log.user_id === parseInt(user_id))) {
-      const idx = logs.findIndex(log => log.user_id === parseInt(user_id));
+    if (user_id) {
+      initChatting();
+    }
+  }, [user_id]);
+  useEffect(() => {
+    const idx = logs.findIndex(log => log.user_id === parseInt(user_id));
+    if (idx !== -1) {
       dispatch(setUserInfo(`${logs[idx].user_number} ${logs[idx].user_name}`));
-      chatting();
+      setChats();
     }
   }, [logs, user_id]);
   useEffect(() => {

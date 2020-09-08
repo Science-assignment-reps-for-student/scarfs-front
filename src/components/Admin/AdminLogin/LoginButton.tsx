@@ -9,7 +9,7 @@ interface Props {
 
 const AdminButton: FC<Props> = ({ onClickLogin, loading }): ReactElement => {
   return (
-    <S.AdminLoginFormButton onClick={onClickLogin}>
+    <S.AdminLoginFormButton onClick={onClickLogin} loading={loading ? 'true' : 'false'}>
       로그인
       {loading && <S.LoginFormButtonLoading src={defaultLoading} alt='loading' title='loading' />}
     </S.AdminLoginFormButton>

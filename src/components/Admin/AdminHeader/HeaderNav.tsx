@@ -11,6 +11,7 @@ const HeaderNav: FC<Props> = (): ReactElement => {
     e.preventDefault();
     e.stopPropagation();
   };
+
   const onClickCheckAccessToken = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!localStorage.getItem('accessToken')) {
       stopEvt(e);

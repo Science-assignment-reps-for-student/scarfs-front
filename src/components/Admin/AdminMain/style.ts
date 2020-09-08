@@ -141,6 +141,7 @@ export const SubjectClsContentCommonItem = styled.li`
   justify-content: space-between;
   padding: 2px 0;
   font-size: 14px;
+  cursor: pointer;
   &:first-child {
     background-color: #f5f5f5;
     > span:last-child {
