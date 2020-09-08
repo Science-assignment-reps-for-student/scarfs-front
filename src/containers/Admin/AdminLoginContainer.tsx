@@ -13,6 +13,7 @@ import {
   Login,
   LoginType,
 } from '../../modules/reducer/AdminLogin/reducer';
+import { setAccessToken, setRefreshToken, setIsLogin } from '../../modules/reducer/Header';
 
 interface Props {}
 
@@ -59,6 +60,9 @@ const AdminLoginContainer: FC<Props> = (): ReactElement => {
         }
       }),
     );
+    dispatch(setAccessToken(localStorage.getItem('accessToken')));
+    dispatch(setRefreshToken(localStorage.getItem('accessToken')));
+    dispatch(setIsLogin(true));
   }, [loginState]);
 
   return (

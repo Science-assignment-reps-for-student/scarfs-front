@@ -33,15 +33,7 @@ const ChatMessages: FC<Props> = ({ chatBody }): ReactElement => {
             time={time}
           />
         ) : (
-          <StudentChat
-            key={id}
-            i={i}
-            id={id}
-            time={time}
-            type={type}
-            message={message}
-            deleteChatById={deleteChatById}
-          />
+          <StudentChat key={id} i={i} time={time} type={type} message={message} />
         ))
       );
     });
