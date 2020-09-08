@@ -30,8 +30,3 @@ jobs:
 
       - name: Build
         run: yarn run build
-        env:
-          BASE_URL: ${{ secrets.BASE_URL }}
-
-      - name: Start
-        run: yarn start
