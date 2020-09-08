@@ -23,10 +23,12 @@ const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableVie
   const [text, setText] = useState<string>('');
   const turnOnTableView = useCallback(() => {
     setIsTableView(true);
+    localStorage.setItem('isTableView', 'true');
   }, []);
 
   const turnOffTableView = useCallback(() => {
     setIsTableView(false);
+    localStorage.setItem('isTableView', 'false');
   }, []);
 
   const goTitle = useCallback(() => {
