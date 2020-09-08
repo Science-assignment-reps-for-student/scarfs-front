@@ -1,24 +1,26 @@
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import * as S from './style';
 
 import { send } from '../../../assets/Admin';
 import { reducerType } from '../../../modules/reducer';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   sendMessage: (message: string, studentId: number) => void;
 }
 
 const ChatInputs: FC<Props> = ({ sendMessage }): ReactElement => {
+  const { user_id } = useParams<{ user_id: string }>();
   const { isConnected } = useSelector((state: reducerType) => state.AdminQnA);
   const [message, setMessage] = useState<string>('');
 
-  const sending = () => {
+  const sending = useCallback(() => {
     if (!isConnected) return;
-    sendMessage(message, 1);
+    sendMessage(message, parseInt(user_id));
     setMessage('');
-  };
+  }, [user_id, isConnected, message]);
 
   return (
     <S.ChatInputWrap>
