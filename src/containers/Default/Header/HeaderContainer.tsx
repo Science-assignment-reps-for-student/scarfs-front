@@ -5,7 +5,6 @@ import { setModal } from '../../../modules/reducer/Modal';
 import { stateChange, getStateCallback, isNetworkError } from '../../../lib/function';
 import HeaderState, { sendRefreshToken } from '../../../../src/modules/reducer/Header';
 import { getUserInfoThunk, logout } from '../../../modules/thunk/Main';
-import { MainState } from '../../../../src/modules/reducer/Main';
 import { useHistory } from 'react-router-dom';
 
 const HeaderContainer: FC = () => {
@@ -38,6 +37,7 @@ const HeaderContainer: FC = () => {
     logoutChange();
   }, []);
   useEffect(() => {
+    if (!isLogin) return;
     getUserInfoChange();
   }, [isLogin]);
   useEffect(() => {
