@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -55,6 +56,7 @@ module.exports = {
     new Dotenv({
       path: path.join(__dirname, 'src/.env'),
     }),
+    new webpack.EnvironmentPlugin(['BASE_URL']),
   ],
   devServer: {
     inline: true,
