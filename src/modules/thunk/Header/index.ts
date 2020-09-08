@@ -164,8 +164,8 @@ export const emailSendThunk = () => {
   };
 };
 
-const test = async (dispatch: Function, params: any, observer: Observer) =>
-  new Promise(async () => {
+const refresh = async (dispatch: Function, params: any, observer: Observer) =>
+  new Promise(async (resolve, reject) => {
     try {
       observerble.setIsLoading(true);
       const response = await sendRefreshToken(params.serverType);
@@ -185,12 +185,13 @@ const test = async (dispatch: Function, params: any, observer: Observer) =>
     observerble.removeObserver(observer);
     observerble.setIsLoading(false);
     observerble.noticeToObserver();
+    resolve(true);
   });
 
 export const refreshTokenThunk = () => {
   return (params: RefreshTokenThunkType) => async dispatch => {
     dispatch(startLoading(REFRESH_TOKEN_CALL));
-    const observer = new Observer(() => test(dispatch, params, observer), params);
+    const observer = new Observer(() => refresh(dispatch, params, observer), params);
     observerble.setObserver(observer);
     observerble.noticeToObserver();
   };

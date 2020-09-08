@@ -1,5 +1,12 @@
 import styled from 'styled-components';
-import { alarmChatting, chatting, send, trash } from '../../../assets/Main';
+import {
+  alarmChatting,
+  chatting,
+  chattingClose,
+  chattingCloseAlarm,
+  send,
+  trash,
+} from '../../../assets/Main';
 import { deleteIcon } from '../../../assets/Modal';
 
 export const ChattingOpenButton = styled.div<{ alarm: boolean }>`
@@ -13,16 +20,36 @@ export const ChattingOpenButton = styled.div<{ alarm: boolean }>`
   background-image: url(${props => (props.alarm ? alarmChatting : chatting)});
 `;
 
+export const ChattingCloseButton = styled(ChattingOpenButton)<{ alarm: boolean }>`
+  background-image: url(${props => (props.alarm ? chattingCloseAlarm : chattingClose)});
+`;
+
 export const ChattingWrapper = styled.div`
-  height: 600px;
-  width: 320px;
-  position: fixed;
-  bottom: 50px;
-  right: 40px;
-  z-index: 5;
-  box-shadow: 0px 0px 5px 0px gray;
-  border-radius: 10px;
-  background-color: white;
+  > div {
+    height: 600px;
+    width: 320px;
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    z-index: 5;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 10px;
+    transition: all 0.3s;
+    background-color: white;
+  }
+  > div.move {
+    height: 600px;
+    width: 320px;
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    z-index: 5;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 10px;
+    transition: all 0.3s;
+    transform: translate(0px, -20px);
+    background-color: white;
+  }
 `;
 
 export const ChattingBody = styled.div`
@@ -104,14 +131,13 @@ export const ChattingSendButton = styled.div`
   cursor: pointer;
 `;
 
-export const MyChattingLog = styled.div`
+export const MyChattingLog = styled.div<{ isHover: boolean }>`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   > div {
     display: flex;
     align-items: center;
-
     > div.text {
       background-color: #578fff;
       color: white;
@@ -120,7 +146,7 @@ export const MyChattingLog = styled.div`
       width: auto;
       word-break: break-all;
       display: inline-block;
-      margin-right: 7px;
+      margin-right: 10px;
       margin-left: 0px;
       cursor: pointer;
     }
@@ -130,7 +156,7 @@ export const MyChattingLog = styled.div`
       background-image: url(${trash});
       background-repeat: no-repeat;
       margin-right: 5px;
-      display: none;
+      display: ${props => (props.isHover ? 'block' : 'none')};
     }
   }
 `;
@@ -143,22 +169,32 @@ export const YourChattingLog = styled(MyChattingLog)`
     > div.text {
       background-color: #f2f2f2;
       margin-right: 0px;
-      margin-left: 7px;
+      margin-left: 25px;
       color: black;
     }
   }
 `;
 
 export const DeleteAlertBackground = styled.div`
-  color: black;
-  position: fixed;
-  transform: translate(60px, 180px);
+  > div {
+    color: black;
+    position: fixed;
+    transition: all 0.5;
+    transform: translate(60px, 180px);
+  }
+  > div.move {
+    color: black;
+    position: fixed;
+    transition: all 1s;
+    transform: translate(60px, 170px);
+  }
 `;
 
 export const DeleteAlertBody = styled.div`
   width: 200px;
   height: 80px;
   background-color: #ffffff;
+  border: 1px solid #d3d3d3;
   box-shadow: 2px 2px 1px 1px #d3d3d3;
 `;
 

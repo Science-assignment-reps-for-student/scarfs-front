@@ -10,7 +10,7 @@ interface Props {
 const AssignmentTaskListComponent: FC<Props> = ({ date, isProgress, title, id }) => {
   const history = useHistory();
   return (
-    <S.TaskListComponent onClick={() => history.push(`/assignment/${id}`)}>
+    <S.TaskListComponent onClick={() => history.push(`/board/assignment-guide/${id}`)}>
       <S.TaskListComponentHeader>
         <p>{date}</p>
         <p className='point'>{!isProgress ? '진행' : '완료'}</p>
