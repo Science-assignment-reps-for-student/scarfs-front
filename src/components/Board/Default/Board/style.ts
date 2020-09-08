@@ -75,7 +75,7 @@ export const MovingBubble = styled.img.attrs({
   height: 320px;
   object-fit: contain;
   will-change: transform, opacity;
-  animation: ${left} 13s infinite;
+  animation: ${left} 26s infinite;
 `;
 
 const rotate = keyframes`
