@@ -29,7 +29,7 @@ const AdminRouter: FC = (): ReactElement => {
   useEffect(() => {
     const splitPath = history.location.pathname.split('/');
     const lastPath = splitPath[splitPath.length - 1];
-    if ((lastPath === 'register') !== !localStorage.getItem('accessToken') || isAdmin()) {
+    if ((lastPath === 'register') !== !localStorage.getItem('accessToken') || !isAdmin()) {
       history.push('/admin/login');
     }
   }, []);

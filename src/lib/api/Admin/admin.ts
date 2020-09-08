@@ -18,6 +18,15 @@ interface File {
   file_name: string;
 }
 
+interface FileInfoItem {
+  file_id: number;
+  file_name: string;
+}
+
+interface FileInfo {
+  file_information: FileInfoItem[];
+}
+
 export const getAssignmentPersonal = (classNum: number) => {
   return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
 };

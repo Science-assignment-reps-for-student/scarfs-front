@@ -13,11 +13,14 @@ interface Props {
 }
 
 const AdminChat: FC<Props> = ({ chatBody, sendMessage }): ReactElement => {
-  const { user } = useSelector((state: reducerType) => state.AdminQnA);
+  const { user, isConnected } = useSelector((state: reducerType) => state.AdminQnA);
 
   return (
     <S.ChatWrap>
       <S.ChatHeader>
+        {!isConnected && (
+          <S.ChatHeaderWarning>현재 채팅 기능을 이용하실 수 없습니다.</S.ChatHeaderWarning>
+        )}
         <h3>{user}</h3>
       </S.ChatHeader>
       <section>
