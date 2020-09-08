@@ -18,6 +18,7 @@ export const ChattingOpenButton = styled.div<{ alarm: boolean }>`
   z-index: 5;
   height: 55px;
   background-image: url(${props => (props.alarm ? alarmChatting : chatting)});
+  cursor: pointer;
 `;
 
 export const ChattingCloseButton = styled(ChattingOpenButton)<{ alarm: boolean }>`
@@ -26,8 +27,8 @@ export const ChattingCloseButton = styled(ChattingOpenButton)<{ alarm: boolean }
 
 export const ChattingWrapper = styled.div`
   > div {
-    height: 600px;
-    width: 320px;
+    height: 55vh;
+    width: 340px;
     position: fixed;
     bottom: 100px;
     right: 40px;
@@ -38,8 +39,8 @@ export const ChattingWrapper = styled.div`
     background-color: white;
   }
   > div.move {
-    height: 600px;
-    width: 320px;
+    height: 55vh;
+    width: 340px;
     position: fixed;
     bottom: 100px;
     right: 40px;
@@ -49,12 +50,14 @@ export const ChattingWrapper = styled.div`
     transition: all 0.3s;
     transform: translate(0px, -20px);
     background-color: white;
+    min-height: 440px;
   }
 `;
 
 export const ChattingBody = styled.div`
-  height: 500px;
-  width: 320px;
+  height: 44vh;
+  min-height: 340px;
+  width: 100%;
   border-radius: 10px;
   overflow: scroll;
   position: relative;
@@ -66,7 +69,7 @@ export const ChattingBody = styled.div`
 `;
 
 export const ChattingHeaderContent = styled.div<{ isSelected: boolean }>`
-  width: 160px;
+  width: 50%;
   height: 35px;
   background-color: ${props => (props.isSelected ? 'white' : '#F2F2F2')};
   border-radius: 10px 10px 0px 0px;
@@ -76,7 +79,7 @@ export const ChattingHeaderContent = styled.div<{ isSelected: boolean }>`
 `;
 
 export const ChattingHeader = styled.div`
-  width: 320px;
+  width: 100%;
   height: 51px;
   background-color: black;
   border-radius: 10px 10px 0px 0px;
@@ -118,7 +121,7 @@ export const ChattingInput = styled.div`
     border: none;
     background-color: #f2f2f2;
     border-radius: 13px;
-    padding-left: 5px;
+    padding-left: 10px;
     padding-right: 5px;
     box-sizing: border-box;
   }
@@ -135,29 +138,36 @@ export const MyChattingLog = styled.div<{ isHover: boolean }>`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  margin-top: 2px;
   > div {
+    width: auto;
     display: flex;
     align-items: center;
     > div.text {
       background-color: #578fff;
       color: white;
-      max-width: 160px;
+      max-width: 180px;
       padding: 7px;
       width: auto;
       word-break: break-all;
       display: inline-block;
-      margin-right: 10px;
+      margin-right: 15px;
       margin-left: 0px;
-      cursor: pointer;
+      border-radius: 10px;
     }
     > .img {
+      margin: auto auto;
       width: 11px;
       height: 13px;
       background-image: url(${trash});
       background-repeat: no-repeat;
       margin-right: 5px;
-      display: ${props => (props.isHover ? 'block' : 'none')};
+      display: none;
+      cursor: pointer;
     }
+  }
+  > div:hover > .img {
+    display: inline-block;
   }
 `;
 
@@ -169,7 +179,7 @@ export const YourChattingLog = styled(MyChattingLog)`
     > div.text {
       background-color: #f2f2f2;
       margin-right: 0px;
-      margin-left: 25px;
+      margin-left: 15px;
       color: black;
     }
   }
