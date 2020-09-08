@@ -1,12 +1,17 @@
 import styled, { keyframes } from 'styled-components';
 import { BubbleImage, BubbleImage2, BubbleImage3 } from '../../../../assets/Board/Default';
 
-export const BoardWrapper = styled.div`
-  margin-top: 23px;
+interface BoardWrapperProps {
+  isDetailBoard: boolean;
+}
+
+export const BoardWrapper = styled.div<BoardWrapperProps>`
+  margin-top: ${({ isDetailBoard }) => (isDetailBoard ? '-120' : '0')}px;
   background-color: #ffffff;
   width: 100%;
   min-width: 1340px;
   position: relative;
+  transition: margin-top 1s;
 `;
 
 export const Main = styled.main`
@@ -22,7 +27,7 @@ export const Main = styled.main`
 `;
 
 export const RotatedSubject = styled.span`
-  transform: rotate(90deg) translate(63px, 67px);
+  transform: rotate(90deg) translate(108px, 67px);
   position: absolute;
   top: 0;
   left: 0;
