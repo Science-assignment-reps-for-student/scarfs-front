@@ -1,8 +1,9 @@
 import React, { FC, ReactElement } from 'react';
+
+import * as S from './style';
 import HeaderLogo from './HeaderLogo';
 import HeaderNav from './HeaderNav';
 import HeaderAccountButton from './HeaderAccountButton';
-import * as S from './style';
 
 interface Props {}
 

@@ -32,7 +32,7 @@ const AdminTable: FC<Props> = ({ search }): ReactElement => {
           />
         );
       });
-  }, [logs]);
+  }, [logs, search]);
 
   return (
     <S.QnATableWrap>
