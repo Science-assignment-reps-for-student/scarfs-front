@@ -13,12 +13,22 @@ interface Props {
   getSubmittedFiles: (type: string, assignmentId: number) => void;
   submittedFiles: FileResponse[];
   getSubmittedFilesError: ErrorType;
+  submitFile: (type: string, assignmentId: number, data: FormData) => void;
+  submitFileSuccess: boolean;
+  submitFileError: ErrorType;
+  resetFileSubmit: () => void;
+  isSubmitLoading: boolean;
 }
 
 const FileSubmitModal: FC<Props> = ({
   getSubmittedFiles,
   submittedFiles,
   getSubmittedFilesError,
+  submitFile,
+  submitFileSuccess,
+  submitFileError,
+  resetFileSubmit,
+  isSubmitLoading,
 }) => {
   const location = useLocation();
   const assignmentId = parseInt(location.pathname.split('/')[3]);
@@ -98,8 +108,24 @@ const FileSubmitModal: FC<Props> = ({
     [files],
   );
 
+  const onClickSubmit = () => {
+    if (!files.length) {
+      alert('파일은 최소 1개 이상이어야 합니다.');
+    } else {
+      const data = new FormData();
+      files.forEach(file => {
+        data.append('file[]', file);
+      });
+      submitFile(type, assignmentId, data);
+    }
+  };
+
   useEffect(() => {
     getSubmittedFiles(type, assignmentId);
+
+    return () => {
+      resetFileSubmit();
+    };
   }, []);
 
   useEffect(() => {
@@ -107,6 +133,18 @@ const FileSubmitModal: FC<Props> = ({
       alert(`Error code: ${getSubmittedFilesError.status} 제출한 파일 불러오기 실패!`);
     }
   }, [getSubmittedFilesError]);
+
+  useEffect(() => {
+    if (submitFileSuccess) {
+      cancelButtonClickHandler();
+    }
+  }, [submitFileSuccess]);
+
+  useEffect(() => {
+    if (submitFileError.status) {
+      alert(`Error code: ${submitFileError.status} 파일 제출 실패!`);
+    }
+  }, [submitFileError]);
 
   return (
     <Modal>
@@ -138,14 +176,14 @@ const FileSubmitModal: FC<Props> = ({
         <S.FileListBox>
           {files.map(({ name }: File, index: number) => (
             <S.FileItem key={index}>
-              <S.FileName href='http://www.naver.com'>{name}</S.FileName>
+              <S.FileName>{name}</S.FileName>
               <S.DeleteButton onClick={() => onClickDelete(index)} />
             </S.FileItem>
           ))}
         </S.FileListBox>
         <S.ButtonsBox>
-          <S.SubmitButton onClick={() => history.push('/board/assignment-guide')}>
-            제출
+          <S.SubmitButton onClick={onClickSubmit}>
+            {isSubmitLoading ? '제출중...' : '제출'}
           </S.SubmitButton>
           <S.CancleButton onClick={cancelButtonClickHandler}>취소</S.CancleButton>
         </S.ButtonsBox>
