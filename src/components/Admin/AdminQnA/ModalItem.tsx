@@ -1,15 +1,17 @@
 import React, { FC, ReactElement } from 'react';
+
 import * as S from './style';
 
 interface Props {
-  student_number: number;
+  user_number: string;
   name: string;
+  id: number;
 }
 
-const AdminQnAModal: FC<Props> = ({ student_number, name }): ReactElement => {
+const AdminQnAModal: FC<Props> = ({ user_number, name, id }): ReactElement => {
   return (
-    <S.SectionListItem>
-      <span>{student_number}</span>
+    <S.SectionListItem to={`/admin/qna/${id}`}>
+      <span>{user_number}</span>
       <span>{name}</span>
     </S.SectionListItem>
   );
