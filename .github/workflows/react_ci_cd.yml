@@ -24,7 +24,9 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: BASE_URL=${BASE_URL} npm run build
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
 
       - name: Deploy to S3
         env:
