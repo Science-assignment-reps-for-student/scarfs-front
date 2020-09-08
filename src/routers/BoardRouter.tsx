@@ -11,10 +11,14 @@ import {
   ClassBoardWriteContainer,
 } from '../containers';
 import { Board } from '../components/Board/Default';
+import { useBoardCommon } from '../lib/function';
 
 const BoardRouter: FC = () => {
+  const {
+    isDetailBoard: [isDetailBoard],
+  } = useBoardCommon();
   return (
-    <Board>
+    <Board isDetailBoard={isDetailBoard}>
       <Switch>
         <Route exact path='/board/assignment-guide' component={AssignmentGuideBoardContainer} />
         <Route exact path='/board/assignment-guide/:id' component={AssignmentDetailPostContainer} />

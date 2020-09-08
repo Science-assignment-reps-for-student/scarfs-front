@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { NoticeDetailPost } from '../../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNoticeDetailPostThunk } from '../../../../modules/thunk/NoticeDetailPost';
-import { getStateCallback } from '../../../../lib/function';
+import { getStateCallback, useBoardCommon } from '../../../../lib/function';
 import {
   NoticeDetailPostState,
   resetDetailPost,
@@ -10,6 +10,9 @@ import {
 import { LoadingState } from '../../../../modules/reducer/Loading';
 
 const NoticeDetailPostContainer: FC = () => {
+  const {
+    isDetailBoard: [, setIdDetailBoard],
+  } = useBoardCommon();
   const dispatch = useDispatch();
   const { noticeDetailPost, getNoticeDetailPostError } = useSelector(
     getStateCallback<NoticeDetailPostState>('NoticeDetailPost'),
@@ -26,6 +29,14 @@ const NoticeDetailPostContainer: FC = () => {
   const resetDetailPostHandler = () => {
     dispatch(resetDetailPost());
   };
+
+  useEffect(() => {
+    setIdDetailBoard(true);
+
+    return () => {
+      setIdDetailBoard(false);
+    };
+  }, []);
 
   return (
     <NoticeDetailPost
