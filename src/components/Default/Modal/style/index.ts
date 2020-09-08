@@ -42,11 +42,11 @@ export const ModalHeader = styled.div`
   justify-content: flex-end;
   align-items: center;
   background-color: black;
-  padding: 0px 10px;
+  padding: 0px 5px;
   box-sizing: border-box;
   > div.deleteImg {
-    width: 7px;
-    height: 7px;
+    width: 11px;
+    height: 11px;
     cursor: pointer;
     background-image: url(${deleteIcon});
   }
