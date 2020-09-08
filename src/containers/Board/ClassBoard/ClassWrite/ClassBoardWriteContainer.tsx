@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { ClassBoardWrite } from '../../../../components';
 import { useSelector, useDispatch } from 'react-redux';
-import { getStateCallback } from '../../../../lib/function';
+import { getStateCallback, useBoardCommon } from '../../../../lib/function';
 import { ClassBoardWriteState, writeBoardReset } from '../../../../modules/reducer/ClassBoardWrite';
 import { writeBoardThunk, updateBoardThunk } from '../../../../modules/thunk/ClassBoardWrite';
 import { LoadingState } from '../../../../modules/reducer/Loading';
@@ -11,6 +11,9 @@ import { ClassDetailPostState } from '../../../../modules/reducer/ClassDetailPos
 import { getDetailPostThunk } from '../../../../modules/thunk/ClassDetailPost';
 
 const ClassBoardWriteContainer: FC = () => {
+  const {
+    isDetailBoard: [, setIdDetailBoard],
+  } = useBoardCommon();
   const dispatch = useDispatch();
   const { writeBoardSuccess, writeBoardError, updateBoardSuccess, updateBoardError } = useSelector(
     getStateCallback<ClassBoardWriteState>('ClassBoardWrite'),
@@ -44,6 +47,14 @@ const ClassBoardWriteContainer: FC = () => {
     alert('학생은 글쓰기 페이지에 접근할 수 없습니다.');
     return <Redirect to='/error' />;
   }
+
+  useEffect(() => {
+    setIdDetailBoard(true);
+
+    return () => {
+      setIdDetailBoard(false);
+    };
+  }, []);
 
   return (
     <ClassBoardWrite
