@@ -33,7 +33,10 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard })
   );
   const history = useHistory();
   const [page, setPage] = useState(1);
-  const [isTableView, setIsTableView] = useState(true);
+  const isTableViewInLocalStorage = localStorage.getItem('isTableView');
+  const [isTableView, setIsTableView] = useState(
+    isTableViewInLocalStorage === 'true' ? true : false,
+  );
 
   const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setClassNumber(parseInt(e.target.value));

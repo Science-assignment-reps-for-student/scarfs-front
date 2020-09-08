@@ -27,7 +27,10 @@ const AssignmentGuideBoard: FC<Props> = ({
 }) => {
   const { query } = queryString.parse(location.search);
   const { type } = useUser();
-  const [isTableView, setIsTableView] = useState(true);
+  const isTableViewInLocalStorage = localStorage.getItem('isTableView');
+  const [isTableView, setIsTableView] = useState(
+    isTableViewInLocalStorage === 'true' ? true : false,
+  );
   const [classNumber, setClassNumber] = useAssignmentClassNumber();
   const [page, setPage] = useState(1);
   const boards = useMemo(
@@ -123,7 +126,7 @@ const AssignmentGuideBoard: FC<Props> = ({
         </BoardHeader>
       )}
 
-      {isLoading ? (
+      {!boards || isLoading ? (
         <SBone width='1280px' height='362px' margin='32px 0 21px' />
       ) : isTableView ? (
         <TableView
