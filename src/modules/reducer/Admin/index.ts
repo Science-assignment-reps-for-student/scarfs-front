@@ -178,7 +178,7 @@ const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch) => {
     dispatch(fetchLoading());
     return;
   }
-  const code = err.response.status;
+  const code = err?.response?.status;
   if (!code) return;
   if (code === 401) {
     await tokenReIssuance();
