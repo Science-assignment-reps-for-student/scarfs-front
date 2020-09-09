@@ -23,10 +23,12 @@ const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableVie
   const [text, setText] = useState<string>('');
   const turnOnTableView = useCallback(() => {
     setIsTableView(true);
+    localStorage.setItem('isTableView', 'true');
   }, []);
 
   const turnOffTableView = useCallback(() => {
     setIsTableView(false);
+    localStorage.setItem('isTableView', 'false');
   }, []);
 
   const goTitle = useCallback(() => {
@@ -61,7 +63,8 @@ const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableVie
     <S.BoardHeaderWrapper>
       <S.Header>
         {children}
-        HOME {'>'} <S.Bold onClick={goTitle}>{title}</S.Bold>
+        <span onClick={() => history.push('/')}>HOME</span> {'>'}{' '}
+        <S.Bold onClick={goTitle}>{title}</S.Bold>
       </S.Header>
       <S.Main>
         <S.Title onClick={goTitle}>{title}</S.Title>

@@ -16,8 +16,11 @@ interface Props {
   submitFile: (type: string, assignmentId: number, data: FormData) => void;
   submitFileSuccess: boolean;
   submitFileError: ErrorType;
-  resetFileSubmit: () => void;
   isSubmitLoading: boolean;
+  deleteSubmittedFileSuccess: boolean;
+  deleteSubmittedFileError: ErrorType;
+  deleteSubmittedFile: (type: string, assignmentId: number) => void;
+  resetFileSubmit: () => void;
 }
 
 const FileSubmitModal: FC<Props> = ({
@@ -27,8 +30,11 @@ const FileSubmitModal: FC<Props> = ({
   submitFile,
   submitFileSuccess,
   submitFileError,
-  resetFileSubmit,
   isSubmitLoading,
+  deleteSubmittedFileSuccess,
+  deleteSubmittedFileError,
+  deleteSubmittedFile,
+  resetFileSubmit,
 }) => {
   const location = useLocation();
   const assignmentId = parseInt(location.pathname.split('/')[3]);
@@ -102,8 +108,9 @@ const FileSubmitModal: FC<Props> = ({
 
   const onClickDelete = useCallback(
     (deleteIndex: number) => {
-      const filteredFiles: File[] = files.filter((file: File, index) => index !== deleteIndex);
-      setFiles(filteredFiles);
+      if (confirm('첨부파일을 정말로 삭제하시겠습니까?')) {
+        deleteSubmittedFile(type, deleteIndex);
+      }
     },
     [files],
   );
@@ -145,6 +152,18 @@ const FileSubmitModal: FC<Props> = ({
       alert(`Error code: ${submitFileError.status} 파일 제출 실패!`);
     }
   }, [submitFileError]);
+  useEffect(() => {
+    if (deleteSubmittedFileSuccess) {
+      resetFileSubmit();
+      getSubmittedFiles(type, assignmentId);
+    }
+  }, [deleteSubmittedFileSuccess]);
+
+  useEffect(() => {
+    if (deleteSubmittedFileError.status) {
+      alert(`Error code: ${deleteSubmittedFileError.status} 제출한 파일 삭제 실패!`);
+    }
+  }, [deleteSubmittedFileError]);
 
   return (
     <Modal>

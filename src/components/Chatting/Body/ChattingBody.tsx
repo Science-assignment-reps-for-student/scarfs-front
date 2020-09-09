@@ -1,4 +1,4 @@
-import React, { FC, MutableRefObject, useCallback, useState } from 'react';
+import React, { FC, MutableRefObject, useCallback, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import * as S from '../style';
 import ChattingBodyContent from './ChattingBodyContent';
@@ -44,6 +44,9 @@ const ChattingBody: FC<Props> = ({ chattingList, chattingBodyRef, isDelete, isDe
   const cancelButtonClickHandler = useCallback(() => {
     isDeleteChange(false);
   }, []);
+  useEffect(() => {
+    if (chattingBodyRef) chattingBodyRef.current.scrollTop = chattingBodyRef.current.scrollHeight;
+  }, [chattingList]);
   return (
     <S.ChattingBody ref={chattingBodyRef}>
       {isDelete ? (

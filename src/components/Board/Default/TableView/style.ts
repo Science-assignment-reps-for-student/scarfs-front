@@ -5,6 +5,8 @@ export const TableViewWrapper = styled.table`
   font-size: 14px;
   text-align: center;
   table-layout: fixed;
+  border-left: 1px solid #f2f2f2;
+  border-right: 1px solid #f2f2f2;
 `;
 
 export const TableHeader = styled.thead`

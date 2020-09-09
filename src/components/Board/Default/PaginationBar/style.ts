@@ -42,5 +42,6 @@ export const PageButton = styled.button`
   &.active {
     background-color: #1d1d1d;
     color: #ffffff;
+    border: none;
   }
 `;

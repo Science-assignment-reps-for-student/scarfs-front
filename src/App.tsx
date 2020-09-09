@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from 'react';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import React, { FC } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import GlobalStyle from './GlobalStyle';
 import { UserRouter, AdminRouter } from './routers';
 import { NotFound } from './components';

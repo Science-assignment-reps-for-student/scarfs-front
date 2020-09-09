@@ -51,7 +51,7 @@ export const FileListBox = styled.div`
   max-height: 57px;
   overflow: auto;
   &::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
     height: 0;
   }
   &::-webkit-scrollbar-track {

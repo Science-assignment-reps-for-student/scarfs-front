@@ -33,7 +33,10 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard })
   );
   const history = useHistory();
   const [page, setPage] = useState(1);
-  const [isTableView, setIsTableView] = useState(true);
+  const isTableViewInLocalStorage = localStorage.getItem('isTableView');
+  const [isTableView, setIsTableView] = useState(
+    isTableViewInLocalStorage === 'true' ? true : false,
+  );
 
   const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setClassNumber(parseInt(e.target.value));
@@ -109,7 +112,7 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard })
         <SBone width='1280px' height='362px' margin='25px 0 21px' />
       ) : isTableView ? (
         <TableView
-          columnNames={['유형', '제목', '작성자', '등록일', '조회수']}
+          columnNames={['번호', '제목', '작성자', '등록일', '조회수']}
           boards={boards}
           BoardTemplate={ClassTableItem}
         />

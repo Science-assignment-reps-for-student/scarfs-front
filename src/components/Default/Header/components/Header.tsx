@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import * as S from '../style';
 import HeaderButton from './HeaderButton';
 import HeaderSearch from './HeaderSearch';
@@ -38,7 +38,9 @@ const Header: FC<Props> = ({ logoutHandler, modalChange, isLogin, userName }) =>
         </div>
         {isLogin ? (
           <S.HeaderUserButtonWrapper>
-            <p>{userName}님 안녕하세요.</p>
+            <p>
+              <strong>{userName}</strong>님 안녕하세요.
+            </p>
             <div className='bar' />
             <HeaderUserButton onClick={logoutHandler} value=''>
               로그아웃
