@@ -15,7 +15,7 @@ const TeamClassReport: FC<Props> = ({ subject }): ReactElement => {
     <S.SubjectClsContentReport>
       <S.SubjectClsContentCommonTitle>팀보고서</S.SubjectClsContentCommonTitle>
       <S.SubjectClsContentCommonList>
-        <ClassListHeadCommon isPersonal={true} />
+        <ClassListHeadCommon isReport={true} />
         {teams_info.length !== 0 &&
           teams_info.map(team => {
             return team.members.map(({ name, student_number }, i) => {
