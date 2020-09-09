@@ -3,7 +3,7 @@ import * as S from '../Default/PostMain/style';
 import { AssignmentDetailPostWithFiles } from '../Default/PostMain';
 import { getLocaleDateString } from '../../utils';
 import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
-import { downBlobByClick } from '../../../../lib/function/admin';
+import { downloadBlobByClick } from '../../../../lib/function/admin';
 import { ErrorType } from '../../../../lib/type';
 
 interface Props {
@@ -15,7 +15,7 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
     try {
       const { data } = await getAssignmentFile(file.file_id);
       const blob: Blob = new Blob([data], { type: 'application/json' });
-      downBlobByClick(blob, `${file.file_name}`);
+      downloadBlobByClick(blob, `${file.file_name}`);
     } catch (e) {
       if (e.response?.data) {
         const error: ErrorType = e.response.data;
