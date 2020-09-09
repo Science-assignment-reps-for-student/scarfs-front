@@ -80,6 +80,7 @@ const AssignmentDetailPost: FC<Props> = ({
               ? `${classNumber}반 과제안내`
               : '관리자는 옳바른 반의 과제가 정확하게 나오지 않을 수 있습니다.'
           } `}
+          to='/board/assignment-guide'
         />
       )}
       {isLoading ? (

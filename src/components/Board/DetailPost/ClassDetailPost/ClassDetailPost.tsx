@@ -75,7 +75,7 @@ const ClassDetailPost: FC<Props> = ({
       {isLoading ? (
         <SBone width='1280px' height='45px' />
       ) : (
-        <PostHeader title={`${classDetailPost.class_number}반 게시판`} />
+        <PostHeader title={`${classDetailPost.class_number}반 게시판`} to='/board/class' />
       )}
       {isLoading ? (
         <SBone width='1280px' height='550px' margin='31px 0 40px' />

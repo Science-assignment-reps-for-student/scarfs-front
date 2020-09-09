@@ -3,12 +3,7 @@ import { useSelector } from 'react-redux';
 import { GET_ASSIGNMENT, GET_BOARD_MAIN, MainState } from '../../modules/reducer/Main';
 import { LoginedMain, LogOutedMain } from '../../components/Main';
 import { getStateCallback, isNetworkError, stateChange } from '../../lib/function/index';
-import {
-  GET_USER_INFO,
-  HeaderState,
-  sendRefreshToken,
-  setIsLogin,
-} from '../../modules/reducer/Header';
+import { GET_USER_INFO, HeaderState, sendRefreshToken } from '../../modules/reducer/Header';
 import { LoadingState } from '../../../src/modules/reducer/Loading';
 import { getAssignmentThunk, getBoardThunk, logout } from '../../modules/thunk/Main';
 

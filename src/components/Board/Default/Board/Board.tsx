@@ -13,13 +13,17 @@ const Board: FC<Props> = ({ isDetailBoard, children }) => {
         <S.RotatedSubject>S C I E N C E</S.RotatedSubject>
         {children}
       </S.Main>
-      <S.WobbleBox>
-        <S.MovingBubble />
+      <S.WobbleBox draggable={false}>
+        <S.MovingBubble draggable={false} />
       </S.WobbleBox>
-      <S.RotateBox>
-        <S.MovingBubble2 />
-        <S.MovingBubble3 />
-        <S.MovingBubble4 />
+      <S.RotateBox cycleSecond={80} draggable={false}>
+        <S.MovingBubble2 cycleSecond={400} draggable={false} />
+      </S.RotateBox>
+      <S.RotateBox cycleSecond={150} draggable={false}>
+        <S.MovingBubble3 cycleSecond={1600} draggable={false} />
+      </S.RotateBox>
+      <S.RotateBox cycleSecond={200} draggable={false}>
+        <S.MovingBubble4 cycleSecond={4} draggable={false} />
       </S.RotateBox>
     </S.BoardWrapper>
   );

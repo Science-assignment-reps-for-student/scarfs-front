@@ -7,11 +7,10 @@ export const Body = styled.div`
   padding: 0px 100px 0px 100px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 100px;
+  overflow: hidden;
 `;
 
-export const Wrapper = styled.div<{ margin: number }>`
+export const Wrapper = styled.div<{ margin?: number }>`
   margin-top: ${props => props.margin}px;
   display: flex;
   flex-wrap: wrap;
@@ -21,7 +20,6 @@ export const Wrapper = styled.div<{ margin: number }>`
 
 export const TaskListWrapper = styled.div`
   height: 600px;
-  align-self: flex-end;
 `;
 
 export const TaskList = styled.div`
@@ -51,7 +49,7 @@ export const TaskListComponentHeader = styled.div`
   font-size: 0.8125rem;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   > p {
     width: 200px;
     overflow: hidden;
@@ -75,7 +73,7 @@ export const TaskListComponentAddButton = styled(TaskListComponent)`
 `;
 
 export const TaskListComponentBody = styled.div`
-  font-size: 1.4375rem;
+  font-size: 1.2375rem;
   width: 200px;
   > p {
     overflow: hidden;
@@ -110,6 +108,8 @@ export const TaskListHeader = styled.div`
 export const Logo = styled.div`
   width: 500px;
   height: 380px;
+  margin-right: 100px;
+  margin-top: 30px;
 `;
 
 export const LogoTitle = styled.p`
@@ -153,7 +153,7 @@ export const UserMain = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 132px;
+  margin-top: 70px;
   align-self: flex-end;
   > div {
     width: 365px;

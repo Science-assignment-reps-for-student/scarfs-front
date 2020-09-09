@@ -15,10 +15,12 @@ export const BoardHeaderWrapper = styled.div`
 export const Header = styled.header`
   font-size: 14px;
   text-align: right;
+  > span {
+    cursor: pointer;
+  }
 `;
 export const Bold = styled.span`
   font-weight: bold;
-  cursor: pointer;
 `;
 
 export const Main = styled.main`

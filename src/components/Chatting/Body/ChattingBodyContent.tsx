@@ -44,19 +44,11 @@ const ChattingBodyContent: FC<Props> = ({
     if (isMine) return <MyChattingLog {...props} />;
     return <YourChattingLog {...props} />;
   };
-  const MyChattingLog = ({
-    isHover,
-    isDelete,
-    deleteButtonClickHandler,
-    id,
-    logMouseLeaveHandler,
-    logMouseOverHandler,
-    children,
-  }: ChattingProps) => {
+  const MyChattingLog = ({ isHover, deleteButtonClickHandler, id, children }: ChattingProps) => {
     return (
       <S.MyChattingLog isHover={isHover}>
-        <div onMouseEnter={logMouseOverHandler} onMouseLeave={logMouseLeaveHandler}>
-          {isDelete ? <></> : <div className='img' onClick={() => deleteButtonClickHandler(id)} />}
+        <div>
+          <div className='img' onClick={() => deleteButtonClickHandler(id)} />
           {children}
         </div>
       </S.MyChattingLog>

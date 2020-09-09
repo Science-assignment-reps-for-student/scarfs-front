@@ -63,7 +63,8 @@ const BoardHeader: FC<Props> = ({ title, searchTitle, isTableView, setIsTableVie
     <S.BoardHeaderWrapper>
       <S.Header>
         {children}
-        HOME {'>'} <S.Bold onClick={goTitle}>{title}</S.Bold>
+        <span onClick={() => history.push('/')}>HOME</span> {'>'}{' '}
+        <S.Bold onClick={goTitle}>{title}</S.Bold>
       </S.Header>
       <S.Main>
         <S.Title onClick={goTitle}>{title}</S.Title>
