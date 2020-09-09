@@ -69,7 +69,7 @@ export const FileBox = styled.div`
   display: flex;
   flex-direction: column;
   &::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
     height: 2px;
   }
   &::-webkit-scrollbar-track {
