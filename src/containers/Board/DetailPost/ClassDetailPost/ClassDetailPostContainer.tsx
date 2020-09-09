@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { ClassDetailPost } from '../../../../components';
 // import { ClassDetailPost, AlertModal } from '../../../../components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,11 +6,14 @@ import {
   getDetailPostThunk,
   deleteClassDetailPostThunk,
 } from '../../../../modules/thunk/ClassDetailPost';
-import { getStateCallback } from '../../../../lib/function';
+import { getStateCallback, useBoardCommon } from '../../../../lib/function';
 import { ClassDetailPostState, resetDetailPost } from '../../../../modules/reducer/ClassDetailPost';
 import { LoadingState } from 'src/modules/reducer/Loading';
 
 const ClassDetailPostContainer: FC = () => {
+  const {
+    isDetailBoard: [, setIdDetailBoard],
+  } = useBoardCommon();
   const dispatch = useDispatch();
   const {
     classDetailPost,
@@ -34,6 +37,14 @@ const ClassDetailPostContainer: FC = () => {
   const resetDetailPostHandler = () => {
     dispatch(resetDetailPost());
   };
+
+  useEffect(() => {
+    setIdDetailBoard(true);
+
+    return () => {
+      setIdDetailBoard(false);
+    };
+  }, []);
 
   return (
     // <AlertModal type='notify'>

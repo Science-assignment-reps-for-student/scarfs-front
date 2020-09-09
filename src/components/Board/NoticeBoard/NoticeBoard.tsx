@@ -24,7 +24,10 @@ const NoticeBoard: FC<Props> = ({
   resetMain,
 }) => {
   const { query } = queryString.parse(location.search);
-  const [isTableView, setIsTableView] = useState(true);
+  const isTableViewInLocalStorage = localStorage.getItem('isTableView');
+  const [isTableView, setIsTableView] = useState(
+    isTableViewInLocalStorage === 'true' ? true : false,
+  );
   const [page, setPage] = useState(1);
   const boards = useMemo(
     () =>
@@ -80,7 +83,7 @@ const NoticeBoard: FC<Props> = ({
           setIsTableView={setIsTableView}
         />
       )}
-      {isLoading ? (
+      {!boards || isLoading ? (
         <SBone width='1280px' height='362px' margin='32px 0 21px' />
       ) : isTableView ? (
         <TableView

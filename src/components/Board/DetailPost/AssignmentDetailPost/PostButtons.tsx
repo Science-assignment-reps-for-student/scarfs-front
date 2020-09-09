@@ -40,7 +40,7 @@ const PostButtons: FC<Props> = ({ type }) => {
       )}
       <S.ButtonBox>
         <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
-          제출하러 가기
+          제출하기
         </S.Button>
         <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
           목록으로

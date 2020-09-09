@@ -6,7 +6,11 @@ import {
   FileSubmitStatus,
   resetFileSubmit as createResetFileSubmitAction,
 } from '../../../../../modules/reducer/FileSubmit';
-import { getSubmittedFilesThunk, submitFileThunk } from '../../../../../modules/thunk/FileSubmit';
+import {
+  getSubmittedFilesThunk,
+  submitFileThunk,
+  deleteSubmittedFileThunk,
+} from '../../../../../modules/thunk/FileSubmit';
 import { LoadingState } from 'src/modules/reducer/Loading';
 
 const FileSubmitModalContainer: FC = () => {
@@ -16,6 +20,8 @@ const FileSubmitModalContainer: FC = () => {
     getSubmittedFilesError,
     submitFileSuccess,
     submitFileError,
+    deleteSubmittedFileSuccess,
+    deleteSubmittedFileError,
   } = useSelector(getStateCallback<FileSubmitStatus>('FileSubmit'));
   const { 'FileSubmit/SUBMIT_FILE': isSubmitLoading } = useSelector(
     getStateCallback<LoadingState>('Loading'),
@@ -27,6 +33,9 @@ const FileSubmitModalContainer: FC = () => {
 
   const submitFile = (type: string, assignmentId: number, data: FormData) => {
     dispatch(submitFileThunk({ type, assignmentId, data }));
+  };
+  const deleteSubmittedFile = (type: string, assignmentId: number) => {
+    dispatch(deleteSubmittedFileThunk({ type, assignmentId }));
   };
 
   const resetFileSubmit = () => {
@@ -41,8 +50,11 @@ const FileSubmitModalContainer: FC = () => {
       submitFile={submitFile}
       submitFileSuccess={submitFileSuccess}
       submitFileError={submitFileError}
-      resetFileSubmit={resetFileSubmit}
       isSubmitLoading={isSubmitLoading}
+      deleteSubmittedFileSuccess={deleteSubmittedFileSuccess}
+      deleteSubmittedFileError={deleteSubmittedFileError}
+      deleteSubmittedFile={deleteSubmittedFile}
+      resetFileSubmit={resetFileSubmit}
     />
   );
 };
