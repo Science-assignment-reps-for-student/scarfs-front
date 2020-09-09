@@ -77,6 +77,9 @@ export const HeaderUserButtonWrapper = styled.div`
     height: 15px;
     border-right: 2px solid #979797;
   }
+  > p.userName {
+    font-weight: bold;
+  }
   > p {
     font-size: 15px;
     margin-right: 24px;
