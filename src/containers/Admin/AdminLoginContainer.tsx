@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
-import { AdminLogin, AlertModal } from '../../components';
+import { AdminLogin } from '../../components';
 import { AdminHeaderContainer } from '../../containers';
 import { createAlert } from '../../modules/reducer/Alert';
 import { modalLoginExplains, fetchLoginThunk } from '../../modules/reducer/AdminLogin/index';
@@ -66,10 +66,10 @@ const AdminLoginContainer: FC<Props> = (): ReactElement => {
   }, [loginState]);
 
   return (
-    <AlertModal type='warn'>
+    <>
       <AdminHeaderContainer />
       <AdminLogin onChangeLogin={onChangeLogin} onClickLogin={onClickLogin} />
-    </AlertModal>
+    </>
   );
 };
 

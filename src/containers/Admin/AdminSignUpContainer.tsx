@@ -10,7 +10,7 @@ import React, {
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { AlertModal, AdminSignUp } from '../../components';
+import { AdminSignUp } from '../../components';
 import {
   SignUp,
   signUpReducer,
@@ -71,13 +71,13 @@ const AdminSignUpContainer: FC<Props> = (): ReactElement => {
   const isPasswordMatched = ({ password, confirmPassword }: SignUp) => password === confirmPassword;
 
   return (
-    <AlertModal type='warn'>
+    <>
       <AdminSignUp
         onChangeInput={onChangeInput}
         onClickRegister={onClickRegister}
         loading={loading}
       />
-    </AlertModal>
+    </>
   );
 };
 
