@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import * as S from './style';
@@ -10,7 +10,7 @@ import {
   downloadCompressedAssignments,
   tokenReIssuance,
 } from '../../../lib/api/Admin/admin';
-import { downBlobByClick } from '../../../lib/function/admin';
+import { downloadBlobByClick } from '../../../lib/function/admin';
 
 interface Props {
   assignmentId: number;
@@ -19,43 +19,44 @@ interface Props {
 const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
   const history = useHistory();
 
-  const onClickDownloadFile = async () => {
+  const handleClickCompressedFile = async () => {
     try {
       const { data } = await downloadCompressedAssignments(assignmentId);
       const blob: Blob = new Blob([data], { type: 'application/json' });
-      downBlobByClick(blob, 'test.zip');
+      downloadBlobByClick(blob, 'test.zip');
     } catch (err) {
       const code = err?.response?.status;
       if (code === 401) {
         await tokenReIssuance();
         const { data } = await downloadCompressedAssignments(assignmentId);
         const blob: Blob = new Blob([data], { type: 'application/json' });
-        downBlobByClick(blob, 'test.zip');
+        downloadBlobByClick(blob, 'test.zip');
       } else if (code === 403) {
         history.push('/admin/login');
       }
     }
   };
 
-  const onClickDownloadExcel = async () => {
+  const handleClickExcel = async () => {
     try {
-      await updateAssignmentExcel(assignmentId);
-      const { data } = await downloadAssignmentExcel(assignmentId);
-      const blob: Blob = new Blob([data], { type: 'application/json' });
-      downBlobByClick(blob, 'test.xls');
+      getExcelsAndDownload(assignmentId);
     } catch (err) {
       const code = err?.response?.status;
       if (code === 401) {
         await tokenReIssuance();
-        await updateAssignmentExcel(assignmentId);
-        const { data } = await downloadAssignmentExcel(assignmentId);
-        const blob: Blob = new Blob([data], { type: 'application/json' });
-        downBlobByClick(blob, 'test.xls');
+        getExcelsAndDownload(assignmentId);
       } else if (code === 403) {
         history.push('/admin/login');
       }
     }
   };
+
+  const getExcelsAndDownload = useCallback(async (assignmentId: number) => {
+    await updateAssignmentExcel(assignmentId);
+    const { data } = await downloadAssignmentExcel(assignmentId);
+    const blob: Blob = new Blob([data], { type: 'application/json' });
+    downloadBlobByClick(blob, 'test.xls');
+  }, []);
 
   return (
     <S.SubjectButtonWrap>
@@ -63,11 +64,11 @@ const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
         <S.SubjectButtonImg src={edit} alt='edit' title='edit' />
         수정
       </S.SubjectButtonEdit>
-      <S.SubjectButton onClick={onClickDownloadFile}>
+      <S.SubjectButton onClick={handleClickCompressedFile}>
         <S.SubjectButtonImg src={download} alt='download' title='download' />
         다운로드
       </S.SubjectButton>
-      <S.SubjectButton onClick={onClickDownloadExcel}>
+      <S.SubjectButton onClick={handleClickExcel}>
         <S.SubjectButtonImg src={excel} alt='excel' title='excel' />
         엑셀
       </S.SubjectButton>
