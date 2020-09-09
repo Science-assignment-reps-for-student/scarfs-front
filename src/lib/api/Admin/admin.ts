@@ -9,15 +9,6 @@ interface RefreshToken {
   access_token: string;
 }
 
-interface Files {
-  file_information: File[];
-}
-
-interface File {
-  file_id: number;
-  file_name: string;
-}
-
 export const getAssignmentPersonal = (classNum: number) => {
   return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
 };
@@ -34,10 +25,6 @@ export const downloadCompressedAssignments = (assignmentId: number) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/assignment/${assignmentId}`, {
     responseType: 'blob',
   });
-};
-
-export const deleteAssignmentFile = (assignmentId: number) => {
-  return getApiDefault().delete<{}>(`/rib-eye/assignment-file/${assignmentId}`);
 };
 
 export const downloadAssignmentExcel = (assignmentId: number) => {

@@ -158,40 +158,41 @@ export const SubjectClsContentCommonItemText = styled.span`
   flex: 1;
   text-align: center;
   img.shake {
+    background-color: transparent;
     animation: shake 500ms alternate infinite;
     @keyframes shake {
       0% {
-        transform: translate(1px, 1px) rotate(0deg);
+        transform: translateX(1px);
       }
       10% {
-        transform: translate(-1px, -2px) rotate(-1deg);
+        transform: translateX(-1px);
       }
       20% {
-        transform: translate(-3px, 0px) rotate(1deg);
+        transform: translateX(-3px);
       }
       30% {
-        transform: translate(3px, 2px) rotate(0deg);
+        transform: translateX(3px);
       }
       40% {
-        transform: translate(1px, -1px) rotate(1deg);
+        transform: translateX(1px);
       }
       50% {
-        transform: translate(-1px, 2px) rotate(-1deg);
+        transform: translateX(-1px);
       }
       60% {
-        transform: translate(-3px, 1px) rotate(0deg);
+        transform: translateX(-3px);
       }
       70% {
-        transform: translate(3px, 1px) rotate(-1deg);
+        transform: translateX(3px);
       }
       80% {
-        transform: translate(-1px, -1px) rotate(1deg);
+        transform: translateX(-1px);
       }
       90% {
-        transform: translate(1px, 2px) rotate(0deg);
+        transform: translateX(1px);
       }
       100% {
-        transform: translate(1px, -2px) rotate(-1deg);
+        transform: translateX(1px);
       }
     }
   }
