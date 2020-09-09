@@ -11,7 +11,7 @@ export const BoardWrapper = styled.div<BoardWrapperProps>`
   width: 100%;
   min-width: 1340px;
   position: relative;
-  // transition: margin-top 1s;
+  transition: margin-top 1s;
 `;
 
 export const Main = styled.main`
