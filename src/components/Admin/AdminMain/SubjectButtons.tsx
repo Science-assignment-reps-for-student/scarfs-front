@@ -21,21 +21,23 @@ const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
 
   const handleClickCompressedFile = async () => {
     try {
-      const { data } = await downloadCompressedAssignments(assignmentId);
-      const blob: Blob = new Blob([data], { type: 'application/json' });
-      downloadBlobByClick(blob, 'test.zip');
+      getCompressedFilesAndDownload(assignmentId);
     } catch (err) {
       const code = err?.response?.status;
       if (code === 401) {
         await tokenReIssuance();
-        const { data } = await downloadCompressedAssignments(assignmentId);
-        const blob: Blob = new Blob([data], { type: 'application/json' });
-        downloadBlobByClick(blob, 'test.zip');
+        getCompressedFilesAndDownload(assignmentId);
       } else if (code === 403) {
         history.push('/admin/login');
       }
     }
   };
+
+  const getCompressedFilesAndDownload = useCallback(async (assignmentId: number) => {
+    const { data } = await downloadCompressedAssignments(assignmentId);
+    const blob: Blob = new Blob([data], { type: 'application/json' });
+    downloadBlobByClick(blob, 'test.zip');
+  }, []);
 
   const handleClickExcel = async () => {
     try {
