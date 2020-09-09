@@ -21,7 +21,7 @@ export const getDeadline = (createTime: number, deadlineTime: number) => {
   }.${dT.getDate()}`;
 };
 
-export const downBlobByClick = (blob: Blob, name: string) => {
+export const downloadBlobByClick = (blob: Blob, name: string) => {
   const link: HTMLAnchorElement = document.createElement('a');
   const url: string = (URL.createObjectURL(blob) as unknown) as string;
   link.href = url;
