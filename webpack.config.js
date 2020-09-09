@@ -10,7 +10,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.min.js',
+    filename: 'bundle_[hash].min.js',
     publicPath: '/',
   },
   module: {
