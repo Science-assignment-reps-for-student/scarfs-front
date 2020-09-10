@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import * as S from './style';
 import ModalItem from './ModalItem';
 
-import { apiChatModalUsers, ChatUsers } from '../../../lib/api/Admin/qna';
+import { apiChatModalUsers } from '../../../lib/api/Admin/qna';
+import { ChatUsers } from '../../../lib/api/Admin/responseTypes';
 import { reducerType } from '../../../modules/reducer';
 
 interface Props {}

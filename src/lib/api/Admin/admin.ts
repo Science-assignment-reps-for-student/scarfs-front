@@ -1,13 +1,11 @@
 import axios from 'axios';
 
+import { CompressedName, FileInfo, Me, RefreshToken } from './responseTypes';
+
 import { getApiDefault } from '../client';
 import { Team } from '../../../modules/reducer/Admin/adminTeam';
 import { Personal } from '../../../modules/reducer/Admin/adminPersonal';
 import { Experiment } from '../../../modules/reducer/Admin/adminExperiment';
-
-interface RefreshToken {
-  access_token: string;
-}
 
 export const getAssignmentPersonal = (classNum: number) => {
   return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
@@ -25,6 +23,10 @@ export const downloadCompressedAssignments = (assignmentId: number) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/assignment/${assignmentId}`, {
     responseType: 'blob',
   });
+};
+
+export const getCompressedName = (assignmentId: number) => {
+  return getApiDefault().get<CompressedName>(`/rib-eye/assignments/${assignmentId}`);
 };
 
 export const downloadAssignmentExcel = (assignmentId: number) => {
@@ -54,27 +56,9 @@ export const tokenReIssuance = async () => {
   }
 };
 
-interface Me {
-  completion_assignment: number;
-  id: number;
-  name: string;
-  remaining_assignment: number;
-  student_number: string;
-  type: string;
-}
-
 export const getUserInfo = () => {
   return getApiDefault().get<Me>(`/shank/user/me`);
 };
-
-interface FileInfoItem {
-  file_id: number;
-  file_name: string;
-}
-
-interface FileInfo {
-  file_information: FileInfoItem[];
-}
 
 export const apiFileIndex = (assignmentType: string, assignmentId: number, studentId: number) => {
   return getApiDefault().get<FileInfo>(
