@@ -15,11 +15,20 @@ const PostButtons: FC<Props> = ({ type }) => {
   const openFileSubmitModal = () => openModal('FileSubmit');
   const openPeerEvaluationModal = () => openModal('PeerEvaluation');
   const openAddTeamMemberModal = () => openModal('AddTeamMember');
+  const openCreateTeamModal = () => openModal('CreateTeamModal');
 
   return (
     <S.PostFooterWrapper>
       {(type === 'TEAM' || type === 'EXPERIMENT') && (
         <S.ButtonBox>
+          <S.Button
+            borderColor='#505BFF'
+            bgColor='#ffffff'
+            fontColor='#505BFF'
+            onClick={openCreateTeamModal}
+          >
+            팀 생성
+          </S.Button>
           <S.Button
             borderColor='#505BFF'
             bgColor='#ffffff'
