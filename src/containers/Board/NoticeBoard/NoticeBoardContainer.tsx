@@ -8,7 +8,7 @@ import { LoadingState } from '../../../modules/reducer/Loading';
 
 const NoticeBoardContainer: FC = () => {
   const dispatch = useDispatch();
-  const { boardPreview, error } = useSelector(getStateCallback<MainState>('Main'));
+  const { boardPreview, getBoardError } = useSelector(getStateCallback<MainState>('Main'));
 
   const { 'Main/GET_BOARD': isLoading } = useSelector(getStateCallback<LoadingState>('Loading'));
 
@@ -35,7 +35,7 @@ const NoticeBoardContainer: FC = () => {
       getBoards={getBoards}
       isLoading={isLoading}
       board={boardPreview}
-      getBoardsError={error}
+      getBoardsError={getBoardError}
       searchBoards={searchBoards}
       resetMain={resetMain}
     />
