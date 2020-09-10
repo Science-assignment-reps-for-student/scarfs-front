@@ -2,7 +2,11 @@ import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { SignUpCode, SignUpInfo, SignIn } from '../../../components/Default/Modal';
 import { PeerEvaluationModal, AddTeamMemberModal } from '../../../components/Board/DetailPost';
-import { CommentModalContainer, FileSubmitModalContainer } from '../../Board/DetailPost';
+import {
+  CommentModalContainer,
+  FileSubmitModalContainer,
+  CreateTeamModalContainer,
+} from '../../Board/DetailPost';
 import { ModalType, ModalState } from '../../../modules/reducer/Modal';
 import { getStateCallback } from '../../../lib/function';
 
@@ -18,6 +22,7 @@ const ModalContainer: FC = () => {
       {(modal as ModalType) === 'PeerEvaluation' && <PeerEvaluationModal />}
       {(modal as ModalType) === 'AddTeamMember' && <AddTeamMemberModal />}
       {(modal as ModalType) === 'CommentModal' && <CommentModalContainer />}
+      {(modal as ModalType) === 'CreateTeamModal' && <CreateTeamModalContainer />}
       {(modal as ModalType) === '' && ''}
     </>
   );
