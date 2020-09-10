@@ -256,6 +256,8 @@ export const SubjectButtonEdit = styled(Link)`
 `;
 
 export const SubjectButtonImg = styled.img`
+  width: 10px;
+  height: 10px;
   margin-right: 4px;
 `;
 

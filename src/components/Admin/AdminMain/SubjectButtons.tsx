@@ -1,32 +1,39 @@
-import React, { FC, ReactElement, useCallback } from 'react';
+import React, { FC, ReactElement, useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import * as S from './style';
 
-import { download, edit, excel } from '../../../assets/Admin';
+import { download, edit, excel, defaultLoading } from '../../../assets/Admin';
 import {
   downloadAssignmentExcel,
   updateAssignmentExcel,
   downloadCompressedAssignments,
   tokenReIssuance,
+  getCompressedName,
 } from '../../../lib/api/Admin/admin';
 import { downloadBlobByClick } from '../../../lib/function/admin';
 
 interface Props {
   assignmentId: number;
+  title: string;
 }
 
-const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
+const SubjectButtons: FC<Props> = ({ assignmentId, title }): ReactElement => {
   const history = useHistory();
+  const [excelLoading, setExcelLoading] = useState<boolean>(false);
+  const [fileLoading, setFileLoading] = useState<boolean>(false);
 
   const handleClickCompressedFile = async () => {
     try {
-      getCompressedFilesAndDownload(assignmentId);
+      toggleFileLoading();
+      await getCompressedFilesAndDownload(assignmentId);
+      toggleFileLoading();
     } catch (err) {
       const code = err?.response?.status;
       if (code === 401) {
         await tokenReIssuance();
-        getCompressedFilesAndDownload(assignmentId);
+        await getCompressedFilesAndDownload(assignmentId);
+        toggleFileLoading();
       } else if (code === 403) {
         history.push('/admin/login');
       }
@@ -36,17 +43,21 @@ const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
   const getCompressedFilesAndDownload = useCallback(async (assignmentId: number) => {
     const { data } = await downloadCompressedAssignments(assignmentId);
     const blob: Blob = new Blob([data], { type: 'application/json' });
-    downloadBlobByClick(blob, 'test.zip');
+    const name = await getCompressedName(assignmentId);
+    downloadBlobByClick(blob, name.data.compressed_file_name);
   }, []);
 
   const handleClickExcel = async () => {
     try {
-      getExcelsAndDownload(assignmentId);
+      toggleExcelLoading();
+      await getExcelsAndDownload(assignmentId);
+      toggleExcelLoading();
     } catch (err) {
       const code = err?.response?.status;
       if (code === 401) {
         await tokenReIssuance();
-        getExcelsAndDownload(assignmentId);
+        await getExcelsAndDownload(assignmentId);
+        toggleExcelLoading();
       } else if (code === 403) {
         history.push('/admin/login');
       }
@@ -57,8 +68,16 @@ const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
     await updateAssignmentExcel(assignmentId);
     const { data } = await downloadAssignmentExcel(assignmentId);
     const blob: Blob = new Blob([data], { type: 'application/json' });
-    downloadBlobByClick(blob, 'test.xls');
+    downloadBlobByClick(blob, `${title}.xls`);
   }, []);
+
+  const toggleExcelLoading = useCallback(() => {
+    setExcelLoading(prev => !prev);
+  }, [excelLoading]);
+
+  const toggleFileLoading = useCallback(() => {
+    setFileLoading(prev => !prev);
+  }, [fileLoading]);
 
   return (
     <S.SubjectButtonWrap>
@@ -67,11 +86,19 @@ const SubjectButtons: FC<Props> = ({ assignmentId }): ReactElement => {
         수정
       </S.SubjectButtonEdit>
       <S.SubjectButton onClick={handleClickCompressedFile}>
-        <S.SubjectButtonImg src={download} alt='download' title='download' />
+        {fileLoading ? (
+          <S.SubjectButtonImg src={defaultLoading} alt='loading' title='loading' />
+        ) : (
+          <S.SubjectButtonImg src={download} alt='download' title='download' />
+        )}
         다운로드
       </S.SubjectButton>
       <S.SubjectButton onClick={handleClickExcel}>
-        <S.SubjectButtonImg src={excel} alt='excel' title='excel' />
+        {excelLoading ? (
+          <S.SubjectButtonImg src={defaultLoading} alt='loading' title='loading' />
+        ) : (
+          <S.SubjectButtonImg src={excel} alt='excel' title='excel' />
+        )}
         엑셀
       </S.SubjectButton>
     </S.SubjectButtonWrap>
