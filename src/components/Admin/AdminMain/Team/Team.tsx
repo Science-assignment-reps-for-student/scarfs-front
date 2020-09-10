@@ -1,10 +1,12 @@
-import React, { FC, ReactElement, useMemo } from 'react';
-import * as S from '../style';
+import React, { FC, ReactElement } from 'react';
+
 import TeamClassInfo from './TeamInfo';
 import TeamClassSubmit from './TeamSubmit';
-import { TeamSubject } from '../../../../modules/reducer/Admin/adminTeam';
 import TeamClassReport from './TeamReport';
+
+import * as S from '../style';
 import WithClass from '../WithClass';
+import { TeamSubject } from '../../../../modules/reducer/Admin/adminTeam';
 import { getDeadline } from '../../../../lib/function/admin';
 
 interface Props {
@@ -13,7 +15,7 @@ interface Props {
 }
 
 const TeamClass: FC<Props> = ({ subject, classNum }): ReactElement => {
-  const { created_at, deadline, description, peer_evaluation_submit } = subject;
+  const { created_at, deadline, description } = subject;
 
   return (
     <S.SubjectCls>
@@ -28,7 +30,7 @@ const TeamClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContent>
           <TeamClassInfo subject={subject} />
           <TeamClassReport subject={subject} />
-          <TeamClassSubmit members={peer_evaluation_submit} />
+          <TeamClassSubmit subject={subject} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>

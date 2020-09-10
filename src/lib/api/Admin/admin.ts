@@ -9,24 +9,6 @@ interface RefreshToken {
   access_token: string;
 }
 
-interface Files {
-  file_information: File[];
-}
-
-interface File {
-  file_id: number;
-  file_name: string;
-}
-
-interface FileInfoItem {
-  file_id: number;
-  file_name: string;
-}
-
-interface FileInfo {
-  file_information: FileInfoItem[];
-}
-
 export const getAssignmentPersonal = (classNum: number) => {
   return getApiDefault().get<Personal>(`/chateaubriand/personal-assignment?class=${classNum}`);
 };
@@ -39,28 +21,10 @@ export const getAssignmentExperiment = (classNum: number) => {
   return getApiDefault().get<Experiment>(`/chateaubriand/experiment-assignment?class=${classNum}`);
 };
 
-export const downloadAssignmentFileIndex = (
-  assignmentId: number,
-  assignmentType: 'personal' | 'team' | 'experiment',
-) => {
-  return getApiDefault().get<Files>(`/rib-eye/${assignmentType}-files/${assignmentId}`);
-};
-
-export const downloadAssignmentFiles = (
-  assignmentId: number,
-  assignmentType: 'personal' | 'team' | 'experiment',
-) => {
-  return getApiDefault().get<{}>(`/rib-eye/${assignmentType}-file/${assignmentId}`);
-};
-
 export const downloadCompressedAssignments = (assignmentId: number) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/assignment/${assignmentId}`, {
     responseType: 'blob',
   });
-};
-
-export const deleteAssignmentFile = (assignmentId: number) => {
-  return getApiDefault().delete<{}>(`/rib-eye/assignment-file/${assignmentId}`);
 };
 
 export const downloadAssignmentExcel = (assignmentId: number) => {
@@ -101,4 +65,25 @@ interface Me {
 
 export const getUserInfo = () => {
   return getApiDefault().get<Me>(`/shank/user/me`);
+};
+
+interface FileInfoItem {
+  file_id: number;
+  file_name: string;
+}
+
+interface FileInfo {
+  file_information: FileInfoItem[];
+}
+
+export const apiFileIndex = (assignmentType: string, assignmentId: number, studentId: number) => {
+  return getApiDefault().get<FileInfo>(
+    `/rib-eye/${assignmentType}-files/${assignmentId}?student_id=${studentId}`,
+  );
+};
+
+export const apiFileDownloadById = (type: string, fileId: number) => {
+  return getApiDefault().get<Blob>(`/rib-eye/${type}-file/${fileId}`, {
+    responseType: 'blob',
+  });
 };

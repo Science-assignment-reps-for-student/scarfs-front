@@ -1,7 +1,7 @@
 import { getApiDefault } from '../client';
 
 export const apiCreateAssignment = (data: FormData) => {
-  return getApiDefault().post('/rib-eye/assignment', data, {
+  return getApiDefault().post<{}>('/rib-eye/assignment', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -10,7 +10,7 @@ export const apiCreateAssignment = (data: FormData) => {
 };
 
 export const apiUpdateAssignment = (assignmentId: string, data: FormData) => {
-  return getApiDefault().patch(`/rib-eye/assignment/${assignmentId}`, data, {
+  return getApiDefault().patch<{}>(`/rib-eye/assignment/${assignmentId}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -19,7 +19,7 @@ export const apiUpdateAssignment = (assignmentId: string, data: FormData) => {
 };
 
 export const apiUpdateAssignmentFiles = (data: FormData, assignmentId: string) => {
-  return getApiDefault().put(`/rib-eye/assignment/${assignmentId}`, data, {
+  return getApiDefault().put<{}>(`/rib-eye/assignment/${assignmentId}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
