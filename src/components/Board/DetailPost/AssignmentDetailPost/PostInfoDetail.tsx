@@ -5,12 +5,14 @@ import { getLocaleDateString } from '../../utils';
 import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
 import { downloadBlobByClick } from '../../../../lib/function/admin';
 import { ErrorType } from '../../../../lib/type';
+import { useTeam } from '../../../../lib/function';
 
 interface Props {
   board: AssignmentDetailPostWithFiles;
 }
 
 const PostInfoDetail: FC<Props> = ({ board }) => {
+  const [team] = useTeam();
   const downloadFileHandler = async (file: FileResponse) => {
     try {
       const { data } = await getAssignmentFile(file.file_id);
@@ -56,13 +58,15 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
           ))}
         </S.FileBox>
       </S.InfoDetail>
-      <S.InfoDetail>
-        <S.InfoTitle>팀원</S.InfoTitle>
-        <S.LeaderText>임용성</S.LeaderText>
-        <S.TeamText>강신희</S.TeamText>
-        <S.TeamText>손민기</S.TeamText>
-        <S.TeamText>이성진</S.TeamText>
-      </S.InfoDetail>
+      {team.leader_name && (
+        <S.InfoDetail>
+          <S.InfoTitle>팀원</S.InfoTitle>
+          <S.LeaderText>{team.leader_name}</S.LeaderText>
+          {team.member_list.map(member => (
+            <S.TeamText key={member.member_id}>{member.member_name}</S.TeamText>
+          ))}
+        </S.InfoDetail>
+      )}
     </>
   );
 };
