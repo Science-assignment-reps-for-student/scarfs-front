@@ -61,6 +61,7 @@ export const ChattingBody = styled.div`
   border-radius: 10px;
   overflow: scroll;
   position: relative;
+  overflow-x: hidden;
   > div.body {
     padding-top: 30px;
     box-sizing: border-box;

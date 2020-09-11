@@ -1,4 +1,4 @@
-import { ErrorType } from 'lib/type';
+import { errorInitialState, ErrorType } from '../../../lib/type';
 import {
   AssignmentResponseType,
   AssignmentType,
@@ -95,6 +95,8 @@ export type MainState = {
   error: ErrorType | null;
   loading: boolean;
   assignmentClassNumber: number;
+  getAssignmentError: ErrorType;
+  getBoardError: ErrorType;
 };
 
 const initialState: MainState = {
@@ -103,6 +105,8 @@ const initialState: MainState = {
   error: null,
   loading: false,
   assignmentClassNumber: 1,
+  getBoardError: errorInitialState,
+  getAssignmentError: errorInitialState,
 };
 
 export type MainActionType =
@@ -143,6 +147,8 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
           totalPages: total_pages,
           class_number,
         },
+        getAssignmentError: errorInitialState,
+        getBoardError: errorInitialState,
       };
     }
     case GET_BOARD_SUCCESS: {
@@ -154,18 +160,21 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
           totalElements: total_elements,
           totalPages: total_pages,
         },
+        getAssignmentError: errorInitialState,
+        getBoardError: errorInitialState,
       };
     }
     case GET_BOARD_FAILURE: {
       return {
         ...state,
-        error: action.payload,
+        getBoardError: action.payload,
       };
     }
     case GET_ASSIGNMENT_FAILURE: {
       return {
         ...state,
-        error: action.payload,
+        getAssignmentError: action.payload,
+        getBoardError: errorInitialState,
       };
     }
     case SET_ASSIGNMENT_CLASS_NUMBER:
