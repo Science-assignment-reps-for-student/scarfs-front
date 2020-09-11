@@ -8,7 +8,6 @@ import {
   deleteChatting,
 } from '../../../lib/api/Chatting/Chatting';
 import { tokenReIssuance } from '../../../lib/api/Admin/admin';
-import { setAccessToken, setRefreshToken } from '../Header';
 
 export interface Chat {
   deleted: boolean;
@@ -28,11 +27,11 @@ export interface Log {
   user_number: string;
 }
 
-export const SET_CONNECT = 'Admin/SET_CONNECT' as const;
-export const SET_CHAT = 'Admin/SET_CHAT' as const;
-export const SET_CHAT_LOG = 'Admin/SET_CHAT_LOG' as const;
-export const SET_USER_INFO = 'Admin/SET_USER_INFO' as const;
-export const ADD_CHAT = 'Admin/ADD_CHAT' as const;
+export const SET_CONNECT = 'Admin/QnA/SET_CONNECT' as const;
+export const SET_CHAT = 'Admin/QnA/SET_CHAT' as const;
+export const SET_CHAT_LOG = 'Admin/QnA/SET_CHAT_LOG' as const;
+export const SET_USER_INFO = 'Admin/QnA/SET_USER_INFO' as const;
+export const ADD_CHAT = 'Admin/QnA/ADD_CHAT' as const;
 
 export const setConnect = (connect: boolean) => ({
   type: SET_CONNECT,
