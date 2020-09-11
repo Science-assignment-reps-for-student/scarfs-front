@@ -9,9 +9,6 @@ import {
   addPropsOfExperiment,
   addPropsOfPersonal,
   addPropsOfTeam,
-  sortExperiment,
-  sortPersonal,
-  sortTeam,
   networkError,
 } from './adminUtil';
 
@@ -106,7 +103,7 @@ const assignmentPersonal = async () => {
   personals.push((await getAssignmentPersonal(3)).data);
   personals.push((await getAssignmentPersonal(4)).data);
   for await (const personal of personals) {
-    personalList.push(addPropsOfPersonal(sortPersonal(personal)));
+    personalList.push(addPropsOfPersonal(personal));
   }
   return personalList;
 };
@@ -119,7 +116,7 @@ const assignmentTeam = async () => {
   teams.push((await getAssignmentTeam(3)).data);
   teams.push((await getAssignmentTeam(4)).data);
   for await (const team of teams) {
-    teamList.push(addPropsOfTeam(sortTeam(team)));
+    teamList.push(addPropsOfTeam(team));
   }
   return teamList;
 };
@@ -132,7 +129,7 @@ const assignmentExperiment = async () => {
   experiments.push((await getAssignmentExperiment(3)).data);
   experiments.push((await getAssignmentExperiment(4)).data);
   for await (const experiment of experiments) {
-    experimentList.push(addPropsOfExperiment(sortExperiment(experiment)));
+    experimentList.push(addPropsOfExperiment(experiment));
   }
   return experimentList;
 };
