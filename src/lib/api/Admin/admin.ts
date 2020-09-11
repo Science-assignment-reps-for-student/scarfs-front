@@ -19,9 +19,18 @@ export const getAssignmentExperiment = (classNum: number) => {
   return getApiDefault().get<Experiment>(`/chateaubriand/experiment-assignment?class=${classNum}`);
 };
 
-export const downloadCompressedAssignments = (assignmentId: number) => {
+export const downloadCompressedAssignments = (
+  assignmentId: number,
+  setFunc?: (progress: number) => void,
+) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/assignment/${assignmentId}`, {
     responseType: 'blob',
+    timeout: 10000,
+    onDownloadProgress: (e: any) => {
+      if (setFunc) {
+        setFunc(Math.round((e.loaded / e.total) * 100));
+      }
+    },
   });
 };
 
@@ -29,9 +38,18 @@ export const getCompressedName = (assignmentId: number) => {
   return getApiDefault().get<CompressedName>(`/rib-eye/assignments/${assignmentId}`);
 };
 
-export const downloadAssignmentExcel = (assignmentId: number) => {
+export const downloadAssignmentExcel = (
+  assignmentId: number,
+  setFunc?: (progress: number) => void,
+) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/excel-file/${assignmentId}`, {
     responseType: 'blob',
+    timeout: 10000,
+    onDownloadProgress: (e: any) => {
+      if (setFunc) {
+        setFunc(Math.round((e.loaded / e.total) * 100));
+      }
+    },
   });
 };
 

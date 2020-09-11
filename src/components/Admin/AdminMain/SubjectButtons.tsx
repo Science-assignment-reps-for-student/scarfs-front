@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import * as S from './style';
+import ButtonProgress from './ButtonProgress';
 
 import { download, edit, excel, defaultLoading } from '../../../assets/Admin';
 import {
@@ -22,6 +23,7 @@ const SubjectButtons: FC<Props> = ({ assignmentId, title }): ReactElement => {
   const history = useHistory();
   const [excelLoading, setExcelLoading] = useState<boolean>(false);
   const [fileLoading, setFileLoading] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
 
   const handleClickCompressedFile = async () => {
     try {
@@ -41,7 +43,7 @@ const SubjectButtons: FC<Props> = ({ assignmentId, title }): ReactElement => {
   };
 
   const getCompressedFilesAndDownload = useCallback(async (assignmentId: number) => {
-    const { data } = await downloadCompressedAssignments(assignmentId);
+    const { data } = await downloadCompressedAssignments(assignmentId, setProgress);
     const blob: Blob = new Blob([data], { type: 'application/json' });
     const name = await getCompressedName(assignmentId);
     downloadBlobByClick(blob, name.data.compressed_file_name);
@@ -92,6 +94,7 @@ const SubjectButtons: FC<Props> = ({ assignmentId, title }): ReactElement => {
           <S.SubjectButtonImg src={download} alt='download' title='download' />
         )}
         다운로드
+        {fileLoading && <ButtonProgress progress={progress} />}
       </S.SubjectButton>
       <S.SubjectButton onClick={handleClickExcel}>
         {excelLoading ? (
@@ -100,6 +103,7 @@ const SubjectButtons: FC<Props> = ({ assignmentId, title }): ReactElement => {
           <S.SubjectButtonImg src={excel} alt='excel' title='excel' />
         )}
         엑셀
+        {excelLoading && <ButtonProgress progress={progress} />}
       </S.SubjectButton>
     </S.SubjectButtonWrap>
   );

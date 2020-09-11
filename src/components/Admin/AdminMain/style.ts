@@ -32,6 +32,16 @@ export const AdminSection = styled.section`
 `;
 
 export const SubjectWrap = styled.article`
+  animation: smooth 1s cubic-bezier(0.13, 1.07, 0.15, 1.06);
+  transition: 1s;
+  @keyframes smooth {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   &:not(:first-child) {
     margin-top: 56px;
   }
@@ -210,7 +220,7 @@ interface Progress {
   value: number | string;
 }
 
-export const AdminProgress = styled.progress`
+export const AdminProgress = styled.progress<Progress>`
   &[value] {
     width: 100%;
     height: 8px;
@@ -219,7 +229,7 @@ export const AdminProgress = styled.progress`
     appearance: none;
   }
   &[value]::-webkit-progress-value {
-    background-color: ${({ max, value }: Progress) => (max === value ? '#ff6f61' : '#0073aa')};
+    background-color: ${({ max, value }) => (max === value ? '#ff6f61' : '#0073aa')};
   }
   &[value]::-webkit-progress-bar {
     background-color: #e1e1e1;
@@ -245,7 +255,93 @@ const SubjectButtonStyle = `
 `;
 
 export const SubjectButton = styled.button`
+  position: relative;
   ${SubjectButtonStyle}
+`;
+
+interface ButtonProgress {
+  width: number;
+}
+
+export const ButtonProgressWrap = styled.div<ButtonProgress>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: ${({ width }) => width}%;
+  border-radius: 4px;
+  transition: 50ms;
+
+  .progress {
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    background-color: #fcbc51;
+    background-image: linear-gradient(
+      45deg,
+      rgb(252, 163, 17) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgb(252, 163, 17) 50%,
+      rgb(252, 163, 17) 75%,
+      transparent 75%,
+      transparent
+    );
+    animation: progressAnimationStrike 6s;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: 0.4s linear;
+    transition-property: width, background-color;
+    background-color: #ee303c;
+  }
+
+  @keyframes progressAnimationStrike {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+`;
+
+export const ButtonProgress = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+  background-color: #fcbc51;
+  background-image: linear-gradient(
+    45deg,
+    rgb(252, 163, 17) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgb(252, 163, 17) 50%,
+    rgb(252, 163, 17) 75%,
+    transparent 75%,
+    transparent
+  );
+  animation: progressAnimationStrike 6s;
+  @keyframes progressAnimationStrike {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+`;
+
+export const ButtonProgressBar = styled.div`
+  height: 100%;
+  border-radius: 4px;
+  transition: 0.4s linear;
+  transition-property: width, background-color;
+  background-color: #ee303c;
 `;
 
 export const SubjectButtonEdit = styled(Link)`
@@ -309,11 +405,11 @@ interface ISkeletonBone {
   margin?: string;
 }
 
-export const SBone = styled.div`
+export const SBone = styled.div<ISkeletonBone>`
   display: inline-block;
-  width: ${({ side, width = '0' }: ISkeletonBone) => (side ? side : width)};
-  height: ${({ side, height = '0' }: ISkeletonBone) => (side ? side : height)};
-  margin: ${({ margin = '0 0 0 0' }: ISkeletonBone) => margin};
+  width: ${({ side, width = '0' }) => (side ? side : width)};
+  height: ${({ side, height = '0' }) => (side ? side : height)};
+  margin: ${({ margin = '0 0 0 0' }) => margin};
   border-radius: 4px;
   background: linear-gradient(-90deg, #d9d9d9 0%, white 50%, #d9d9d9 100%);
   animation: bone 1.2s infinite linear;
@@ -322,7 +418,7 @@ export const SBone = styled.div`
       background-position: 0% 0%;
     }
     100% {
-      background-position: ${({ side, width = '0' }: ISkeletonBone) => (side ? side : width)} 0%;
+      background-position: ${({ side, width = '0' }) => (side ? side : width)} 0%;
     }
   }
   &.asideItem {
