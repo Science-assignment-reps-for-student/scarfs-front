@@ -154,7 +154,7 @@ const ChattingContainer: FC = () => {
   useEffect(() => {
     if (!isLogin) return;
     initPage();
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     if (!userInfo || !isLogin || userInfo.type === 'ADMIN') return;
