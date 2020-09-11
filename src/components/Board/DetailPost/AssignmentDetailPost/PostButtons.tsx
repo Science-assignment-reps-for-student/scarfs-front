@@ -2,14 +2,15 @@ import React, { FC } from 'react';
 import * as S from '../Default/PostFooter/style';
 import { useHistory } from 'react-router-dom';
 import { setModal } from '../../../../modules/reducer/Modal';
-import { stateChange } from '../../../../lib/function';
+import { stateChange, useTeam } from '../../../../lib/function';
 
 interface Props {
-  type?: string;
+  type?: 'PERSONAL' | 'TEAM' | 'EXPERIMENT';
 }
 
 const PostButtons: FC<Props> = ({ type }) => {
   const history = useHistory();
+  const [team, getTeamError, getTeam] = useTeam();
   const goNoticeList = () => history.push('/board/assignment-guide');
   const openModal = stateChange(setModal);
   const openFileSubmitModal = () => openModal('FileSubmit');
@@ -21,22 +22,29 @@ const PostButtons: FC<Props> = ({ type }) => {
     <S.PostFooterWrapper>
       {(type === 'TEAM' || type === 'EXPERIMENT') && (
         <S.ButtonBox>
-          <S.Button
-            borderColor='#505BFF'
-            bgColor='#ffffff'
-            fontColor='#505BFF'
-            onClick={openCreateTeamModal}
-          >
-            팀 생성
-          </S.Button>
-          <S.Button
-            borderColor='#505BFF'
-            bgColor='#ffffff'
-            fontColor='#505BFF'
-            onClick={openAddTeamMemberModal}
-          >
-            팀원추가
-          </S.Button>
+          {!team.team_id && getTeamError.message === 'Team Not Found' && (
+            <S.Button
+              borderColor='#505BFF'
+              bgColor='#ffffff'
+              fontColor='#505BFF'
+              onClick={openCreateTeamModal}
+            >
+              팀 생성
+            </S.Button>
+          )}
+          {team.leader && (
+            <>
+              <S.Button
+                borderColor='#505BFF'
+                bgColor='#ffffff'
+                fontColor='#505BFF'
+                onClick={openAddTeamMemberModal}
+              >
+                팀원추가
+              </S.Button>
+            </>
+          )}
+
           <S.Button
             borderColor='#505BFF'
             bgColor='#ffffff'
@@ -48,9 +56,13 @@ const PostButtons: FC<Props> = ({ type }) => {
         </S.ButtonBox>
       )}
       <S.ButtonBox>
-        <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
-          제출하기
-        </S.Button>
+        {(type === 'TEAM' && team.leader) ||
+          type === 'EXPERIMENT' ||
+          (type === 'PERSONAL' && (
+            <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
+              제출하기
+            </S.Button>
+          ))}
         <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
           목록으로
         </S.Button>
