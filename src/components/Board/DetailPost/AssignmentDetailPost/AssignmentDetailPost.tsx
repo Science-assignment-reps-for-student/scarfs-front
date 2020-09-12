@@ -35,6 +35,7 @@ const AssignmentDetailPost: FC<Props> = ({
   const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber, type } = useUser();
+
   const board = useMemo(
     () => ({
       ...detailPost,
