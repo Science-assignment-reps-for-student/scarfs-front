@@ -32,8 +32,8 @@ export const isTextEmpty = (text: string): boolean => {
 export const getStateCallback = <ReturnType>(stateName: string) => (
   state: reducerType,
 ): ReturnType => {
-  const selectedStaet: ReturnType = state[stateName];
-  return selectedStaet;
+  const selectedState: ReturnType = state[stateName];
+  return selectedState;
 };
 
 export const stateChange = <ValueType>(actionFunc: (value: ValueType) => any) => {
