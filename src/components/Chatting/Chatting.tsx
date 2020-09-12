@@ -1,4 +1,4 @@
-import React, { FC, MutableRefObject } from 'react';
+import React, { FC, MutableRefObject, useEffect, useState } from 'react';
 import { ChattingHeader } from './Header';
 import { ChattingBody } from './Body';
 import { ChattingInput } from './Input';
@@ -13,7 +13,6 @@ interface Props {
   isDelete: boolean;
   inputChange: (payload: string) => void;
   headerChange: (payload: string) => void;
-  isAbleChange: (payload: boolean) => void;
   sendMessage: (payload: string) => void;
   chattingBodyRef: MutableRefObject<HTMLDivElement>;
   isDeleteChange: (payload: boolean) => void;
@@ -25,32 +24,33 @@ const Chatting: FC<Props> = ({
   input,
   inputChange,
   headerChange,
-  isAbleChange,
   sendMessage,
   chattingBodyRef,
   isConnected,
   isDelete,
   isDeleteChange,
 }) => {
+  const [animation, animationChange] = useState(false);
+  useEffect(() => {
+    animationChange(true);
+  }, []);
   return (
     <S.ChattingWrapper>
-      <ChattingHeader
-        selectedPerson={partner}
-        headerChange={headerChange}
-        isAbleChange={isAbleChange}
-      />
-      <ChattingBody
-        chattingList={chattingList}
-        chattingBodyRef={chattingBodyRef}
-        isDeleteChange={isDeleteChange}
-        isDelete={isDelete}
-      />
-      <ChattingInput
-        value={input}
-        inputChange={inputChange}
-        sendMessage={sendMessage}
-        isConnected={isConnected}
-      />
+      <div className={animation ? 'move' : ''}>
+        <ChattingHeader selectedPerson={partner} headerChange={headerChange} />
+        <ChattingBody
+          chattingList={chattingList}
+          chattingBodyRef={chattingBodyRef}
+          isDeleteChange={isDeleteChange}
+          isDelete={isDelete}
+        />
+        <ChattingInput
+          value={input}
+          inputChange={inputChange}
+          sendMessage={sendMessage}
+          isConnected={isConnected}
+        />
+      </div>
     </S.ChattingWrapper>
   );
 };

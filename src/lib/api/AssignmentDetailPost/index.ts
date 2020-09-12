@@ -27,3 +27,20 @@ export const getAssignmentFiles = (id: number) =>
 
 export const getAssignmentFile = (fileId: number) =>
   getApiDefault().get<BlobPart>(`/rib-eye/assignment-file/${fileId}`, { responseType: 'blob' });
+
+export interface Team {
+  team_id: number;
+  team_name: string;
+  leader: boolean;
+  leader_id: number;
+  leader_name: string;
+  member_list: Member[];
+}
+
+export interface Member {
+  member_id: number;
+  member_name: string;
+}
+
+export const getTeam = (assignmentId: number) =>
+  getApiDefault().get<Team>(`/shank/team/${assignmentId}`);

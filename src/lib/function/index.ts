@@ -8,6 +8,14 @@ import {
   setWriteBoardClassNumber,
 } from '../../modules/reducer/ClassBoardWrite';
 import { MainState, setAssignmentClassNumber } from '../../modules/reducer/Main';
+import {
+  BoardCommonStatus,
+  setIsDetailBoard as createSetIsDetailBoardAction,
+} from '../../modules/reducer/BoardCommon';
+import { getTeamThunk } from '../../modules/thunk/AssignmentDetailPost';
+import { AssignmentDetailPostState } from '../../modules/reducer/AssignmentDetailPost';
+import { Team } from '../../lib/api/AssignmentDetailPost';
+import { ErrorType as ResponseErrorType } from '../../lib/type';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -114,4 +122,39 @@ export const useAssignmentClassNumber = (): [number, (classNumber: number) => vo
   };
 
   return [assignmentClassNumber, setClassNumber];
+};
+
+export const isAbleFileExt = (name: string) => {
+  const fileExtends: string = '.hwp.jpg.png.jpeg.pptx.word.pdf.zip';
+  const splitName = name.split('.');
+  return fileExtends
+    .split('.')
+    .some(ext => ext === splitName[splitName.length - 1].toLocaleLowerCase());
+};
+
+export const useBoardCommon = (): {
+  isDetailBoard: [boolean, (isDetailBoard: boolean) => void];
+} => {
+  const dispatch = useDispatch();
+  const { isDetailBoard } = useSelector(getStateCallback<BoardCommonStatus>('BoardCommon'));
+  const setIsDetailBoard = (isDetailBoard: boolean) => {
+    dispatch(createSetIsDetailBoardAction(isDetailBoard));
+  };
+
+  return {
+    isDetailBoard: [isDetailBoard, setIsDetailBoard],
+  };
+};
+
+export const useTeam = (): [Team, ResponseErrorType, (assignmentId: number) => void] => {
+  const dispatch = useDispatch();
+  const { team, getTeamError } = useSelector(
+    getStateCallback<AssignmentDetailPostState>('AssignmentDetailPost'),
+  );
+
+  const getTeam = (assignmentId: number) => {
+    dispatch(getTeamThunk(assignmentId));
+  };
+
+  return [team, getTeamError, getTeam];
 };

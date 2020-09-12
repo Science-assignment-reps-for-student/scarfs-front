@@ -6,12 +6,17 @@ export const FileSubmitModalBox = styled.div`
   padding: 5px;
 `;
 
-export const FileDragBox = styled.div`
+interface FileDragBoxProps {
+  backgroundColor: string;
+}
+
+export const FileDragBox = styled.div<FileDragBoxProps>`
   text-align: center;
   border: 1px solid #d3d3d3;
   box-sizing: border-box;
   width: 100%;
   height: 195px;
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 export const FilePlusButton = styled.img.attrs({
@@ -46,7 +51,7 @@ export const FileListBox = styled.div`
   max-height: 57px;
   overflow: auto;
   &::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
     height: 0;
   }
   &::-webkit-scrollbar-track {

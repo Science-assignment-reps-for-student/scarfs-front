@@ -2,7 +2,7 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
-import { AssignmentDetailPost, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
+import { AssignmentDetailPost, FileResponse, Team } from '../../../../lib/api/AssignmentDetailPost';
 import { ErrorType } from '../../../../lib/type';
 import { useUser } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
@@ -15,6 +15,8 @@ interface Props {
   files: FileResponse[];
   getAssignmentFilesError: ErrorType;
   getFiles: (id: number) => void;
+  getTeam: (assignmentId: number) => void;
+  getTeamError: ErrorType;
   resetDetailPost: () => void;
 }
 
@@ -26,6 +28,8 @@ const AssignmentDetailPost: FC<Props> = ({
   files,
   getFiles,
   getAssignmentFilesError,
+  getTeam,
+  getTeamError,
   resetDetailPost,
 }) => {
   const history = useHistory();
@@ -51,6 +55,8 @@ const AssignmentDetailPost: FC<Props> = ({
   }, [getDetailPostError]);
 
   useEffect(() => {
+    getTeam(paramId);
+
     return () => {
       resetDetailPost();
     };
@@ -68,6 +74,12 @@ const AssignmentDetailPost: FC<Props> = ({
     }
   }, [getAssignmentFilesError]);
 
+  useEffect(() => {
+    if (getTeamError.status && getTeamError.message !== 'Team Not Found') {
+      alert(`Error code: ${getTeamError.status} 팀 불러오기 실패!`);
+    }
+  }, [getTeamError]);
+
   if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
   return (
     <>
@@ -80,6 +92,7 @@ const AssignmentDetailPost: FC<Props> = ({
               ? `${classNumber}반 과제안내`
               : '관리자는 옳바른 반의 과제가 정확하게 나오지 않을 수 있습니다.'
           } `}
+          to='/board/assignment-guide'
         />
       )}
       {isLoading ? (

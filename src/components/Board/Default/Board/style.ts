@@ -1,12 +1,17 @@
 import styled, { keyframes } from 'styled-components';
 import { BubbleImage, BubbleImage2, BubbleImage3 } from '../../../../assets/Board/Default';
 
-export const BoardWrapper = styled.div`
-  margin-top: 23px;
+interface BoardWrapperProps {
+  isDetailBoard: boolean;
+}
+
+export const BoardWrapper = styled.div<BoardWrapperProps>`
+  margin-top: ${({ isDetailBoard }) => (isDetailBoard ? '-120' : '0')}px;
   background-color: #ffffff;
   width: 100%;
   min-width: 1340px;
   position: relative;
+  transition: margin-top 1s;
 `;
 
 export const Main = styled.main`
@@ -22,7 +27,7 @@ export const Main = styled.main`
 `;
 
 export const RotatedSubject = styled.span`
-  transform: rotate(90deg) translate(63px, 67px);
+  transform: rotate(90deg) translate(108px, 67px);
   position: absolute;
   top: 0;
   left: 0;
@@ -42,6 +47,7 @@ const wobble = keyframes`
 `;
 
 export const WobbleBox = styled.div`
+  user-select: none;
   z-index: 0;
   position: fixed;
   bottom: 400px;
@@ -56,21 +62,22 @@ const left = keyframes`
     opacity: 1; 
   } 100% { 
     opacity: 0;
-    transform: translateX(-100vw); 
+    transform: translateX(calc(-100vw - 320px)); 
   }
 `;
 
 export const MovingBubble = styled.img.attrs({
   src: BubbleImage,
 })`
+  user-select: none;
   position: absolute;
   top: 0;
-  right: 0;
+  right: -320px;
   width: 320px;
   height: 320px;
   object-fit: contain;
   will-change: transform, opacity;
-  animation: ${left} 13s infinite;
+  animation: ${left} 26s infinite;
 `;
 
 const rotate = keyframes`
@@ -86,19 +93,25 @@ const rotate = keyframes`
   }
 `;
 
-export const RotateBox = styled.div`
+interface RotateBoxProps {
+  cycleSecond: number;
+}
+
+export const RotateBox = styled.div<RotateBoxProps>`
+  user-select: none;
   position: fixed;
-  width: 300px;
-  height: 300px;
+  width: 800px;
+  height: 800px;
   left: 3%;
-  bottom: 10%;
+  bottom: 0;
   will-change: transform;
-  animation: ${rotate} 8s infinite linear;
+  animation: ${rotate} ${({ cycleSecond }) => cycleSecond}s infinite linear;
 `;
 
 export const MovingBubble2 = styled.img.attrs({
   src: BubbleImage2,
-})`
+})<RotateBoxProps>`
+  user-select: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -106,31 +119,33 @@ export const MovingBubble2 = styled.img.attrs({
   height: 85px;
   object-fit: contain;
   will-change: transform, opacity;
-  animation: ${rotate} 6s infinite linear;
+  animation: ${rotate} ${({ cycleSecond }) => cycleSecond}s infinite linear;
 `;
 
 export const MovingBubble3 = styled.img.attrs({
   src: BubbleImage3,
-})`
+})<RotateBoxProps>`
+  user-select: none;
   position: absolute;
-  top: 93px;
-  left: 49px;
+  bottom: 0;
+  left: 320px;
   width: 40px;
   height: 40px;
   object-fit: contain;
   will-change: transform, opacity;
-  animation: ${rotate} 3s infinite linear;
+  animation: ${rotate} ${({ cycleSecond }) => cycleSecond}s infinite linear;
 `;
 
 export const MovingBubble4 = styled.img.attrs({
   src: BubbleImage,
-})`
+})<RotateBoxProps>`
+  user-select: none;
   position: absolute;
   top: 71px;
-  left: 83px;
+  right: 0;
   width: 16px;
   height: 16px;
   object-fit: contain;
   will-change: transform, opacity;
-  animation: ${rotate} 1s infinite linear;
+  animation: ${rotate} ${({ cycleSecond }) => cycleSecond}s infinite linear;
 `;

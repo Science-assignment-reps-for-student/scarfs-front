@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { SignUpCode, SignUpInfo, SignIn } from '../../../components/Default/Modal';
+import { PeerEvaluationModal, AddTeamMemberModal } from '../../../components/Board/DetailPost';
 import {
-  FileSubmitModal,
-  PeerEvaluationModal,
-  AddTeamMemberModal,
-} from '../../../components/Board/DetailPost';
-import { CommentModalContainer } from '../../Board/DetailPost';
+  CommentModalContainer,
+  FileSubmitModalContainer,
+  CreateTeamModalContainer,
+} from '../../Board/DetailPost';
 import { ModalType, ModalState } from '../../../modules/reducer/Modal';
 import { getStateCallback } from '../../../lib/function';
 
@@ -18,10 +18,11 @@ const ModalContainer: FC = () => {
       {(modal as ModalType) === 'SignUpEmail' && <SignUpCode />}
       {(modal as ModalType) === 'SignUpInfo' && <SignUpInfo />}
       {(modal as ModalType) === 'SignIn' && <SignIn />}
-      {(modal as ModalType) === 'FileSubmit' && <FileSubmitModal />}
+      {(modal as ModalType) === 'FileSubmit' && <FileSubmitModalContainer />}
       {(modal as ModalType) === 'PeerEvaluation' && <PeerEvaluationModal />}
       {(modal as ModalType) === 'AddTeamMember' && <AddTeamMemberModal />}
       {(modal as ModalType) === 'CommentModal' && <CommentModalContainer />}
+      {(modal as ModalType) === 'CreateTeamModal' && <CreateTeamModalContainer />}
       {(modal as ModalType) === '' && ''}
     </>
   );

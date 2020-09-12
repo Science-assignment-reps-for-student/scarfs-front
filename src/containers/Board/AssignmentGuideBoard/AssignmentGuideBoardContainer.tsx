@@ -3,12 +3,14 @@ import { AssignmentGuideBoard } from '../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStateCallback } from '../../../lib/function';
 import { MainState, resetMain as createResetMainAction } from '../../../modules/reducer/Main';
-import { getAssignmentThunk } from '../../../modules/thunk/Main';
+import { getAssignmentThunk, searchAssignmentBoardsThunk } from '../../../modules/thunk/Main';
 import { LoadingState } from '../../../modules/reducer/Loading';
 
 const AssignmentGuideBoardContainer: FC = () => {
   const dispatch = useDispatch();
-  const { assignmentPreview, error } = useSelector(getStateCallback<MainState>('Main'));
+  const { assignmentPreview, getAssignmentError } = useSelector(
+    getStateCallback<MainState>('Main'),
+  );
 
   const { 'Main/GET_ASSIGNMENT': isLoading } = useSelector(
     getStateCallback<LoadingState>('Loading'),
@@ -17,6 +19,13 @@ const AssignmentGuideBoardContainer: FC = () => {
   const getBoards = useCallback(
     (page: number, classNumber?: number | '') => {
       dispatch(getAssignmentThunk({ size: 7, page, classNumber }));
+    },
+    [dispatch],
+  );
+
+  const searchBoards = useCallback(
+    (query: string, page: number) => {
+      dispatch(searchAssignmentBoardsThunk({ query, page }));
     },
     [dispatch],
   );
@@ -30,7 +39,8 @@ const AssignmentGuideBoardContainer: FC = () => {
       getBoards={getBoards}
       isLoading={isLoading}
       board={assignmentPreview}
-      getBoardsError={error}
+      getBoardsError={getAssignmentError}
+      searchBoards={searchBoards}
       resetMain={resetMain}
     />
   );

@@ -6,4 +6,5 @@ export {
   PeerEvaluationModal,
   AddTeamMemberModal,
   Evaluation,
+  CreateTeamModal,
 } from './AssignmentDetailPost';

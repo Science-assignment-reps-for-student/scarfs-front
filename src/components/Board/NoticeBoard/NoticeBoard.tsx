@@ -4,17 +4,30 @@ import { NoticeTableItem, NoticeCard } from './';
 import { BoardType } from '../../../lib/api/Assignment/Assignment';
 import { ErrorType } from '../../../lib/type';
 import { SBone } from '../../../components/Admin/AdminMain/style';
+import queryString from 'query-string';
 
 interface Props {
   getBoards: (page: number) => void;
   isLoading: boolean;
   board: BoardType;
   getBoardsError: ErrorType;
+  searchBoards: (query: string, page: number) => void;
   resetMain: () => void;
 }
 
-const NoticeBoard: FC<Props> = ({ getBoards, isLoading, board, getBoardsError, resetMain }) => {
-  const [isTableView, setIsTableView] = useState(true);
+const NoticeBoard: FC<Props> = ({
+  getBoards,
+  isLoading,
+  board,
+  getBoardsError,
+  searchBoards,
+  resetMain,
+}) => {
+  const { query } = queryString.parse(location.search);
+  const isTableViewInLocalStorage = localStorage.getItem('isTableView');
+  const [isTableView, setIsTableView] = useState(
+    isTableViewInLocalStorage === 'true' ? true : false,
+  );
   const [page, setPage] = useState(1);
   const boards = useMemo(
     () =>
@@ -33,7 +46,24 @@ const NoticeBoard: FC<Props> = ({ getBoards, isLoading, board, getBoardsError, r
   }, []);
 
   useEffect(() => {
-    getBoards(page);
+    if (typeof query === 'object') {
+      searchBoards(query[0], 1);
+    } else if (query) {
+      searchBoards(query, 1);
+    } else {
+      getBoards(1);
+    }
+    setPage(1);
+  }, [query]);
+
+  useEffect(() => {
+    if (typeof query === 'object') {
+      searchBoards(query[0], page);
+    } else if (query) {
+      searchBoards(query, page);
+    } else {
+      getBoards(page);
+    }
   }, [page]);
 
   useEffect(() => {
@@ -53,7 +83,7 @@ const NoticeBoard: FC<Props> = ({ getBoards, isLoading, board, getBoardsError, r
           setIsTableView={setIsTableView}
         />
       )}
-      {isLoading ? (
+      {!boards || isLoading ? (
         <SBone width='1280px' height='362px' margin='32px 0 21px' />
       ) : isTableView ? (
         <TableView

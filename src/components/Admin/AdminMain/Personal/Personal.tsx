@@ -1,9 +1,11 @@
 import React, { FC, ReactElement } from 'react';
-import * as S from '../style';
+
 import PersonalClassInfo from './PersonalInfo';
 import PersonalClassSubmit from './PersonalSubmit';
-import { PersonalSubject } from '../../../../modules/reducer/Admin/adminPersonal';
+
+import * as S from '../style';
 import WithClass from '../WithClass';
+import { PersonalSubject } from '../../../../modules/reducer/Admin/adminPersonal';
 import { getDeadline } from '../../../../lib/function/admin';
 
 interface Props {
@@ -12,7 +14,7 @@ interface Props {
 }
 
 const PersonalClass: FC<Props> = ({ subject, classNum }): ReactElement => {
-  const { created_at, deadline, description, class_submit } = subject;
+  const { created_at, deadline, description } = subject;
 
   return (
     <S.SubjectCls>
@@ -27,7 +29,7 @@ const PersonalClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContent>
           <PersonalClassInfo subject={subject} />
           <div />
-          <PersonalClassSubmit members={class_submit} />
+          <PersonalClassSubmit subject={subject} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>

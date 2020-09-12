@@ -44,7 +44,11 @@ const NoticeDetailPost: FC<Props> = ({
   if (isNaN(paramId) || paramId < 1) return <Redirect to='/error' />;
   return (
     <>
-      {isLoading ? <SBone width='1280px' height='45px' /> : <PostHeader title='공지사항' />}
+      {isLoading ? (
+        <SBone width='1280px' height='45px' />
+      ) : (
+        <PostHeader title='공지사항' to='/board/notice' />
+      )}
       {isLoading ? (
         <SBone width='1280px' height='550px' margin='31px 0 40px' />
       ) : (

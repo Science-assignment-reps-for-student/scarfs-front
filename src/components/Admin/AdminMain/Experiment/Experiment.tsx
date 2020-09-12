@@ -1,10 +1,12 @@
 import React, { FC, ReactElement } from 'react';
-import * as S from '../style';
+
 import ExperimentClassInfo from './ExperimentInfo';
 import ExperimentClassSubmit from './ExperimentSubmit';
-import { ExperimentSubject } from '../../../../modules/reducer/Admin/adminExperiment';
 import ExperimentClassReport from './ExperimentReport';
+
+import * as S from '../style';
 import WithClass from '../WithClass';
+import { ExperimentSubject } from '../../../../modules/reducer/Admin/adminExperiment';
 import { getDeadline } from '../../../../lib/function/admin';
 
 interface Props {
@@ -13,7 +15,7 @@ interface Props {
 }
 
 const ExperimentClass: FC<Props> = ({ subject, classNum }): ReactElement => {
-  const { created_at, deadline, description, peer_evaluation_submit } = subject;
+  const { created_at, deadline, description } = subject;
 
   return (
     <S.SubjectCls>
@@ -28,7 +30,7 @@ const ExperimentClass: FC<Props> = ({ subject, classNum }): ReactElement => {
         <S.SubjectClsContent>
           <ExperimentClassInfo subject={subject} />
           <ExperimentClassReport subject={subject} />
-          <ExperimentClassSubmit members={peer_evaluation_submit} />
+          <ExperimentClassSubmit subject={subject} />
         </S.SubjectClsContent>
       </S.SubjectClsContentWrap>
     </S.SubjectCls>

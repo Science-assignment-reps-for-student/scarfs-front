@@ -12,7 +12,7 @@ const PersonalClassInfo: FC<Props> = ({ subject }): ReactElement => {
   const [personalSubmitLen, setPersonalSubmitLen] = useState(0);
 
   useEffect(() => {
-    class_submit.forEach(a => a.submit === 1 && setPersonalSubmitLen(personalSubmitLen + 1));
+    class_submit.forEach(a => a.submit >= 1 && setPersonalSubmitLen(prev => prev + 1));
   }, [subject]);
 
   return (

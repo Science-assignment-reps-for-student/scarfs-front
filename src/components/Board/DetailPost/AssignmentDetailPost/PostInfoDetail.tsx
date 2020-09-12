@@ -3,19 +3,21 @@ import * as S from '../Default/PostMain/style';
 import { AssignmentDetailPostWithFiles } from '../Default/PostMain';
 import { getLocaleDateString } from '../../utils';
 import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
-import { downBlobByClick } from '../../../../lib/function/admin';
+import { downloadBlobByClick } from '../../../../lib/function/admin';
 import { ErrorType } from '../../../../lib/type';
+import { useTeam } from '../../../../lib/function';
 
 interface Props {
   board: AssignmentDetailPostWithFiles;
 }
 
 const PostInfoDetail: FC<Props> = ({ board }) => {
+  const [team] = useTeam();
   const downloadFileHandler = async (file: FileResponse) => {
     try {
       const { data } = await getAssignmentFile(file.file_id);
       const blob: Blob = new Blob([data], { type: 'application/json' });
-      downBlobByClick(blob, `${file.file_name}`);
+      downloadBlobByClick(blob, `${file.file_name}`);
     } catch (e) {
       if (e.response?.data) {
         const error: ErrorType = e.response.data;
@@ -56,13 +58,15 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
           ))}
         </S.FileBox>
       </S.InfoDetail>
-      <S.InfoDetail>
-        <S.InfoTitle>팀원</S.InfoTitle>
-        <S.LeaderText>임용성</S.LeaderText>
-        <S.TeamText>강신희</S.TeamText>
-        <S.TeamText>손민기</S.TeamText>
-        <S.TeamText>이성진</S.TeamText>
-      </S.InfoDetail>
+      {team.leader_name && (
+        <S.InfoDetail>
+          <S.InfoTitle>팀원</S.InfoTitle>
+          <S.LeaderText>{team.leader_name}</S.LeaderText>
+          {team.member_list.map(member => (
+            <S.TeamText key={member.member_id}>{member.member_name}</S.TeamText>
+          ))}
+        </S.InfoDetail>
+      )}
     </>
   );
 };

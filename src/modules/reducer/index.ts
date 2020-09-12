@@ -5,6 +5,7 @@ import SignIn from './SignIn';
 import Admin from './Admin';
 import AdminCreate from './AdminCreate';
 import AdminLogin from './AdminLogin';
+import AdminQnA from './AdminQnA';
 import Header from './Header';
 import Alert from './Alert';
 import Main from './Main';
@@ -16,6 +17,9 @@ import ClassBoardWrite from './ClassBoardWrite';
 import Comment from './Comment';
 import NoticeDetailPost from './NoticeDetailPost';
 import AssignmentDetailPost from './AssignmentDetailPost';
+import FileSubmit from './FileSubmit';
+import BoardCommon from './BoardCommon';
+import CreateTeam from './CreateTeam';
 
 const rootReducer = combineReducers({
   Modal,
@@ -24,6 +28,7 @@ const rootReducer = combineReducers({
   Admin,
   AdminCreate,
   AdminLogin,
+  AdminQnA,
   Header,
   Alert,
   Main,
@@ -35,6 +40,9 @@ const rootReducer = combineReducers({
   Comment,
   NoticeDetailPost,
   AssignmentDetailPost,
+  FileSubmit,
+  BoardCommon,
+  CreateTeam,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;

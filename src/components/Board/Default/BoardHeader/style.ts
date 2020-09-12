@@ -15,6 +15,9 @@ export const BoardHeaderWrapper = styled.div`
 export const Header = styled.header`
   font-size: 14px;
   text-align: right;
+  > span {
+    cursor: pointer;
+  }
 `;
 export const Bold = styled.span`
   font-weight: bold;
@@ -30,6 +33,7 @@ export const Main = styled.main`
 export const Title = styled.h1`
   font-size: 30px;
   font-weight: 400;
+  cursor: pointer;
 `;
 
 export const Aside = styled.aside`

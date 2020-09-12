@@ -29,6 +29,8 @@ const TableView: FC<Props> = ({ columnNames, boards, BoardTemplate }) => {
       <colgroup>
         {columnNames.map(name => {
           if (name === '제목') return <col key={name} width='*' />;
+          if (name === '번호') return <col key={name} width='5%' />;
+          if (name === '조회수') return <col key={name} width='8%' />;
           return <col key={name} width='10%' />;
         })}
       </colgroup>

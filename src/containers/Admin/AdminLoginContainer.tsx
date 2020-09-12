@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
-import { AdminLogin, AlertModal } from '../../components';
+import { AdminLogin } from '../../components';
 import { AdminHeaderContainer } from '../../containers';
 import { createAlert } from '../../modules/reducer/Alert';
 import { modalLoginExplains, fetchLoginThunk } from '../../modules/reducer/AdminLogin/index';
@@ -13,6 +13,7 @@ import {
   Login,
   LoginType,
 } from '../../modules/reducer/AdminLogin/reducer';
+import { setAccessToken, setRefreshToken, setIsLogin } from '../../modules/reducer/Header';
 
 interface Props {}
 
@@ -59,13 +60,16 @@ const AdminLoginContainer: FC<Props> = (): ReactElement => {
         }
       }),
     );
+    dispatch(setAccessToken(localStorage.getItem('accessToken')));
+    dispatch(setRefreshToken(localStorage.getItem('accessToken')));
+    dispatch(setIsLogin(true));
   }, [loginState]);
 
   return (
-    <AlertModal type='warn'>
+    <>
       <AdminHeaderContainer />
       <AdminLogin onChangeLogin={onChangeLogin} onClickLogin={onClickLogin} />
-    </AlertModal>
+    </>
   );
 };
 

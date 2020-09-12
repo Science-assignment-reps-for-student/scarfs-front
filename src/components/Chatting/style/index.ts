@@ -1,5 +1,12 @@
 import styled from 'styled-components';
-import { alarmChatting, chatting, send, trash } from '../../../assets/Main';
+import {
+  alarmChatting,
+  chatting,
+  chattingClose,
+  chattingCloseAlarm,
+  send,
+  trash,
+} from '../../../assets/Main';
 import { deleteIcon } from '../../../assets/Modal';
 
 export const ChattingOpenButton = styled.div<{ alarm: boolean }>`
@@ -11,26 +18,50 @@ export const ChattingOpenButton = styled.div<{ alarm: boolean }>`
   z-index: 5;
   height: 55px;
   background-image: url(${props => (props.alarm ? alarmChatting : chatting)});
+  cursor: pointer;
+`;
+
+export const ChattingCloseButton = styled(ChattingOpenButton)<{ alarm: boolean }>`
+  background-image: url(${props => (props.alarm ? chattingCloseAlarm : chattingClose)});
 `;
 
 export const ChattingWrapper = styled.div`
-  height: 600px;
-  width: 320px;
-  position: fixed;
-  bottom: 50px;
-  right: 40px;
-  z-index: 5;
-  box-shadow: 0px 0px 5px 0px gray;
-  border-radius: 10px;
-  background-color: white;
+  > div {
+    height: 55vh;
+    width: 340px;
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    z-index: 5;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 10px;
+    transition: all 0.3s;
+    background-color: white;
+  }
+  > div.move {
+    height: 55vh;
+    width: 340px;
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    z-index: 5;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 10px;
+    transition: all 0.3s;
+    transform: translate(0px, -20px);
+    background-color: white;
+    min-height: 440px;
+  }
 `;
 
 export const ChattingBody = styled.div`
-  height: 500px;
-  width: 320px;
+  height: 44vh;
+  min-height: 340px;
+  width: 100%;
   border-radius: 10px;
   overflow: scroll;
   position: relative;
+  overflow-x: hidden;
   > div.body {
     padding-top: 30px;
     box-sizing: border-box;
@@ -39,7 +70,7 @@ export const ChattingBody = styled.div`
 `;
 
 export const ChattingHeaderContent = styled.div<{ isSelected: boolean }>`
-  width: 160px;
+  width: 50%;
   height: 35px;
   background-color: ${props => (props.isSelected ? 'white' : '#F2F2F2')};
   border-radius: 10px 10px 0px 0px;
@@ -49,7 +80,7 @@ export const ChattingHeaderContent = styled.div<{ isSelected: boolean }>`
 `;
 
 export const ChattingHeader = styled.div`
-  width: 320px;
+  width: 100%;
   height: 51px;
   background-color: black;
   border-radius: 10px 10px 0px 0px;
@@ -91,7 +122,7 @@ export const ChattingInput = styled.div`
     border: none;
     background-color: #f2f2f2;
     border-radius: 13px;
-    padding-left: 5px;
+    padding-left: 10px;
     padding-right: 5px;
     box-sizing: border-box;
   }
@@ -104,34 +135,40 @@ export const ChattingSendButton = styled.div`
   cursor: pointer;
 `;
 
-export const MyChattingLog = styled.div`
+export const MyChattingLog = styled.div<{ isHover: boolean }>`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  margin-top: 2px;
   > div {
+    width: auto;
     display: flex;
     align-items: center;
-
     > div.text {
       background-color: #578fff;
       color: white;
-      max-width: 160px;
+      max-width: 180px;
       padding: 7px;
       width: auto;
       word-break: break-all;
       display: inline-block;
-      margin-right: 7px;
+      margin-right: 15px;
       margin-left: 0px;
-      cursor: pointer;
+      border-radius: 10px;
     }
     > .img {
+      margin: auto auto;
       width: 11px;
       height: 13px;
       background-image: url(${trash});
       background-repeat: no-repeat;
       margin-right: 5px;
       display: none;
+      cursor: pointer;
     }
+  }
+  > div:hover > .img {
+    display: inline-block;
   }
 `;
 
@@ -143,22 +180,32 @@ export const YourChattingLog = styled(MyChattingLog)`
     > div.text {
       background-color: #f2f2f2;
       margin-right: 0px;
-      margin-left: 7px;
+      margin-left: 15px;
       color: black;
     }
   }
 `;
 
 export const DeleteAlertBackground = styled.div`
-  color: black;
-  position: fixed;
-  transform: translate(60px, 180px);
+  > div {
+    color: black;
+    position: fixed;
+    transition: all 0.5;
+    transform: translate(60px, 180px);
+  }
+  > div.move {
+    color: black;
+    position: fixed;
+    transition: all 1s;
+    transform: translate(60px, 170px);
+  }
 `;
 
 export const DeleteAlertBody = styled.div`
   width: 200px;
   height: 80px;
   background-color: #ffffff;
+  border: 1px solid #d3d3d3;
   box-shadow: 2px 2px 1px 1px #d3d3d3;
 `;
 
