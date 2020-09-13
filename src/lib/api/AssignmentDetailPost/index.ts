@@ -40,6 +40,7 @@ export interface Team {
 export interface Member {
   member_id: number;
   member_name: string;
+  member_number: string;
 }
 
 export const getTeam = (assignmentId: number) =>

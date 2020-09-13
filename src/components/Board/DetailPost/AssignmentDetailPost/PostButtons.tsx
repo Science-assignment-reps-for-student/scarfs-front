@@ -93,13 +93,11 @@ const PostButtons: FC<Props> = ({ type }) => {
         </S.ButtonBox>
       )}
       <S.ButtonBox>
-        {(type === 'TEAM' && team.leader) ||
-          type === 'EXPERIMENT' ||
-          (type === 'PERSONAL' && (
-            <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
-              제출하기
-            </S.Button>
-          ))}
+        {((type === 'TEAM' && team.leader) || type === 'EXPERIMENT' || type === 'PERSONAL') && (
+          <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
+            제출하기
+          </S.Button>
+        )}
         <S.Button bgColor='#000000' fontColor='#FFFFFF' onClick={goNoticeList}>
           목록으로
         </S.Button>
