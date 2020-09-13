@@ -37,20 +37,21 @@ export const ChattingWrapper = styled.div`
     border-radius: 10px;
     transition: all 0.3s;
     background-color: white;
+    opacity: 0;
   }
-  > div.move {
-    height: 55vh;
-    width: 340px;
-    position: fixed;
-    bottom: 100px;
-    right: 40px;
-    z-index: 5;
-    box-shadow: 0px 0px 5px 0px gray;
-    border-radius: 10px;
-    transition: all 0.3s;
-    transform: translate(0px, -20px);
-    background-color: white;
-    min-height: 440px;
+  > div.opening {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  > div.closing {
+    transform: translateY(0px);
+    opacity: 0;
+  }
+  > div.close {
+    display: none;
+  }
+  > div.open {
+    display: block;
   }
 `;
 
@@ -101,7 +102,7 @@ export const ChattingDeleteButton = styled.div`
 `;
 
 export const ChattingInputDiv = styled.div`
-  width: 320px;
+  width: 340px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -112,12 +113,12 @@ export const ChattingInput = styled.div`
   border: none;
   border-radius: 13px;
   background-color: #f2f2f2;
-  width: 300px;
+  width: 320px;
   height: 30px;
   display: flex;
   align-items: center;
   > input {
-    width: 270px;
+    width: 290px;
     height: 28px;
     border: none;
     background-color: #f2f2f2;

@@ -22,15 +22,17 @@ const ChattingInput: FC<Props> = ({ value, inputChange, sendMessage, isConnected
     if (value.length <= 0) return;
     sendMessage(value);
     resetInput();
-  }, [value]);
+    input.current.focus();
+  }, [value, input]);
   const onKeyPressHandler = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key !== 'Enter') return;
       if (value.length <= 0) return;
       sendMessage(value);
       resetInput();
+      input.current.focus();
     },
-    [value],
+    [value, input],
   );
   return (
     <S.ChattingInputDiv>

@@ -166,7 +166,9 @@ const ChattingContainer: FC = () => {
   }, []);
 
   useEffect(() => {
-    chattingBodyScrollDown(chattingBody.current);
+    setTimeout(() => {
+      chattingBodyScrollDown(chattingBody.current);
+    });
   }, [partner, isAble]);
 
   useEffect(() => {
@@ -181,25 +183,26 @@ const ChattingContainer: FC = () => {
     serverErrorHandler(statusCode);
   }, [error]);
   return isLogin && userInfo && userInfo.type !== 'ADMIN' ? (
-    isAble ? (
-      <>
-        <Chatting
-          partner={partner}
-          input={input}
-          chattingList={isTeacher(partner) ? teacherChattingList : adminChattingList}
-          headerChange={partnerChange}
-          inputChange={inputChange}
-          isConnected={isConnected}
-          sendMessage={sendMessage}
-          chattingBodyRef={chattingBody}
-          isDeleteChange={isDeleteChange}
-          isDelete={isDelete}
-        />
+    <>
+      <Chatting
+        partner={partner}
+        input={input}
+        chattingList={isTeacher(partner) ? teacherChattingList : adminChattingList}
+        headerChange={partnerChange}
+        inputChange={inputChange}
+        isConnected={isConnected}
+        sendMessage={sendMessage}
+        chattingBodyRef={chattingBody}
+        isDeleteChange={isDeleteChange}
+        isDelete={isDelete}
+        isAble={isAble}
+      />
+      {isAble ? (
         <ChattingCloseButton isAbleChange={isAbleChange} alarm={alarm} />
-      </>
-    ) : (
-      <ChattingOpenButton isAbleChange={isAbleChange} alarmChange={alarmChange} alarm={alarm} />
-    )
+      ) : (
+        <ChattingOpenButton isAbleChange={isAbleChange} alarmChange={alarmChange} alarm={alarm} />
+      )}
+    </>
   ) : (
     <></>
   );
