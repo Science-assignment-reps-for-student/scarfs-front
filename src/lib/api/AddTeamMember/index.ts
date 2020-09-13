@@ -1,0 +1,13 @@
+import { getApiDefault } from '../client';
+
+export interface StudentResponse {
+  id: number;
+  number: string;
+  name: string;
+}
+
+export const getStudents = (query: string) =>
+  getApiDefault().get<StudentResponse[]>(`/shank/user/search?query=${query}`);
+
+export const deleteTeamMember = (member_id: number) =>
+  getApiDefault().delete(`/shank/member/${member_id}`);

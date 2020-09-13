@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { AssignmentDetailPost } from '../../../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStateCallback, useBoardCommon } from '../../../../lib/function';
+import { getStateCallback, useBoardCommon, useTeam } from '../../../../lib/function';
 import {
   AssignmentDetailPostState,
   resetDetailPost,
@@ -17,6 +17,7 @@ const AssignmentDetailPostContainer: FC = () => {
     isDetailBoard: [, setIdDetailBoard],
   } = useBoardCommon();
   const dispatch = useDispatch();
+  const [, getTeamError, getTeam] = useTeam();
   const {
     assignmentDetailPost,
     getAssignmentDetailPostError,
@@ -57,6 +58,8 @@ const AssignmentDetailPostContainer: FC = () => {
       files={files}
       getAssignmentFilesError={getAssignmentFilesError}
       getFiles={getFiles}
+      getTeam={getTeam}
+      getTeamError={getTeamError}
       resetDetailPost={resetDetailPostHandler}
     />
   );

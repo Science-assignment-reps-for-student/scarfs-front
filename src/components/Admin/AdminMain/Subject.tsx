@@ -13,7 +13,7 @@ const Subject: FC<Props> = ({ subject, children }): ReactElement => {
   return (
     <S.SubjectWrap>
       <S.SubjectTitle>{title}</S.SubjectTitle>
-      <SubjectButtons assignmentId={id} />
+      <SubjectButtons title={title} assignmentId={id} />
       <S.Subject>{children}</S.Subject>
     </S.SubjectWrap>
   );

@@ -19,6 +19,7 @@ export const HeaderWrap = styled.div`
 
 export const HeaderLeftWrap = styled.div`
   display: flex;
+  transform: translateY(2px);
 `;
 
 export const HeaderLogoLink = styled(Link)`
@@ -87,6 +88,7 @@ export const HeaderLink = styled(Link)`
   background-color: transparent;
   font-size: 12px;
   font-weight: bold;
+  transform: translateY(2px);
   &.visit {
     color: white !important;
   }

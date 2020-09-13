@@ -2,7 +2,7 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
-import { AssignmentDetailPost, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
+import { AssignmentDetailPost, FileResponse, Team } from '../../../../lib/api/AssignmentDetailPost';
 import { ErrorType } from '../../../../lib/type';
 import { useUser } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
@@ -15,6 +15,8 @@ interface Props {
   files: FileResponse[];
   getAssignmentFilesError: ErrorType;
   getFiles: (id: number) => void;
+  getTeam: (assignmentId: number) => void;
+  getTeamError: ErrorType;
   resetDetailPost: () => void;
 }
 
@@ -26,11 +28,14 @@ const AssignmentDetailPost: FC<Props> = ({
   files,
   getFiles,
   getAssignmentFilesError,
+  getTeam,
+  getTeamError,
   resetDetailPost,
 }) => {
   const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber, type } = useUser();
+
   const board = useMemo(
     () => ({
       ...detailPost,
@@ -51,6 +56,8 @@ const AssignmentDetailPost: FC<Props> = ({
   }, [getDetailPostError]);
 
   useEffect(() => {
+    getTeam(paramId);
+
     return () => {
       resetDetailPost();
     };
@@ -67,6 +74,12 @@ const AssignmentDetailPost: FC<Props> = ({
       alert(`Error code: ${getDetailPostError.status} 첨부파일 불러오기 실패!`);
     }
   }, [getAssignmentFilesError]);
+
+  useEffect(() => {
+    if (getTeamError.status && getTeamError.message !== 'Team Not Found') {
+      alert(`Error code: ${getTeamError.status} 팀 불러오기 실패!`);
+    }
+  }, [getTeamError]);
 
   if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
   return (

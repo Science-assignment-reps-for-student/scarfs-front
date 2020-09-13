@@ -12,6 +12,7 @@ import {
 import { GET_NOTICE_DETAIL_POST } from '../NoticeDetailPost';
 import { GET_ASSIGNMENT_FILES } from '../AssignmentDetailPost';
 import { SUBMIT_FILE } from '../FileSubmit';
+import { GET_STUDENTS } from '../AddTeamMember';
 
 export const START_LOADING = 'loading/START_LOADING';
 export const FINISH_LOADING = 'loading/FINISH_LOADING';
@@ -42,6 +43,7 @@ export type LoadingState = {
   [GET_NOTICE_DETAIL_POST]: boolean;
   [GET_ASSIGNMENT_FILES]: boolean;
   [SUBMIT_FILE]: boolean;
+  [GET_STUDENTS]: boolean;
 };
 
 const initialState: LoadingState = {
@@ -59,6 +61,7 @@ const initialState: LoadingState = {
   [GET_NOTICE_DETAIL_POST]: false,
   [GET_ASSIGNMENT_FILES]: false,
   [SUBMIT_FILE]: false,
+  [GET_STUDENTS]: false,
 };
 
 export default function loading(state: LoadingState = initialState, action: LoadingAction) {
