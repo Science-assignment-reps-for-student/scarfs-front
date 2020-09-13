@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import * as S from '../Default/PostFooter/style';
 import { useHistory } from 'react-router-dom';
 import { setModal } from '../../../../modules/reducer/Modal';
-import { stateChange, useTeam } from '../../../../lib/function';
+import { stateChange, useTeam, useDeleteTeam } from '../../../../lib/function';
 
 interface Props {
   type?: 'PERSONAL' | 'TEAM' | 'EXPERIMENT';
@@ -10,7 +10,9 @@ interface Props {
 
 const PostButtons: FC<Props> = ({ type }) => {
   const history = useHistory();
+  const assignmentId = parseInt(location.pathname.split('/')[3]);
   const [team, getTeamError, getTeam] = useTeam();
+  const [deleteTeamSuccess, deleteTeamError, deleteTeam, resetDeleteTeamState] = useDeleteTeam();
   const goNoticeList = () => history.push('/board/assignment-guide');
   const openModal = stateChange(setModal);
   const openFileSubmitModal = () => openModal('FileSubmit');
@@ -18,11 +20,37 @@ const PostButtons: FC<Props> = ({ type }) => {
   const openAddTeamMemberModal = () => openModal('AddTeamMember');
   const openCreateTeamModal = () => openModal('CreateTeamModal');
 
+  const onClickDeleteTeam = () => {
+    if (confirm('정말로 팀을 삭제하시겠습니까?')) {
+      deleteTeam(team.team_id);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      resetDeleteTeamState();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (deleteTeamSuccess) {
+      getTeam(assignmentId);
+      resetDeleteTeamState();
+    }
+  }, [deleteTeamSuccess]);
+
+  useEffect(() => {
+    if (deleteTeamError.status) {
+      alert(`Error code: ${deleteTeamError.status} 팀 삭제 실패!`);
+      resetDeleteTeamState();
+    }
+  }, [deleteTeamError]);
+
   return (
     <S.PostFooterWrapper>
       {(type === 'TEAM' || type === 'EXPERIMENT') && (
         <S.ButtonBox>
-          {!team.team_id && getTeamError.message === 'Team Not Found' && (
+          {!team.team_id && getTeamError.message === 'Team Not Found' ? (
             <S.Button
               borderColor='#505BFF'
               bgColor='#ffffff'
@@ -30,6 +58,15 @@ const PostButtons: FC<Props> = ({ type }) => {
               onClick={openCreateTeamModal}
             >
               팀 생성
+            </S.Button>
+          ) : (
+            <S.Button
+              borderColor='#ff5700'
+              bgColor='#ff5700'
+              fontColor='#ffffff'
+              onClick={onClickDeleteTeam}
+            >
+              팀 삭제
             </S.Button>
           )}
           {team.leader && (

@@ -131,10 +131,18 @@ export default function AssignmentDetailPost(
         team: action.payload,
       };
     case GET_TEAM_FAILURE:
-      return {
-        ...state,
-        getTeamError: action.payload,
-      };
+      if (action.payload.message === 'Team Not Found') {
+        return {
+          ...state,
+          team: initialState.team,
+          getTeamError: action.payload,
+        };
+      } else {
+        return {
+          ...state,
+          getTeamError: action.payload,
+        };
+      }
     default:
       return state;
   }

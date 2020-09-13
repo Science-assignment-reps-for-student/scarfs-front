@@ -19,6 +19,8 @@ import NoticeDetailPost from './NoticeDetailPost';
 import AssignmentDetailPost from './AssignmentDetailPost';
 import FileSubmit from './FileSubmit';
 import BoardCommon from './BoardCommon';
+import CreateTeam from './CreateTeam';
+import DeleteTeam from './DeleteTeam';
 
 const rootReducer = combineReducers({
   Modal,
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
   AssignmentDetailPost,
   FileSubmit,
   BoardCommon,
+  CreateTeam,
+  DeleteTeam,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;

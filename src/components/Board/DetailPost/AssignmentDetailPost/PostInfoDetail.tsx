@@ -48,16 +48,18 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
         <S.InfoTitle>조회수</S.InfoTitle>
         <S.BlueText>{board.view}</S.BlueText>
       </S.InfoDetail>
-      <S.InfoDetail>
-        <S.InfoTitle>첨부파일</S.InfoTitle>
-        <S.FileBox>
-          {board.files.map(file => (
-            <S.File key={file.file_id} onClick={() => downloadFileHandler(file)}>
-              {file.file_name}
-            </S.File>
-          ))}
-        </S.FileBox>
-      </S.InfoDetail>
+      {!!board.files.length && (
+        <S.InfoDetail>
+          <S.InfoTitle>첨부파일</S.InfoTitle>
+          <S.FileBox>
+            {board.files.map(file => (
+              <S.File key={file.file_id} onClick={() => downloadFileHandler(file)}>
+                {file.file_name}
+              </S.File>
+            ))}
+          </S.FileBox>
+        </S.InfoDetail>
+      )}
       {team.leader_name && (
         <S.InfoDetail>
           <S.InfoTitle>팀원</S.InfoTitle>
