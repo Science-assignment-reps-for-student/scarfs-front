@@ -60,13 +60,24 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
           </S.FileBox>
         </S.InfoDetail>
       )}
-      {team.leader_name && (
+      {team.team_name && (
         <S.InfoDetail>
-          <S.InfoTitle>팀원</S.InfoTitle>
-          <S.LeaderText>{team.leader_name}</S.LeaderText>
-          {team.member_list.map(member => (
-            <S.TeamText key={member.member_id}>{member.member_name}</S.TeamText>
-          ))}
+          <S.InfoTitle>팀</S.InfoTitle>
+          <S.TeamBox>
+            <S.TeamNameBox>
+              <S.LeaderText>
+                <span>[</span>
+                {team.team_name}
+                <span>]</span>
+              </S.LeaderText>
+            </S.TeamNameBox>
+            <S.TeamMemberBox>
+              <S.LeaderText>{team.leader_name}</S.LeaderText>
+              {team.member_list.map(member => (
+                <S.TeamText key={member.member_id}>{member.member_name}</S.TeamText>
+              ))}
+            </S.TeamMemberBox>
+          </S.TeamBox>
         </S.InfoDetail>
       )}
     </>
