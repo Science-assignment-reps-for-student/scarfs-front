@@ -12,16 +12,16 @@ export const setEmail = (payload: string) => ({
   payload,
 });
 
-export const reset = () => ({
+export const resetSignIn = () => ({
   type: RESET,
 });
 
-export type State = {
+export type SignInState = {
   password: string;
   email: string;
 };
 
-export const initialState: State = {
+export const initialState: SignInState = {
   password: '',
   email: '',
 };
@@ -29,9 +29,12 @@ export const initialState: State = {
 export type SignInActionType =
   | ReturnType<typeof setPassword>
   | ReturnType<typeof setEmail>
-  | ReturnType<typeof reset>;
+  | ReturnType<typeof resetSignIn>;
 
-export const SignInState = (state: State = initialState, action: SignInActionType): State => {
+export const SignInState = (
+  state: SignInState = initialState,
+  action: SignInActionType,
+): SignInState => {
   switch (action.type) {
     case EMAIL:
       return {

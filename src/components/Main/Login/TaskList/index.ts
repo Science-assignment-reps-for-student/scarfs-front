@@ -1,7 +1,17 @@
-import TaskList from './TaskList';
+import BoardTaskList from './BoardTaskList';
+import AssignmentTaskList from './AssignmentTaskList';
 import TaskHeader from './TaskHeader';
 import TaskButton from './TaskButton';
-import TaskListComponent from './TaskListComponent';
+import BoardTaskListComponent from './BoardTaskListComponent';
+import AssignmentTaskListComponent from './AssignmentTaskListComponent';
+import ErrorListComponent from './ErrorListComponent';
 
-export { TaskList, TaskHeader, TaskButton, TaskListComponent };
-export default TaskList;
+export {
+  BoardTaskList,
+  AssignmentTaskListComponent,
+  AssignmentTaskList,
+  TaskHeader,
+  TaskButton,
+  BoardTaskListComponent,
+  ErrorListComponent,
+};

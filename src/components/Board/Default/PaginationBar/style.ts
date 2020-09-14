@@ -4,6 +4,10 @@ export const PaginationBarWrapper = styled.footer`
   display: flex;
   justify-content: center;
   margin-top: 21px;
+  > nav {
+    width: 27px;
+    height: 27px;
+  }
 `;
 
 export const PageBlock = styled.div`
@@ -16,6 +20,7 @@ export const PageControllButton = styled.button`
   width: 27px;
   height: 27px;
   border: 1px solid #d3d3d3;
+  border-radius: 0;
   color: #979797;
   outline: none;
   cursor: pointer;
@@ -25,6 +30,7 @@ export const PageControllButton = styled.button`
 
 export const PageButton = styled.button`
   border: 1px solid #d3d3d3;
+  border-radius: 0;
   width: 27px;
   height: 27px;
   outline: none;
@@ -36,5 +42,6 @@ export const PageButton = styled.button`
   &.active {
     background-color: #1d1d1d;
     color: #ffffff;
+    border: none;
   }
 `;

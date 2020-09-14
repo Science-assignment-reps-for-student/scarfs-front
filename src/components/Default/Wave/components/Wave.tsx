@@ -10,10 +10,10 @@ class Wave {
   centerY: number;
   pointGap: number;
 
-  constructor(color, index) {
+  constructor(color, pointNumber) {
     this.color = color;
     this.points = [];
-    this.numberOfPointer = 10 + index * 5;
+    this.numberOfPointer = pointNumber;
   }
   resize(stageWidth, stageHeight) {
     this.stageHeight = stageHeight;

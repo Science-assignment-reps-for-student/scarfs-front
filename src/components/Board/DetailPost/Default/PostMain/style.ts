@@ -19,7 +19,7 @@ export const PostBox = styled.main`
   width: 410px;
   box-sizing: border-box;
   max-height: 394px;
-  padding: 40px;
+  padding: 40px 40px 14px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -62,16 +62,48 @@ export const InfoTitle = styled.li`
   width: 85px;
 `;
 
+export const TeamBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const TeamNameBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  > span > span {
+    &:first-of-type {
+      margin-right: 4px;
+    }
+    &:last-of-type {
+      margin-left: 4px;
+    }
+  }
+`;
+
+export const TeamMemberBox = styled.div`
+  display: flex;
+`;
+
 export const FileBox = styled.div`
   flex: 1;
   width: calc(100% - 85px);
-  overflow: scroll;
+  max-height: 50px;
+  overflow: auto;
   display: flex;
   flex-direction: column;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   &::-webkit-scrollbar {
-    display: none;
+    width: 4px;
+    height: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f9f9f9;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #3f51b5;
+    border-radius: 16px;
   }
 `;
 
@@ -89,19 +121,69 @@ export const File = styled.a`
   height: 16px;
   line-height: 13px;
   color: #ff5700;
+  cursor: pointer;
   & + & {
     margin-top: 10px;
   }
 `;
 
+export const LeaderText = styled.span`
+  font-size: 13px;
+  line-height: 13px;
+  height: 16px;
+  font-weight: 600;
+  color: #505bff;
+  > span {
+    color: #000000;
+  }
+`;
+
+export const TeamText = styled.span`
+  font-size: 13px;
+  line-height: 13px;
+  height: 16px;
+  font-weight: 500;
+  color: #000000;
+  margin-left: 4px;
+`;
+
 export const PostContentBox = styled.section`
   flex: 1;
-  padding: 50px;
   font-size: 13px;
   color: #1d1d1d;
   border: 1px solid #c3c3c3;
   border-left: none;
   background-color: #ffffff;
+  > div {
+    overflow-y: scroll;
+    max-height: 488px;
+    margin: 30px;
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 180px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2c2c2c;
+      border-radius: 0;
+    }
+    > pre {
+      white-space: pre-wrap;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 180px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2c2c2c;
+    border-radius: 0;
+  }
 `;
 
 export const NearbyPost = styled.div`
@@ -119,7 +201,6 @@ export const NearbyPost = styled.div`
   &:first-of-type {
     border-bottom: 1px solid #979797;
   }
-  box-sizing: border-box;
 `;
 
 export const NearbyPostTitle = styled.span`

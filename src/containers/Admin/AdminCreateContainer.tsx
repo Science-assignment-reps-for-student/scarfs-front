@@ -1,6 +1,9 @@
 import React, { FC, ReactElement } from 'react';
-import AdminCreate from '../../components/AdminCreate/AdminCreate';
+
 import AdminHeaderContainer from './AdminHeaderContainer';
+
+import { AdminCreate } from '../../components';
+
 interface Props {}
 
 const AdminCreateContainer: FC<Props> = (): ReactElement => {

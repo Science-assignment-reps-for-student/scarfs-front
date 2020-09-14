@@ -11,6 +11,8 @@ export const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  z-index: 4;
 `;
 
 export const Modal = styled.div`
@@ -19,7 +21,7 @@ export const Modal = styled.div`
   background-color: white;
   border-radius: 3px;
   border: 1px solid #d3d3d3;
-  z-index: 1;
+  z-index: 5;
 `;
 
 export const ModalBody = styled.div`
@@ -40,11 +42,12 @@ export const ModalHeader = styled.div`
   justify-content: flex-end;
   align-items: center;
   background-color: black;
-  padding: 0px 10px;
+  padding: 0px 5px;
   box-sizing: border-box;
   > div.deleteImg {
-    width: 7px;
-    height: 7px;
+    width: 11px;
+    height: 11px;
+    cursor: pointer;
     background-image: url(${deleteIcon});
   }
 `;
@@ -197,7 +200,8 @@ export const ModalBackground = styled.div`
   height: 100%;
   z-index: 0;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  top: 60px;
 `;
 
 export const ModalErrorText = styled.div`
@@ -208,6 +212,4 @@ export const ModalErrorText = styled.div`
   height: 20px;
 `;
 
-export const ModalButtonWrapper = styled.div`
-  height: 70px;
-`;
+export const ModalButtonWrapper = styled.div``;

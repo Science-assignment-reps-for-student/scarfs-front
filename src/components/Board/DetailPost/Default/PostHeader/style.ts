@@ -14,6 +14,9 @@ export const Title = styled.h1`
 
 export const CurrentLocation = styled.div`
   font-size: 14px;
+  > span {
+    cursor: pointer;
+  }
 `;
 
 export const Bold = styled.span`

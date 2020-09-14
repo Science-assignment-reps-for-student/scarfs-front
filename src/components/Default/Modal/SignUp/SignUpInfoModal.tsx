@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalHalfInput } from '../Default';
 import * as S from '../style';
@@ -8,12 +8,18 @@ import {
   isTextEmpty,
   getModalErrorText,
 } from '../../../../lib/function';
-import { setName, setNumber, setCode } from '../../../../modules/reducer/SignUp';
-import { ErrorType, setError, setModal, ModalType } from '../../../../modules/reducer/Modal';
+import { setName, setNumber, setCode, SignUpState } from '../../../../modules/reducer/SignUp';
+import {
+  ErrorType,
+  setError,
+  setModal,
+  ModalType,
+  ModalState,
+} from '../../../../modules/reducer/Modal';
 
 const SignUpInfoModal: FC = () => {
-  const state = useSelector(getStateCallback('SignUp'));
-  const { error } = useSelector(getStateCallback('Modal'));
+  const state = useSelector(getStateCallback<SignUpState>('SignUp'));
+  const { error } = useSelector(getStateCallback<ModalState>('Modal'));
   const { number, name, code } = state;
   const nameChange = stateChange<string>(setName);
   const numberChange = stateChange<string>(setNumber);
@@ -21,7 +27,7 @@ const SignUpInfoModal: FC = () => {
   const modalChange = stateChange<ModalType>(setModal);
   const errorChange = stateChange<ErrorType>(setError);
 
-  const isStateAble = useCallback(({ name, code, number }: ReturnType<typeof state>) => {
+  const isStateAble = useCallback(({ name, code, number }: SignUpState) => {
     return !(isTextEmpty(name) || isTextEmpty(number) || isTextEmpty(code));
   }, []);
   const buttonClickHandler = useCallback(() => {
@@ -37,6 +43,9 @@ const SignUpInfoModal: FC = () => {
   }, []);
   const errorHandler = useCallback(() => {
     errorChange('SignInError');
+  }, []);
+  useEffect(() => {
+    errorChange('');
   }, []);
   return (
     <Modal>
