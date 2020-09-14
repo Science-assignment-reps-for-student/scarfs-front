@@ -28,7 +28,7 @@ const CreateTeamModal: FC<Props> = ({
   };
 
   const onClickCreateTeam = useCallback(() => {
-    if (!teamName) {
+    if (!teamName.trim()) {
       alert('팀명은 빈칸일 수 없습니다.');
     } else {
       createTeam(assignmentId, teamName);
