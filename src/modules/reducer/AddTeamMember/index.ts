@@ -9,6 +9,14 @@ export const DELETE_TEAM_MEMBER = 'AddTeamMember/DELETE_TEAM_MEMBER' as const;
 export const DELETE_TEAM_MEMBER_SUCCESS = 'AddTeamMember/DELETE_TEAM_MEMBER_SUCCESS' as const;
 export const DELETE_TEAM_MEMBER_FAILURE = 'AddTeamMember/DELETE_TEAM_MEMBER_FAILURE' as const;
 
+export const ADD_TEAM_MEMBER = 'AddTeamMember/ADD_TEAM_MEMBER' as const;
+export const ADD_TEAM_MEMBER_SUCCESS = 'AddTeamMember/ADD_TEAM_MEMBER_SUCCESS' as const;
+export const ADD_TEAM_MEMBER_FAILURE = 'AddTeamMember/ADD_TEAM_MEMBER_FAILURE' as const;
+
+export const SET_ADD_TEAM_MEMBER_STUDENT_NO = 'AddTeamMember/SET_ADD_TEAM_MEMBER_STUDENT_NO' as const;
+
+export const SET_IS_LAST_ADD_TEAM_MEMBER = 'AddTeamMember/SET_IS_LAST_ADD_TEAM_MEMBER' as const;
+
 export const RESET_ADD_TEAM_MEMBER = 'AddTeamMember/RESET_ADD_TEAM_MEMBER' as const;
 
 export const getStudentsSuccess = (payload: StudentResponse[]) => ({
@@ -30,6 +38,24 @@ export const deleteTeamMemberFailure = (error: ErrorType) => ({
   payload: error,
 });
 
+export const addTeamMemberSuccess = () => ({
+  type: ADD_TEAM_MEMBER_SUCCESS,
+});
+
+export const addTeamMemberFailure = (error: ErrorType) => ({
+  type: ADD_TEAM_MEMBER_FAILURE,
+  payload: error,
+});
+
+export const setAddTeamMemberStudentNo = (studentNo: string) => ({
+  type: SET_ADD_TEAM_MEMBER_STUDENT_NO,
+  payload: studentNo,
+});
+
+export const setIsLastAddTeamMember = () => ({
+  type: SET_IS_LAST_ADD_TEAM_MEMBER,
+});
+
 export const resetAddTeamMember = () => ({
   type: RESET_ADD_TEAM_MEMBER,
 });
@@ -39,6 +65,10 @@ export type AddTeamMemberAction =
   | ReturnType<typeof getStudentsFailure>
   | ReturnType<typeof deleteTeamMemberSuccess>
   | ReturnType<typeof deleteTeamMemberFailure>
+  | ReturnType<typeof addTeamMemberSuccess>
+  | ReturnType<typeof addTeamMemberFailure>
+  | ReturnType<typeof setAddTeamMemberStudentNo>
+  | ReturnType<typeof setIsLastAddTeamMember>
   | ReturnType<typeof resetAddTeamMember>;
 
 export type AddTeamMemberStatus = {
@@ -46,6 +76,10 @@ export type AddTeamMemberStatus = {
   getStudentsError: ErrorType;
   deleteTeamMemberSuccess: boolean;
   deleteTeamMemberError: ErrorType;
+  addTeamMemberSuccess: boolean;
+  addTeamMemberError: ErrorType;
+  addTeamMemberStudentNo: string;
+  isLastAddTeamMember: boolean;
 };
 
 const initialState: AddTeamMemberStatus = {
@@ -53,6 +87,11 @@ const initialState: AddTeamMemberStatus = {
   getStudentsError: errorInitialState,
   deleteTeamMemberSuccess: false,
   deleteTeamMemberError: errorInitialState,
+  addTeamMemberSuccess: false,
+  addTeamMemberError: errorInitialState,
+  addTeamMemberStudentNo: '',
+
+  isLastAddTeamMember: false,
 };
 
 export default function AddTeamMember(
@@ -83,6 +122,30 @@ export default function AddTeamMember(
         deleteTeamMemberSuccess: false,
         deleteTeamMemberError: action.payload,
       };
+    case ADD_TEAM_MEMBER_SUCCESS:
+      return {
+        ...state,
+        addTeamMemberSuccess: true,
+        addTeamMemberError: errorInitialState,
+      };
+    case ADD_TEAM_MEMBER_FAILURE:
+      return {
+        ...state,
+        addTeamMemberSuccess: false,
+        addTeamMemberError: action.payload,
+      };
+    case SET_ADD_TEAM_MEMBER_STUDENT_NO:
+      return {
+        ...state,
+        addTeamMemberStudentNo: action.payload,
+      };
+    case SET_IS_LAST_ADD_TEAM_MEMBER:
+      return {
+        ...state,
+        isLastAddTeamMember: true,
+      };
+    case RESET_ADD_TEAM_MEMBER:
+      return initialState;
     default:
       return state;
   }
