@@ -72,7 +72,7 @@ const GlobalStyle: GlobalStyleComponent<{}, DefaultTheme> = createGlobalStyle`
   }
   ::-webkit-scrollbar {
   width: 10px;
-  height: 20px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track-piece {
   background-color: white;
