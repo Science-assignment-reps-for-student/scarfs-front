@@ -2,8 +2,9 @@ import React, { FC, useState, useCallback, useEffect } from 'react';
 import * as S from './style';
 import { Modal } from '../../Modal';
 import { ErrorType } from '../../../../../lib/type';
-import { stateChange, useTeam } from '../../../../../lib/function';
+import { stateChange, useTeam, useToken } from '../../../../../lib/function';
 import { reset } from '../../../../../modules/reducer/Modal';
+import { sendRefreshToken } from '../../../../../modules/reducer/Header';
 
 interface Props {
   createTeam: (assignment_id: number, team_name: string) => void;
@@ -18,6 +19,8 @@ const CreateTeamModal: FC<Props> = ({
   createTeamError,
   resetCreateTeamState,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const [teamName, setTeamName] = useState<string>('');
   const [, , getTeam] = useTeam();
   const assignmentId = parseInt(location.pathname.split('/')[3]);
@@ -49,7 +52,16 @@ const CreateTeamModal: FC<Props> = ({
   }, [createTeamSuccess]);
 
   useEffect(() => {
-    if (createTeamError.status) {
+    if (createTeamError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickCreateTeam(),
+        page: 'CreateTeamModal/createTeam',
+      };
+      refreshTokenChange(params);
+    } else if (createTeamError.status) {
       alert(`Error code: ${createTeamError.status} 팀 생성 실패!`);
     }
   }, [createTeamError]);
