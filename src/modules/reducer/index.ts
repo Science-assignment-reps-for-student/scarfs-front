@@ -22,6 +22,7 @@ import BoardCommon from './BoardCommon';
 import CreateTeam from './CreateTeam';
 import DeleteTeam from './DeleteTeam';
 import AddTeamMember from './AddTeamMember';
+import Evaluation from './Evaluation';
 
 const rootReducer = combineReducers({
   Modal,
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   CreateTeam,
   DeleteTeam,
   AddTeamMember,
+  Evaluation,
 });
 
 type reducerType = ReturnType<typeof rootReducer>;
