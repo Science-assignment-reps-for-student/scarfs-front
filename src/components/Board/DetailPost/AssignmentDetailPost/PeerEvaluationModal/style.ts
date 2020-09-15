@@ -34,7 +34,7 @@ export const StudentBox = styled.div`
   padding: 7px 10px 7px 20px;
   box-sizing: border-box;
   & + & {
-    border-top: 0.5px solid #979797;s
+    border-top: 0.5px solid #979797;
   }
 `;
 
@@ -92,4 +92,9 @@ export const AllEvaluateButton = styled.button`
   font-size: 14px;
   border: none;
   border-radius: 0;
+`;
+
+export const LoadingRolling = styled.img`
+  width: 100%;
+  height: 100%;
 `;
