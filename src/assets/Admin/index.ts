@@ -1,0 +1,15 @@
+export { default as save } from './adminSave.svg';
+export { default as trash } from './adminTrash.svg';
+export { default as attachment } from './adminAttachment.svg';
+export { default as search } from './adminSearch.svg';
+export { default as close } from './adminCloseWhite.svg';
+export { default as send } from './adminSend.svg';
+export { default as download } from './adminDownload.svg';
+export { default as edit } from './adminEdit.svg';
+export { default as excel } from './adminExcel.svg';
+export { default as defaultLoading } from './adminDefaultLoading.svg';
+export { default as warning } from './adminWarning.svg';
+export { default as notification } from './adminNotifications.svg';
+export { default as submitted } from './adminO.svg';
+export { default as unSubmitted } from './adminX.svg';
+export { default as deleteChat } from './adminDelete.svg';
