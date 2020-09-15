@@ -167,3 +167,24 @@ export const EvaluationLoading = styled.img`
   display: block;
   margin: auto;
 `;
+
+export const AllSubmitted = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  font-size: 20px;
+  > button {
+    width: 117px;
+    height: 41px;
+    background-color: #505bff;
+    border: none;
+    border-radius: 0;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+  }
+`;
