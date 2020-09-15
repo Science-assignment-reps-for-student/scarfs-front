@@ -36,7 +36,7 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            dist s3://scarfv2
+            dist s3://v2.dsm-scarfs.hs.kr
 
       - name: Create invalidation in CloudFront
         uses: chetan/invalidate-cloudfront-action@master
