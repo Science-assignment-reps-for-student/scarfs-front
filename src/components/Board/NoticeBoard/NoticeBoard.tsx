@@ -78,9 +78,7 @@ const NoticeBoard: FC<Props> = ({
         serverType: {
           refreshToken,
         },
-        callback: () => {
-          getBoards(page);
-        },
+        callback: () => getBoards(page),
         page: 'NoticeBoard/getBoards',
       };
       refreshTokenChange(params);
