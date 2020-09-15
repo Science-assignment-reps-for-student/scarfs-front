@@ -97,6 +97,7 @@ export type MainState = {
   assignmentClassNumber: number;
   getAssignmentError: ErrorType;
   getBoardError: ErrorType;
+  searchNoticeBoardError: ErrorType;
   searchAssignmentError: ErrorType;
 };
 
@@ -108,6 +109,7 @@ const initialState: MainState = {
   assignmentClassNumber: 1,
   getBoardError: errorInitialState,
   getAssignmentError: errorInitialState,
+  searchNoticeBoardError: errorInitialState,
   searchAssignmentError: errorInitialState,
 };
 
@@ -198,7 +200,7 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
     case SEARCH_NOTICE_BOARDS_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        searchNoticeBoardError: action.payload,
       };
     case SEARCH_ASSIGNMENT_BOARDS_SUCCESS:
       const { application_responses, total_elements, total_pages, class_number } = action.payload;
