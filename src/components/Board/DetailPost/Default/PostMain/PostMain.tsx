@@ -87,7 +87,7 @@ const PostMain: FC<Props> = ({
           {nextPostNumber ? (
             <Link to={`${nextPostNumber}`}>{nextPostTitle}</Link>
           ) : (
-            '이전 글이 없습니다.'
+            '다음 글이 없습니다.'
           )}
         </S.NearbyPost>
       </S.LeftAside>

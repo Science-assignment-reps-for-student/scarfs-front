@@ -9,6 +9,8 @@ import {
   useUpdateReCommentRedux,
   useDeleteReCommentRedux,
 } from '../../../../../containers/Board/DetailPost/ClassDetailPost/CommentModal';
+import { sendRefreshToken } from '../../../../../modules/reducer/Header';
+import { useToken, stateChange } from '../../../../../lib/function';
 
 export interface CommonComment {
   content: string;
@@ -32,8 +34,10 @@ interface CommonCommentProps {
   comment: Comment | ReComment;
   isComment: boolean;
   updateComment?: (commentId: number, content: string) => void;
+  updateCommentError?: ErrorType;
   updateCommentSuccess?: number;
   deleteComment?: (commentId: number) => void;
+  deleteCommentError?: ErrorType;
   resetCommentState?: () => void;
   children?: React.ReactNode;
 }
@@ -43,17 +47,21 @@ const CommonComment: FC<CommonCommentProps> = ({
   comment: { content, writer_name, mine, student_number, created_at, type },
   isComment,
   updateComment,
+  updateCommentError,
   updateCommentSuccess,
   deleteComment,
+  deleteCommentError,
   resetCommentState,
   children,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const { comment_id } = comment as Comment;
   const { cocomment_id } = comment as ReComment;
   const [text, setText] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
-  const [updateReCommentSuccess, , updateReComment] = useUpdateReCommentRedux();
-  const [, , deleteReComment] = useDeleteReCommentRedux();
+  const [updateReCommentSuccess, updateReCommentError, updateReComment] = useUpdateReCommentRedux();
+  const [, deleteReCommentError, deleteReComment] = useDeleteReCommentRedux();
 
   const createdHourAndMinute = useMemo(() => {
     const date = new Date(created_at);
@@ -125,6 +133,58 @@ const CommonComment: FC<CommonCommentProps> = ({
       updateSuccessHandler();
     }
   }, [updateReCommentSuccess]);
+
+  useEffect(() => {
+    if (deleteCommentError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => deleteCommentClickHandler(),
+        page: 'CommentModal/deleteComment',
+      };
+      refreshTokenChange(params);
+    }
+  }, [deleteCommentError]);
+
+  useEffect(() => {
+    if (updateCommentError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => updateCommentClickHandler(),
+        page: 'CommentModal/updateComment',
+      };
+      refreshTokenChange(params);
+    }
+  }, [updateCommentError]);
+
+  useEffect(() => {
+    if (updateReCommentError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => updateReCommentClickHandler(),
+        page: 'CommentModal/updateReComment',
+      };
+      refreshTokenChange(params);
+    }
+  }, [updateReCommentError]);
+
+  useEffect(() => {
+    if (deleteReCommentError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => deleteReCommentClickHandler(),
+        page: 'CommentModal/deleteReComment',
+      };
+      refreshTokenChange(params);
+    }
+  }, [deleteReCommentError]);
 
   return (
     <>
@@ -199,7 +259,9 @@ interface CommentItempProps {
   };
   updateComment: (commentId: number, content: string) => void;
   updateCommentSuccess: number;
+  updateCommentError: ErrorType;
   deleteComment: (commentId: number) => void;
+  deleteCommentError: ErrorType;
   resetCommentState: () => void;
 }
 
@@ -207,13 +269,17 @@ const CommentItem: FC<CommentItempProps> = ({
   comment,
   updateComment,
   updateCommentSuccess,
+  updateCommentError,
   deleteComment,
+  deleteCommentError,
   resetCommentState,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const { cocomments } = comment;
   const [text, setText] = useState('');
   const [isOpenRecomment, setIsOpenRecomment] = useState(false);
-  const [addReCommentSuccess, , addReComment] = useAddReCommentRedux();
+  const [addReCommentSuccess, addReCommentError, addReComment] = useAddReCommentRedux();
 
   const onChange = e => setText(e.target.value);
   const addReCommentClickHandler = useCallback(() => {
@@ -238,6 +304,19 @@ const CommentItem: FC<CommentItempProps> = ({
     }
   }, [isOpenRecomment]);
 
+  useEffect(() => {
+    if (addReCommentError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => addReCommentClickHandler(),
+        page: 'CommentModal/addReComment',
+      };
+      refreshTokenChange(params);
+    }
+  }, [addReCommentError]);
+
   return (
     <S.CommentItemBox>
       <CommonComment
@@ -245,7 +324,9 @@ const CommentItem: FC<CommentItempProps> = ({
         isComment={true}
         updateComment={updateComment}
         updateCommentSuccess={updateCommentSuccess}
+        updateCommentError={updateCommentError}
         deleteComment={deleteComment}
+        deleteCommentError={deleteCommentError}
         resetCommentState={resetCommentState}
       >
         <S.ReCommentButton onClick={() => setIsOpenRecomment(prev => !prev)}>
@@ -298,6 +379,8 @@ const CommentModal: FC<Props> = ({
   deleteCommentError,
   resetCommentState,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const BOARD_ID_INDEX = 3;
   const boardId = parseInt(useLocation().pathname.split('/')[BOARD_ID_INDEX]);
   const [comment, setComment] = useState<string>('');
@@ -341,7 +424,16 @@ const CommentModal: FC<Props> = ({
   ]);
 
   useEffect(() => {
-    if (addCommentError.status) {
+    if (addCommentError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClick(),
+        page: 'CommentModal/addComment',
+      };
+      refreshTokenChange(params);
+    } else if (addCommentError.status) {
       alert(`Error code: ${addCommentError.status} 댓글 작성 실패`);
     } else if (addCommentError.message) {
       alert(addCommentError.message);
@@ -409,7 +501,9 @@ const CommentModal: FC<Props> = ({
                 comment={comment}
                 updateComment={updateComment}
                 updateCommentSuccess={updateCommentSuccess}
+                updateCommentError={updateCommentError}
                 deleteComment={deleteComment}
+                deleteCommentError={deleteCommentError}
                 resetCommentState={resetCommentState}
               />
             ))}

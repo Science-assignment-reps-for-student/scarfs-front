@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { megaphone, calender, logo, logout, logoutLogo } from '../../../assets/Main';
 
-export const Body = styled.div`
+export const Body = styled.main`
   width: 100%;
   min-width: 1340px;
   padding: 0px 100px 0px 100px;
   box-sizing: border-box;
   display: flex;
   overflow: hidden;
+  z-index: 2;
+  position: relative;
 `;
 
 export const Wrapper = styled.div<{ margin?: number }>`
@@ -37,6 +39,10 @@ export const TaskListComponent = styled.div`
   box-shadow: 0px 0px 1px 1px #c3c3c3;
   margin: 15px 15px 0px 0px;
   cursor: pointer;
+  background-color: white;
+  &:hover {
+    box-shadow: 0px 0px 1px 1px #505bff;
+  }
 `;
 
 export const SkeletonTaskListComponent = styled(TaskListComponent)`
@@ -169,6 +175,7 @@ export const UserInfo = styled.div`
   box-sizing: border-box;
   box-shadow: 2px 2px 1px 1px #d3d3d3;
   border: 1px solid #d3d3d3;
+  background-color: white;
 `;
 
 export const SkeletonUserInfo = styled(UserInfo)`

@@ -45,6 +45,7 @@ export type ClassBoardAction =
 export type ClassBoardState = {
   classBoard: ClassBoard;
   getBoardError: ErrorType;
+  searchBoardError: ErrorType;
 };
 
 const initialState: ClassBoardState = {
@@ -55,6 +56,7 @@ const initialState: ClassBoardState = {
     class_number: 1,
   },
   getBoardError: errorInitialState,
+  searchBoardError: errorInitialState,
 };
 
 export default function ClassBoard(
@@ -82,7 +84,7 @@ export default function ClassBoard(
     case SEARCH_CLASS_BOARD_FAILURE:
       return {
         ...state,
-        getBoardError: action.payload,
+        searchBoardError: action.payload,
       };
     case RESET_GET_BOARD:
       return initialState;

@@ -8,7 +8,7 @@ import {
   AdminQnAContainer,
   AdminSignUpContainer,
 } from '../containers';
-import { NotFound } from '../components';
+import { NotFound, AlertModal } from '../components';
 import { getUserInfo } from '../lib/api/Admin/admin';
 
 const AdminRouter: FC = (): ReactElement => {
@@ -35,16 +35,18 @@ const AdminRouter: FC = (): ReactElement => {
   }, []);
 
   return (
-    <Switch>
-      <Route path='/admin/register' component={AdminSignUpContainer} />
-      <Route path='/admin/login' component={AdminLoginContainer} />
-      <Route path='/admin/create' component={AdminCreateContainer} />
-      <Route path='/admin/update/:assignmentId' component={AdminCreateContainer} />
-      <Route path='/admin/qna/:user_id' component={AdminQnAContainer} />
-      <Route path='/admin/qna' component={AdminQnAContainer} />
-      <Route path='/admin/*' component={NotFound} />
-      <Route path='/admin' component={AdminContainer} />
-    </Switch>
+    <AlertModal type='notify'>
+      <Switch>
+        <Route path='/admin/register' component={AdminSignUpContainer} />
+        <Route path='/admin/login' component={AdminLoginContainer} />
+        <Route path='/admin/create' component={AdminCreateContainer} />
+        <Route path='/admin/update/:assignmentId' component={AdminCreateContainer} />
+        <Route path='/admin/qna/:user_id' component={AdminQnAContainer} />
+        <Route path='/admin/qna' component={AdminQnAContainer} />
+        <Route path='/admin/*' component={NotFound} />
+        <Route path='/admin' component={AdminContainer} />
+      </Switch>
+    </AlertModal>
   );
 };
 

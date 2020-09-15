@@ -1,15 +1,22 @@
 import React, { FC, ReactElement, useMemo, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
+
 import * as S from './style';
 import SkeletonAside from './SkeletonAside';
+
 import { reducerType } from '../../../modules/reducer';
 
 interface Props {
   toggleFilter: (e: MouseEvent) => void;
 }
 
-const classes = ['class1', 'class2', 'class3', 'class4'];
-const subjects = [
+interface SubjectFilter {
+  id: string;
+  text: string;
+}
+
+const classes: string[] = ['class1', 'class2', 'class3', 'class4'];
+const subjects: SubjectFilter[] = [
   {
     id: 'personal',
     text: '개인',
@@ -20,7 +27,7 @@ const subjects = [
   },
   {
     id: 'experiment',
-    text: '과제',
+    text: '실험',
   },
 ];
 
@@ -44,6 +51,7 @@ const AdminAside: FC<Props> = ({ toggleFilter }): ReactElement => {
       )),
     [toggleFilter],
   );
+
   const subjectsFilter = useMemo(
     () =>
       subjects.map(({ id, text }) => (
