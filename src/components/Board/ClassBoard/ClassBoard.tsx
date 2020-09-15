@@ -106,7 +106,13 @@ const ClassBoard: FC<Props> = ({
         serverType: {
           refreshToken,
         },
-        callback: () => getBoard(),
+        callback: () => {
+          if (type === 'ADMIN') {
+            getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE, classNumber });
+          } else if (type === 'STUDENT') {
+            getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE });
+          }
+        },
         page: 'ClassBoard/getBoard',
       };
       refreshTokenChange(params);
