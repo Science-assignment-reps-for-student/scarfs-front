@@ -2,13 +2,16 @@ import React, { FC, useEffect } from 'react';
 import * as S from '../Default/PostFooter/style';
 import { useHistory } from 'react-router-dom';
 import { setModal } from '../../../../modules/reducer/Modal';
-import { stateChange, useTeam, useDeleteTeam } from '../../../../lib/function';
+import { stateChange, useTeam, useDeleteTeam, useToken } from '../../../../lib/function';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 interface Props {
   type?: 'PERSONAL' | 'TEAM' | 'EXPERIMENT';
 }
 
 const PostButtons: FC<Props> = ({ type }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const history = useHistory();
   const assignmentId = parseInt(location.pathname.split('/')[3]);
   const [team, getTeamError, getTeam] = useTeam();
@@ -40,7 +43,16 @@ const PostButtons: FC<Props> = ({ type }) => {
   }, [deleteTeamSuccess]);
 
   useEffect(() => {
-    if (deleteTeamError.status) {
+    if (deleteTeamError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickDeleteTeam(),
+        page: 'AssignmentDetailPost/deleteTeamMember',
+      };
+      refreshTokenChange(params);
+    } else if (deleteTeamError.status) {
       alert(`Error code: ${deleteTeamError.status} 팀 삭제 실패!`);
       resetDeleteTeamState();
     }
