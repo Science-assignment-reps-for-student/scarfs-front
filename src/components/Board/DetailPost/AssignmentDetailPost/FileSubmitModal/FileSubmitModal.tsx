@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import * as S from './style';
 import { Modal } from '../../Modal';
 import { reset } from '../../../../../modules/reducer/Modal';
-import { stateChange, isAbleFileExt } from '../../../../../lib/function';
+import { stateChange, isAbleFileExt, useToken } from '../../../../../lib/function';
 import { ReducerType } from '../../../../../modules/store';
 import { FileResponse } from '../../../../../lib/api/FileSubmit';
 import { ErrorType } from '../../../../../lib/type';
+import { sendRefreshToken } from '../../../../../modules/reducer/Header';
 
 interface Props {
   getSubmittedFiles: (type: string, assignmentId: number) => void;
@@ -36,6 +37,8 @@ const FileSubmitModal: FC<Props> = ({
   deleteSubmittedFile,
   resetFileSubmit,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const location = useLocation();
   const assignmentId = parseInt(location.pathname.split('/')[3]);
   const { type } = useSelector(
@@ -107,9 +110,10 @@ const FileSubmitModal: FC<Props> = ({
   };
 
   const onClickDelete = useCallback(
-    (deleteIndex: number) => {
+    (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+      const { fileId } = e.currentTarget.dataset;
       if (confirm('첨부파일을 정말로 삭제하시겠습니까?')) {
-        deleteSubmittedFile(type, deleteIndex);
+        deleteSubmittedFile(type, Number(fileId));
       }
     },
     [files],
@@ -127,6 +131,14 @@ const FileSubmitModal: FC<Props> = ({
     }
   };
 
+  const onClickDeleteLocalFile = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const { index } = e.currentTarget.dataset;
+    const newFiles = [...files];
+    newFiles.splice(Number(index), 1);
+
+    setFiles(newFiles);
+  };
+
   useEffect(() => {
     getSubmittedFiles(type, assignmentId);
 
@@ -136,7 +148,16 @@ const FileSubmitModal: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (getSubmittedFilesError.status) {
+    if (getSubmittedFilesError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getSubmittedFiles(type, assignmentId),
+        page: 'FileSubmitModal/getSubmittedFiles',
+      };
+      refreshTokenChange(params);
+    } else if (getSubmittedFilesError.status) {
       alert(`Error code: ${getSubmittedFilesError.status} 제출한 파일 불러오기 실패!`);
     }
   }, [getSubmittedFilesError]);
@@ -148,7 +169,16 @@ const FileSubmitModal: FC<Props> = ({
   }, [submitFileSuccess]);
 
   useEffect(() => {
-    if (submitFileError.status) {
+    if (submitFileError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickSubmit(),
+        page: 'FileSubmitModal/submitFile',
+      };
+      refreshTokenChange(params);
+    } else if (submitFileError.status) {
       alert(`Error code: ${submitFileError.status} 파일 제출 실패!`);
     }
   }, [submitFileError]);
@@ -160,7 +190,16 @@ const FileSubmitModal: FC<Props> = ({
   }, [deleteSubmittedFileSuccess]);
 
   useEffect(() => {
-    if (deleteSubmittedFileError.status) {
+    if (deleteSubmittedFileError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickDelete,
+        page: 'FileSubmitModal/deleteSubmittedFile',
+      };
+      refreshTokenChange(params);
+    } else if (deleteSubmittedFileError.status) {
       alert(`Error code: ${deleteSubmittedFileError.status} 제출한 파일 삭제 실패!`);
     }
   }, [deleteSubmittedFileError]);
@@ -185,7 +224,7 @@ const FileSubmitModal: FC<Props> = ({
               {submittedFiles.map(({ file_id, file_name }: FileResponse) => (
                 <S.FileItem key={file_id}>
                   <S.FileName>{file_name}</S.FileName>
-                  <S.DeleteButton onClick={() => onClickDelete(file_id)} />
+                  <S.DeleteButton data-file-id={file_id} onClick={onClickDelete} />
                 </S.FileItem>
               ))}
             </S.FileListBox>
@@ -196,7 +235,7 @@ const FileSubmitModal: FC<Props> = ({
           {files.map(({ name }: File, index: number) => (
             <S.FileItem key={index}>
               <S.FileName>{name}</S.FileName>
-              <S.DeleteButton onClick={() => onClickDelete(index)} />
+              <S.DeleteButton data-index={index} onClick={onClickDeleteLocalFile} />
             </S.FileItem>
           ))}
         </S.FileListBox>
