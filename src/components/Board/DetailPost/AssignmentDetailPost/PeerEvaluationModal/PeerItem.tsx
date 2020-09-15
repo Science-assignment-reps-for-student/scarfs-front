@@ -11,7 +11,7 @@ interface Props {
   goPeerEvaluation: () => void;
 }
 
-const Peers: FC<Props> = ({ finish, goPeerEvaluation, student_name, student_number }) => {
+const PeerItem: FC<Props> = ({ finish, goPeerEvaluation, student_name, student_number }) => {
   return (
     <React.Fragment>
       <S.StudentBox>
@@ -29,4 +29,4 @@ const Peers: FC<Props> = ({ finish, goPeerEvaluation, student_name, student_numb
   );
 };
 
-export default Peers;
+export default PeerItem;
