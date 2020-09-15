@@ -34,7 +34,7 @@ export const apiPeerEvaluation = (peer: PeerEvaluation) => {
   return getApiDefault().post<{}>(`/shank/evaluation/team`, peer);
 };
 
-export const apiAlreadySelfEvaluationInfo = (assignmentId: string) => {
+export const apiAlreadySelfEvaluation = (assignmentId: string) => {
   return getApiDefault().get<AlreadySelfEvaluation>(
     `/shank/evaluation/info/personal/${assignmentId}`,
   );
