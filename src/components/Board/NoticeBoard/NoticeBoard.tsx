@@ -1,16 +1,19 @@
 import React, { FC, useState, useEffect, useMemo } from 'react';
 import { BoardHeader, TableView, PaginationBar, CardView } from '../Default';
 import { NoticeTableItem, NoticeCard } from './';
-import { BoardType } from '../../../lib/api/Assignment/Assignment';
+import { BoardType, getBoard } from '../../../lib/api/Assignment/Assignment';
 import { ErrorType } from '../../../lib/type';
 import { SBone } from '../../../components/Admin/AdminMain/style';
 import queryString from 'query-string';
+import { useToken, stateChange } from '../../../lib/function';
+import { sendRefreshToken } from '../../../modules/reducer/Header';
 
 interface Props {
   getBoards: (page: number) => void;
   isLoading: boolean;
   board: BoardType;
   getBoardsError: ErrorType;
+  searchNoticeBoardError: ErrorType;
   searchBoards: (query: string, page: number) => void;
   resetMain: () => void;
 }
@@ -20,9 +23,12 @@ const NoticeBoard: FC<Props> = ({
   isLoading,
   board,
   getBoardsError,
+  searchNoticeBoardError,
   searchBoards,
   resetMain,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const { query } = queryString.parse(location.search);
   const isTableViewInLocalStorage = localStorage.getItem('isTableView');
   const [isTableView, setIsTableView] = useState(
@@ -67,10 +73,43 @@ const NoticeBoard: FC<Props> = ({
   }, [page]);
 
   useEffect(() => {
-    if (getBoardsError?.status) {
+    if (getBoardsError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => {
+          getBoards(page);
+        },
+        page: 'NoticeBoard/getBoards',
+      };
+      refreshTokenChange(params);
+    } else if (getBoardsError.status) {
       alert(`Error code: ${getBoardsError.status} 공지 불러오기 실패!`);
     }
   }, [getBoardsError]);
+
+  useEffect(() => {
+    if (searchNoticeBoardError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => {
+          if (typeof query === 'object') {
+            searchBoards(query[0], page);
+          } else if (query) {
+            searchBoards(query, page);
+          }
+        },
+        page: 'NoticeBoard/searchBoards',
+      };
+      refreshTokenChange(params);
+    } else if (searchNoticeBoardError.status) {
+      alert(`Error code: ${searchNoticeBoardError.status} 공지 검색 실패!`);
+    }
+  }, [searchNoticeBoardError]);
+
   return (
     <>
       {isLoading ? (
