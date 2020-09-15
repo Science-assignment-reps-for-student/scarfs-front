@@ -148,6 +148,9 @@ export const BlackDot = styled.div`
 `;
 
 export const SubmitButton = styled.button`
+  position: absolute;
+  left: 89%;
+  top: 100%;
   width: 117px;
   height: 41px;
   background-color: #505bff;
@@ -158,5 +161,9 @@ export const SubmitButton = styled.button`
   font-size: 13px;
   cursor: pointer;
   outline: none;
-  float: right;
+`;
+
+export const EvaluationLoading = styled.img`
+  display: block;
+  margin: auto;
 `;
