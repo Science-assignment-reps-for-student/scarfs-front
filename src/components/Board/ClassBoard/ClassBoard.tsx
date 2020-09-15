@@ -6,8 +6,10 @@ import * as S from './style';
 import { useHistory } from 'react-router-dom';
 import { SBone } from '../../../components/Admin/AdminMain/style';
 import { ClassBoard } from '../../../lib/api/ClassBoard';
-import { useUser, useWriteClassNumber } from '../../../lib/function';
+import { useUser, useWriteClassNumber, useToken, stateChange } from '../../../lib/function';
 import queryString from 'query-string';
+import { ErrorType } from '../../../lib/type';
+import { sendRefreshToken } from '../../../modules/reducer/Header';
 
 const ONE_PAGE_BOARD_SIZE = 7;
 
@@ -15,10 +17,23 @@ interface Props {
   isLoading: boolean;
   classBoard: ClassBoard;
   getBoard: (data: { size: number; page: number; classNumber?: number }) => void;
+  getBoardError: ErrorType;
   searchBoard: (query: string, page: number) => void;
+  searchBoardError: ErrorType;
+  resetBoard: () => void;
 }
 
-const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard }) => {
+const ClassBoard: FC<Props> = ({
+  isLoading,
+  classBoard,
+  getBoard,
+  getBoardError,
+  searchBoard,
+  searchBoardError,
+  resetBoard,
+}) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const { query } = queryString.parse(location.search);
   const user = useUser();
   const [classNumber, setClassNumber] = useWriteClassNumber();
@@ -41,6 +56,12 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard })
   const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setClassNumber(parseInt(e.target.value));
   };
+
+  useEffect(() => {
+    return () => {
+      resetBoard();
+    };
+  }, []);
 
   useEffect(() => {
     if (!query) {
@@ -78,6 +99,48 @@ const ClassBoard: FC<Props> = ({ isLoading, classBoard, getBoard, searchBoard })
       }
     }
   }, [page, classNumber]);
+
+  useEffect(() => {
+    if (getBoardError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => {
+          if (type === 'ADMIN') {
+            getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE, classNumber });
+          } else if (type === 'STUDENT') {
+            getBoard({ page: 1, size: ONE_PAGE_BOARD_SIZE });
+          }
+        },
+        page: 'ClassBoard/getBoard',
+      };
+      refreshTokenChange(params);
+    } else if (getBoardError.status) {
+      alert(`ERROR: CODE[${getBoardError.status}] 게시글 불러오기 실패!`);
+    }
+  }, [getBoardError]);
+
+  useEffect(() => {
+    if (getBoardError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => {
+          if (typeof query === 'object') {
+            searchBoard(query[0], page);
+          } else if (query) {
+            searchBoard(query, page);
+          }
+        },
+        page: 'ClassBoard/searchBoard',
+      };
+      refreshTokenChange(params);
+    } else if (getBoardError.status) {
+      alert(`ERROR: CODE[${getBoardError.status}] 게시글 검색 실패!`);
+    }
+  }, [searchBoardError]);
 
   return (
     <>

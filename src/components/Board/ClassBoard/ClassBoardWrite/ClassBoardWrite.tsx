@@ -57,10 +57,6 @@ const ClassBoardWrite: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (writeBoardError.message) alert(writeBoardError.message);
-  }, [writeBoardError]);
-
-  useEffect(() => {
     if (writeBoardSuccess !== 0) {
       history.push(`/board/class/${writeBoardSuccess}`);
     }
@@ -85,12 +81,6 @@ const ClassBoardWrite: FC<Props> = ({
     }
   }, [updateBoardSuccess]);
 
-  useEffect(() => {
-    if (updateBoardError.status) {
-      alert(`Error code: ${updateBoardError.status} 게시글 수정 실패`);
-    }
-  }, [updateBoardError]);
-
   return (
     <>
       <Header title={id ? '게시글 수정' : `${classNumber}반 게시글 작성`}>
@@ -106,8 +96,10 @@ const ClassBoardWrite: FC<Props> = ({
       <WriteMain
         classNumber={classNumber}
         writeBoard={writeBoard}
+        writeBoardError={writeBoardError}
         classDetailPost={classDetailPost}
         updateBoard={updateBoard}
+        updateBoardError={updateBoardError}
       />
     </>
   );

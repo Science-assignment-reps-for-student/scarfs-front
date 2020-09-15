@@ -13,6 +13,7 @@ interface Student {
 }
 
 interface SelectedStudent {
+  id: number;
   number: string;
   name: string;
 }
@@ -21,10 +22,17 @@ interface Props {
   isLoadingGetStudents: boolean;
   students: StudentResponse[];
   getStudentsError: ErrorType;
-  getStudents: (name: string) => void;
+  getStudents: (query: string, assignment_id: number) => void;
   deleteTeamMemberSuccess: boolean;
   deleteTeamMemberError: ErrorType;
   deleteTeamMember: (member_id: number) => void;
+  addTeamMemberSuccess: boolean;
+  addTeamMemberError: ErrorType;
+  addTeamMember: (member_id: number, target_id: number) => void;
+  addTeamMemberStudentNo: string;
+  setAddTeamMemberStudentNo: (studentNo: string) => void;
+  isLastAddTeamMember: boolean;
+  setIsLastAddTeamMember: () => void;
   resetAddTeamMember: () => void;
 }
 
@@ -36,6 +44,13 @@ const AddTeamMemberModal: FC<Props> = ({
   deleteTeamMemberSuccess,
   deleteTeamMemberError,
   deleteTeamMember,
+  addTeamMemberSuccess,
+  addTeamMemberError,
+  addTeamMember,
+  addTeamMemberStudentNo,
+  setAddTeamMemberStudentNo,
+  isLastAddTeamMember,
+  setIsLastAddTeamMember,
   resetAddTeamMember,
 }) => {
   const assignmentId = parseInt(location.pathname.split('/')[3]);
@@ -48,6 +63,7 @@ const AddTeamMemberModal: FC<Props> = ({
       students.map(s => {
         const index = selectedStudents.findIndex(student => student.number === s.number);
         let student;
+
         if (index !== -1) {
           student = { ...s, isSelected: true };
         } else {
@@ -82,6 +98,7 @@ const AddTeamMemberModal: FC<Props> = ({
 
   const selectStudentToggle = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      const id = Number(e.currentTarget.dataset.id);
       const studentNo = e.currentTarget.dataset.studentNo;
       const studentIndex = studentsWithOption.findIndex(s => s.number === studentNo);
       if (studentIndex === -1) {
@@ -91,14 +108,14 @@ const AddTeamMemberModal: FC<Props> = ({
       const newStudentsWithOption = [...studentsWithOption];
       newStudentsWithOption[studentIndex].isSelected = !isSelected;
       if (!isSelected)
-        return addTeam({ number: studentNo, name: newStudentsWithOption[studentIndex].name });
+        return addTeam({ id, number: studentNo, name: newStudentsWithOption[studentIndex].name });
       deleteTeam(studentNo);
     },
     [addTeam, deleteTeam, studentsWithOption],
   );
 
   const onClickSearch = useCallback(() => {
-    getStudents(query);
+    getStudents(query, assignmentId);
   }, [query]);
 
   const onKeyPress = useCallback(
@@ -110,14 +127,26 @@ const AddTeamMemberModal: FC<Props> = ({
     [query],
   );
 
-  const onClickDeleteOriginalMember = (member_id: number) => {
+  const onClickDeleteOriginalMember = (member_id: number, studentNo: string) => {
     if (confirm('정말로 팀원을 삭제하시겠습니까?')) {
       deleteTeamMember(member_id);
     }
   };
 
+  const onClickAddTeamMember = useCallback(() => {
+    if (!selectedStudents.length) {
+      alert('추가할 팀원이 없습니다.');
+    } else {
+      selectedStudents.forEach(student => {
+        addTeamMember(team.team_id, student.id);
+        setAddTeamMemberStudentNo(student.number);
+      });
+      setIsLastAddTeamMember();
+    }
+  }, [selectedStudents]);
+
   useEffect(() => {
-    getStudents(query);
+    getStudents(query, assignmentId);
 
     return () => {
       resetAddTeamMember();
@@ -134,7 +163,7 @@ const AddTeamMemberModal: FC<Props> = ({
     if (deleteTeamMemberSuccess) {
       resetAddTeamMember();
       getTeam(assignmentId);
-      getStudents(query);
+      getStudents(query, assignmentId);
     }
   }, [deleteTeamMemberSuccess]);
 
@@ -143,6 +172,26 @@ const AddTeamMemberModal: FC<Props> = ({
       alert(`Error code: ${deleteTeamMemberError.status} 팀원 삭제 실패!`);
     }
   }, [deleteTeamMemberError]);
+
+  useEffect(() => {
+    if (addTeamMemberSuccess) {
+      getStudents(query, assignmentId);
+      getTeam(assignmentId);
+      deleteTeam(addTeamMemberStudentNo);
+      resetAddTeamMember();
+      if (isLastAddTeamMember) {
+        setSelectedStudents([]);
+      }
+    }
+  }, [addTeamMemberSuccess]);
+
+  useEffect(() => {
+    if (addTeamMemberError.status) {
+      alert(
+        `Error code: ${addTeamMemberError.status} ${addTeamMemberStudentNo} 번 학생 팀 추가 실패`,
+      );
+    }
+  }, [addTeamMemberError]);
 
   return (
     <Modal>
@@ -166,9 +215,10 @@ const AddTeamMemberModal: FC<Props> = ({
             {isLoadingGetStudents ? (
               <S.StudentItem isClicked={false}>학생 목록 불러오는중...</S.StudentItem>
             ) : (
-              studentsWithOption.map(({ number, name, isSelected }) => (
+              studentsWithOption.map(({ id, number, name, isSelected }) => (
                 <S.StudentItem
                   data-student-no={number}
+                  data-id={id}
                   key={number}
                   isClicked={isSelected}
                   onClick={selectStudentToggle}
@@ -200,7 +250,11 @@ const AddTeamMemberModal: FC<Props> = ({
                       <S.BlueText>{member.member_number}</S.BlueText>
                       <S.BlueText>{member.member_name}</S.BlueText>
                     </S.TextWrapper>
-                    <S.DeleteButton onClick={() => onClickDeleteOriginalMember(member.member_id)} />
+                    <S.DeleteButton
+                      onClick={() =>
+                        onClickDeleteOriginalMember(member.member_id, member.member_number)
+                      }
+                    />
                   </S.SelectedTeamItem>
                 ))}
               </S.SelectedTeamListBox>
@@ -219,7 +273,9 @@ const AddTeamMemberModal: FC<Props> = ({
               </S.SelectedTeamItem>
             ))}
           </S.SelectedTeamListBox>
-          <S.ModifyTeamMemberButton>팀원 추가</S.ModifyTeamMemberButton>
+          <S.ModifyTeamMemberButton onClick={onClickAddTeamMember}>
+            팀원 추가
+          </S.ModifyTeamMemberButton>
         </S.RightAside>
       </S.AddTeamMemberModalBox>
     </Modal>

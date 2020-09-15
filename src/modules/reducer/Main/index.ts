@@ -97,6 +97,7 @@ export type MainState = {
   assignmentClassNumber: number;
   getAssignmentError: ErrorType;
   getBoardError: ErrorType;
+  searchAssignmentError: ErrorType;
 };
 
 const initialState: MainState = {
@@ -107,6 +108,7 @@ const initialState: MainState = {
   assignmentClassNumber: 1,
   getBoardError: errorInitialState,
   getAssignmentError: errorInitialState,
+  searchAssignmentError: errorInitialState,
 };
 
 export type MainActionType =
@@ -212,7 +214,7 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
     case SEARCH_ASSIGNMENT_BOARDS_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        searchAssignmentError: action.payload,
       };
     case RESET_MAIN:
       return {
