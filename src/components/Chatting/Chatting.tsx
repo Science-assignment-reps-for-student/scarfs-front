@@ -61,6 +61,7 @@ const Chatting: FC<Props> = ({
           chattingBodyRef={chattingBodyRef}
           isDeleteChange={isDeleteChange}
           isDelete={isDelete}
+          isConnected={isConnected}
         />
         <ChattingInput
           value={input}
