@@ -222,7 +222,7 @@ const AddTeamMemberModal: FC<Props> = ({
       refreshTokenChange(params);
     } else if (addTeamMemberError.status) {
       alert(
-        `Error code: ${addTeamMemberError.status} ${addTeamMemberStudentNo} 번 학생 팀 추가 실패`,
+        `Error code: ${addTeamMemberError.status} ${addTeamMemberStudentNo}번 학생 팀 추가 실패`,
       );
     }
   }, [addTeamMemberError]);
