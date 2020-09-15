@@ -5,13 +5,16 @@ import { getLocaleDateString } from '../../utils';
 import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
 import { downloadBlobByClick } from '../../../../lib/function/admin';
 import { ErrorType } from '../../../../lib/type';
-import { useTeam } from '../../../../lib/function';
+import { useTeam, useToken, stateChange } from '../../../../lib/function';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 interface Props {
   board: AssignmentDetailPostWithFiles;
 }
 
 const PostInfoDetail: FC<Props> = ({ board }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const [team] = useTeam();
   const downloadFileHandler = async (file: FileResponse) => {
     try {
@@ -21,7 +24,20 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
     } catch (e) {
       if (e.response?.data) {
         const error: ErrorType = e.response.data;
-        if (error.status) {
+        if (error.status === 403) {
+          const params = {
+            serverType: {
+              refreshToken,
+            },
+            callback: async () => {
+              const { data } = await getAssignmentFile(file.file_id);
+              const blob: Blob = new Blob([data], { type: 'application/json' });
+              downloadBlobByClick(blob, `${file.file_name}`);
+            },
+            page: 'PostInfoDetail/getAssignmentFile',
+          };
+          refreshTokenChange(params);
+        } else if (error.status) {
           alert(`Error Code: ${e.response.status} 다운로드 실패`);
         }
       }

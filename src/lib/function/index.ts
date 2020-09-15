@@ -185,3 +185,9 @@ export const useDeleteTeam = (): [
 
   return [deleteTeamSuccess, deleteTeamError, deleteTeam, resetDeleteTeamState];
 };
+
+export const useToken = () => {
+  const { accessToken, refreshToken } = useSelector(getStateCallback<HeaderState>('Header'));
+
+  return [accessToken, refreshToken];
+};

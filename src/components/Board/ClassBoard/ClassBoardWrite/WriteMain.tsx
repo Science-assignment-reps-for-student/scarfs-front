@@ -7,19 +7,32 @@ import {
   PostContentBox,
 } from '../../DetailPost/Default/PostMain/style';
 import { WriteTextarea, WriteFooterButtons, ImagePreview } from './';
-import { readFileAsDataURL } from '../../../../lib/function';
+import { readFileAsDataURL, useToken, stateChange } from '../../../../lib/function';
 import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
 import { getImageFileByURL } from '../../../../lib/api/ClassBoardWrite';
 import { useHistory } from 'react-router-dom';
+import { ErrorType } from '../../../../lib/type';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 interface Props {
   writeBoard: (data: FormData) => void;
+  writeBoardError: ErrorType;
   classNumber: number;
   classDetailPost: ClassDetailPost;
   updateBoard: (boardId: number, data: FormData) => void;
+  updateBoardError: ErrorType;
 }
 
-const WriteMain: FC<Props> = ({ writeBoard, classNumber, classDetailPost, updateBoard }) => {
+const WriteMain: FC<Props> = ({
+  writeBoard,
+  writeBoardError,
+  classNumber,
+  classDetailPost,
+  updateBoard,
+  updateBoardError,
+}) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const history = useHistory();
   const { id } = queryString.parse(location.search);
   const inputTitleRef = useRef<HTMLInputElement>(null);
@@ -204,9 +217,24 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber, classDetailPost, update
                 files[index] = data;
               })
               .catch(error => {
-                alert('사진을 불러오지 못했습니다.');
-                history.push('/error');
-                console.log(error);
+                if (error.response?.status === 403) {
+                  const params = {
+                    serverType: {
+                      refreshToken,
+                    },
+                    callback: () => {
+                      getImageFileByURL(images[imageIndex]).then(({ data }) => {
+                        files[index] = data;
+                      });
+                    },
+                    page: 'ClassBoardWrite/getImageFileByURL',
+                  };
+                  refreshTokenChange(params);
+                } else {
+                  console.log(error);
+                  alert('사진을 불러오지 못했습니다.');
+                  history.push('/error');
+                }
               });
 
             prevImageEndIndex = content.indexOf('}', nextImageStartIndex) + 1;
@@ -234,6 +262,36 @@ const WriteMain: FC<Props> = ({ writeBoard, classNumber, classDetailPost, update
       setOriginalBoard();
     }
   }, [classDetailPost]);
+
+  useEffect(() => {
+    if (writeBoardError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => writeClickHandler(),
+        page: 'ClassBoardWrite/writeBoard',
+      };
+      refreshTokenChange(params);
+    } else if (writeBoardError.message) {
+      alert(writeBoardError.message);
+    }
+  }, [writeBoardError]);
+
+  useEffect(() => {
+    if (updateBoardError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => updateClickHandler(),
+        page: 'ClassBoardWrite/updateBoard',
+      };
+      refreshTokenChange(params);
+    } else if (updateBoardError.status) {
+      alert(`Error code: ${updateBoardError.status} 게시글 수정 실패`);
+    }
+  }, [updateBoardError]);
 
   return (
     <>
