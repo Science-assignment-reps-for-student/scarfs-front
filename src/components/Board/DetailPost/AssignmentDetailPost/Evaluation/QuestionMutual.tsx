@@ -36,9 +36,6 @@ const QuestionMutual: FC<Props> = ({ target }) => {
     [COMMUNICATION]: setCommunicationScore,
   };
 
-  const isTargetFinish = () =>
-    peers.some(({ student_id, finish }) => student_id === parseInt(target) && finish);
-
   const getScoreCheckButtonsByType = (type: EvaluationCategory) => {
     const buffer = [];
     for (let i = 3; i >= 1; i--) {
@@ -95,8 +92,18 @@ const QuestionMutual: FC<Props> = ({ target }) => {
     setMethod[COOPERATION](data.cooperation);
   };
 
+  const isTargetFinish = () =>
+    peers.some(({ student_id, finish }) => student_id === parseInt(target) && finish);
+
+  const getTargetInfo = (): string => {
+    if (peers.length === 0) return '';
+    const targetIdx = peers.findIndex(({ student_id }) => student_id === parseInt(target));
+    const sNum = peers[targetIdx].student_number;
+    return `${sNum.charAt(0)}학년 ${sNum.charAt(1)}반 ${peers[targetIdx].student_name}`;
+  };
+
   useEffect(() => {
-    if (!isTargetFinish()) {
+    if (isTargetFinish()) {
       setAlreadyPeer();
     }
   }, [peers, target]);
@@ -107,10 +114,7 @@ const QuestionMutual: FC<Props> = ({ target }) => {
     <>
       <S.FormHeader>
         <S.FormTitle>동료평가</S.FormTitle>
-        <S.BlackStudentInfo>
-          {`${userInfo?.studentNumber}`?.charAt(0)}학년 {`${userInfo?.studentNumber}`?.charAt(1)}반{' '}
-          {userInfo?.name}
-        </S.BlackStudentInfo>
+        <S.BlackStudentInfo>{getTargetInfo()}</S.BlackStudentInfo>
       </S.FormHeader>
       <S.FormContent>
         <S.ContentHeader>
