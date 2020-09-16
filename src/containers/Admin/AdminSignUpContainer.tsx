@@ -10,8 +10,13 @@ import React, {
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { AlertModal, AdminSignUp } from '../../components';
-import { SignUp, signUpReducer, signUpInit, SignUpAction } from '../../modules/reducer/AdminSignUp';
+import { AdminSignUp } from '../../components';
+import {
+  SignUp,
+  signUpReducer,
+  signUpInit,
+  SignUpAction,
+} from '../../modules/reducer/AdminSignUp/reducer';
 import { createAlert } from '../../modules/reducer/Alert';
 import { apiSignUp } from '../../lib/api/Admin/signUp';
 
@@ -66,13 +71,13 @@ const AdminSignUpContainer: FC<Props> = (): ReactElement => {
   const isPasswordMatched = ({ password, confirmPassword }: SignUp) => password === confirmPassword;
 
   return (
-    <AlertModal type='warn'>
+    <>
       <AdminSignUp
         onChangeInput={onChangeInput}
         onClickRegister={onClickRegister}
         loading={loading}
       />
-    </AlertModal>
+    </>
   );
 };
 

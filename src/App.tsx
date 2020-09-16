@@ -1,17 +1,10 @@
-import React, { FC, useEffect } from 'react';
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import React, { FC } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import GlobalStyle from './GlobalStyle';
 import { UserRouter, AdminRouter } from './routers';
 import { NotFound } from './components';
 
 const App: FC = (): React.ReactElement => {
-  const history = useHistory();
-  useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken || accessToken.length <= 0) {
-      history.push('/');
-    }
-  }, []);
   return (
     <>
       <GlobalStyle />

@@ -10,12 +10,12 @@ const SkeletonAdmin: FC<Props> = () => {
     <>
       {subjects.map(subject => (
         <S.SSubject key={subject}>
-          <S.SBone width='100%' height='48px' />
+          <S.SBone width='100%' height='48px' margin='50px 0 0 0' />
           <S.SClasses>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
-            <S.SBone className='back' width='49%' height='240px'></S.SBone>
+            <S.SBone width='49%' height='240px' />
+            <S.SBone width='49%' height='240px' />
+            <S.SBone width='49%' height='240px' />
+            <S.SBone width='49%' height='240px' />
           </S.SClasses>
         </S.SSubject>
       ))}

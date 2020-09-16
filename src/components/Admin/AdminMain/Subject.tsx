@@ -8,12 +8,12 @@ interface Props {
 }
 
 const Subject: FC<Props> = ({ subject, children }): ReactElement => {
-  const { title, id, typing } = subject[0];
+  const { title, id } = subject[0];
 
   return (
     <S.SubjectWrap>
       <S.SubjectTitle>{title}</S.SubjectTitle>
-      <SubjectButtons assignmentId={id} typing={typing} />
+      <SubjectButtons title={title} assignmentId={id} />
       <S.Subject>{children}</S.Subject>
     </S.SubjectWrap>
   );

@@ -1,9 +1,10 @@
 import React, { createRef } from 'react';
 import Wave from './Wave';
+import { WaveType } from '../../../../containers/Default/Wave/WaveContainer';
 import { WaveCanvas } from '../style';
 
 interface Props {
-  colors: string[];
+  waveData: WaveType[];
 }
 
 class WaveController extends React.Component<Props> {
@@ -12,28 +13,26 @@ class WaveController extends React.Component<Props> {
   stageWidth: number;
   stageHeight: number;
   waves: Wave[];
-  colors: string[];
+  waveData: WaveType[];
 
   constructor(props) {
     super(props);
     this.waves = [];
     this.canvas = createRef();
-    this.colors = props.colors;
+    this.waveData = props.waveData;
   }
   resize() {
     this.stageWidth = document.body.clientWidth;
-    this.stageHeight = 20;
+    this.stageHeight = 30;
 
     this.canvas.current.width = this.stageWidth;
-    this.canvas.current.height = 30;
+    this.canvas.current.height = 50;
     this.ctx.scale(2, 2);
     this.resizeWave();
   }
-  setWave(waveColors) {
-    let count = 0;
-    waveColors.map(waveColor => {
-      const newWave = new Wave(waveColor, count);
-      count++;
+  setWave(waveColors: WaveType[]) {
+    waveColors.map(data => {
+      const newWave = new Wave(data.color, data.pointNumber);
       this.waves.push(newWave);
     });
   }
@@ -59,7 +58,7 @@ class WaveController extends React.Component<Props> {
       passive: false,
       capture: false,
     });
-    this.setWave(this.colors);
+    this.setWave(this.waveData);
     this.resize();
     requestAnimationFrame(this.animate.bind(this));
   }

@@ -1,7 +1,9 @@
-import { getApiDefault } from '../client';
+import axios from 'axios';
 
-export const apiLogin = ({ ID, PW }: { ID: string; PW: string; type: string }) => {
-  return getApiDefault().post(`/admin/auth`, {
+import { Login } from './responseTypes';
+
+export const apiLogin = ({ ID, PW }: { ID: string; PW: string }) => {
+  return axios.post<Login>(`${process.env.BASE_URL}/chateaubriand/auth`, {
     email: ID,
     password: PW,
   });

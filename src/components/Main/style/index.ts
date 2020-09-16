@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import { megaphone, calender, logo, logout, logoutLogo } from '../../../assets/Main';
 
-export const Body = styled.div`
+export const Body = styled.main`
   width: 100%;
   min-width: 1340px;
   padding: 0px 100px 0px 100px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  overflow: hidden;
+  z-index: 2;
+  position: relative;
 `;
 
-export const Wrapper = styled.div<{ margin: number }>`
+export const Wrapper = styled.div<{ margin?: number }>`
   margin-top: ${props => props.margin}px;
   display: flex;
   flex-wrap: wrap;
@@ -20,7 +22,6 @@ export const Wrapper = styled.div<{ margin: number }>`
 
 export const TaskListWrapper = styled.div`
   height: 600px;
-  align-self: flex-end;
 `;
 
 export const TaskList = styled.div`
@@ -28,7 +29,6 @@ export const TaskList = styled.div`
   height: 190px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
 `;
 
 export const TaskListComponent = styled.div`
@@ -39,6 +39,15 @@ export const TaskListComponent = styled.div`
   box-shadow: 0px 0px 1px 1px #c3c3c3;
   margin: 15px 15px 0px 0px;
   cursor: pointer;
+  background-color: white;
+  &:hover {
+    box-shadow: 0px 0px 1px 1px #505bff;
+  }
+`;
+
+export const SkeletonTaskListComponent = styled(TaskListComponent)`
+  background-color: #e5e1de;
+  box-shadow: none;
 `;
 
 export const TaskListComponentHeader = styled.div`
@@ -46,7 +55,7 @@ export const TaskListComponentHeader = styled.div`
   font-size: 0.8125rem;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   > p {
     width: 200px;
     overflow: hidden;
@@ -70,7 +79,7 @@ export const TaskListComponentAddButton = styled(TaskListComponent)`
 `;
 
 export const TaskListComponentBody = styled.div`
-  font-size: 1.4375rem;
+  font-size: 1.2375rem;
   width: 200px;
   > p {
     overflow: hidden;
@@ -105,6 +114,8 @@ export const TaskListHeader = styled.div`
 export const Logo = styled.div`
   width: 500px;
   height: 380px;
+  margin-right: 100px;
+  margin-top: 30px;
 `;
 
 export const LogoTitle = styled.p`
@@ -148,7 +159,7 @@ export const UserMain = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 132px;
+  margin-top: 70px;
   align-self: flex-end;
   > div {
     width: 365px;
@@ -164,12 +175,22 @@ export const UserInfo = styled.div`
   box-sizing: border-box;
   box-shadow: 2px 2px 1px 1px #d3d3d3;
   border: 1px solid #d3d3d3;
+  background-color: white;
+`;
+
+export const SkeletonUserInfo = styled(UserInfo)`
+  background-color: #e5e1de;
+  box-shadow: none;
+  border: none;
 `;
 
 export const UserInfoName = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   text-align: right;
+  > span {
+    margin-left: 10px;
+  }
 `;
 
 export const UserInfoTask = styled.div`
@@ -214,6 +235,12 @@ export const UserInfoButton = styled.div`
       font-weight: 500;
     }
   }
+`;
+
+export const SkeletonUserInfoButton = styled(UserInfoButton)`
+  background-color: #e5e1de;
+  box-shadow: none;
+  border: none;
 `;
 
 export const SideBar = styled.div`

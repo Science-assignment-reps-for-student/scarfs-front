@@ -1,15 +1,19 @@
 import React, { FC } from 'react';
 import * as S from './style';
 
-interface Props {
+interface Buttons {
   type?: string;
-  ButtonsTemplate: FC<{ type?: string }>;
+  deleteDetailPost?: (boardId: number) => void;
 }
 
-const PostFooter: FC<Props> = ({ type, ButtonsTemplate }) => {
+interface Props extends Buttons {
+  ButtonsTemplate: FC<Buttons>;
+}
+
+const PostFooter: FC<Props> = ({ type, ButtonsTemplate, deleteDetailPost }) => {
   return (
     <S.PostFooterWrapper>
-      <ButtonsTemplate type={type} />
+      <ButtonsTemplate type={type} deleteDetailPost={deleteDetailPost} />
     </S.PostFooterWrapper>
   );
 };

@@ -1,8 +1,10 @@
 export {
   AssignmentGuideBoard,
   ClassBoard,
+  ClassBoardWrite,
   NoticeBoard,
   AssignmentDetailPost,
+  ClassDetailPost,
   NoticeDetailPost,
   Evaluation,
 } from './Board';

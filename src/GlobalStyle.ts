@@ -59,6 +59,28 @@ const GlobalStyle: GlobalStyleComponent<{}, DefaultTheme> = createGlobalStyle`
   color: #000;
   text-decoration: none;
   }
+  .rotate{
+    transform: rotate(180deg);
+  }
+  
+  .btn{
+    display: inline-block;
+    transition: 0.5s;
+  }
+  .react-pdf__Page {
+    position: unset !important;
+  }
+  ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: white;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #505BFF;
+}
 `;
 
 export default GlobalStyle;

@@ -1,28 +1,37 @@
-import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
 import * as S from '../../style';
 import UserInfoTask from './UserInfoTask';
 import UserInfoButton from './UserInfoButton';
-import { getUserInfo, MainState } from '../../../../modules/reducer/Main';
-import { stateChange, getStateCallback } from '../../../../lib/function';
+import { UserInfoType } from 'lib/api/Header/userInfo';
+import ErrorUserInfo from './ErrorUserInfo';
 
-const UserInfo: FC = () => {
-  const { userInfo } = useSelector(getStateCallback<MainState>('Main'));
-  const getUserInfoChange = stateChange(getUserInfo);
-  useEffect(() => {
-    getUserInfoChange();
-  }, []);
+interface Props {
+  userInfo: UserInfoType | null;
+  isLoading: boolean;
+  logout: () => void;
+}
+
+const UserInfo: FC<Props> = ({ userInfo, isLoading, logout }) => {
   return (
     <S.UserMain>
       <div>
-        <S.UserInfo>
-          <S.UserInfoName>{userInfo.name}</S.UserInfoName>
-          <UserInfoTask
-            unCompleteTaskCount={userInfo.remainingAssignment}
-            completeTaskCount={userInfo.completionAssignment}
-          />
-        </S.UserInfo>
-        <UserInfoButton />
+        {isLoading || !userInfo ? (
+          <ErrorUserInfo />
+        ) : (
+          <>
+            <S.UserInfo>
+              <S.UserInfoName>
+                <span>{userInfo.studentNumber}</span>
+                <span>{userInfo.name}</span>
+              </S.UserInfoName>
+              <UserInfoTask
+                unCompleteTaskCount={userInfo.remainingAssignment}
+                completeTaskCount={userInfo.completionAssignment}
+              />
+            </S.UserInfo>
+          </>
+        )}
+        <UserInfoButton logoutButtonHandler={logout} />
       </div>
     </S.UserMain>
   );

@@ -1,18 +1,16 @@
 import React, { FC, ReactElement, MouseEvent } from 'react';
-import { notification } from '../../assets/Admin';
+
 import * as S from './style';
+
+import { notification } from '../../assets/Admin';
 
 interface Props {
   onClickCheck: (e: MouseEvent<HTMLButtonElement>) => void;
   onClickCancel: (e: MouseEvent<HTMLButtonElement>) => void;
-  explain: string;
+  explain: JSX.Element[];
 }
 
-const NotifyModal: FC<Props> = ({
-  onClickCheck,
-  onClickCancel,
-  explain = '모든 빈칸을 채워주세요.',
-}): ReactElement => {
+const NotifyModal: FC<Props> = ({ onClickCheck, onClickCancel, explain }): ReactElement => {
   return (
     <S.NotifyWrap>
       <S.AlertTitle>
