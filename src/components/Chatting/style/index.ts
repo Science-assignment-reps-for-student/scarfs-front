@@ -68,6 +68,10 @@ export const ChattingBody = styled.div`
     box-sizing: border-box;
     width: 100%;
   }
+  > p.error {
+    text-align: center;
+    color: red;
+  }
 `;
 
 export const ChattingHeaderContent = styled.div<{ isSelected: boolean }>`

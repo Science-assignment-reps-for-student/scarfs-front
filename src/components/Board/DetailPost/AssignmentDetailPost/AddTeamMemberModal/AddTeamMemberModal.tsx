@@ -3,7 +3,8 @@ import * as S from './style';
 import { Modal } from '../../Modal';
 import { StudentResponse } from '../../../../../lib/api/AddTeamMember';
 import { ErrorType } from '../../../../../lib/type';
-import { useUser, useTeam } from '../../../../../lib/function';
+import { useUser, useTeam, stateChange, useToken } from '../../../../../lib/function';
+import { sendRefreshToken } from '../../../../../modules/reducer/Header';
 
 interface Student {
   id: number;
@@ -53,11 +54,15 @@ const AddTeamMemberModal: FC<Props> = ({
   setIsLastAddTeamMember,
   resetAddTeamMember,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const assignmentId = parseInt(location.pathname.split('/')[3]);
   const [team, , getTeam] = useTeam();
+  const [memberId, setMemberId] = useState(0);
   const { studentNumber, name, classNumber } = useUser();
   const [query, setQuery] = useState<string>('');
   const [selectedStudents, setSelectedStudents] = useState<SelectedStudent[]>([]);
+
   const studentsWithOption: Student[] = useMemo(
     () =>
       students.map(s => {
@@ -127,8 +132,9 @@ const AddTeamMemberModal: FC<Props> = ({
     [query],
   );
 
-  const onClickDeleteOriginalMember = (member_id: number, studentNo: string) => {
+  const onClickDeleteOriginalMember = (member_id: number) => {
     if (confirm('정말로 팀원을 삭제하시겠습니까?')) {
+      setMemberId(member_id);
       deleteTeamMember(member_id);
     }
   };
@@ -154,7 +160,16 @@ const AddTeamMemberModal: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (getStudentsError.status) {
+    if (getStudentsError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getStudents(query, assignmentId),
+        page: 'AddTeamMemberModal/getStudents',
+      };
+      refreshTokenChange(params);
+    } else if (getStudentsError.status) {
       alert(`Error code: ${getStudentsError.status} 학생 목록 불러오기 실패!`);
     }
   }, [getStudentsError]);
@@ -164,11 +179,21 @@ const AddTeamMemberModal: FC<Props> = ({
       resetAddTeamMember();
       getTeam(assignmentId);
       getStudents(query, assignmentId);
+      setMemberId(0);
     }
   }, [deleteTeamMemberSuccess]);
 
   useEffect(() => {
-    if (deleteTeamMemberError.status) {
+    if (deleteTeamMemberError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickDeleteOriginalMember(memberId),
+        page: 'AddTeamMemberModal/onClickDeleteOriginalMember',
+      };
+      refreshTokenChange(params);
+    } else if (deleteTeamMemberError.status) {
       alert(`Error code: ${deleteTeamMemberError.status} 팀원 삭제 실패!`);
     }
   }, [deleteTeamMemberError]);
@@ -186,9 +211,18 @@ const AddTeamMemberModal: FC<Props> = ({
   }, [addTeamMemberSuccess]);
 
   useEffect(() => {
-    if (addTeamMemberError.status) {
+    if (addTeamMemberError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickAddTeamMember(),
+        page: 'AddTeamMemberModal/onClickAddTeamMember',
+      };
+      refreshTokenChange(params);
+    } else if (addTeamMemberError.status) {
       alert(
-        `Error code: ${addTeamMemberError.status} ${addTeamMemberStudentNo} 번 학생 팀 추가 실패`,
+        `Error code: ${addTeamMemberError.status} ${addTeamMemberStudentNo}번 학생 팀 추가 실패`,
       );
     }
   }, [addTeamMemberError]);
@@ -250,11 +284,7 @@ const AddTeamMemberModal: FC<Props> = ({
                       <S.BlueText>{member.member_number}</S.BlueText>
                       <S.BlueText>{member.member_name}</S.BlueText>
                     </S.TextWrapper>
-                    <S.DeleteButton
-                      onClick={() =>
-                        onClickDeleteOriginalMember(member.member_id, member.member_number)
-                      }
-                    />
+                    <S.DeleteButton onClick={() => onClickDeleteOriginalMember(member.member_id)} />
                   </S.SelectedTeamItem>
                 ))}
               </S.SelectedTeamListBox>

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderState, { sendRefreshToken } from '../../../src/modules/reducer/Header';
 import Chatting, { ChattingOpenButton, ChattingCloseButton } from '../../components/Chatting';
@@ -148,7 +148,7 @@ const ChattingContainer: FC = () => {
     io.current.joinRoom(userInfo.id, TEACHER_TARGET);
     io.current.joinRoom(userInfo.id, ADMIN_TARGET);
     io.current.receive(updateChatting);
-    io.current.error(() => dispatch(setIsConnected(false)));
+    io.current.connectError(() => dispatch(setIsConnected(false)));
   }, [io, userInfo]);
 
   useEffect(() => {
@@ -164,7 +164,6 @@ const ChattingContainer: FC = () => {
   useEffect(() => {
     io.current = new IO();
   }, []);
-
   useEffect(() => {
     setTimeout(() => {
       chattingBodyScrollDown(chattingBody.current);

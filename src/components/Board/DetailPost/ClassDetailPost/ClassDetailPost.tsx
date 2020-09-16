@@ -2,10 +2,11 @@ import React, { FC, useEffect } from 'react';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
-import { useUser } from '../../../../lib/function';
+import { useUser, useToken, stateChange } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
 import { ClassDetailPost } from '../../../../lib/api/ClassDetailPost';
 import { ErrorType } from '../../../../lib/type';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 enum Error {
   '본인반 외에 게시글에는 접근 불가능 합니다.' = 401,
@@ -33,6 +34,8 @@ const ClassDetailPost: FC<Props> = ({
   deleteDetailPostError,
   resetDetailPost,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber } = useUser();
@@ -46,7 +49,16 @@ const ClassDetailPost: FC<Props> = ({
   }, [paramId, classNumber]);
 
   useEffect(() => {
-    if (getDetailPostError.status) {
+    if (getDetailPostError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getDetailPost(paramId),
+        page: 'ClassDetailPost/getDetailPost',
+      };
+      refreshTokenChange(params);
+    } else if (getDetailPostError.status) {
       alert(Error[getDetailPostError.status]);
       history.goBack();
     }
@@ -59,7 +71,16 @@ const ClassDetailPost: FC<Props> = ({
   }, [deleteDetailPostSuccess]);
 
   useEffect(() => {
-    if (deleteDetailPostError.status) {
+    if (getDetailPostError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => deleteDetailPost(paramId),
+        page: 'ClassDetailPost/deleteDeatilPost',
+      };
+      refreshTokenChange(params);
+    } else if (deleteDetailPostError.status) {
       alert(`Error code: ${deleteDetailPostError.status} 게시글 삭제 실패!`);
     }
   }, [deleteDetailPostError]);
