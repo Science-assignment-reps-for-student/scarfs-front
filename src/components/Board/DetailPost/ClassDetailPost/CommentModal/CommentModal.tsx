@@ -135,7 +135,7 @@ const CommonComment: FC<CommonCommentProps> = ({
   }, [updateReCommentSuccess]);
 
   useEffect(() => {
-    if (deleteCommentError.status === 403) {
+    if (isComment && deleteCommentError.status === 403) {
       const params = {
         serverType: {
           refreshToken,
@@ -148,7 +148,7 @@ const CommonComment: FC<CommonCommentProps> = ({
   }, [deleteCommentError]);
 
   useEffect(() => {
-    if (updateCommentError.status === 403) {
+    if (isComment && updateCommentError.status === 403) {
       const params = {
         serverType: {
           refreshToken,
@@ -161,7 +161,7 @@ const CommonComment: FC<CommonCommentProps> = ({
   }, [updateCommentError]);
 
   useEffect(() => {
-    if (updateReCommentError.status === 403) {
+    if (!isComment && updateReCommentError.status === 403) {
       const params = {
         serverType: {
           refreshToken,
@@ -174,7 +174,7 @@ const CommonComment: FC<CommonCommentProps> = ({
   }, [updateReCommentError]);
 
   useEffect(() => {
-    if (deleteReCommentError.status === 403) {
+    if (!isComment && deleteReCommentError.status === 403) {
       const params = {
         serverType: {
           refreshToken,
