@@ -105,7 +105,9 @@ const PostButtons: FC<Props> = ({ type }) => {
         </S.ButtonBox>
       )}
       <S.ButtonBox>
-        {((type === 'TEAM' && team.leader) || type === 'EXPERIMENT' || type === 'PERSONAL') && (
+        {((type === 'TEAM' && team.leader) ||
+          (type === 'EXPERIMENT' && team.team_id) ||
+          type === 'PERSONAL') && (
           <S.Button bgColor='#505BFF' fontColor='#FFFFFF' onClick={openFileSubmitModal}>
             제출하기
           </S.Button>
