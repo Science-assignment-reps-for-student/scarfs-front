@@ -1,2 +1,2 @@
-import Wave from './Wave';
+import Wave from './components';
 export default Wave;
