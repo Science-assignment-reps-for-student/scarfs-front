@@ -1,1 +1,5 @@
-export { default as HeaderContainer } from './Header';
+import HeaderContainer from './Header';
+import WaveContainer from './Wave';
+import ModalContainer from './Modal';
+
+export { HeaderContainer, WaveContainer, ModalContainer };
