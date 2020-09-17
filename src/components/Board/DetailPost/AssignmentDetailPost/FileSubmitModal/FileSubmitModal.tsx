@@ -10,6 +10,11 @@ import { FileResponse } from '../../../../../lib/api/FileSubmit';
 import { ErrorType } from '../../../../../lib/type';
 import { sendRefreshToken } from '../../../../../modules/reducer/Header';
 
+interface SubmitFileNameError {
+  status: number;
+  conflict_files: string[];
+}
+
 interface Props {
   getSubmittedFiles: (type: string, assignmentId: number) => void;
   submittedFiles: FileResponse[];
@@ -46,10 +51,22 @@ const FileSubmitModal: FC<Props> = ({
   );
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
-  const history = useHistory();
   const [isOvered, setIsOvered] = useState(false);
   const closeModal = stateChange(reset);
 
+  const isFileNameExist = useCallback(
+    (file: File) => {
+      return files.findIndex(f => f.name.normalize('NFC') === file.name.normalize('NFC')) !== -1
+        ? true
+        : false ||
+          submittedFiles.findIndex(
+            f => f.file_name.normalize('NFC') === file.name.normalize('NFC'),
+          ) !== -1
+        ? true
+        : false;
+    },
+    [files, submittedFiles],
+  );
   const cancelButtonClickHandler = () => {
     closeModal();
   };
@@ -86,7 +103,11 @@ const FileSubmitModal: FC<Props> = ({
         if (e.dataTransfer.items[i].kind === 'file') {
           const file: File = e.dataTransfer.items[i].getAsFile();
           if (isAbleFileExt(file.name)) {
-            setFiles(prev => [...prev, file]);
+            if (isFileNameExist(file)) {
+              alert('동일한 파일 이름은 추가할수 없습니다.');
+            } else {
+              setFiles(prev => [...prev, file]);
+            }
           } else {
             alert(`${file.name}: 가능하지 않은 확장자입니다.`);
           }
@@ -99,11 +120,14 @@ const FileSubmitModal: FC<Props> = ({
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
-
     setFiles(prev => {
       const newFiles = [...prev];
       for (let i = 0; i < files.length; i++) {
-        newFiles.push(files.item(i));
+        if (isFileNameExist(files.item(i))) {
+          alert('동일한 파일 이름은 추가할수 없습니다.');
+        } else {
+          newFiles.push(files.item(i));
+        }
       }
       return newFiles;
     });
@@ -178,10 +202,15 @@ const FileSubmitModal: FC<Props> = ({
         page: 'FileSubmitModal/submitFile',
       };
       refreshTokenChange(params);
+    } else if (submitFileError.status === 409) {
+      ((submitFileError as any) as SubmitFileNameError).conflict_files.forEach(name =>
+        alert(`동일한 파일이름이 존재합니다.('${name}')`),
+      );
     } else if (submitFileError.status) {
       alert(`Error code: ${submitFileError.status} 파일 제출 실패!`);
     }
   }, [submitFileError]);
+
   useEffect(() => {
     if (deleteSubmittedFileSuccess) {
       resetFileSubmit();
