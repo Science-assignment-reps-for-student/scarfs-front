@@ -139,12 +139,15 @@ export const fetchPersonalThunk: ActionCreator<ThunkAction<
   AdminAction,
   null,
   AdminAction
->> = () => async dispatch => {
+>> = (dispatchToken: Dispatch) => async dispatch => {
   try {
     dispatch(fetchPersonal(await assignmentPersonal()));
     dispatch(fetchLoading());
   } catch (err) {
     await assignmentErrorHandle(err, dispatch, async () => {
+      await tokenReIssuance();
+      dispatchToken(setAccessToken(localStorage.getItem('accessToken')));
+      dispatchToken(setRefreshToken(localStorage.getItem('refreshToken')));
       dispatch(fetchPersonal(await assignmentPersonal()));
       dispatch(fetchLoading());
     });
@@ -181,7 +184,7 @@ export const fetchExperimentThunk: ActionCreator<ThunkAction<
   }
 };
 
-const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch, cb: any) => {
+const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch, unAuthCb: any) => {
   if ((err.toJSON() as { message: string }).message === 'Network Error') {
     dispatch(fetchPersonal(networkError));
     dispatch(fetchLoading());
@@ -190,13 +193,8 @@ const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch, cb: an
   const code = err?.response?.status;
   if (!code) return;
   if (code === 401) {
-    await tokenReIssuance();
-    dispatch(setAccessToken(localStorage.getItem('accessToken')));
-    dispatch(setRefreshToken(localStorage.getItem('refreshToken')));
-    cb();
-    return;
-  }
-  if (code === 403) {
+    unAuthCb();
+  } else if (code === 403) {
     location.href = '/admin/login';
   }
 };
