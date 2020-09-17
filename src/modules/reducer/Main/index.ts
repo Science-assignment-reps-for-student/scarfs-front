@@ -1,4 +1,4 @@
-import { ErrorType } from 'lib/type';
+import { errorInitialState, ErrorType } from '../../../lib/type';
 import {
   AssignmentResponseType,
   AssignmentType,
@@ -95,6 +95,10 @@ export type MainState = {
   error: ErrorType | null;
   loading: boolean;
   assignmentClassNumber: number;
+  getAssignmentError: ErrorType;
+  getBoardError: ErrorType;
+  searchNoticeBoardError: ErrorType;
+  searchAssignmentError: ErrorType;
 };
 
 const initialState: MainState = {
@@ -103,6 +107,10 @@ const initialState: MainState = {
   error: null,
   loading: false,
   assignmentClassNumber: 1,
+  getBoardError: errorInitialState,
+  getAssignmentError: errorInitialState,
+  searchNoticeBoardError: errorInitialState,
+  searchAssignmentError: errorInitialState,
 };
 
 export type MainActionType =
@@ -143,6 +151,8 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
           totalPages: total_pages,
           class_number,
         },
+        getAssignmentError: errorInitialState,
+        getBoardError: errorInitialState,
       };
     }
     case GET_BOARD_SUCCESS: {
@@ -154,18 +164,21 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
           totalElements: total_elements,
           totalPages: total_pages,
         },
+        getAssignmentError: errorInitialState,
+        getBoardError: errorInitialState,
       };
     }
     case GET_BOARD_FAILURE: {
       return {
         ...state,
-        error: action.payload,
+        getBoardError: action.payload,
       };
     }
     case GET_ASSIGNMENT_FAILURE: {
       return {
         ...state,
-        error: action.payload,
+        getAssignmentError: action.payload,
+        getBoardError: errorInitialState,
       };
     }
     case SET_ASSIGNMENT_CLASS_NUMBER:
@@ -187,7 +200,7 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
     case SEARCH_NOTICE_BOARDS_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        searchNoticeBoardError: action.payload,
       };
     case SEARCH_ASSIGNMENT_BOARDS_SUCCESS:
       const { application_responses, total_elements, total_pages, class_number } = action.payload;
@@ -203,7 +216,7 @@ const MainState = (state: MainState = initialState, action: MainActionType): Mai
     case SEARCH_ASSIGNMENT_BOARDS_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        searchAssignmentError: action.payload,
       };
     case RESET_MAIN:
       return {

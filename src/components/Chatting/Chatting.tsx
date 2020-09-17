@@ -16,6 +16,7 @@ interface Props {
   sendMessage: (payload: string) => void;
   chattingBodyRef: MutableRefObject<HTMLDivElement>;
   isDeleteChange: (payload: boolean) => void;
+  isAble: boolean;
 }
 
 const Chatting: FC<Props> = ({
@@ -29,20 +30,38 @@ const Chatting: FC<Props> = ({
   isConnected,
   isDelete,
   isDeleteChange,
+  isAble,
 }) => {
   const [animation, animationChange] = useState(false);
+  const [open, openChange] = useState(false);
   useEffect(() => {
-    animationChange(true);
-  }, []);
+    if (isAble) {
+      openChange(true);
+      setTimeout(() => {
+        animationChange(true);
+      });
+    } else {
+      animationChange(false);
+      setTimeout(() => {
+        openChange(false);
+      }, 300);
+    }
+  }, [isAble]);
+  const setChattingClassName = (animation: boolean, open: boolean) => {
+    const isOpen = open ? 'open' : 'close';
+    const isAnimation = animation ? 'opening' : 'closing';
+    return `${isOpen} ${isAnimation}`;
+  };
   return (
     <S.ChattingWrapper>
-      <div className={animation ? 'move' : ''}>
+      <div className={setChattingClassName(animation, open)}>
         <ChattingHeader selectedPerson={partner} headerChange={headerChange} />
         <ChattingBody
           chattingList={chattingList}
           chattingBodyRef={chattingBodyRef}
           isDeleteChange={isDeleteChange}
           isDelete={isDelete}
+          isConnected={isConnected}
         />
         <ChattingInput
           value={input}

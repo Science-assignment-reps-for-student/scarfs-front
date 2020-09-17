@@ -13,7 +13,7 @@ const PersonalClassSubmit: FC<Props> = ({ subject }): ReactElement => {
   return (
     <S.SubjectClsContentMembers>
       <S.SubjectClsContentCommonList>
-        <ClassListHeadCommon isPersonal={false} />
+        <ClassListHeadCommon isReport={false} />
         {subject.class_submit.map(({ name, student_number, submit, student_id }) => (
           <SubmitList
             key={student_id}

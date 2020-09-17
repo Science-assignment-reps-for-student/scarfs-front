@@ -14,7 +14,7 @@ const TeamClassSubmit: FC<Props> = ({ subject }): ReactElement => {
     <S.SubjectClsContentMembers>
       <S.SubjectClsContentCommonTitle>동료평가</S.SubjectClsContentCommonTitle>
       <S.SubjectClsContentCommonList>
-        <ClassListHeadCommon isPersonal={true} />
+        <ClassListHeadCommon isReport={false} />
         {subject.peer_evaluation_submit.map(({ name, student_number, submit, student_id }) => (
           <SubmitList
             key={student_id}

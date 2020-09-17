@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderState, { sendRefreshToken } from '../../../src/modules/reducer/Header';
 import Chatting, { ChattingOpenButton, ChattingCloseButton } from '../../components/Chatting';
@@ -148,13 +148,13 @@ const ChattingContainer: FC = () => {
     io.current.joinRoom(userInfo.id, TEACHER_TARGET);
     io.current.joinRoom(userInfo.id, ADMIN_TARGET);
     io.current.receive(updateChatting);
-    io.current.error(() => dispatch(setIsConnected(false)));
+    io.current.connectError(() => dispatch(setIsConnected(false)));
   }, [io, userInfo]);
 
   useEffect(() => {
     if (!isLogin) return;
     initPage();
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     if (!userInfo || !isLogin || userInfo.type === 'ADMIN') return;
@@ -164,9 +164,10 @@ const ChattingContainer: FC = () => {
   useEffect(() => {
     io.current = new IO();
   }, []);
-
   useEffect(() => {
-    chattingBodyScrollDown(chattingBody.current);
+    setTimeout(() => {
+      chattingBodyScrollDown(chattingBody.current);
+    });
   }, [partner, isAble]);
 
   useEffect(() => {
@@ -181,25 +182,26 @@ const ChattingContainer: FC = () => {
     serverErrorHandler(statusCode);
   }, [error]);
   return isLogin && userInfo && userInfo.type !== 'ADMIN' ? (
-    isAble ? (
-      <>
-        <Chatting
-          partner={partner}
-          input={input}
-          chattingList={isTeacher(partner) ? teacherChattingList : adminChattingList}
-          headerChange={partnerChange}
-          inputChange={inputChange}
-          isConnected={isConnected}
-          sendMessage={sendMessage}
-          chattingBodyRef={chattingBody}
-          isDeleteChange={isDeleteChange}
-          isDelete={isDelete}
-        />
+    <>
+      <Chatting
+        partner={partner}
+        input={input}
+        chattingList={isTeacher(partner) ? teacherChattingList : adminChattingList}
+        headerChange={partnerChange}
+        inputChange={inputChange}
+        isConnected={isConnected}
+        sendMessage={sendMessage}
+        chattingBodyRef={chattingBody}
+        isDeleteChange={isDeleteChange}
+        isDelete={isDelete}
+        isAble={isAble}
+      />
+      {isAble ? (
         <ChattingCloseButton isAbleChange={isAbleChange} alarm={alarm} />
-      </>
-    ) : (
-      <ChattingOpenButton isAbleChange={isAbleChange} alarmChange={alarmChange} alarm={alarm} />
-    )
+      ) : (
+        <ChattingOpenButton isAbleChange={isAbleChange} alarmChange={alarmChange} alarm={alarm} />
+      )}
+    </>
   ) : (
     <></>
   );

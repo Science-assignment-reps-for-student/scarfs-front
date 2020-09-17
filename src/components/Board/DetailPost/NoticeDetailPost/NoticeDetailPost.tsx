@@ -5,6 +5,8 @@ import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { NoticeDetailPost } from '../../../../lib/api/NoticeDetailPost';
 import { ErrorType } from 'lib/type';
 import { SBone } from '../../../Admin/AdminMain/style';
+import { useToken, stateChange } from '../../../../lib/function';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 interface Props {
   isLoading: boolean;
@@ -21,6 +23,8 @@ const NoticeDetailPost: FC<Props> = ({
   getDetailPost,
   resetDetailPost,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
 
@@ -29,7 +33,16 @@ const NoticeDetailPost: FC<Props> = ({
   }, [paramId]);
 
   useEffect(() => {
-    if (getDetailPostError.status) {
+    if (getDetailPostError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getDetailPost(paramId),
+        page: 'NoticeDetailPost/getDetailPost',
+      };
+      refreshTokenChange(params);
+    } else if (getDetailPostError.status) {
       alert(`Error code: ${getDetailPostError.status} 공지 불러오기 실패!`);
       history.goBack();
     }

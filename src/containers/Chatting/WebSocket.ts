@@ -5,7 +5,7 @@ class Socket {
   socket: SocketIOClient.Socket;
   constructor() {}
   connect() {
-    this.socket = io.connect(this.url);
+    this.socket = io.connect(this.url, { transports: ['websocket'] });
   }
   joinRoom(studentId: number, adminId: number) {
     this.socket.emit('joinRoom', `${studentId}:${adminId}`);
@@ -19,6 +19,9 @@ class Socket {
   error(callback: Function) {
     this.socket.on('error', callback);
   }
+  connectError(callback: Function) {
+    this.socket.on('connect_error', callback);
+  }
   disconnect() {
     this.socket.disconnect();
   }
@@ -27,6 +30,12 @@ class Socket {
   }
   setUrl(url: string) {
     this.url = url;
+  }
+  reset() {
+    this.socket.removeEventListener('send');
+    this.socket.removeEventListener('receive');
+    this.socket.removeEventListener('error');
+    this.socket.removeEventListener('connect_error');
   }
   errorHandler(error: string) {
     switch (error) {

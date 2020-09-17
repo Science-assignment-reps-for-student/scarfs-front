@@ -143,6 +143,7 @@ export const emailCheckThunk = () => {
         code,
       });
       dispatch(setEmailCheck(true));
+      dispatch(setError(''));
     } catch (err) {
       dispatch(setError('CodeError'));
     }
@@ -157,6 +158,7 @@ export const emailSendThunk = () => {
     try {
       await emailSend(params);
       dispatch(setModal('SignUpCode'));
+      dispatch(setError(''));
     } catch (err) {
       dispatch(setError('SignUpEmailError'));
     }

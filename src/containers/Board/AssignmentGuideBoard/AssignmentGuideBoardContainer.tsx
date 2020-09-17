@@ -8,7 +8,9 @@ import { LoadingState } from '../../../modules/reducer/Loading';
 
 const AssignmentGuideBoardContainer: FC = () => {
   const dispatch = useDispatch();
-  const { assignmentPreview, error } = useSelector(getStateCallback<MainState>('Main'));
+  const { assignmentPreview, getAssignmentError, searchAssignmentError } = useSelector(
+    getStateCallback<MainState>('Main'),
+  );
 
   const { 'Main/GET_ASSIGNMENT': isLoading } = useSelector(
     getStateCallback<LoadingState>('Loading'),
@@ -37,7 +39,8 @@ const AssignmentGuideBoardContainer: FC = () => {
       getBoards={getBoards}
       isLoading={isLoading}
       board={assignmentPreview}
-      getBoardsError={error}
+      getBoardsError={getAssignmentError}
+      searchAssignmentError={searchAssignmentError}
       searchBoards={searchBoards}
       resetMain={resetMain}
     />

@@ -19,7 +19,7 @@ export const PostBox = styled.main`
   width: 410px;
   box-sizing: border-box;
   max-height: 394px;
-  padding: 40px;
+  padding: 40px 40px 14px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -62,9 +62,35 @@ export const InfoTitle = styled.li`
   width: 85px;
 `;
 
+export const TeamBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const TeamNameBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  > span > span {
+    &:first-of-type {
+      margin-right: 4px;
+    }
+    &:last-of-type {
+      margin-left: 4px;
+    }
+  }
+`;
+
+export const TeamMemberBox = styled.div`
+  display: flex;
+`;
+
 export const FileBox = styled.div`
   flex: 1;
   width: calc(100% - 85px);
+  max-height: 50px;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -107,6 +133,9 @@ export const LeaderText = styled.span`
   height: 16px;
   font-weight: 600;
   color: #505bff;
+  > span {
+    color: #000000;
+  }
 `;
 
 export const TeamText = styled.span`

@@ -39,26 +39,29 @@ const AdminSection: FC<Props> = ({ filter }): ReactElement => {
     (state: reducerType) => state.Admin,
   );
 
-  const pushToResult = (result: CombineResult[], assignment: CombineAdminSubject) => {
-    const rrIdx = result.findIndex(a => a.id === assignment.id);
+  const pushSubjectToCombineSubject = (
+    combineSubject: CombineResult[],
+    assignment: CombineAdminSubject,
+  ) => {
+    const rrIdx = combineSubject.findIndex(a => a.id === assignment.id);
     rrIdx === -1
-      ? result.push({ id: assignment.id, classes: [assignment] })
-      : result[rrIdx].classes.push(assignment);
+      ? combineSubject.push({ id: assignment.id, classes: [assignment] })
+      : combineSubject[rrIdx].classes.push(assignment);
   };
 
-  const sortSubjects = ([...copy]: CombineResult[]) => copy.sort((a, b) => (a.id > b.id ? 1 : -1));
+  const sortSubjects = ([...copy]: CombineResult[]) => copy.sort((a, b) => (a.id < b.id ? 1 : -1));
 
   const combineSubjects = useCallback(
     (personal: Personal[] = [], team: Team[] = [], experiment: Experiment[] = []) => {
-      const result: CombineResult[] = [];
+      const combineSubject: CombineResult[] = [];
       [...personal, ...team, ...experiment].forEach(subject => {
         subject[Object.keys(subject)[0]].forEach((assignment: CombineAdminSubject) => {
-          pushToResult(result, assignment);
+          pushSubjectToCombineSubject(combineSubject, assignment);
         });
       });
-      return sortSubjects(result);
+      return sortSubjects(combineSubject);
     },
-    [pushToResult, sortSubjects],
+    [pushSubjectToCombineSubject, sortSubjects],
   );
 
   const switchSubject = (subject: CombineResult) => {

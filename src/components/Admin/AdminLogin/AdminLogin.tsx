@@ -39,28 +39,25 @@ const inputs: IInputs[] = [
 const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin }): ReactElement => {
   const { loading } = useSelector((state: ReducerType) => state.AdminLogin);
 
-  const getInputForm = useMemo(
-    () =>
-      inputs.map(({ name, labelText, placeholder, type }) => (
-        <LoginInput
-          key={name}
-          type={type}
-          name={name}
-          labelText={labelText}
-          placeholder={placeholder}
-          onChangeLogin={onChangeLogin}
-          onClickLogin={onClickLogin}
-        />
-      )),
-    [],
-  );
+  const getInputForm = () =>
+    inputs.map(({ name, labelText, placeholder, type }) => (
+      <LoginInput
+        key={name}
+        type={type}
+        name={name}
+        labelText={labelText}
+        placeholder={placeholder}
+        onChangeLogin={onChangeLogin}
+        onClickLogin={onClickLogin}
+      />
+    ));
 
   return (
     <S.AdminLoginWrap>
       <S.AdminLoginBack />
       <S.AdminLoginFormWrap>
         <LoginTitle />
-        {getInputForm}
+        {getInputForm()}
         <LoginButton onClickLogin={onClickLogin} loading={loading} />
         <S.AdminLoginFormBottomWrap>
           <HeaderLogo />

@@ -11,9 +11,16 @@ interface Props {
   chattingBodyRef: MutableRefObject<HTMLDivElement>;
   isDeleteChange: (payload: boolean) => void;
   isDelete: boolean;
+  isConnected: boolean;
 }
 
-const ChattingBody: FC<Props> = ({ chattingList, chattingBodyRef, isDelete, isDeleteChange }) => {
+const ChattingBody: FC<Props> = ({
+  chattingList,
+  chattingBodyRef,
+  isDelete,
+  isDeleteChange,
+  isConnected,
+}) => {
   const dispatch = useDispatch();
   const [deleteId, deleteIdChange] = useState<number>(-1);
   const setChattingList = useCallback((chattingList: ChattingContentType[]) => {
@@ -58,7 +65,11 @@ const ChattingBody: FC<Props> = ({ chattingList, chattingBodyRef, isDelete, isDe
       ) : (
         <></>
       )}
-      <div className='body'>{setChattingList(chattingList)}</div>
+      {isConnected ? (
+        <div className='body'>{setChattingList(chattingList)}</div>
+      ) : (
+        <p className='error'>에러가 발생했습니다. 새로고침 해주세요.</p>
+      )}
     </S.ChattingBody>
   );
 };
