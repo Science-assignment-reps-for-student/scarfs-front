@@ -16,7 +16,7 @@ const AdminContainer: FC<Props> = (): ReactElement => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPersonalThunk(dispatch));
+    dispatch(fetchPersonalThunk());
     dispatch(fetchTeamThunk());
     dispatch(fetchExperimentThunk());
   }, []);

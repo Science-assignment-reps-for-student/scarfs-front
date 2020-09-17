@@ -108,6 +108,23 @@ const assignmentPersonal = async () => {
   return personalList;
 };
 
+export const fetchPersonalThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  AdminAction,
+  null,
+  AdminAction
+>> = () => async dispatch => {
+  try {
+    dispatch(fetchPersonal(await assignmentPersonal()));
+    dispatch(fetchLoading());
+  } catch (err) {
+    await assignmentErrorHandle(err, dispatch, async () => {
+      dispatch(fetchPersonal(await assignmentPersonal()));
+      dispatch(fetchLoading());
+    });
+  }
+};
+
 const assignmentTeam = async () => {
   const teamList: Team[] = [];
   const teams: Team[] = [];
@@ -119,6 +136,21 @@ const assignmentTeam = async () => {
     teamList.push(addPropsOfTeam(team));
   }
   return teamList;
+};
+
+export const fetchTeamThunk: ActionCreator<ThunkAction<
+  Promise<void>,
+  AdminAction,
+  any,
+  AdminAction
+>> = () => async dispatch => {
+  try {
+    dispatch(fetchTeam(await assignmentTeam()));
+  } catch (err) {
+    await assignmentErrorHandle(err, dispatch, async () => {
+      dispatch(fetchTeam(await assignmentTeam()));
+    });
+  }
 };
 
 const assignmentExperiment = async () => {
@@ -134,39 +166,6 @@ const assignmentExperiment = async () => {
   return experimentList;
 };
 
-export const fetchPersonalThunk: ActionCreator<ThunkAction<
-  Promise<void>,
-  AdminAction,
-  null,
-  AdminAction
->> = (dispatchToken: Dispatch) => async dispatch => {
-  try {
-    dispatch(fetchPersonal(await assignmentPersonal()));
-    dispatch(fetchLoading());
-  } catch (err) {
-    await assignmentErrorHandle(err, dispatch, async () => {
-      await tokenReIssuance();
-      dispatchToken(setAccessToken(localStorage.getItem('accessToken')));
-      dispatchToken(setRefreshToken(localStorage.getItem('refreshToken')));
-      dispatch(fetchPersonal(await assignmentPersonal()));
-      dispatch(fetchLoading());
-    });
-  }
-};
-export const fetchTeamThunk: ActionCreator<ThunkAction<
-  Promise<void>,
-  AdminAction,
-  any,
-  AdminAction
->> = () => async dispatch => {
-  try {
-    dispatch(fetchTeam(await assignmentTeam()));
-  } catch (err) {
-    await assignmentErrorHandle(err, dispatch, async () => {
-      dispatch(fetchTeam(await assignmentTeam()));
-    });
-  }
-};
 export const fetchExperimentThunk: ActionCreator<ThunkAction<
   Promise<void>,
   AdminAction,
@@ -193,6 +192,9 @@ const assignmentErrorHandle = async (err: AxiosError, dispatch: Dispatch, unAuth
   const code = err?.response?.status;
   if (!code) return;
   if (code === 401) {
+    await tokenReIssuance();
+    dispatch(setAccessToken(localStorage.getItem('accessToken')));
+    dispatch(setRefreshToken(localStorage.getItem('refreshToken')));
     unAuthCb();
   } else if (code === 403) {
     location.href = '/admin/login';
