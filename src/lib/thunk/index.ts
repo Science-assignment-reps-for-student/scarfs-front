@@ -1,5 +1,5 @@
 import { startLoading, finishLoading } from '../../modules/reducer/Loading';
-import { ErrorType } from '../../lib/type';
+import { ErrorType, ErrorResponseType } from '../../lib/type';
 
 export const createRequestThunk = (type, request) => {
   const SUCCESS = `${type}_SUCCESS`;
@@ -27,6 +27,39 @@ export const createRequestThunk = (type, request) => {
             message: `TypeError: Cannot read property 'data' of undefined`,
             status: 500,
           } as ErrorType,
+        });
+      }
+      dispatch(finishLoading(type));
+      throw e;
+    }
+  };
+};
+
+export const createRequestFileThunk = (type, request) => {
+  const SUCCESS = `${type}_SUCCESS`;
+  const FAILURE = `${type}_FAILURE`;
+  return params => async dispatch => {
+    dispatch(startLoading(type));
+    try {
+      const response = await request(params);
+      dispatch({
+        type: SUCCESS,
+        payload: response.data,
+      });
+      dispatch(finishLoading(type));
+    } catch (e) {
+      if (e.response) {
+        const error: ErrorResponseType = e.response;
+        dispatch({
+          type: FAILURE,
+          payload: error,
+        });
+      } else {
+        dispatch({
+          type: FAILURE,
+          payload: {
+            status: 500,
+          } as ErrorResponseType,
         });
       }
       dispatch(finishLoading(type));

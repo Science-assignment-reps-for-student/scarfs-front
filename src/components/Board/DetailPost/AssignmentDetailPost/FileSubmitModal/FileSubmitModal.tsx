@@ -1,5 +1,5 @@
-import React, { FC, useState, useRef, useMemo, useCallback, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { FC, useState, useRef, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as S from './style';
 import { Modal } from '../../Modal';
@@ -7,24 +7,26 @@ import { reset } from '../../../../../modules/reducer/Modal';
 import { stateChange, isAbleFileExt, useToken } from '../../../../../lib/function';
 import { ReducerType } from '../../../../../modules/store';
 import { FileResponse } from '../../../../../lib/api/FileSubmit';
-import { ErrorType } from '../../../../../lib/type';
+import { ErrorResponseType } from '../../../../../lib/type';
 import { sendRefreshToken } from '../../../../../modules/reducer/Header';
 
 interface SubmitFileNameError {
   status: number;
-  conflict_files: string[];
+  data: {
+    conflict_files: string[];
+  };
 }
 
 interface Props {
   getSubmittedFiles: (type: string, assignmentId: number) => void;
   submittedFiles: FileResponse[];
-  getSubmittedFilesError: ErrorType;
+  getSubmittedFilesError: ErrorResponseType;
   submitFile: (type: string, assignmentId: number, data: FormData) => void;
   submitFileSuccess: boolean;
-  submitFileError: ErrorType;
+  submitFileError: ErrorResponseType;
   isSubmitLoading: boolean;
   deleteSubmittedFileSuccess: boolean;
-  deleteSubmittedFileError: ErrorType;
+  deleteSubmittedFileError: ErrorResponseType;
   deleteSubmittedFile: (type: string, assignmentId: number) => void;
   resetFileSubmit: () => void;
 }
@@ -203,7 +205,7 @@ const FileSubmitModal: FC<Props> = ({
       };
       refreshTokenChange(params);
     } else if (submitFileError.status === 409) {
-      ((submitFileError as any) as SubmitFileNameError).conflict_files.forEach(name =>
+      (submitFileError as SubmitFileNameError).data.conflict_files.forEach(name =>
         alert(`동일한 파일이름이 존재합니다.('${name}')`),
       );
     } else if (submitFileError.status) {

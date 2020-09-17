@@ -4,7 +4,7 @@ import { AssignmentDetailPostWithFiles } from '../Default/PostMain';
 import { getLocaleDateString } from '../../utils';
 import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
 import { downloadBlobByClick } from '../../../../lib/function/admin';
-import { ErrorType } from '../../../../lib/type';
+import { ErrorResponseType } from '../../../../lib/type';
 import { useTeam, useToken, stateChange } from '../../../../lib/function';
 import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
@@ -22,8 +22,8 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
       const blob: Blob = new Blob([data], { type: 'application/json' });
       downloadBlobByClick(blob, `${file.file_name}`);
     } catch (e) {
-      if (e.response?.data) {
-        const error: ErrorType = e.response.data;
+      if (e.response) {
+        const error: ErrorResponseType = e.response;
         if (error.status === 403) {
           const params = {
             serverType: {
@@ -38,7 +38,7 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
           };
           refreshTokenChange(params);
         } else if (error.status) {
-          alert(`Error Code: ${e.response.status} 다운로드 실패`);
+          alert(`Error Code: ${error.status} 다운로드 실패`);
         }
       }
       alert('Error!');
