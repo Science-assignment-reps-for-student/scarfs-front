@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { SearchIcon } from '../../../../../assets/Board/Default';
-import { closeImage } from '../../../../../assets/Board/DetailPost';
+import { DeleteImage } from '../../../../../assets/Board/DetailPost';
 
 export const AddTeamMemberModalBox = styled.div`
   width: 614px;
@@ -116,6 +116,8 @@ export const Text = styled.span`
 `;
 
 export const RightAside = styled.aside`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   background-color: #ffffff;
 `;
@@ -134,7 +136,13 @@ export const Title = styled.p`
 export const SelectedTeamListBox = styled.div`
   padding: 0 10px;
   overflow-y: auto;
-  height: 334px;
+  height: auto;
+  &:nth-last-of-type(2) {
+    max-height: 100px;
+  }
+  &:nth-last-of-type(1) {
+    flex: 1;
+  }
   &::-webkit-scrollbar {
     width: 4px;
     height: 2px;
@@ -143,7 +151,7 @@ export const SelectedTeamListBox = styled.div`
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: #979797;
+    background: #000000;
     border-radius: 16px;
   }
 `;
@@ -170,6 +178,7 @@ export const ModifyTeamMemberButton = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 0;
+  outline: none;
 `;
 
 export const TextWrapper = styled.div`
@@ -189,7 +198,7 @@ export const BlueText = styled.span`
 `;
 
 export const DeleteButton = styled.img.attrs({
-  src: closeImage,
+  src: DeleteImage,
 })`
   width: 8px;
   height: 8px;

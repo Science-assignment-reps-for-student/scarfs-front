@@ -1,6 +1,11 @@
 import React, { FC, ReactElement, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import * as S from './style';
+
+import SkeletonAdmin from './SkeletonAdmin';
+import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
+
+import { reducerType } from '../../../modules/reducer';
 import {
   CombineAdminSubjects,
   CombineAdminSubject,
@@ -8,12 +13,9 @@ import {
   TEAM_STR,
   EXPERIMENT_STR,
 } from '../../../modules/reducer/Admin';
-import { Personal } from '../../../modules/reducer/Admin/adminPersonal';
 import { Team } from '../../../modules/reducer/Admin/adminTeam';
+import { Personal } from '../../../modules/reducer/Admin/adminPersonal';
 import { Experiment } from '../../../modules/reducer/Admin/adminExperiment';
-import { reducerType } from '../../../modules/reducer';
-import { WithPersonalSubject, WithExperimentSubject, WithTeamSubject } from './WithSubject';
-import SkeletonAdmin from './SkeletonAdmin';
 
 interface Props {
   filter: Filter;
@@ -37,26 +39,29 @@ const AdminSection: FC<Props> = ({ filter }): ReactElement => {
     (state: reducerType) => state.Admin,
   );
 
-  const pushToResult = (result: CombineResult[], assignment: CombineAdminSubject) => {
-    const rrIdx = result.findIndex(a => a.id === assignment.id);
+  const pushSubjectToCombineSubject = (
+    combineSubject: CombineResult[],
+    assignment: CombineAdminSubject,
+  ) => {
+    const rrIdx = combineSubject.findIndex(a => a.id === assignment.id);
     rrIdx === -1
-      ? result.push({ id: assignment.id, classes: [assignment] })
-      : result[rrIdx].classes.push(assignment);
+      ? combineSubject.push({ id: assignment.id, classes: [assignment] })
+      : combineSubject[rrIdx].classes.push(assignment);
   };
 
-  const sortSubjects = ([...copy]: CombineResult[]) => copy.sort((a, b) => (a.id > b.id ? 1 : -1));
+  const sortSubjects = ([...copy]: CombineResult[]) => copy.sort((a, b) => (a.id < b.id ? 1 : -1));
 
   const combineSubjects = useCallback(
     (personal: Personal[] = [], team: Team[] = [], experiment: Experiment[] = []) => {
-      const result: CombineResult[] = [];
+      const combineSubject: CombineResult[] = [];
       [...personal, ...team, ...experiment].forEach(subject => {
         subject[Object.keys(subject)[0]].forEach((assignment: CombineAdminSubject) => {
-          pushToResult(result, assignment);
+          pushSubjectToCombineSubject(combineSubject, assignment);
         });
       });
-      return sortSubjects(result);
+      return sortSubjects(combineSubject);
     },
-    [pushToResult, sortSubjects],
+    [pushSubjectToCombineSubject, sortSubjects],
   );
 
   const switchSubject = (subject: CombineResult) => {

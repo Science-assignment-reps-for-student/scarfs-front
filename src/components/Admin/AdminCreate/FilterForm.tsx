@@ -1,11 +1,13 @@
 import React, { FC, ReactElement, ChangeEvent, MouseEvent, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
 import * as S from './style';
 import Deadline from './Deadline';
-import { attachment } from '../../../assets/Admin';
+
+import { attachment, trash } from '../../../assets/Admin';
 import { ReducerType } from '../../../modules/store';
 import { setFile, deleteFile } from '../../../modules/reducer/AdminCreate';
-import { trash } from '../../../assets/Admin';
+import { createAlert } from '../../../modules/reducer/Alert';
 
 interface Props {}
 
@@ -14,9 +16,20 @@ const classes = ['class1', 'class2', 'class3', 'class4'];
 const FilterForm: FC<Props> = (): ReactElement => {
   const { files } = useSelector((state: ReducerType) => state.AdminCreate);
   const dispatch = useDispatch();
+  const fileExtends: string = '.hwp.jpg.png.jpeg.pptx.word.pdf.zip';
+
+  const isAbleFileExt = (name: string) => {
+    const splitName = name.split('.');
+    return fileExtends.split('.').find(ext => ext === splitName[splitName.length - 1]);
+  };
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
+    const isAble = Array.from(files).some(file => isAbleFileExt(file.name));
+    if (!isAble) {
+      dispatch(createAlert('가능하지 않은 확장자입니다.'));
+      return;
+    }
     Array.from(files).forEach(file => {
       dispatch(setFile(file));
     });
@@ -25,7 +38,7 @@ const FilterForm: FC<Props> = (): ReactElement => {
   const onClickDeleteFile = (e: MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    const filteredFiles = files.filter(f => f.name !== e.currentTarget.dataset.name);
+    const filteredFiles: File[] = files.filter(f => f.name !== e.currentTarget.dataset.name);
     dispatch(deleteFile());
     filteredFiles.forEach(file => {
       dispatch(setFile(file));

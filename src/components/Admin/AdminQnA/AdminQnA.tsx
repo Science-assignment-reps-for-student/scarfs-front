@@ -1,40 +1,18 @@
-import React, { FC, ReactElement, useState, ChangeEvent } from 'react';
+import React, { FC, ReactElement, MutableRefObject } from 'react';
 import { useParams } from 'react-router-dom';
-import * as S from './style';
-import Header from './Header';
-import AdminTable from './Table';
-import Modal from './Modal';
+
 import Chat from './Chat';
+import ChatList from './ChatList';
 
-interface Props {}
+interface Props {
+  chatBody: MutableRefObject<HTMLDivElement>;
+  sendMessage: (message: string, studentId: number) => void;
+}
 
-const AdminQnA: FC<Props> = (): ReactElement => {
-  const { student_number } = useParams();
-  const [search, setSearch] = useState<string>('');
-  const [modal, setModal] = useState<boolean>(false);
+const AdminQnA: FC<Props> = ({ chatBody, sendMessage }): ReactElement => {
+  const { user_id } = useParams();
 
-  const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
-  };
-  const onClickToggleModal = () => {
-    setModal(prev => !prev);
-  };
-
-  return (
-    <>
-      {student_number ? (
-        <Chat />
-      ) : (
-        <S.AdminQnAWrap>
-          <S.QnACenter>
-            <Header onChangeSearch={onChangeSearch} onClickToggleModal={onClickToggleModal} />
-            <AdminTable search={search} />
-          </S.QnACenter>
-          {modal && <Modal onClickToggleModal={onClickToggleModal} />}
-        </S.AdminQnAWrap>
-      )}
-    </>
-  );
+  return <>{user_id ? <Chat chatBody={chatBody} sendMessage={sendMessage} /> : <ChatList />}</>;
 };
 
 export default AdminQnA;

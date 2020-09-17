@@ -1,39 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style';
+import { ClassDetailPost } from '../../../../../lib/api/ClassDetailPost';
+import { NoticeDetailPost } from '../../../../../lib/api/NoticeDetailPost';
+import { AssignmentDetailPost, FileResponse } from '../../../../../lib/api/AssignmentDetailPost';
+import { ImagePreviewBox } from '../../../ClassBoard/ClassBoardWrite/style';
 
-export interface AssignmentDetailPost {
-  homeworkId: number;
-  type: string;
-  title: string;
-  createdAt: string;
-  daedLine: string;
-  isFinish: boolean;
-  view: number;
-  files: string[];
+enum Type {
+  PERSONAL = '개인',
+  TEAM = '팀',
+  EXPERIMENT = '실험',
 }
 
-export interface ClassDtailPost {
-  title: string;
-  writerName: string;
-  createdAt: string;
-  view: number;
-  content: string;
-  nextBoardTitle: string;
-  preBoardTitle: string;
-  nextBoardNumber: number;
-  preBoardNumber: number;
-}
-
-export interface NoticeDetailPost {
-  title: string;
-  createdAt: string;
-  view: number;
-  content: string;
-  preNoticeTitle: string;
-  nextNoticeTitle: string;
-  preNoticeNumber: number;
-  nextNoticeNumber: number;
+export interface AssignmentDetailPostWithFiles extends AssignmentDetailPost {
+  files: FileResponse[];
 }
 
 interface Props {
@@ -44,9 +24,10 @@ interface Props {
   prevPostTitle: string;
   nextPostTitle: string;
   content: string;
-  board: AssignmentDetailPost | ClassDtailPost | NoticeDetailPost;
+  images?: string[];
+  board: AssignmentDetailPostWithFiles | ClassDetailPost | NoticeDetailPost;
   InfoDetailTemplate: FC<{
-    board?: AssignmentDetailPost | ClassDtailPost | NoticeDetailPost;
+    board?: AssignmentDetailPost | ClassDetailPost | NoticeDetailPost;
   }>;
 }
 
@@ -58,16 +39,38 @@ const PostMain: FC<Props> = ({
   prevPostTitle,
   nextPostTitle,
   content,
+  images,
   board,
   InfoDetailTemplate,
 }) => {
+  const getContentWithImages = useCallback(() => {
+    const jsx = [];
+    let nextImageStartIndex = 0;
+    let prevImageEndIndex = 0;
+    let count = 0;
+    while (content.indexOf('%{', prevImageEndIndex) !== -1) {
+      nextImageStartIndex = content.indexOf('%{', prevImageEndIndex);
+      jsx.push(
+        <Fragment key={count}>
+          <pre>{content.slice(prevImageEndIndex, nextImageStartIndex)}</pre>
+          <ImagePreviewBox>
+            <img src={`${process.env.BASE_URL}/shank/image/${images[count]}`} />
+          </ImagePreviewBox>
+        </Fragment>,
+      );
+      prevImageEndIndex = content.indexOf('}', nextImageStartIndex) + 1;
+      count++;
+    }
+    jsx.push(<pre key={count}>{content.slice(prevImageEndIndex)}</pre>);
+    return jsx;
+  }, [content, images, board]);
   return (
     <S.PostMainWrapper>
       <S.LeftAside>
         <S.PostBox>
           <S.PostHeader>
             <S.PostTitle>{title}</S.PostTitle>
-            {type ? <S.PostType>{type}</S.PostType> : ''}
+            {type ? <S.PostType>{Type[type]}</S.PostType> : ''}
           </S.PostHeader>
           <InfoDetailTemplate board={board} />
         </S.PostBox>
@@ -84,11 +87,13 @@ const PostMain: FC<Props> = ({
           {nextPostNumber ? (
             <Link to={`${nextPostNumber}`}>{nextPostTitle}</Link>
           ) : (
-            '이전 글이 없습니다.'
+            '다음 글이 없습니다.'
           )}
         </S.NearbyPost>
       </S.LeftAside>
-      <S.PostContentBox>{content}</S.PostContentBox>
+      <S.PostContentBox>
+        <div>{getContentWithImages()}</div>
+      </S.PostContentBox>
     </S.PostMainWrapper>
   );
 };

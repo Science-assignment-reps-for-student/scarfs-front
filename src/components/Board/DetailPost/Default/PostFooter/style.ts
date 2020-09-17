@@ -6,6 +6,10 @@ export const PostFooterWrapper = styled.footer`
   padding-top: 20px;
   display: flex;
   justify-content: flex-end;
+  > div {
+    margin-right: 30px;
+    display: flex;
+  }
 `;
 
 export const ButtonBox = styled.div`
@@ -15,21 +19,16 @@ export const ButtonBox = styled.div`
   }
 `;
 
-export const Button = styled.div<{
+interface ButtonProps {
   borderColor?: string;
+  borderPx?: string;
   bgColor: string;
   fontColor: string;
-}>`
-  ${({ borderColor }) =>
-    borderColor
-      ? css`
-          padding: 12px 0 10px;
-          border: 1.5px solid ${borderColor};
-        `
-      : css`
-          padding: 14px 0 10px;
-          border: none;
-        `}
+}
+
+export const Button = styled.button<ButtonProps>`
+  ${({ borderColor }) => (borderColor ? `border: 1.5px solid ${borderColor};` : `border: none;`)}
+  ${({ borderPx }) => (borderPx ? `border-width: ${borderPx}px` : '')};
   text-align: center;
   font-size: 13px;
   line-height: 13px;
@@ -41,6 +40,7 @@ export const Button = styled.div<{
   height: 41px;
   box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  outline: none;
   & + & {
     margin-left: 15px;
   }

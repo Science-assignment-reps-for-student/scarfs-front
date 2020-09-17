@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.min.js',
+    filename: 'bundle_[hash].min.js',
     publicPath: '/',
   },
   module: {
@@ -51,10 +52,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
+      favicon: './src/assets/favicon.ico',
     }),
     new Dotenv({
       path: path.join(__dirname, 'src/.env'),
     }),
+    new webpack.EnvironmentPlugin(['BASE_URL']),
   ],
   devServer: {
     inline: true,

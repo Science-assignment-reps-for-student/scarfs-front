@@ -1,55 +1,39 @@
 import {
-  GET_ASSIGNMENT_FAILURE,
-  GET_BOARD_FAILURE,
-  GET_BOARD_SUCCESS,
-  GET_ASSIGNMENT_SUCCESS,
-  GET_USER_INFO_SUCCESS,
-  GET_USER_INFO_FAILURE,
-  LOADING,
+  GET_USER_INFO,
+  setAccessToken,
+  setIsLogin,
+  setRefreshToken,
+  setUserInfo,
+} from '../../../modules/reducer/Header';
+import {
+  getAssignment,
+  getBoard,
+  searchNoticeBoards,
+  searchAssignmentBoards,
+} from '../../../lib/api/Assignment/Assignment';
+import { createRequestThunk } from '../../../lib/thunk';
+import {
+  GET_BOARD_MAIN,
+  GET_ASSIGNMENT,
+  SEARCH_NOTICE_BOARDS,
+  SEARCH_ASSIGNMENT_BOARDS,
 } from '../../reducer/Main';
-import { getAssignment, getBoard, getUserInfo } from '../../../lib/api/Assignment/Assignment';
-import { IS_LOGIN } from '../../reducer/Header';
+import { getUserInfo } from '../../../lib/api/Header/userInfo';
 
-export const getBoardThunk = () => {
-  return () => async dispatch => {
-    try {
-      dispatch({ type: LOADING, payload: true });
-      const payload = await getBoard();
-      dispatch({ type: GET_BOARD_SUCCESS, payload });
-      dispatch({ type: IS_LOGIN, payload: true });
-    } catch (err) {
-      console.log(err.response);
-      dispatch({ type: GET_BOARD_FAILURE, payload: err });
-    }
-    dispatch({ type: LOADING, payload: false });
-  };
+export const getBoardThunk = createRequestThunk(GET_BOARD_MAIN, getBoard);
+export const getAssignmentThunk = createRequestThunk(GET_ASSIGNMENT, getAssignment);
+export const getUserInfoThunk = createRequestThunk(GET_USER_INFO, getUserInfo);
+export const logout = () => async dispatch => {
+  dispatch(setAccessToken(''));
+  dispatch(setRefreshToken(''));
+  dispatch(setIsLogin(false));
+  dispatch(setUserInfo(null));
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
 };
 
-export const getAssignmentThunk = () => {
-  return () => async dispatch => {
-    try {
-      dispatch({ type: LOADING, payload: true });
-      const payload = await getAssignment();
-      dispatch({ type: GET_ASSIGNMENT_SUCCESS, payload });
-      dispatch({ type: IS_LOGIN, payload: true });
-    } catch (err) {
-      console.log(err.response);
-      dispatch({ type: GET_ASSIGNMENT_FAILURE, payload: err });
-    }
-    dispatch({ type: LOADING, payload: false });
-  };
-};
-
-export const getUserInfoThunk = () => {
-  return () => async dispatch => {
-    try {
-      dispatch({ type: LOADING, payload: true });
-      const payload = await getUserInfo;
-      dispatch({ type: GET_USER_INFO_SUCCESS, payload });
-      dispatch({ type: IS_LOGIN, payload: true });
-    } catch (err) {
-      dispatch({ type: GET_USER_INFO_FAILURE, payload: err });
-    }
-    dispatch({ type: LOADING, payload: false });
-  };
-};
+export const searchNoticeBoardsThunk = createRequestThunk(SEARCH_NOTICE_BOARDS, searchNoticeBoards);
+export const searchAssignmentBoardsThunk = createRequestThunk(
+  SEARCH_ASSIGNMENT_BOARDS,
+  searchAssignmentBoards,
+);

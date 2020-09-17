@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Modal, { ModalInput, ModalCodeInput, ModalEmailInput } from '../Default';
 import * as S from '../style';
@@ -16,47 +16,56 @@ import {
   getModalErrorText,
 } from '../../../../lib/function';
 import { setError, ErrorType, ModalState } from '../../../../modules/reducer/Modal';
-import { signup, emailCheck, emailSend, HeaderState } from '../../../../modules/reducer/Header';
-import { EmailCheckThunkType, EmailSendThunkType, SignUpThunkType } from 'lib/api/Header/signup';
+import { signup, emailCheck, emailSend } from '../../../../modules/reducer/Header';
+import {
+  EmailCheckThunkType,
+  EmailCheckType,
+  EmailSendType,
+  SignUpThunkType,
+  SignUpType,
+} from '../../../../lib/api/Header/signup';
 
 const SignUpModal: FC = () => {
   const state = useSelector(getStateCallback<SignUpState>('SignUp'));
-  const { error, modal } = useSelector(getStateCallback<ModalState>('Modal'));
-  const { loading } = useSelector(getStateCallback<HeaderState>('Header'));
+  const { error, modal, timerNumber } = useSelector(getStateCallback<ModalState>('Modal'));
   const { emailCode, email, password, passwordCheck, isEmailCheck, code, name, number } = state;
   const emailChange = stateChange<string>(setEmail);
   const emailCodeChange = stateChange<string>(setEmailCode);
   const passwordChange = stateChange<string>(setPassword);
   const passwordCheckChange = stateChange<string>(setPasswordCheck);
   const errorChange = stateChange<ErrorType>(setError);
-  const emailSendChange = stateChange<EmailSendThunkType>(emailSend);
+  const emailSendChange = stateChange<EmailSendType>(emailSend);
   const emailCheckChange = stateChange<EmailCheckThunkType>(emailCheck);
   const signUpChange = stateChange<SignUpThunkType>(signup);
-
+  const isPasswordAble = useCallback((password: string) => {
+    const reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return reg.exec(password) !== null;
+  }, []);
   const isStateAble = useCallback(({ password, passwordCheck }: SignUpState) => {
     return !(isTextEmpty(passwordCheck) || isTextEmpty(password) || isEmailCheck);
   }, []);
-  const buttonClickHandler = useCallback(() => {
-    if (isStateAble(state)) {
-      signUpChange({ serverType: { number, password, authCode: code, name }, loading });
-    } else {
-      errorHandler();
-    }
-  }, [state, loading]);
-  const errorHandler = useCallback(() => {
-    errorChange('SignInError');
+  const isPasswordCheckAble = useCallback(({ password, passwordCheck }: SignUpState): boolean => {
+    return password === passwordCheck;
   }, []);
+  const buttonClickHandler = useCallback(() => {
+    if (!isStateAble(state)) {
+      errorChange('SignInError');
+    } else if (!isPasswordAble(password)) {
+      errorChange('SignUpPasswordRegexError');
+    } else if (!isPasswordCheckAble(state)) {
+      errorChange('SignUpPasswordError');
+    } else {
+      signUpChange({ number, password, auth_code: code, name, email, timerNumber });
+    }
+  }, [state]);
   const codeCheckButtonClickHandler = useCallback(() => {
-    emailCheckChange({ serverType: { email, code: emailCode }, loading });
-  }, [email, code, loading]);
+    emailCheckChange({ email, code: emailCode, timerNumber });
+  }, [email, emailCode, timerNumber]);
   const mailSendButtonClickHandler = useCallback(() => {
-    emailSendChange({
-      serverType: { email },
-      loading,
-    });
-  }, [email, loading]);
-  const isCodeOrEmailError = useCallback((error: string) => {
-    return error.length > 0;
+    emailSendChange({ email });
+  }, [email]);
+  const isCodeOrEmailError = useCallback((error: ErrorType) => {
+    return error === 'SignUpEmailError' || error === 'CodeError';
   }, []);
   return (
     <Modal>
@@ -88,7 +97,7 @@ const SignUpModal: FC = () => {
         text='비밀번호'
         value={password}
         valueChange={passwordChange}
-        placeholder='6 ~ 12자, 영문과 숫자 조합으로 만드세요.'
+        placeholder='대문자와 특수문자를 반드시 포함하세요.'
         type='password'
       />
       <ModalInput

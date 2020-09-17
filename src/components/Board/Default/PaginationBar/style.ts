@@ -4,6 +4,10 @@ export const PaginationBarWrapper = styled.footer`
   display: flex;
   justify-content: center;
   margin-top: 21px;
+  > nav {
+    width: 27px;
+    height: 27px;
+  }
 `;
 
 export const PageBlock = styled.div`
@@ -38,5 +42,6 @@ export const PageButton = styled.button`
   &.active {
     background-color: #1d1d1d;
     color: #ffffff;
+    border: none;
   }
 `;

@@ -1,121 +1,45 @@
-import React, { FC, ReactElement, useMemo } from 'react';
+import React, { FC, ReactElement, useMemo, MutableRefObject } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import * as S from './style';
+import TeacherChat from './TeacherChat';
+import StudentChat from './StudentChat';
 
-interface Props {}
+import { reducerType } from '../../../modules/reducer';
+import { deleteChatThunk } from '../../../modules/reducer/AdminQnA';
 
-interface Chat {
-  type: number;
-  message: string;
+interface Props {
+  chatBody: MutableRefObject<HTMLDivElement>;
 }
 
-const chats: Chat[] = [
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 1,
-    message: '선생님 메시지',
-  },
-  {
-    type: 0,
-    message: '학생 메시지',
-  },
-];
+const ChatMessages: FC<Props> = ({ chatBody }): ReactElement => {
+  const dispatch = useDispatch();
+  const { chats } = useSelector((state: reducerType) => state.AdminQnA);
 
-const ChatMessages: FC<Props> = (): ReactElement => {
-  // TODO: 학번과 이름을 받아와야함
+  const deleteChatById = async (chatId: number) => {
+    dispatch(deleteChatThunk(chatId, chats));
+  };
 
-  const chatting = useMemo(
-    () =>
-      chats.map(({ type, message }, i) => {
-        // ! key를 인덱스로 설정한 이유: 아직 채팅 값이 어떻게 올 지 몰름
-        // ! key를 정해줄 것이 떠오르지 않음
-        return type === 0 ? (
-          <S.ChatStudent key={i}>
-            {chats[i - 1].type !== type && <S.StudentName>이름</S.StudentName>}
-            <S.StudentMessage className={`${chats[i - 1].type === type && 'connect'}`}>
-              {message}
-            </S.StudentMessage>
-          </S.ChatStudent>
+  const chatting = useMemo(() => {
+    return chats.map(({ deleted, id, message, time, type }, i: number) => {
+      return (
+        !deleted &&
+        (type === 'ADMIN' ? (
+          <TeacherChat
+            key={id}
+            deleteChatById={deleteChatById}
+            id={id}
+            message={message}
+            time={time}
+          />
         ) : (
-          <S.ChatTeacher key={i}>
-            <S.TeacherMessage>{message}</S.TeacherMessage>
-          </S.ChatTeacher>
-        );
-      }),
-    [chats],
-  );
+          <StudentChat key={id} i={i} time={time} type={type} message={message} />
+        ))
+      );
+    });
+  }, [chats]);
 
-  return <S.ChatInnerChatWrap>{chatting}</S.ChatInnerChatWrap>;
+  return <S.ChatInnerChatWrap ref={chatBody}>{chatting}</S.ChatInnerChatWrap>;
 };
 
 export default ChatMessages;
