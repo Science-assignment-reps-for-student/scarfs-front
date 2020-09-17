@@ -1,4 +1,9 @@
-import { ErrorType, errorInitialState } from '../../../lib/type';
+import {
+  ErrorType,
+  errorInitialState,
+  ErrorResponseType,
+  errorResponseInitialState,
+} from '../../../lib/type';
 import { AssignmentDetailPost, FileResponse, Team } from '../../../lib/api/AssignmentDetailPost';
 
 export const GET_ASSIGNMENT_DETAIL_POST = 'AssignmentDetailPost/GET_ASSIGNMENT_DETAIL_POST' as const;
@@ -30,7 +35,7 @@ const getAssignmentFilesSuccess = (files: FileResponse[]) => ({
   payload: files,
 });
 
-const getAssignmentFilesFailure = (error: ErrorType) => ({
+const getAssignmentFilesFailure = (error: ErrorResponseType) => ({
   type: GET_ASSIGNMENT_FILES_FAILURE,
   payload: error,
 });
@@ -62,7 +67,7 @@ export type AssignmentDetailPostState = {
   assignmentDetailPost: AssignmentDetailPost;
   getAssignmentDetailPostError: ErrorType;
   files: FileResponse[];
-  getAssignmentFilesError: ErrorType;
+  getAssignmentFilesError: ErrorResponseType;
   team: Team;
   getTeamError: ErrorType;
 };
@@ -83,7 +88,7 @@ const initialState: AssignmentDetailPostState = {
   },
   getAssignmentDetailPostError: errorInitialState,
   files: [],
-  getAssignmentFilesError: errorInitialState,
+  getAssignmentFilesError: errorResponseInitialState,
   team: {
     team_id: 0,
     team_name: '',

@@ -17,20 +17,22 @@ const TeamClassReport: FC<Props> = ({ subject }): ReactElement => {
       <S.SubjectClsContentCommonList>
         <ClassListHeadCommon isReport={true} />
         {teams_info.length !== 0 &&
-          teams_info.map(team => {
-            return team.members.map(({ name, student_number }, i) => {
-              return (
-                <ReportList
-                  key={student_number}
-                  isPersonal={true}
-                  name={name}
-                  studentId={student_number}
-                  submit={team.submit}
-                  teamName={i === 0 ? team.team_name : ''}
-                />
-              );
-            });
-          })}
+          teams_info
+            .sort((a, b) => (a.team_id > b.team_id ? 1 : -1))
+            .map(({ members, team_name, submit }) =>
+              members
+                .sort((a, b) => (a.student_number > b.student_number ? 1 : -1))
+                .map(({ name, student_number }, i) => (
+                  <ReportList
+                    key={student_number}
+                    isPersonal={true}
+                    name={name}
+                    studentId={student_number}
+                    submit={submit}
+                    teamName={i === 0 ? team_name : ''}
+                  />
+                )),
+            )}
       </S.SubjectClsContentCommonList>
     </S.SubjectClsContentReport>
   );

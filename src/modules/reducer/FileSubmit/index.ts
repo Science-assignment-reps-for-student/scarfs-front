@@ -1,4 +1,4 @@
-import { ErrorType, errorInitialState } from '../../../lib/type';
+import { ErrorResponseType, errorResponseInitialState } from '../../../lib/type';
 import { FileResponse } from '../../../lib/api/FileSubmit';
 
 export const GET_SUBMITTED_FILES = 'FileSubmit/GET_SUBMITTED_FILES' as const;
@@ -20,7 +20,7 @@ export const getSubmittedFilesSuccess = (payload: { file_information: FileRespon
   payload,
 });
 
-export const getSubmittedFilesFailure = (error: ErrorType) => ({
+export const getSubmittedFilesFailure = (error: ErrorResponseType) => ({
   type: GET_SUBMITTED_FILES_FAILURE,
   payload: error,
 });
@@ -29,7 +29,7 @@ export const submitFileSuccess = () => ({
   type: SUBMIT_FILE_SUCCESS,
 });
 
-export const submitFileFailure = (error: ErrorType) => ({
+export const submitFileFailure = (error: ErrorResponseType) => ({
   type: SUBMIT_FILE_FAILURE,
   payload: error,
 });
@@ -38,7 +38,7 @@ export const deleteSubmittedFileSuccess = () => ({
   type: DELETE_SUBMITTED_FILE_SUCCESS,
 });
 
-export const deleteSubmittedFileFailure = (error: ErrorType) => ({
+export const deleteSubmittedFileFailure = (error: ErrorResponseType) => ({
   type: DELETE_SUBMITTED_FILE_FAILURE,
   payload: error,
 });
@@ -58,20 +58,20 @@ export type FileSubmitAcion =
 
 export type FileSubmitStatus = {
   submittedFiles: FileResponse[];
-  getSubmittedFilesError: ErrorType;
+  getSubmittedFilesError: ErrorResponseType;
   submitFileSuccess: boolean;
-  submitFileError: ErrorType;
+  submitFileError: ErrorResponseType;
   deleteSubmittedFileSuccess: boolean;
-  deleteSubmittedFileError: ErrorType;
+  deleteSubmittedFileError: ErrorResponseType;
 };
 
 const initialState: FileSubmitStatus = {
   submittedFiles: [],
-  getSubmittedFilesError: errorInitialState,
+  getSubmittedFilesError: errorResponseInitialState,
   submitFileSuccess: false,
-  submitFileError: errorInitialState,
+  submitFileError: errorResponseInitialState,
   deleteSubmittedFileSuccess: false,
-  deleteSubmittedFileError: errorInitialState,
+  deleteSubmittedFileError: errorResponseInitialState,
 };
 
 export default function FileSubmit(
@@ -82,7 +82,7 @@ export default function FileSubmit(
     case GET_SUBMITTED_FILES_SUCCESS:
       return {
         ...state,
-        getSubmittedFilesError: errorInitialState,
+        getSubmittedFilesError: errorResponseInitialState,
         submittedFiles: action.payload.file_information,
       };
     case GET_SUBMITTED_FILES_FAILURE:
@@ -93,7 +93,7 @@ export default function FileSubmit(
     case SUBMIT_FILE_SUCCESS:
       return {
         ...state,
-        submitFileError: errorInitialState,
+        submitFileError: errorResponseInitialState,
         submitFileSuccess: true,
       };
     case SUBMIT_FILE_FAILURE:
@@ -105,7 +105,7 @@ export default function FileSubmit(
     case DELETE_SUBMITTED_FILE_SUCCESS:
       return {
         ...state,
-        deleteSubmittedFileError: errorInitialState,
+        deleteSubmittedFileError: errorResponseInitialState,
         deleteSubmittedFileSuccess: true,
       };
     case DELETE_SUBMITTED_FILE_FAILURE:
