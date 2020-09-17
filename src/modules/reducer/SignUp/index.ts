@@ -6,6 +6,7 @@ export const EMAIL_CODE = 'SignUp/EMAIL_CODE' as const;
 export const PASSWORD = 'SignUp/PASSWORD' as const;
 export const PASSWORD_CHECK = 'SignUp/PASSWORD_CHECK' as const;
 export const RESET = 'SignUp/RESET' as const;
+export const EMAIL_CHECK = 'SignUp/EMAIL_CHECK' as const;
 
 export const setCode = (payload: string) => ({
   type: CODE,
@@ -42,11 +43,16 @@ export const setPasswordCheck = (payload: string) => ({
   payload: payload,
 });
 
-export const reset = () => ({
+export const resetSignUp = () => ({
   type: RESET,
 });
 
-export type State = {
+export const setEmailCheck = (payload: boolean) => ({
+  type: EMAIL_CHECK,
+  payload,
+});
+
+export type SignUpState = {
   code: string;
   email: string;
   number: string;
@@ -54,9 +60,10 @@ export type State = {
   emailCode: string;
   password: string;
   passwordCheck: string;
+  isEmailCheck: boolean;
 };
 
-export const initialState: State = {
+export const initialState: SignUpState = {
   code: '',
   email: '',
   emailCode: '',
@@ -64,6 +71,7 @@ export const initialState: State = {
   name: '',
   password: '',
   passwordCheck: '',
+  isEmailCheck: false,
 };
 
 export type SignUpActionType =
@@ -74,9 +82,13 @@ export type SignUpActionType =
   | ReturnType<typeof setNumber>
   | ReturnType<typeof setPassword>
   | ReturnType<typeof setPasswordCheck>
-  | ReturnType<typeof reset>;
+  | ReturnType<typeof resetSignUp>
+  | ReturnType<typeof setEmailCheck>;
 
-export const SignUpState = (state: State = initialState, action: SignUpActionType): State => {
+export const SignUpState = (
+  state: SignUpState = initialState,
+  action: SignUpActionType,
+): SignUpState => {
   switch (action.type) {
     case CODE:
       return {
@@ -122,7 +134,14 @@ export const SignUpState = (state: State = initialState, action: SignUpActionTyp
         emailCode: '',
         password: '',
         passwordCheck: '',
+        isEmailCheck: false,
       };
+    case EMAIL_CHECK: {
+      return {
+        ...state,
+        isEmailCheck: action.payload,
+      };
+    }
     default:
       return state;
   }

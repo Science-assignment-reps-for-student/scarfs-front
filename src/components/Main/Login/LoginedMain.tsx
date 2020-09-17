@@ -1,24 +1,44 @@
 import React, { FC } from 'react';
 import Logo from './Logo';
-import TaskList from './TaskList';
+import { BoardTaskList, AssignmentTaskList } from './TaskList';
 import UserInfo from './UserInfo';
 import * as S from '../style';
+import { AssignmentType, BoardType } from '../../../lib/api/Assignment/Assignment';
+import { UserInfoType } from '../../../lib/api/Header/userInfo';
 
-const Main: FC = () => {
+interface Props {
+  assignmentTask: AssignmentType;
+  boardTask: BoardType;
+  isBoardLoading: boolean;
+  isAssignmentLoading: boolean;
+  userInfo: UserInfoType;
+  isUserInfoLoading: boolean;
+  logout: () => void;
+}
+
+const Main: FC<Props> = ({
+  assignmentTask,
+  boardTask,
+  isBoardLoading,
+  isAssignmentLoading,
+  userInfo,
+  isUserInfoLoading,
+  logout,
+}) => {
   return (
     <S.Body>
       <S.SideBar>
         <p>SCIENCE</p>
       </S.SideBar>
-      <S.Wrapper margin={108}>
+      <S.Wrapper>
         <S.TaskListWrapper>
-          <TaskList taskListType='calender' isNotice={false} />
-          <TaskList taskListType='megaphone' isNotice={true} />
+          <BoardTaskList boardPreview={boardTask} isLoading={isBoardLoading} />
+          <AssignmentTaskList assignmentPreview={assignmentTask} isLoading={isAssignmentLoading} />
         </S.TaskListWrapper>
       </S.Wrapper>
-      <S.Wrapper margin={106}>
+      <S.Wrapper margin={20}>
         <Logo />
-        <UserInfo />
+        <UserInfo userInfo={userInfo} isLoading={isUserInfoLoading} logout={logout} />
       </S.Wrapper>
     </S.Body>
   );

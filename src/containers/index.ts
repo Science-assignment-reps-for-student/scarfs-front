@@ -4,6 +4,18 @@ export {
   AdminCreateContainer,
   AdminHeaderContainer,
   AdminLoginContainer,
+  AdminQnAContainer,
+  AdminSignUpContainer,
 } from './Admin';
 export { MainContainer } from './Main';
-export { AssignmentGuideBoardContainer, ClassBoardContainer } from './Board';
+export {
+  AssignmentGuideBoardContainer,
+  ClassBoardContainer,
+  NoticeBoardContainer,
+  AssignmentDetailPostContainer,
+  ClassDetailPostContainer,
+  NoticeDetailPostContainer,
+  EvaluationContainer,
+  ClassBoardWriteContainer,
+} from './Board';
+export { ChattingContainer } from './Chatting';

@@ -3,42 +3,40 @@ import { Personal } from './adminPersonal';
 import { Team } from './adminTeam';
 import { Experiment } from './adminExperiment';
 
-export const sortPersonal = (personal: Personal) => {
-  personal.personal_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
-  personal.personal_assignment.forEach(per => {
-    per.class_submit.sort((a, b) => (a.student_number > b.student_number ? 1 : -1));
-  });
-};
-export const sortTeam = (team: Team) => {
-  team.team_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
-  team.team_assignment.forEach(team => {
-    team.peer_evaluation_submit.sort((a, b) => (a.student_number > b.student_number ? 1 : -1));
-    team.team_submit.sort((a, b) => (a.team_name > b.team_name ? 1 : -1));
-  });
-};
-export const sortExperiment = (experiment: Experiment) => {
-  experiment.experiment_assignment.sort((a, b) => (a.id > b.id ? 1 : -1));
-  experiment.experiment_assignment.forEach(exp => {
-    exp.peer_evaluation_submit.sort((a, b) => (a.student_number > b.student_number ? 1 : -1));
-    exp.experiment_submit.sort((a, b) => (a.team_name > b.team_name ? 1 : -1));
-  });
-};
-
-export const addPropsOfPersonal = (personal: Personal) => {
+export const addPropsOfPersonal = ({ ...personal }: Personal): Personal => {
   personal.personal_assignment.forEach(cls => {
     cls.title = `[${PERSONAL_STR}] ${cls.title}`;
-    cls.type = PERSONAL_STR;
+    cls.typing = PERSONAL_STR;
   });
+  return personal;
 };
-export const addPropsOfTeam = (team: Team) => {
+export const addPropsOfTeam = ({ ...team }: Team): Team => {
   team.team_assignment.forEach(cls => {
     cls.title = `[${TEAM_STR}] ${cls.title}`;
-    cls.type = TEAM_STR;
+    cls.typing = TEAM_STR;
   });
+  return team;
 };
-export const addPropsOfExperiment = (experiment: Experiment) => {
+export const addPropsOfExperiment = ({ ...experiment }: Experiment): Experiment => {
   experiment.experiment_assignment.forEach(cls => {
     cls.title = `[${EXPERIMENT_STR}] ${cls.title}`;
-    cls.type = EXPERIMENT_STR;
+    cls.typing = EXPERIMENT_STR;
   });
+  return experiment;
 };
+
+export const networkError: Personal[] = [
+  {
+    personal_assignment: [
+      {
+        id: 1,
+        title: '네트워크 상태를 확인해주세요.',
+        description: '네트워크 상태를 확인해주세요.',
+        created_at: new Date().getTime(),
+        deadline: new Date().getTime(),
+        class_submit: [],
+        typing: '개인',
+      },
+    ],
+  },
+];

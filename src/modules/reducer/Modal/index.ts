@@ -1,14 +1,29 @@
+import { removeTimeOutTimerThunk, setTimeOutTimerThunk } from '../../../modules/thunk/Modal';
+
 export const ERROR = 'Modal/ISERROR' as const;
 export const MODAL = 'Modal/MODAL' as const;
 export const RESET = 'Modal/RESET' as const;
 export const ERROR_MESSAGE = 'Modal/ERROR_MESSAGE' as const;
-
-export type ModalType = 'SignUpCode' | 'SignUpInfo' | 'SignIn' | '';
+export const TIMER_NUMBER = 'Modal/TIMER_NUMBER' as const;
+export type ModalType =
+  | 'SignUpCode'
+  | 'SignUpInfo'
+  | 'SignIn'
+  | 'SignUpEmail'
+  | 'FileSubmit'
+  | 'PeerEvaluation'
+  | 'AddTeamMember'
+  | 'CommentModal'
+  | 'CreateTeamModal'
+  | '';
 export type ErrorType =
   | 'CodeError'
   | 'SignInError'
   | 'SignUpInfoError'
   | 'SignUpPasswordError'
+  | 'SignUpEmailError'
+  | 'SignUpPasswordRegexError'
+  | 'TimeOutError'
   | '';
 
 export const setError = (payload: ErrorType) => ({
@@ -25,24 +40,37 @@ export const reset = () => ({
   type: RESET,
 });
 
-export type State = {
+export const setTimerNumber = (payload: number) => ({
+  type: TIMER_NUMBER,
+  payload,
+});
+
+export type ModalState = {
   error: ErrorType;
   modal: ModalType;
-  errorType: string;
+  timerNumber: number;
 };
 
-export const initialState: State = {
+export const setTimeOutTimer = setTimeOutTimerThunk();
+
+export const removeTimeOutTimer = removeTimeOutTimerThunk();
+
+export const initialState: ModalState = {
   error: '',
   modal: '',
-  errorType: '',
+  timerNumber: 0,
 };
 
 export type ModalActionType =
   | ReturnType<typeof setError>
   | ReturnType<typeof setModal>
-  | ReturnType<typeof reset>;
+  | ReturnType<typeof reset>
+  | ReturnType<typeof setTimerNumber>;
 
-export const ModalState = (state: State = initialState, action: ModalActionType): State => {
+export const ModalState = (
+  state: ModalState = initialState,
+  action: ModalActionType,
+): ModalState => {
   switch (action.type) {
     case ERROR:
       return {
@@ -60,6 +88,12 @@ export const ModalState = (state: State = initialState, action: ModalActionType)
         modal: '',
         error: '',
       };
+    case TIMER_NUMBER: {
+      return {
+        ...state,
+        timerNumber: action.payload,
+      };
+    }
     default:
       return state;
   }

@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import GlobalStyle from './GlobalStyle';
 import { UserRouter, AdminRouter } from './routers';
 import { NotFound } from './components';
 
 const App: FC = (): React.ReactElement => {
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
       <Switch>
         <Route exact path='/error' component={NotFound} />
@@ -14,7 +14,7 @@ const App: FC = (): React.ReactElement => {
         <Route path='/' component={UserRouter} />
         <Redirect path='*' to='/error' />
       </Switch>
-    </BrowserRouter>
+    </>
   );
 };
 

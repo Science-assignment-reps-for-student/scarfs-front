@@ -1,14 +1,31 @@
-import { apiDefault } from '../client';
-import axios from 'axios';
+import { getApiDefault } from '../client';
 
-const apiCreateDefault = axios.create({
-  baseURL: 'https://dsm-scarfs.hs.kr/v2',
-  headers: {
-    Authorization: localStorage.getItem('accessToken'),
-    'Content-Type': 'multipart/form-data',
-  },
-});
+export const apiCreateAssignment = (data: FormData) => {
+  return getApiDefault().post<{}>('/rib-eye/assignment', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    timeout: 10000,
+  });
+};
 
-export const apiCreateHomework = (data: FormData) => {
-  return apiCreateDefault.post('/rib-eye/homework', data);
+export const apiUpdateAssignment = (assignmentId: string, data: FormData) => {
+  return getApiDefault().patch<{}>(`/rib-eye/assignment/${assignmentId}`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    timeout: 10000,
+  });
+};
+
+export const apiUpdateAssignmentFiles = (data: FormData, assignmentId: string) => {
+  return getApiDefault().put<{}>(`/rib-eye/assignment/${assignmentId}`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+export const apiDeleteAssignment = (assignmentId: string) => {
+  return getApiDefault().delete(`/rib-eye/assignment/${assignmentId}`);
 };
