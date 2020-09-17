@@ -14,8 +14,8 @@ import {
 import { createAlert, setCheckCallback } from '../../../modules/reducer/Alert';
 
 interface Props {
-  titleRef: MutableRefObject<any>;
-  descRef: MutableRefObject<any>;
+  titleRef: MutableRefObject<HTMLInputElement>;
+  descRef: MutableRefObject<HTMLTextAreaElement>;
 }
 
 const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
@@ -51,7 +51,7 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
   };
 
   const handleCreate = () => {
-    if (isDataDefault()) {
+    if (isDataDefault() || titleRef.current.value.search(/\//gi) !== -1) {
       dispatch(createAlert('과제생성 요소들을 모두 입력해주세요.'));
       return;
     }
