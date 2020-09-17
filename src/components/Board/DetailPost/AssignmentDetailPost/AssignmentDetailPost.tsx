@@ -3,7 +3,7 @@ import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
 import { AssignmentDetailPost, FileResponse, Team } from '../../../../lib/api/AssignmentDetailPost';
-import { ErrorType } from '../../../../lib/type';
+import { ErrorType, ErrorResponseType } from '../../../../lib/type';
 import { useUser, useToken, stateChange } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
 import { sendRefreshToken } from '../../../../modules/reducer/Header';
@@ -14,7 +14,7 @@ interface Props {
   getDetailPostError: ErrorType;
   getDetailPost: (id: number) => void;
   files: FileResponse[];
-  getAssignmentFilesError: ErrorType;
+  getAssignmentFilesError: ErrorResponseType;
   getFiles: (id: number) => void;
   getTeam: (assignmentId: number) => void;
   getTeamError: ErrorType;

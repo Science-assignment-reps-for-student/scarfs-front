@@ -1,4 +1,4 @@
-import { createRequestThunk } from '../../../lib/thunk';
+import { createRequestThunk, createRequestFileThunk } from '../../../lib/thunk';
 import {
   GET_ASSIGNMENT_DETAIL_POST,
   GET_ASSIGNMENT_FILES,
@@ -15,5 +15,8 @@ export const getAssignmentDetailPostThunk = createRequestThunk(
   getAssignmentDetailPost,
 );
 
-export const getAssignmentFilesThunk = createRequestThunk(GET_ASSIGNMENT_FILES, getAssignmentFiles);
+export const getAssignmentFilesThunk = createRequestFileThunk(
+  GET_ASSIGNMENT_FILES,
+  getAssignmentFiles,
+);
 export const getTeamThunk = createRequestThunk(GET_TEAM, getTeam);
