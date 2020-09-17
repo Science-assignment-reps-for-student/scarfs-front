@@ -12,6 +12,15 @@ import {
   BoardCommonStatus,
   setIsDetailBoard as createSetIsDetailBoardAction,
 } from '../../modules/reducer/BoardCommon';
+import { getTeamThunk } from '../../modules/thunk/AssignmentDetailPost';
+import { AssignmentDetailPostState } from '../../modules/reducer/AssignmentDetailPost';
+import { Team } from '../../lib/api/AssignmentDetailPost';
+import { ErrorType as ResponseErrorType } from '../../lib/type';
+import {
+  DeleteTeamState,
+  resetDeleteTeamState as createResetDeleteTeamStateAction,
+} from '../../modules/reducer/DeleteTeam';
+import { deleteTeamThunk } from '../../modules/thunk/DeleteTeam';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -23,8 +32,8 @@ export const isTextEmpty = (text: string): boolean => {
 export const getStateCallback = <ReturnType>(stateName: string) => (
   state: reducerType,
 ): ReturnType => {
-  const selectedStaet: ReturnType = state[stateName];
-  return selectedStaet;
+  const selectedState: ReturnType = state[stateName];
+  return selectedState;
 };
 
 export const stateChange = <ValueType>(actionFunc: (value: ValueType) => any) => {
@@ -140,4 +149,45 @@ export const useBoardCommon = (): {
   return {
     isDetailBoard: [isDetailBoard, setIsDetailBoard],
   };
+};
+
+export const useTeam = (): [Team, ResponseErrorType, (assignmentId: number) => void] => {
+  const dispatch = useDispatch();
+  const { team, getTeamError } = useSelector(
+    getStateCallback<AssignmentDetailPostState>('AssignmentDetailPost'),
+  );
+
+  const getTeam = (assignmentId: number) => {
+    dispatch(getTeamThunk(assignmentId));
+  };
+
+  return [team, getTeamError, getTeam];
+};
+
+export const useDeleteTeam = (): [
+  boolean,
+  ResponseErrorType,
+  (assignmentId: number) => void,
+  () => void,
+] => {
+  const dispatch = useDispatch();
+  const { deleteTeamSuccess, deleteTeamError } = useSelector(
+    getStateCallback<DeleteTeamState>('DeleteTeam'),
+  );
+
+  const deleteTeam = (assignmentId: number) => {
+    dispatch(deleteTeamThunk(assignmentId));
+  };
+
+  const resetDeleteTeamState = () => {
+    dispatch(createResetDeleteTeamStateAction());
+  };
+
+  return [deleteTeamSuccess, deleteTeamError, deleteTeam, resetDeleteTeamState];
+};
+
+export const useToken = () => {
+  const { accessToken, refreshToken } = useSelector(getStateCallback<HeaderState>('Header'));
+
+  return [accessToken, refreshToken];
 };

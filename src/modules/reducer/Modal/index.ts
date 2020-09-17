@@ -14,6 +14,7 @@ export type ModalType =
   | 'PeerEvaluation'
   | 'AddTeamMember'
   | 'CommentModal'
+  | 'CreateTeamModal'
   | '';
 export type ErrorType =
   | 'CodeError'

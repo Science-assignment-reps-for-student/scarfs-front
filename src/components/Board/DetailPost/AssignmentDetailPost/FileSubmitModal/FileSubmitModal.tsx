@@ -1,24 +1,32 @@
-import React, { FC, useState, useRef, useMemo, useCallback, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { FC, useState, useRef, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as S from './style';
 import { Modal } from '../../Modal';
 import { reset } from '../../../../../modules/reducer/Modal';
-import { stateChange, isAbleFileExt } from '../../../../../lib/function';
+import { stateChange, isAbleFileExt, useToken } from '../../../../../lib/function';
 import { ReducerType } from '../../../../../modules/store';
 import { FileResponse } from '../../../../../lib/api/FileSubmit';
-import { ErrorType } from '../../../../../lib/type';
+import { ErrorResponseType } from '../../../../../lib/type';
+import { sendRefreshToken } from '../../../../../modules/reducer/Header';
+
+interface SubmitFileNameError {
+  status: number;
+  data: {
+    conflict_files: string[];
+  };
+}
 
 interface Props {
   getSubmittedFiles: (type: string, assignmentId: number) => void;
   submittedFiles: FileResponse[];
-  getSubmittedFilesError: ErrorType;
+  getSubmittedFilesError: ErrorResponseType;
   submitFile: (type: string, assignmentId: number, data: FormData) => void;
   submitFileSuccess: boolean;
-  submitFileError: ErrorType;
+  submitFileError: ErrorResponseType;
   isSubmitLoading: boolean;
   deleteSubmittedFileSuccess: boolean;
-  deleteSubmittedFileError: ErrorType;
+  deleteSubmittedFileError: ErrorResponseType;
   deleteSubmittedFile: (type: string, assignmentId: number) => void;
   resetFileSubmit: () => void;
 }
@@ -36,6 +44,8 @@ const FileSubmitModal: FC<Props> = ({
   deleteSubmittedFile,
   resetFileSubmit,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const location = useLocation();
   const assignmentId = parseInt(location.pathname.split('/')[3]);
   const { type } = useSelector(
@@ -43,10 +53,22 @@ const FileSubmitModal: FC<Props> = ({
   );
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
-  const history = useHistory();
   const [isOvered, setIsOvered] = useState(false);
   const closeModal = stateChange(reset);
 
+  const isFileNameExist = useCallback(
+    (file: File) => {
+      return files.findIndex(f => f.name.normalize('NFC') === file.name.normalize('NFC')) !== -1
+        ? true
+        : false ||
+          submittedFiles.findIndex(
+            f => f.file_name.normalize('NFC') === file.name.normalize('NFC'),
+          ) !== -1
+        ? true
+        : false;
+    },
+    [files, submittedFiles],
+  );
   const cancelButtonClickHandler = () => {
     closeModal();
   };
@@ -83,7 +105,11 @@ const FileSubmitModal: FC<Props> = ({
         if (e.dataTransfer.items[i].kind === 'file') {
           const file: File = e.dataTransfer.items[i].getAsFile();
           if (isAbleFileExt(file.name)) {
-            setFiles(prev => [...prev, file]);
+            if (isFileNameExist(file)) {
+              alert('동일한 파일 이름은 추가할수 없습니다.');
+            } else {
+              setFiles(prev => [...prev, file]);
+            }
           } else {
             alert(`${file.name}: 가능하지 않은 확장자입니다.`);
           }
@@ -96,20 +122,24 @@ const FileSubmitModal: FC<Props> = ({
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
-
     setFiles(prev => {
       const newFiles = [...prev];
       for (let i = 0; i < files.length; i++) {
-        newFiles.push(files.item(i));
+        if (isFileNameExist(files.item(i))) {
+          alert('동일한 파일 이름은 추가할수 없습니다.');
+        } else {
+          newFiles.push(files.item(i));
+        }
       }
       return newFiles;
     });
   };
 
   const onClickDelete = useCallback(
-    (deleteIndex: number) => {
+    (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+      const { fileId } = e.currentTarget.dataset;
       if (confirm('첨부파일을 정말로 삭제하시겠습니까?')) {
-        deleteSubmittedFile(type, deleteIndex);
+        deleteSubmittedFile(type, Number(fileId));
       }
     },
     [files],
@@ -127,6 +157,14 @@ const FileSubmitModal: FC<Props> = ({
     }
   };
 
+  const onClickDeleteLocalFile = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const { index } = e.currentTarget.dataset;
+    const newFiles = [...files];
+    newFiles.splice(Number(index), 1);
+
+    setFiles(newFiles);
+  };
+
   useEffect(() => {
     getSubmittedFiles(type, assignmentId);
 
@@ -136,7 +174,16 @@ const FileSubmitModal: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (getSubmittedFilesError.status) {
+    if (getSubmittedFilesError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getSubmittedFiles(type, assignmentId),
+        page: 'FileSubmitModal/getSubmittedFiles',
+      };
+      refreshTokenChange(params);
+    } else if (getSubmittedFilesError.status) {
       alert(`Error code: ${getSubmittedFilesError.status} 제출한 파일 불러오기 실패!`);
     }
   }, [getSubmittedFilesError]);
@@ -148,10 +195,24 @@ const FileSubmitModal: FC<Props> = ({
   }, [submitFileSuccess]);
 
   useEffect(() => {
-    if (submitFileError.status) {
+    if (submitFileError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickSubmit(),
+        page: 'FileSubmitModal/submitFile',
+      };
+      refreshTokenChange(params);
+    } else if (submitFileError.status === 409) {
+      (submitFileError as SubmitFileNameError).data.conflict_files.forEach(name =>
+        alert(`동일한 파일이름이 존재합니다.('${name}')`),
+      );
+    } else if (submitFileError.status) {
       alert(`Error code: ${submitFileError.status} 파일 제출 실패!`);
     }
   }, [submitFileError]);
+
   useEffect(() => {
     if (deleteSubmittedFileSuccess) {
       resetFileSubmit();
@@ -160,7 +221,16 @@ const FileSubmitModal: FC<Props> = ({
   }, [deleteSubmittedFileSuccess]);
 
   useEffect(() => {
-    if (deleteSubmittedFileError.status) {
+    if (deleteSubmittedFileError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => onClickDelete,
+        page: 'FileSubmitModal/deleteSubmittedFile',
+      };
+      refreshTokenChange(params);
+    } else if (deleteSubmittedFileError.status) {
       alert(`Error code: ${deleteSubmittedFileError.status} 제출한 파일 삭제 실패!`);
     }
   }, [deleteSubmittedFileError]);
@@ -185,7 +255,7 @@ const FileSubmitModal: FC<Props> = ({
               {submittedFiles.map(({ file_id, file_name }: FileResponse) => (
                 <S.FileItem key={file_id}>
                   <S.FileName>{file_name}</S.FileName>
-                  <S.DeleteButton onClick={() => onClickDelete(file_id)} />
+                  <S.DeleteButton data-file-id={file_id} onClick={onClickDelete} />
                 </S.FileItem>
               ))}
             </S.FileListBox>
@@ -196,7 +266,7 @@ const FileSubmitModal: FC<Props> = ({
           {files.map(({ name }: File, index: number) => (
             <S.FileItem key={index}>
               <S.FileName>{name}</S.FileName>
-              <S.DeleteButton onClick={() => onClickDelete(index)} />
+              <S.DeleteButton data-index={index} onClick={onClickDeleteLocalFile} />
             </S.FileItem>
           ))}
         </S.FileListBox>

@@ -4,23 +4,41 @@ import { AssignmentDetailPostWithFiles } from '../Default/PostMain';
 import { getLocaleDateString } from '../../utils';
 import { getAssignmentFile, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
 import { downloadBlobByClick } from '../../../../lib/function/admin';
-import { ErrorType } from '../../../../lib/type';
+import { ErrorResponseType } from '../../../../lib/type';
+import { useTeam, useToken, stateChange } from '../../../../lib/function';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 interface Props {
   board: AssignmentDetailPostWithFiles;
 }
 
 const PostInfoDetail: FC<Props> = ({ board }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
+  const [team] = useTeam();
   const downloadFileHandler = async (file: FileResponse) => {
     try {
       const { data } = await getAssignmentFile(file.file_id);
       const blob: Blob = new Blob([data], { type: 'application/json' });
       downloadBlobByClick(blob, `${file.file_name}`);
     } catch (e) {
-      if (e.response?.data) {
-        const error: ErrorType = e.response.data;
-        if (error.status) {
-          alert(`Error Code: ${e.response.status} 다운로드 실패`);
+      if (e.response) {
+        const error: ErrorResponseType = e.response;
+        if (error.status === 403) {
+          const params = {
+            serverType: {
+              refreshToken,
+            },
+            callback: async () => {
+              const { data } = await getAssignmentFile(file.file_id);
+              const blob: Blob = new Blob([data], { type: 'application/json' });
+              downloadBlobByClick(blob, `${file.file_name}`);
+            },
+            page: 'PostInfoDetail/getAssignmentFile',
+          };
+          refreshTokenChange(params);
+        } else if (error.status) {
+          alert(`Error Code: ${error.status} 다운로드 실패`);
         }
       }
       alert('Error!');
@@ -46,23 +64,38 @@ const PostInfoDetail: FC<Props> = ({ board }) => {
         <S.InfoTitle>조회수</S.InfoTitle>
         <S.BlueText>{board.view}</S.BlueText>
       </S.InfoDetail>
-      <S.InfoDetail>
-        <S.InfoTitle>첨부파일</S.InfoTitle>
-        <S.FileBox>
-          {board.files.map(file => (
-            <S.File key={file.file_id} onClick={() => downloadFileHandler(file)}>
-              {file.file_name}
-            </S.File>
-          ))}
-        </S.FileBox>
-      </S.InfoDetail>
-      <S.InfoDetail>
-        <S.InfoTitle>팀원</S.InfoTitle>
-        <S.LeaderText>임용성</S.LeaderText>
-        <S.TeamText>강신희</S.TeamText>
-        <S.TeamText>손민기</S.TeamText>
-        <S.TeamText>이성진</S.TeamText>
-      </S.InfoDetail>
+      {!!board.files.length && (
+        <S.InfoDetail>
+          <S.InfoTitle>첨부파일</S.InfoTitle>
+          <S.FileBox>
+            {board.files.map(file => (
+              <S.File key={file.file_id} onClick={() => downloadFileHandler(file)}>
+                {file.file_name}
+              </S.File>
+            ))}
+          </S.FileBox>
+        </S.InfoDetail>
+      )}
+      {team.team_name && (
+        <S.InfoDetail>
+          <S.InfoTitle>팀</S.InfoTitle>
+          <S.TeamBox>
+            <S.TeamNameBox>
+              <S.LeaderText>
+                <span>[</span>
+                {team.team_name}
+                <span>]</span>
+              </S.LeaderText>
+            </S.TeamNameBox>
+            <S.TeamMemberBox>
+              <S.LeaderText>{team.leader_name}</S.LeaderText>
+              {team.member_list.map(member => (
+                <S.TeamText key={member.member_id}>{member.member_name}</S.TeamText>
+              ))}
+            </S.TeamMemberBox>
+          </S.TeamBox>
+        </S.InfoDetail>
+      )}
     </>
   );
 };

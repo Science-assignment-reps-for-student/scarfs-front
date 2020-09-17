@@ -1,57 +1,110 @@
-import React, { FC } from 'react';
-import * as S from './style';
-import { Modal } from '../../Modal';
+import React, { FC, useEffect, useState, useCallback } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import * as S from './style';
+import SuccessBox from './SuccessBox';
+import FailedBox from './FailedBox';
+import PeerItem from './PeerItem';
+
+import { Modal } from '../../Modal';
+import { reducerType } from '../../../../../modules/reducer';
+import { apiPeerEvaluation } from '../../../../../lib/api/PeerEvaluationModal';
+import { Loading } from '../../../../../assets/Board/DetailPost';
+import { tokenReIssuance } from '../../../../../lib/api/Admin/admin';
+import { setPeers } from '../../../../../modules/reducer/Evaluation';
 
 const PeerEvaluationModal: FC<{}> = () => {
-  const PARAM_ID_INDEX = 3;
   const history = useHistory();
-  const paramId = location.pathname.split('/')[PARAM_ID_INDEX];
+  const dispatch = useDispatch();
+  const match = useRouteMatch<{ id: string }>('/board/assignment-guide/:id');
+  const homeworkId = match.params.id;
+  const {
+    Header: { userInfo },
+    Evaluation: { peers },
+  } = useSelector((state: reducerType) => state);
+  const [meFinish, setMeFinish] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const handlePeers = useCallback(async () => {
+    const { data } = await apiPeerEvaluation(homeworkId);
+    data.forEach(({ student_id, finish }) => {
+      if (student_id === userInfo.id) setMeFinish(finish);
+    });
+    dispatch(setPeers(data));
+  }, []);
+
+  const getPeers = useCallback(async () => {
+    try {
+      await handlePeers();
+    } catch (err) {
+      const code = err?.response?.status;
+      if (!code) return;
+      if (code === 401) {
+        await tokenReIssuance();
+        await handlePeers();
+      }
+    }
+  }, []);
+
+  const goSelfEvaluation = useCallback(() => {
+    history.push(`/board/assignment-guide/${homeworkId}/evaluation?type=self`);
+  }, [homeworkId]);
+
+  const goPeerEvaluation = useCallback(
+    (targetUuid: number) => {
+      history.push(
+        `/board/assignment-guide/${homeworkId}/evaluation?type=mutual&target=${targetUuid}`,
+      );
+    },
+    [homeworkId],
+  );
+
+  const goAllEvaluation = useCallback(() => {
+    history.push(`/board/assignment-guide/${homeworkId}/evaluation?type=all`);
+  }, [homeworkId]);
+
+  useEffect(() => {
+    getPeers();
+    setLoading(false);
+  }, []);
+
   return (
     <Modal>
       <S.PeerEvaluationModalBox>
-        <S.Label>본인</S.Label>
-        <S.StudentBox>
-          <S.StudentInfoBox>
-            <S.BlueText>1219</S.BlueText>
-            <S.BlueText>임용성</S.BlueText>
-          </S.StudentInfoBox>
-          <S.EvaluationStatusBox>
-            <S.BlueText>완료</S.BlueText>
-            <S.ViewButton
-              onClick={() =>
-                history.push(`/board/assignment-guide/${paramId}/evaluation?type=self`)
-              }
-            />
-          </S.EvaluationStatusBox>
-        </S.StudentBox>
-        <S.Label>팀원</S.Label>
-        {Array(10)
-          .fill(0)
-          .map((_, i) => (
-            <React.Fragment key={i}>
-              <S.StudentBox>
-                <S.StudentInfoBox>
-                  <S.OrangeText>1219</S.OrangeText>
-                  <S.OrangeText>임용성</S.OrangeText>
-                </S.StudentInfoBox>
-                <S.EvaluationStatusBox>
-                  <S.OrangeText>미완료</S.OrangeText>
-                  <S.EditButton
-                    onClick={() =>
-                      history.push(`/board/assignment-guide/${paramId}/evaluation?type=mutual`)
-                    }
+        {loading ? (
+          <S.LoadingRolling src={Loading} alt='loading' title='loading' />
+        ) : (
+          <>
+            <S.Label>본인</S.Label>
+            <S.StudentBox>
+              <S.StudentInfoBox>
+                <S.BlueText>{userInfo.studentNumber}</S.BlueText>
+                <S.BlueText>{userInfo.name}</S.BlueText>
+              </S.StudentInfoBox>
+              {meFinish ? (
+                <SuccessBox goCallback={goSelfEvaluation} />
+              ) : (
+                <FailedBox goCallback={goSelfEvaluation} />
+              )}
+            </S.StudentBox>
+            <S.Label>팀원</S.Label>
+            {peers.map(
+              ({ finish, student_id, student_name, student_number }) =>
+                userInfo.id !== student_id && (
+                  <PeerItem
+                    key={student_id}
+                    finish={finish}
+                    goPeerEvaluation={() => goPeerEvaluation(student_id)}
+                    student_name={student_name}
+                    student_number={student_number}
                   />
-                </S.EvaluationStatusBox>
-              </S.StudentBox>
-            </React.Fragment>
-          ))}
+                ),
+            )}
+          </>
+        )}
       </S.PeerEvaluationModalBox>
-      <S.AllEvaluateButton
-        onClick={() => history.push(`/board/assignment-guide/${paramId}/evaluation?type=all`)}
-      >
-        전체 평가
-      </S.AllEvaluateButton>
+      <S.AllEvaluateButton onClick={goAllEvaluation}>전체 평가</S.AllEvaluateButton>
     </Modal>
   );
 };

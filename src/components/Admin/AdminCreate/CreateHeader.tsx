@@ -10,7 +10,6 @@ import {
   fetchCreateThunk,
   fetchUpdateThunk,
   fetchDeleteThunk,
-  Update,
 } from '../../../modules/reducer/AdminCreate';
 import { createAlert, setCheckCallback } from '../../../modules/reducer/Alert';
 
@@ -21,9 +20,9 @@ interface Props {
 
 const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
   const history = useHistory();
-  const { assignmentId } = useParams<{ assignmentId: string }>();
-  const create = useSelector((state: ReducerType) => state.AdminCreate);
   const dispatch = useDispatch();
+  const create = useSelector((state: ReducerType) => state.AdminCreate);
+  const { assignmentId } = useParams<{ assignmentId: string }>();
 
   const getFormData = (): FormData => {
     const data = new FormData();
@@ -44,9 +43,9 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
 
   const isDataDefault = (): boolean => {
     if (titleRef.current.value === '' || descRef.current.value === '') return true;
-    for (const t in create) {
-      if (t === 'files') continue;
-      if (create[t] === '') return true;
+    for (const item in create) {
+      if (item === 'files') continue;
+      if (create[item] === '') return true;
     }
     return false;
   };

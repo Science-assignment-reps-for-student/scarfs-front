@@ -1,45 +1,38 @@
-import React, { FC, useState } from 'react';
-import { EvaluationFormWrapper, SubmitButton } from './style';
-import { Header, QuestionAll, QuestionOne } from './';
+import React, { FC } from 'react';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 
-const types = ['self', 'mutual', 'all'];
-const submitStatus = {
-  studentNo: 2116,
-  name: '이우찬',
-  scientificAccuracy: 1,
-  communication: 2,
-  cooperation: 3,
-};
+import { EvaluationFormWrapper } from './style';
+import { Header, QuestionAll, QuestionSelf, QuestionMutual } from './';
 
-interface Props {
-  submitSelf: () => void;
-  submitMutal: () => void;
-}
+export const SCIENTIFIC = 'scientific' as const;
+export const COMMUNICATION = 'communication' as const;
+export const COOPERATION = 'cooperation' as const;
+export const SELF = 'self' as const;
+export const MUTUAL = 'mutual' as const;
+export const ALL = 'all' as const;
 
-const Evaluation: FC<Props> = ({ submitSelf, submitMutal }) => {
+export type EvaluationTypes = typeof SELF | typeof MUTUAL | typeof ALL;
+export type EvaluationCategory = typeof SCIENTIFIC | typeof COMMUNICATION | typeof COOPERATION;
+
+interface Props {}
+
+const Evaluation: FC<Props> = () => {
   const { type, target } = queryString.parse(location.search);
-  if (types.indexOf(type as string) === -1 || typeof target === 'object')
+  if ([SELF, MUTUAL, ALL].indexOf(type as EvaluationTypes) === -1 || typeof target === 'object')
     return <Redirect to='/error' />;
   const evaluationType = type as string;
-  const submitMethod = {
-    self: submitSelf,
-    mutal: submitMutal,
-    all: submitMutal,
-  };
+
   return (
     <>
       <Header />
       <EvaluationFormWrapper>
-        {evaluationType === 'all' && <QuestionAll />}
-        {(evaluationType === 'mutual' || evaluationType === 'self') && (
-          <QuestionOne type={evaluationType} submitStatus={submitStatus} />
+        {evaluationType === ALL && <QuestionAll />}
+        {evaluationType === MUTUAL && !(target === undefined || target === '') && (
+          <QuestionMutual target={target} />
         )}
+        {evaluationType === SELF && <QuestionSelf />}
       </EvaluationFormWrapper>
-      {!!submitStatus.studentNo && (
-        <SubmitButton onClick={submitMethod[evaluationType]}>제출하기</SubmitButton>
-      )}
     </>
   );
 };

@@ -2,10 +2,11 @@ import React, { FC, useEffect, useMemo } from 'react';
 import { useParams, Redirect, useHistory } from 'react-router-dom';
 import { PostHeader, PostMain, PostFooter } from '../Default';
 import { PostInfoDetail, PostButtons } from './';
-import { AssignmentDetailPost, FileResponse } from '../../../../lib/api/AssignmentDetailPost';
-import { ErrorType } from '../../../../lib/type';
-import { useUser } from '../../../../lib/function';
+import { AssignmentDetailPost, FileResponse, Team } from '../../../../lib/api/AssignmentDetailPost';
+import { ErrorType, ErrorResponseType } from '../../../../lib/type';
+import { useUser, useToken, stateChange } from '../../../../lib/function';
 import { SBone } from '../../../Admin/AdminMain/style';
+import { sendRefreshToken } from '../../../../modules/reducer/Header';
 
 interface Props {
   isLoading: boolean;
@@ -13,8 +14,10 @@ interface Props {
   getDetailPostError: ErrorType;
   getDetailPost: (id: number) => void;
   files: FileResponse[];
-  getAssignmentFilesError: ErrorType;
+  getAssignmentFilesError: ErrorResponseType;
   getFiles: (id: number) => void;
+  getTeam: (assignmentId: number) => void;
+  getTeamError: ErrorType;
   resetDetailPost: () => void;
 }
 
@@ -26,11 +29,16 @@ const AssignmentDetailPost: FC<Props> = ({
   files,
   getFiles,
   getAssignmentFilesError,
+  getTeam,
+  getTeamError,
   resetDetailPost,
 }) => {
+  const [, refreshToken] = useToken();
+  const refreshTokenChange = stateChange(sendRefreshToken);
   const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
   const { classNumber, type } = useUser();
+
   const board = useMemo(
     () => ({
       ...detailPost,
@@ -44,13 +52,24 @@ const AssignmentDetailPost: FC<Props> = ({
   }, [paramId]);
 
   useEffect(() => {
-    if (getDetailPostError.status) {
+    if (getDetailPostError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getDetailPost(paramId),
+        page: 'AssignmentDetailPost/getDetailPost',
+      };
+      refreshTokenChange(params);
+    } else if (getDetailPostError.status) {
       alert(`Error code: ${getDetailPostError.status} 과제 불러오기 실패!`);
       history.goBack();
     }
   }, [getDetailPostError]);
 
   useEffect(() => {
+    getTeam(paramId);
+
     return () => {
       resetDetailPost();
     };
@@ -63,10 +82,35 @@ const AssignmentDetailPost: FC<Props> = ({
   }, [detailPost]);
 
   useEffect(() => {
-    if (getAssignmentFilesError.status) {
+    if (getAssignmentFilesError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getFiles(paramId),
+        page: 'AssignmentDetailPost/getFiles',
+      };
+      refreshTokenChange(params);
+    } else if (getAssignmentFilesError.status) {
       alert(`Error code: ${getDetailPostError.status} 첨부파일 불러오기 실패!`);
     }
   }, [getAssignmentFilesError]);
+
+  useEffect(() => {
+    if (getTeamError.status === 403) {
+      const params = {
+        serverType: {
+          refreshToken,
+        },
+        callback: () => getTeam(paramId),
+        page: 'AddTeamMemberModal/getTeam',
+      };
+      refreshTokenChange(params);
+    }
+    if (getTeamError.status && getTeamError.message !== 'Team Not Found') {
+      alert(`Error code: ${getTeamError.status} 팀 불러오기 실패!`);
+    }
+  }, [getTeamError]);
 
   if (isNaN(paramId) || paramId < 0) return <Redirect to='/error' />;
   return (
