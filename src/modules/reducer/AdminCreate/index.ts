@@ -2,7 +2,7 @@ import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { AxiosError } from 'axios';
 
-import { createAlert } from '../Alert';
+import { createAlert, setCheckCallback } from '../Alert';
 import {
   apiCreateAssignment,
   apiUpdateAssignment,
@@ -171,6 +171,7 @@ export const fetchDeleteThunk: ActionCreator<ThunkAction<
 ) => async dispatch => {
   try {
     await fetchDelete(assignmentId, history, dispatch, dispatchAlert);
+    dispatchAlert(setCheckCallback(() => {}));
   } catch (err) {
     errorHandleToFetch(err, async () => {
       await tokenReIssuance();
