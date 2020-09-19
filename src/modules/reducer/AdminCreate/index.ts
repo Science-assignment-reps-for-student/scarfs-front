@@ -1,11 +1,14 @@
 import { ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { AxiosError } from 'axios';
 
+import { createAlert, setCheckCallback } from '../Alert';
 import {
   apiCreateAssignment,
   apiUpdateAssignment,
   apiDeleteAssignment,
 } from '../../../lib/api/Admin/create';
+import { tokenReIssuance } from '../../../lib/api/Admin/admin';
 
 export type AssignmentTypings = 'PERSONAL' | 'TEAM' | 'EXPERIMENT';
 
@@ -70,6 +73,26 @@ const initialCreate: CreateState = {
   deadline_4: '',
 };
 
+const errorHandleToFetch = (err: AxiosError, unAuthCb: () => void) => {
+  const code = err?.response?.status;
+  if (!code) return;
+  if (code === 401) {
+    unAuthCb();
+  }
+};
+
+const fetchCreate = async (
+  data: FormData,
+  history: { push: (to: string) => void },
+  dispatch: Dispatch,
+  dispatchAlert: Dispatch,
+) => {
+  await apiCreateAssignment(data);
+  dispatch(reset());
+  dispatchAlert(createAlert('과제가 정상적으로 생성되었습니다.'));
+  history.push('/admin');
+};
+
 export const fetchCreateThunk: ActionCreator<ThunkAction<
   Promise<void>,
   CreateAction,
@@ -81,12 +104,26 @@ export const fetchCreateThunk: ActionCreator<ThunkAction<
   dispatchAlert: Dispatch,
 ) => async dispatch => {
   try {
-    await apiCreateAssignment(data);
-    dispatch(reset());
-    history.push('/admin');
+    await fetchCreate(data, history, dispatch, dispatchAlert);
   } catch (err) {
-    console.log(err);
+    errorHandleToFetch(err, async () => {
+      await tokenReIssuance();
+      await fetchCreate(data, history, dispatch, dispatchAlert);
+    });
   }
+};
+
+const fetchUpdate = async (
+  assignmentId: string,
+  data: FormData,
+  history: { push: (to: string) => void },
+  dispatch: Dispatch,
+  dispatchAlert: Dispatch,
+) => {
+  await apiUpdateAssignment(assignmentId, data);
+  dispatch(reset());
+  dispatchAlert(createAlert('과제가 정상적으로 수정되었습니다.'));
+  history.push('/admin');
 };
 
 export const fetchUpdateThunk: ActionCreator<ThunkAction<
@@ -101,12 +138,25 @@ export const fetchUpdateThunk: ActionCreator<ThunkAction<
   dispatchAlert: Dispatch,
 ) => async dispatch => {
   try {
-    await apiUpdateAssignment(assignmentId, data);
-    dispatch(reset());
-    history.push('/admin');
+    await fetchUpdate(assignmentId, data, history, dispatch, dispatchAlert);
   } catch (err) {
-    console.log(err);
+    errorHandleToFetch(err, async () => {
+      await tokenReIssuance();
+      await fetchUpdate(assignmentId, data, history, dispatch, dispatchAlert);
+    });
   }
+};
+
+const fetchDelete = async (
+  assignmentId: string,
+  history: { push: (to: string) => void },
+  dispatch: Dispatch,
+  dispatchAlert: Dispatch,
+) => {
+  await apiDeleteAssignment(assignmentId);
+  dispatch(reset());
+  dispatchAlert(createAlert('과제가 정상적으로 삭제되었습니다.'));
+  history.push('/admin');
 };
 
 export const fetchDeleteThunk: ActionCreator<ThunkAction<
@@ -120,11 +170,13 @@ export const fetchDeleteThunk: ActionCreator<ThunkAction<
   dispatchAlert: Dispatch,
 ) => async dispatch => {
   try {
-    await apiDeleteAssignment(assignmentId);
-    dispatch(reset());
-    history.push('/admin');
+    await fetchDelete(assignmentId, history, dispatch, dispatchAlert);
+    dispatchAlert(setCheckCallback(() => {}));
   } catch (err) {
-    console.log(err);
+    errorHandleToFetch(err, async () => {
+      await tokenReIssuance();
+      await fetchDelete(assignmentId, history, dispatch, dispatchAlert);
+    });
   }
 };
 

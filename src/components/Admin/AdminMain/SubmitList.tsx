@@ -3,7 +3,7 @@ import React, { FC, ReactElement, useState, useCallback } from 'react';
 import * as S from './style';
 
 import { submitted, unSubmitted } from '../../../assets/Admin';
-import { apiFileIndex, apiFileDownloadById } from '../../../lib/api/Admin/admin';
+import { apiFileIndex, apiFileDownloadById, tokenReIssuance } from '../../../lib/api/Admin/admin';
 import { downloadBlobByClick } from '../../../lib/function/admin';
 
 interface Props {
@@ -23,31 +23,44 @@ const SubmitList: FC<Props> = ({
   typing,
   assignmentId,
 }): ReactElement => {
-  const [isDown, setIsDown] = useState<boolean>(false);
+  const [isClick, setIsClick] = useState<boolean>(false);
   const assignmentType: string =
     typing === '개인' ? 'personal' : typing === '팀' ? 'team' : 'experiment';
 
+  const handleUnEnableClick = useCallback(() => {
+    setIsClick(true);
+    setTimeout(() => {
+      setIsClick(false);
+    }, 500);
+    return;
+  }, [setIsClick]);
+
   const handleClickDownloadFile = () => {
     if (submit === 0) {
-      handleIsDown();
+      handleUnEnableClick();
       return;
     }
     getFileIndexAndDownload();
   };
 
-  const handleIsDown = useCallback(() => {
-    setIsDown(true);
-    setTimeout(() => {
-      setIsDown(false);
-    }, 500);
-    return;
-  }, [setIsDown]);
-
   const getFileIndexAndDownload = useCallback(async () => {
-    const index = await apiFileIndex(assignmentType, assignmentId, studentId);
-    for await (const { file_id, file_name } of index.data.file_information) {
-      const { data } = await apiFileDownloadById(assignmentType, file_id);
-      downloadBlobByClick(data, file_name);
+    try {
+      const index = await apiFileIndex(assignmentType, assignmentId, studentId);
+      for await (const { file_id, file_name } of index.data.file_information) {
+        const { data } = await apiFileDownloadById(assignmentType, file_id);
+        downloadBlobByClick(data, file_name);
+      }
+    } catch (err) {
+      const code = err?.response?.status;
+      if (!code) return;
+      if (code === 401) {
+        await tokenReIssuance();
+        const index = await apiFileIndex(assignmentType, assignmentId, studentId);
+        for await (const { file_id, file_name } of index.data.file_information) {
+          const { data } = await apiFileDownloadById(assignmentType, file_id);
+          downloadBlobByClick(data, file_name);
+        }
+      }
     }
   }, [assignmentId, studentId, assignmentType]);
 
@@ -61,7 +74,7 @@ const SubmitList: FC<Props> = ({
       <S.SubjectClsContentCommonItemText>
         <img
           src={submit ? submitted : unSubmitted}
-          className={isDown ? 'shake' : ''}
+          className={isClick ? 'shake' : ''}
           alt='condition'
           title='condition'
         />

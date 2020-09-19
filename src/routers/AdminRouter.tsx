@@ -9,19 +9,22 @@ import {
   AdminSignUpContainer,
 } from '../containers';
 import { NotFound, AlertModal } from '../components';
-import { getUserInfo } from '../lib/api/Admin/admin';
+import { getUserInfo, tokenReIssuance } from '../lib/api/Admin/admin';
 
 const AdminRouter: FC = (): ReactElement => {
   const history = useHistory();
 
   const isAdmin = async (): Promise<boolean> => {
     try {
-      const {
-        data: { type },
-      } = await getUserInfo();
-      if (type === 'ADMIN') return true;
+      const userType = (await getUserInfo()).data.type;
+      if (userType === 'ADMIN') return true;
       return false;
-    } catch {
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        await tokenReIssuance();
+        const userType = (await getUserInfo()).data.type;
+        if (userType === 'ADMIN') return true;
+      }
       return false;
     }
   };
