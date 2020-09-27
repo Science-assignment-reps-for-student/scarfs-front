@@ -52,7 +52,6 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
 
   const handleCreate = () => {
     if (isDataDefault() || titleRef.current.value.search(/\//gi) !== -1) {
-      console.log(1);
       dispatch(createAlert('과제생성 요소들을 모두 입력해주세요.'));
       return;
     }
