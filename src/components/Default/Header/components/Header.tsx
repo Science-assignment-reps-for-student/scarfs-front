@@ -35,28 +35,28 @@ const Header: FC<Props> = ({ logoutHandler, modalChange, isLogin, userName }) =>
           <HeaderButton isLogin={isLogin} link='/board/class'>
             게시판
           </HeaderButton>
+          {isLogin ? (
+            <S.HeaderUserButtonWrapper>
+              <p>
+                <strong>{userName}</strong>님 안녕하세요.
+              </p>
+              <div className='bar' />
+              <HeaderUserButton onClick={logoutHandler} value=''>
+                로그아웃
+              </HeaderUserButton>
+            </S.HeaderUserButtonWrapper>
+          ) : (
+            <S.HeaderUserButtonWrapper>
+              <HeaderUserButton onClick={modalChange} value='SignIn'>
+                로그인
+              </HeaderUserButton>
+              <div className='bar' />
+              <HeaderUserButton onClick={modalChange} value='SignUpInfo'>
+                회원가입
+              </HeaderUserButton>
+            </S.HeaderUserButtonWrapper>
+          )}
         </div>
-        {isLogin ? (
-          <S.HeaderUserButtonWrapper>
-            <p>
-              <strong>{userName}</strong>님 안녕하세요.
-            </p>
-            <div className='bar' />
-            <HeaderUserButton onClick={logoutHandler} value=''>
-              로그아웃
-            </HeaderUserButton>
-          </S.HeaderUserButtonWrapper>
-        ) : (
-          <S.HeaderUserButtonWrapper>
-            <HeaderUserButton onClick={modalChange} value='SignIn'>
-              로그인
-            </HeaderUserButton>
-            <div className='bar' />
-            <HeaderUserButton onClick={modalChange} value='SignUpInfo'>
-              회원가입
-            </HeaderUserButton>
-          </S.HeaderUserButtonWrapper>
-        )}
       </div>
     </S.Header>
   );

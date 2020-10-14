@@ -14,15 +14,13 @@ export const Header = styled.div`
   > div.header {
     display: flex;
     align-items: center;
-    max-width: 1240px;
-    width: 100%;
     height: 100%;
     margin: 0 auto;
-    justify-content: space-between;
     > div.wrapper {
       display: flex;
       align-items: center;
       height: 100%;
+      margin: 0 auto;
     }
   }
 `;
