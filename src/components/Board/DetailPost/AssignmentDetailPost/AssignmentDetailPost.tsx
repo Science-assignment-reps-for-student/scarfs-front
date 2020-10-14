@@ -37,7 +37,7 @@ const AssignmentDetailPost: FC<Props> = ({
   const refreshTokenChange = stateChange(sendRefreshToken);
   const history = useHistory();
   const paramId = Number(useParams<{ id: string }>().id);
-  const { classNumber, type } = useUser();
+  const { classNumber, type, isLoading: isGetUserLoading } = useUser();
 
   const board = useMemo(
     () => ({
@@ -68,12 +68,14 @@ const AssignmentDetailPost: FC<Props> = ({
   }, [getDetailPostError]);
 
   useEffect(() => {
-    getTeam(paramId);
+    if (type !== 'ADMIN' && !isGetUserLoading) {
+      getTeam(paramId);
+    }
 
     return () => {
       resetDetailPost();
     };
-  }, []);
+  }, [isGetUserLoading]);
 
   useEffect(() => {
     if (detailPost.title) {
