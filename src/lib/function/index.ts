@@ -21,6 +21,7 @@ import {
   resetDeleteTeamState as createResetDeleteTeamStateAction,
 } from '../../modules/reducer/DeleteTeam';
 import { deleteTeamThunk } from '../../modules/thunk/DeleteTeam';
+import { LoadingState } from '../../modules/reducer/Loading';
 
 export const isTextEmpty = (text: string): boolean => {
   if (text.length > 0) {
@@ -90,6 +91,8 @@ export const readFileAsDataURL = async (file: File) => {
 
 export const useUser = () => {
   const { userInfo } = useSelector(getStateCallback<HeaderState>('Header'));
+  const { 'Header/GET_USER_INFO': isLoading } = useSelector(getStateCallback<LoadingState>('Loading'));
+
   if (userInfo === null)
     return {
       name: '',
@@ -99,10 +102,12 @@ export const useUser = () => {
       classNumber: 0,
       id: 0,
       type: 'STUDENT',
+      isLoading: true,
     };
   const returnValue = {
     ...userInfo,
     classNumber: parseInt(userInfo.studentNumber.toString().split('')[1]),
+    isLoading
   };
   return returnValue;
 };
