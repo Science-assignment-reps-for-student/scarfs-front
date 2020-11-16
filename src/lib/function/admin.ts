@@ -14,7 +14,9 @@ export const parseJwt = (token: string) => {
 };
 
 export const getDeadline = (createTime: number, deadlineTime: number) => {
-  const cT = new Date((createTime - 32400) * 1000);
+  const KOREAN_TIME_ZONE = 32400,
+    PYTHON_TO_DATE = 1000;
+  const cT = new Date((createTime - KOREAN_TIME_ZONE) * PYTHON_TO_DATE);
   const dT = new Date(deadlineTime * 1000);
   return `${cT.getFullYear()}.${cT.getMonth() + 1}.${cT.getDate()} - ${dT.getFullYear()}.${
     dT.getMonth() + 1

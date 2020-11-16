@@ -14,7 +14,7 @@ const TeamClassSubmit: FC<Props> = ({ subject }): ReactElement => {
     <S.SubjectClsContentMembers>
       <S.SubjectClsContentCommonTitle>동료평가</S.SubjectClsContentCommonTitle>
       <S.SubjectClsContentCommonList>
-        <ClassListHeadCommon isReport={false} isTeam={true} />
+        <ClassListHeadCommon isReport={false} assignmentType={subject.typing} />
         {subject.peer_evaluation_submit
           .sort((a, b) => (a.student_number > b.student_number ? 1 : -1))
           .map(({ name, student_number, submit, student_id }) => (

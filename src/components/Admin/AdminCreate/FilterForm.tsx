@@ -8,12 +8,16 @@ import { attachment, trash } from '../../../assets/Admin';
 import { ReducerType } from '../../../modules/store';
 import { setFile, deleteFile } from '../../../modules/reducer/AdminCreate';
 import { createAlert } from '../../../modules/reducer/Alert';
+import { PrevAssignments } from '../../../lib/type';
 
-interface Props {}
+interface Props {
+  prevAssignments: PrevAssignments;
+}
 
 const classes = ['class1', 'class2', 'class3', 'class4'];
 
-const FilterForm: FC<Props> = (): ReactElement => {
+const FilterForm: FC<Props> = ({ prevAssignments }): ReactElement => {
+  const { deadline_1, deadline_2, deadline_3, deadline_4 } = prevAssignments;
   const { files } = useSelector((state: ReducerType) => state.AdminCreate);
   const dispatch = useDispatch();
   const fileExtends: string = '.hwp.jpg.png.jpeg.pptx.word.pdf.zip';
@@ -46,14 +50,14 @@ const FilterForm: FC<Props> = (): ReactElement => {
   };
 
   const filterClasses = useMemo(() => {
-    return classes.map(_class => (
+    return classes.map((_class, i) => (
       <S.FiltersClassesItem key={_class}>
         <span>{_class[_class.length - 1]}</span>
         <span>반</span>
-        <Deadline key={_class} _class={_class} />
+        <Deadline key={_class} _class={_class} deadline={prevAssignments[`deadline_${i + 1}`]} />
       </S.FiltersClassesItem>
     ));
-  }, [classes]);
+  }, [classes, prevAssignments]);
 
   return (
     <S.Filters>
