@@ -33,7 +33,6 @@ const NoticeDetailPost: FC<Props> = ({
   }, [paramId]);
 
   useEffect(() => {
-    console.log(getDetailPostError);
     if (getDetailPostError.status === 403) {
       const params = {
         serverType: {

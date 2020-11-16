@@ -13,3 +13,5 @@ export interface NoticeDetailPost {
 
 export const getNoticeDetailPost = ({ id }: { id: number }) =>
   getApiDefault().get<NoticeDetailPost>(`/shank/notice/${id}`);
+
+export const deleteNoticeDetailPost = (id: string) => getApiDefault().delete(`/shank/notice/${id}`);

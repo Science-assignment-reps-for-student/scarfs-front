@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import * as S from './style';
 import { useHistory } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ interface Props {
 
 const WriteFooterButtons: FC<Props> = ({ isEditMode, writeOrEditClickHandler, boardId }) => {
   const history = useHistory();
+
   return (
     <S.FooterWrapper>
       <S.BlueButton onClick={writeOrEditClickHandler}>
