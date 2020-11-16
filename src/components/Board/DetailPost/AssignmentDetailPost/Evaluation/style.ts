@@ -163,6 +163,11 @@ export const SubmitButton = styled.button`
   outline: none;
 `;
 
+export const GoBackButton = styled(SubmitButton)`
+  background-color: black;
+  color: white;
+`;
+
 export const EvaluationLoading = styled.img`
   display: block;
   margin: auto;
