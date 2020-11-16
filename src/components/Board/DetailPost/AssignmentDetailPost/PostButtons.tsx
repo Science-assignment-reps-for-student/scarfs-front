@@ -93,15 +93,18 @@ const PostButtons: FC<Props> = ({ type }) => {
               </S.Button>
             </>
           )}
-
-          <S.Button
-            borderColor='#505BFF'
-            bgColor='#ffffff'
-            fontColor='#505BFF'
-            onClick={openPeerEvaluationModal}
-          >
-            상호평가
-          </S.Button>
+          {!team.team_id && getTeamError.message === 'Team Not Found' ? (
+            ''
+          ) : (
+            <S.Button
+              borderColor='#505BFF'
+              bgColor='#ffffff'
+              fontColor='#505BFF'
+              onClick={openPeerEvaluationModal}
+            >
+              상호평가
+            </S.Button>
+          )}
         </S.ButtonBox>
       )}
       <S.ButtonBox>
