@@ -17,3 +17,4 @@ export { default as AdminCreate } from './Admin/AdminCreate/AdminCreate';
 export { NotFound } from './NotFound';
 export { Wave, Header } from './Default';
 export { default as AlertModal } from './AlertModal/AlertModal';
+export { default as NoticeBoardWrite } from './Board/NoticeBoard/NoticeBoardWrite/NoticeBoardWrite';
