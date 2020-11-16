@@ -5,9 +5,17 @@ import { setDeadline } from '../../..//modules/reducer/AdminCreate';
 
 interface Props {
   _class: string;
+  deadline: number;
 }
 
-const Deadline: FC<Props> = ({ _class }): ReactElement => {
+const getLocalDeadline = (deadline: number) => {
+  const KOREAN_TIME_ZONE = 32400,
+    PYTHON_TO_DATE = 1000;
+  const cT = new Date((deadline - KOREAN_TIME_ZONE) * PYTHON_TO_DATE);
+  return `${cT.getFullYear()}-${cT.getMonth() + 1}-${cT.getDate()}`;
+};
+
+const Deadline: FC<Props> = ({ _class, deadline }): ReactElement => {
   const dispatch = useDispatch();
 
   const setMinDate = useCallback((): string => {
@@ -35,6 +43,7 @@ const Deadline: FC<Props> = ({ _class }): ReactElement => {
         onChange={onChangeDeadline}
         min={setMinDate()}
         data-_class={_class}
+        value={getLocalDeadline(deadline)}
       />
     </S.DeadlineWrap>
   );

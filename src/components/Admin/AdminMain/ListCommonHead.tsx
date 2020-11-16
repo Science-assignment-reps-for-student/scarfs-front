@@ -4,17 +4,17 @@ import * as S from './style';
 
 interface Props {
   isReport: boolean;
-  isTeam?: boolean;
+  assignmentType: string;
 }
 
-const ListCommonHead: FC<Props> = ({ isReport, isTeam }): ReactElement => {
+const ListCommonHead: FC<Props> = ({ isReport, assignmentType }): ReactElement => {
   return (
     <S.SubjectClsContentCommonItem>
       {isReport && <S.SubjectClsContentCommonItemText>팀이름</S.SubjectClsContentCommonItemText>}
       <S.SubjectClsContentCommonItemText>학번</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>이름</S.SubjectClsContentCommonItemText>
       <S.SubjectClsContentCommonItemText>
-        {isTeam ? '평가 여부' : '제출여부'}
+        {assignmentType === '개인' ? '제출여부' : '평가여부'}
       </S.SubjectClsContentCommonItemText>
     </S.SubjectClsContentCommonItem>
   );
