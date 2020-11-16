@@ -22,7 +22,7 @@ const Header: FC<Props> = ({ logoutHandler, modalChange, isLogin, userName }) =>
           <Link to='/'>
             <S.HeaderTitle>SCARFS</S.HeaderTitle>
           </Link>
-          <HeaderSearch />
+          <HeaderSearch isLogin={isLogin} />
           <HeaderButton isLogin={isLogin} link='/'>
             메인
           </HeaderButton>
