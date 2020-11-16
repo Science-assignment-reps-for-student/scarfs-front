@@ -121,7 +121,7 @@ const ChattingContainer: FC = () => {
   const setSocketUrl = useCallback(
     (io: IO, adminType: number) => {
       io.setUrl(
-        `http://54.180.174.253:8001?studentId=${userInfo.id}&adminId=${adminType}&token=${accessToken}`,
+        `https://api.dsm-scarfs.hs.kr/socket.io?studentId=${userInfo.id}&adminId=${adminType}&token=${accessToken}`,
       );
     },
     [userInfo, accessToken],

@@ -33,6 +33,7 @@ const NoticeDetailPost: FC<Props> = ({
   }, [paramId]);
 
   useEffect(() => {
+    console.log(getDetailPostError);
     if (getDetailPostError.status === 403) {
       const params = {
         serverType: {
@@ -44,7 +45,7 @@ const NoticeDetailPost: FC<Props> = ({
       refreshTokenChange(params);
     } else if (getDetailPostError.status) {
       alert(`Error code: ${getDetailPostError.status} 공지 불러오기 실패!`);
-      history.goBack();
+      history.push('/board/notice');
     }
   }, [getDetailPostError]);
 

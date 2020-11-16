@@ -2,12 +2,16 @@ import React, { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as S from '../style';
 
-const HeaderSearch: FC = () => {
+interface Props {
+  isLogin: boolean;
+}
+
+const HeaderSearch: FC<Props> = ({ isLogin }) => {
   const history = useHistory();
   const [searchValue, valueChange] = useState<string>('');
   const keyPressHandler = (event: React.KeyboardEvent) => {
+    if (!isLogin) return;
     if (event.key === 'Enter') {
-      console.log(`/board/assignment-guide?query=${searchValue}`);
       history.push(`/board/assignment-guide?query=${searchValue}`);
     }
   };
