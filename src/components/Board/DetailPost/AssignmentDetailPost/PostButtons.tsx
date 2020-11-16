@@ -71,7 +71,7 @@ const PostButtons: FC<Props> = ({ type }) => {
             >
               팀 생성
             </S.Button>
-          ) : (
+          ) : team.leader ? (
             <S.Button
               borderColor='#ff5700'
               bgColor='#ff5700'
@@ -80,6 +80,8 @@ const PostButtons: FC<Props> = ({ type }) => {
             >
               팀 삭제
             </S.Button>
+          ) : (
+            ''
           )}
           {team.leader && (
             <>

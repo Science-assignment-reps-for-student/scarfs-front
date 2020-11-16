@@ -54,12 +54,12 @@ export default function NoticeDetailPost(
       return {
         ...state,
         noticeDetailPost: action.payload,
-        getDetailPostError: errorInitialState,
+        getNoticeDetailPostError: errorInitialState,
       };
     case GET_NOTICE_DETAIL_POST_FAILURE:
       return {
         ...state,
-        getDetailPostError: action.payload,
+        getNoticeDetailPostError: action.payload,
       };
     case RESET_NOTICE_DETAIL_POST:
       return initialState;

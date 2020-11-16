@@ -71,11 +71,13 @@ const AssignmentDetailPost: FC<Props> = ({
     if (type !== 'ADMIN' && !isGetUserLoading) {
       getTeam(paramId);
     }
-
-    // return () => {
-    // resetDetailPost();
-    // };
   }, [isGetUserLoading]);
+
+  useEffect(() => {
+    return () => {
+      resetDetailPost();
+    };
+  }, []);
 
   useEffect(() => {
     if (detailPost.title) {
