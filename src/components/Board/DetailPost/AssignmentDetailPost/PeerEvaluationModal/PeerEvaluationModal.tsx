@@ -18,7 +18,7 @@ const PeerEvaluationModal: FC<{}> = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const match = useRouteMatch<{ id: string }>('/board/assignment-guide/:id');
-  const homeworkId = match.params.id;
+  const homeworkId = match?.params?.id;
   const {
     Header: { userInfo },
     Evaluation: { peers },
