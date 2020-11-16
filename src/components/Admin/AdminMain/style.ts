@@ -432,6 +432,20 @@ export const SBone = styled.div<ISkeletonBone>`
   }
 `;
 
+export const Button = styled.button`
+  width: 120px;
+  height: 50px;
+  color: #ffffff;
+  background-color: #1d1d1d;
+  margin: 20px 0;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+  float: right;
+  cursor: pointer;
+`;
+
 export const SSubject = styled.div`
   @media all and (min-width: 1180px) {
     &.asideWrap {

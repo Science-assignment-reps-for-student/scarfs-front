@@ -145,3 +145,30 @@ export const BlueButton = styled(Button)`
 export const BlackButton = styled(Button)`
   background-color: #1d1d1d;
 `;
+
+interface ButtonProps {
+  borderColor?: string;
+  borderPx?: string;
+  bgColor: string;
+  fontColor: string;
+}
+
+export const DeleteButton = styled.button<ButtonProps>`
+  ${({ borderColor }) => (borderColor ? `border: 1.5px solid ${borderColor};` : `border: none;`)}
+  ${({ borderPx }) => (borderPx ? `border-width: ${borderPx}px` : '')};
+  text-align: center;
+  font-size: 13px;
+  line-height: 13px;
+  color: ${({ fontColor }) => fontColor};
+  border-radius: 0;
+  box-sizing: border-box;
+  background-color: ${({ bgColor }) => bgColor};
+  width: 117px;
+  height: 41px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  outline: none;
+  & + & {
+    margin-left: 15px;
+  }
+`;

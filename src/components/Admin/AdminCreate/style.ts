@@ -159,6 +159,7 @@ export const FiltersAttachment = styled.label`
 `;
 
 export const FiltersAttachmentFiles = styled.div`
+  max-width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -176,4 +177,10 @@ export const FiltersAttachmentFilesItem = styled.div`
   padding: 8px 0;
   border: 1px solid #1a1a1a;
   font-weight: bold;
+`;
+
+export const OverflowEllipsis = styled.span`
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
 `;

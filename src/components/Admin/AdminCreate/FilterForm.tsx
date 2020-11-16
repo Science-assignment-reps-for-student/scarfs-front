@@ -71,7 +71,7 @@ const FilterForm: FC<Props> = (): ReactElement => {
             <S.FiltersAttachmentFiles>
               {files.map(({ name }: File, i) => (
                 <S.FiltersAttachmentFilesItem key={i}>
-                  <span>{name}</span>
+                  <S.OverflowEllipsis>{name}</S.OverflowEllipsis>
                   <img
                     src={trash}
                     alt='trash'
