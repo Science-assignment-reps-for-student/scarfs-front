@@ -35,6 +35,7 @@ const HeaderContainer: FC = () => {
   }, []);
   const logoutClickHandler = useCallback(() => {
     logoutChange();
+    history.push('/');
   }, []);
   useEffect(() => {
     if (!isLogin) return;
