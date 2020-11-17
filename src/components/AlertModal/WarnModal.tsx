@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, MouseEvent } from 'react';
+import React, { FC, ReactElement, MouseEvent, useEffect, useRef } from 'react';
 
 import * as S from './style';
 
@@ -10,6 +10,14 @@ interface Props {
 }
 
 const WarnModal: FC<Props> = ({ onClickCheck, explain }): ReactElement => {
+  const buttonFocus = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (buttonFocus) {
+      buttonFocus.current.focus();
+    }
+  }, [buttonFocus]);
+
   return (
     <S.WarnWrap>
       <S.AlertTitle>
@@ -18,7 +26,9 @@ const WarnModal: FC<Props> = ({ onClickCheck, explain }): ReactElement => {
       </S.AlertTitle>
       <S.AlertExplain>{explain}</S.AlertExplain>
       <S.AlertButtonWrap>
-        <S.AlertCheck onClick={onClickCheck}>확인</S.AlertCheck>
+        <S.AlertCheck ref={buttonFocus} onClick={onClickCheck}>
+          확인
+        </S.AlertCheck>
       </S.AlertButtonWrap>
     </S.WarnWrap>
   );

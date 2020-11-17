@@ -71,7 +71,6 @@ export const AlertButton = styled.button`
   transition: 0.3s;
   opacity: 0.5;
   cursor: pointer;
-  outline: none;
   &:hover {
     opacity: 1;
   }
