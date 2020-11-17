@@ -1,3 +1,5 @@
+import { AssignmentTypings } from '../../modules/reducer/AdminCreate';
+
 export type ErrorType = {
   message: string;
   status: number;
@@ -26,7 +28,7 @@ export interface PrevAssignments {
   deadline_4: number;
   title: string;
   description: string;
-  type: string;
+  type: AssignmentTypings;
   created_at: number;
   view: number;
 }

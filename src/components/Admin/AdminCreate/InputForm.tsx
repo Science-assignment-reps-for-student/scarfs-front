@@ -1,11 +1,12 @@
 import React, { FC, ReactElement, ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as S from './style';
 
 import { setType, AssignmentTypings } from '../../../modules/reducer/AdminCreate';
 import { PrevAssignments } from '../../../lib/type';
 import { useParams } from 'react-router-dom';
+import { reducerType } from 'src/modules/reducer';
 
 interface Props {
   titleRef: any;
@@ -16,26 +17,19 @@ interface Props {
 const InputForm: FC<Props> = ({ titleRef, descRef, prevAssignments }): ReactElement => {
   const params = useParams<{ assignmentId: string }>();
   const dispatch = useDispatch();
-  const { title, description, type } = prevAssignments;
-  const [categoryType, setCategoryType] = useState<'PERSONAL' | 'TEAM' | 'EXPERIMENT'>(
-    type === 'PERSONAL' ? 'PERSONAL' : type === 'TEAM' ? 'TEAM' : 'EXPERIMENT',
-  );
+  const { typing } = useSelector((state: reducerType) => state.AdminCreate);
+  const { title, description } = prevAssignments;
 
   const onChangeType = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(setType(e.currentTarget.value as AssignmentTypings));
   };
-
-  useEffect(() => {
-    dispatch(setType(categoryType));
-    setCategoryType(type === 'PERSONAL' ? 'PERSONAL' : type === 'TEAM' ? 'TEAM' : 'EXPERIMENT');
-  }, [prevAssignments]);
 
   return (
     <S.InputWrap>
       <S.FromTitle>과제 정보</S.FromTitle>
       <S.InputsCategoryWrap className='categoryWrap'>
         <S.InputsCategory
-          value={!params.assignmentId ? 'category' : categoryType}
+          value={!params.assignmentId ? 'category' : typing}
           onChange={onChangeType}
           name='category'
           id='category'
