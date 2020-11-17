@@ -7,3 +7,4 @@ export {
   NoticeDetailPostContainer,
   EvaluationContainer,
 } from './DetailPost';
+export { default as NoticeBoardWriteContainer } from './NoticeBoard/NoticeWrite/NoticeBoardWriteContainer';

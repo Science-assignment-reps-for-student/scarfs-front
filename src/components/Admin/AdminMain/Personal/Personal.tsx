@@ -14,14 +14,14 @@ interface Props {
 }
 
 const PersonalClass: FC<Props> = ({ subject, classNum }): ReactElement => {
-  const { created_at, deadline, description } = subject;
+  const { created_at, deadline, title } = subject;
 
   return (
     <S.SubjectCls>
       <S.SubjectClsTitle>{classNum}반</S.SubjectClsTitle>
       <S.SubjectClsContentWrap>
         <S.SubjectClsContentHead>
-          <S.SubjectClsContentHeadTitle>{description}</S.SubjectClsContentHeadTitle>
+          <S.SubjectClsContentHeadTitle>{title}</S.SubjectClsContentHeadTitle>
           <S.SubjectClsContentHeadTime>
             {getDeadline(created_at, deadline)}
           </S.SubjectClsContentHeadTime>

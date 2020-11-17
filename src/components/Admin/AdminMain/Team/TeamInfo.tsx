@@ -14,8 +14,8 @@ const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
   const [peerSubmitLen, setPeerSubmitLen] = useState(0);
 
   useEffect(() => {
-    teams_info.forEach(a => a.submit === 1 && setTeamSubmitLen(teamSubmitLen + 1));
-    peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(peerSubmitLen + 1));
+    teams_info.forEach(a => a.submit === 1 && setTeamSubmitLen(prev => prev + 1));
+    peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(prev => prev + 1));
   }, [subject]);
 
   return (
@@ -29,7 +29,7 @@ const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
               {teamSubmitLen}/{teamLen}
             </span>
           </S.InfoSubmittedMembers>
-          <S.AdminProgress max={teamLen} value={teamSubmitLen}></S.AdminProgress>
+          <S.AdminProgress max={teamLen} value={teamSubmitLen} />
         </S.InfoSubmittedCommon>
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>동료평가</S.InfoSubmittedTitle>
@@ -39,7 +39,7 @@ const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
               {peerSubmitLen}/{peerEvaluationLen}
             </span>
           </S.InfoSubmittedMembers>
-          <S.AdminProgress max={peerEvaluationLen} value={peerSubmitLen}></S.AdminProgress>
+          <S.AdminProgress max={peerEvaluationLen} value={peerSubmitLen} />
         </S.InfoSubmittedCommon>
       </S.InfoSubmitted>
     </S.SubjectClsContentInfo>

@@ -97,7 +97,7 @@ const SignUpModal: FC = () => {
         text='비밀번호'
         value={password}
         valueChange={passwordChange}
-        placeholder='대문자와 특수문자를 반드시 포함하세요.'
+        placeholder='대문자와 특수문자를 포함한 8~16글자로 하세요'
         type='password'
       />
       <ModalInput

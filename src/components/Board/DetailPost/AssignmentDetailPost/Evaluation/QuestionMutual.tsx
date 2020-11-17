@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -101,7 +101,9 @@ const QuestionMutual: FC<Props> = ({ target }) => {
     const sNum = peers[targetIdx].student_number;
     return `${sNum.charAt(0)}학년 ${sNum.charAt(1)}반 ${peers[targetIdx].student_name}`;
   };
-
+  const goBackButtonClickHandler = useCallback(() => {
+    history.goBack();
+  }, []);
   useEffect(() => {
     if (isTargetFinish()) {
       setAlreadyPeer();
@@ -149,7 +151,11 @@ const QuestionMutual: FC<Props> = ({ target }) => {
             </div>
           </S.QuestionBox>
         </S.ContentHeader>
-        {!isTargetFinish() && <S.SubmitButton onClick={handleSubmit}>제출하기</S.SubmitButton>}
+        {!isTargetFinish() ? (
+          <S.SubmitButton onClick={handleSubmit}>제출하기</S.SubmitButton>
+        ) : (
+          <S.GoBackButton onClick={goBackButtonClickHandler}>뒤로 가기</S.GoBackButton>
+        )}
       </S.FormContent>
     </>
   );

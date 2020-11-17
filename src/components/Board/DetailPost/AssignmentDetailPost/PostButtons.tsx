@@ -71,7 +71,7 @@ const PostButtons: FC<Props> = ({ type }) => {
             >
               팀 생성
             </S.Button>
-          ) : (
+          ) : team.leader ? (
             <S.Button
               borderColor='#ff5700'
               bgColor='#ff5700'
@@ -80,6 +80,8 @@ const PostButtons: FC<Props> = ({ type }) => {
             >
               팀 삭제
             </S.Button>
+          ) : (
+            ''
           )}
           {team.leader && (
             <>
@@ -93,15 +95,18 @@ const PostButtons: FC<Props> = ({ type }) => {
               </S.Button>
             </>
           )}
-
-          <S.Button
-            borderColor='#505BFF'
-            bgColor='#ffffff'
-            fontColor='#505BFF'
-            onClick={openPeerEvaluationModal}
-          >
-            상호평가
-          </S.Button>
+          {!team.team_id && getTeamError.message === 'Team Not Found' ? (
+            ''
+          ) : (
+            <S.Button
+              borderColor='#505BFF'
+              bgColor='#ffffff'
+              fontColor='#505BFF'
+              onClick={openPeerEvaluationModal}
+            >
+              상호평가
+            </S.Button>
+          )}
         </S.ButtonBox>
       )}
       <S.ButtonBox>

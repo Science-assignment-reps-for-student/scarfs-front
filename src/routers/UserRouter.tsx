@@ -29,7 +29,7 @@ const UserRouter: FC = () => {
   }, []);
   return (
     <>
-      <ChattingContainer />
+      {/* <ChattingContainer /> */}
       <HeaderContainer />
       <ModalContainer />
       <Banner />

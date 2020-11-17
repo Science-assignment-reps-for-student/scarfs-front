@@ -13,7 +13,7 @@ const PersonalClassSubmit: FC<Props> = ({ subject }): ReactElement => {
   return (
     <S.SubjectClsContentMembers>
       <S.SubjectClsContentCommonList>
-        <ClassListHeadCommon isReport={false} />
+        <ClassListHeadCommon isReport={false} assignmentType={subject.typing} />
         {subject.class_submit
           .sort((a, b) => (a.student_number > b.student_number ? 1 : -1))
           .map(({ name, student_number, submit, student_id }) => (

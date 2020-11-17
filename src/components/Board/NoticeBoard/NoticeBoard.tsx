@@ -3,10 +3,11 @@ import { BoardHeader, TableView, PaginationBar, CardView } from '../Default';
 import { NoticeTableItem, NoticeCard } from './';
 import { BoardType, getBoard } from '../../../lib/api/Assignment/Assignment';
 import { ErrorType } from '../../../lib/type';
-import { SBone } from '../../../components/Admin/AdminMain/style';
+import { SBone, Button } from '../../../components/Admin/AdminMain/style';
 import queryString from 'query-string';
 import { useToken, stateChange } from '../../../lib/function';
 import { sendRefreshToken } from '../../../modules/reducer/Header';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   getBoards: (page: number) => void;
@@ -27,6 +28,7 @@ const NoticeBoard: FC<Props> = ({
   searchBoards,
   resetMain,
 }) => {
+  const history = useHistory();
   const [, refreshToken] = useToken();
   const refreshTokenChange = stateChange(sendRefreshToken);
   const { query } = queryString.parse(location.search);
@@ -120,6 +122,9 @@ const NoticeBoard: FC<Props> = ({
           setIsTableView={setIsTableView}
         />
       )}
+      <div>
+        <Button onClick={() => history.push('/board/notice/write')}>공지사항 작성</Button>
+      </div>
       {!boards || isLoading ? (
         <SBone width='1280px' height='362px' margin='32px 0 21px' />
       ) : isTableView ? (

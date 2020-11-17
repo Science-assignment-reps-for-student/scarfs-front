@@ -63,7 +63,7 @@ const AssignmentDetailPost: FC<Props> = ({
       refreshTokenChange(params);
     } else if (getDetailPostError.status) {
       alert(`Error code: ${getDetailPostError.status} 과제 불러오기 실패!`);
-      history.goBack();
+      history.push('/board/assignment-guide');
     }
   }, [getDetailPostError]);
 
@@ -71,11 +71,13 @@ const AssignmentDetailPost: FC<Props> = ({
     if (type !== 'ADMIN' && !isGetUserLoading) {
       getTeam(paramId);
     }
+  }, [isGetUserLoading]);
 
+  useEffect(() => {
     return () => {
       resetDetailPost();
     };
-  }, [isGetUserLoading]);
+  }, []);
 
   useEffect(() => {
     if (detailPost.title) {

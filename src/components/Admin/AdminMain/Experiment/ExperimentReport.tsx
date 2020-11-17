@@ -15,7 +15,7 @@ const ExperimentClassReport: FC<Props> = ({ subject }): ReactElement => {
     <S.SubjectClsContentReport>
       <S.SubjectClsContentCommonTitle>팀보고서</S.SubjectClsContentCommonTitle>
       <S.SubjectClsContentCommonList>
-        <ClassListHeadCommon isReport={true} />
+        <ClassListHeadCommon isReport={true} assignmentType={subject.typing} />
         {teams_info.length !== 0 &&
           teams_info
             .sort((a, b) => (a.team_id > b.team_id ? 1 : -1))
