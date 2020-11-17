@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from 'react';
+
 import * as S from '../style';
 import ReportList from '../ReportList';
 import ClassListHeadCommon from '../ListCommonHead';

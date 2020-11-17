@@ -10,7 +10,7 @@ interface Props {
 }
 
 const AdminQnA: FC<Props> = ({ chatBody, sendMessage }): ReactElement => {
-  const { user_id } = useParams();
+  const { user_id } = useParams<{ user_id: string }>();
 
   return <>{user_id ? <Chat chatBody={chatBody} sendMessage={sendMessage} /> : <ChatList />}</>;
 };

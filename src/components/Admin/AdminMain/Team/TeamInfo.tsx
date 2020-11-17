@@ -14,6 +14,8 @@ const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
   const [peerSubmitLen, setPeerSubmitLen] = useState(0);
 
   useEffect(() => {
+    setTeamSubmitLen(0);
+    setPeerSubmitLen(0);
     teams_info.forEach(a => a.submit === 1 && setTeamSubmitLen(prev => prev + 1));
     peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(prev => prev + 1));
   }, [subject]);
@@ -24,7 +26,7 @@ const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>팀 보고서</S.InfoSubmittedTitle>
           <S.InfoSubmittedMembers>
-            제출팀{' '}
+            제출팀
             <span>
               {teamSubmitLen}/{teamLen}
             </span>
@@ -34,7 +36,7 @@ const TeamClassInfo: FC<Props> = ({ subject }): ReactElement => {
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>동료평가</S.InfoSubmittedTitle>
           <S.InfoSubmittedMembers>
-            제출인원{' '}
+            제출인원
             <span>
               {peerSubmitLen}/{peerEvaluationLen}
             </span>

@@ -1,7 +1,9 @@
 import React, { FC, ReactElement, useCallback, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
+
 import * as S from './style';
-import { setDeadline } from '../../..//modules/reducer/AdminCreate';
+
+import { setDeadline } from '../../../modules/reducer/AdminCreate';
 
 interface Props {
   _class: string;

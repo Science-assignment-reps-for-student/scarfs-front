@@ -1,4 +1,5 @@
 import React, { FC, ReactElement, useState, useEffect } from 'react';
+
 import * as S from '../style';
 import { ExperimentSubject } from '../../../../modules/reducer/Admin/adminExperiment';
 
@@ -14,6 +15,8 @@ const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
   const [peerSubmitLen, setPeerSubmitLen] = useState(0);
 
   useEffect(() => {
+    setExperimentSubmitLen(0);
+    setPeerSubmitLen(0);
     teams_info.forEach(a => a.submit === 1 && setExperimentSubmitLen(prev => prev + 1));
     peer_evaluation_submit.forEach(a => a.submit === 1 && setPeerSubmitLen(prev => prev + 1));
   }, [subject]);
@@ -24,7 +27,7 @@ const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>팀 보고서</S.InfoSubmittedTitle>
           <S.InfoSubmittedMembers>
-            제출팀{' '}
+            제출팀
             <span>
               {experimentSubmitLen}/{experimentLen}
             </span>
@@ -34,7 +37,7 @@ const ExperimentClassInfo: FC<Props> = ({ subject }): ReactElement => {
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedTitle>동료평가</S.InfoSubmittedTitle>
           <S.InfoSubmittedMembers>
-            제출인원{' '}
+            제출인원
             <span>
               {peerSubmitLen}/{peerEvaluationLen}
             </span>
