@@ -1,5 +1,7 @@
 import React, { FC, ReactElement } from 'react';
+
 import * as S from './style';
+
 import { save, trash } from '../../../assets/Admin';
 
 interface Props {

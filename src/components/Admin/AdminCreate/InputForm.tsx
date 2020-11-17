@@ -1,12 +1,12 @@
-import React, { FC, ReactElement, ChangeEvent, useEffect, useState } from 'react';
+import React, { FC, ReactElement, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import * as S from './style';
 
 import { setType, AssignmentTypings } from '../../../modules/reducer/AdminCreate';
+import { reducerType } from '../../../modules/reducer';
 import { PrevAssignments } from '../../../lib/type';
-import { useParams } from 'react-router-dom';
-import { reducerType } from 'src/modules/reducer';
 
 interface Props {
   titleRef: any;
