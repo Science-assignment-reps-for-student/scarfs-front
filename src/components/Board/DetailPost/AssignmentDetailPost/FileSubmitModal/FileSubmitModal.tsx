@@ -282,7 +282,7 @@ const FileSubmitModal: FC<Props> = ({
           hidden
           onChange={onChange}
           multiple
-          accept='.hwp,.jpg,.png,.jpeg,.pptx,.word,.pdf,.zip'
+          accept='.hwp,.jpg,.png,.jpeg,.pptx,.word,.pdf,.zip,.mov'
         />
       </S.FileSubmitModalBox>
     </Modal>

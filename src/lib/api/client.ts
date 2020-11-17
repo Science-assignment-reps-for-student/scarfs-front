@@ -10,7 +10,6 @@ export const getApiDefault = (contentType?: string) => {
   if (isTextHaveKorean(accessToken)) window.location.href = '/error';
   return axios.create({
     baseURL: process.env.BASE_URL,
-    timeout: 2500,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       'Content-Type': contentType ? contentType : 'application/json',
@@ -21,7 +20,6 @@ export const getApiDefault = (contentType?: string) => {
 export const getRefreshApiDefault = () => {
   return axios.create({
     baseURL: process.env.BASE_URL,
-    timeout: 2500,
     headers: {
       'X-Refresh-Token': localStorage.getItem('refreshToken'),
     },
