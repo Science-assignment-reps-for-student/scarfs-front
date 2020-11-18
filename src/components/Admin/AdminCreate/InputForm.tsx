@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ChangeEvent } from 'react';
+import React, { FC, ReactElement, ChangeEvent, MutableRefObject } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -9,8 +9,8 @@ import { reducerType } from '../../../modules/reducer';
 import { PrevAssignments } from '../../../lib/type';
 
 interface Props {
-  titleRef: any;
-  descRef: any;
+  titleRef: MutableRefObject<HTMLInputElement>;
+  descRef: MutableRefObject<HTMLTextAreaElement>;
   prevAssignments: PrevAssignments;
 }
 
