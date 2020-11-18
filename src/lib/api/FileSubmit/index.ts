@@ -19,9 +19,6 @@ export const submitFile = ({ type, assignmentId, data }: FileApiRequest & { data
   getApiDefault('multipart/form-data').post(
     `/rib-eye/${type.toLocaleLowerCase()}-file/${assignmentId}`,
     data,
-    {
-      timeout: 60000,
-    },
   );
 
 export const deleteSubmittedFile = ({ type, assignmentId }: FileApiRequest) =>

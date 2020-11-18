@@ -31,11 +31,11 @@ const SubjectButtons: FC<Props> = ({ assignmentId, title }): ReactElement => {
       await getCompressedFilesAndDownload(assignmentId);
       toggleFileLoading();
     } catch (err) {
+      toggleFileLoading();
       const code = err?.response?.status;
       if (code === 401) {
         await tokenReIssuance();
         await getCompressedFilesAndDownload(assignmentId);
-        toggleFileLoading();
       } else if (code === 403) {
         history.push('/admin/login');
       }
