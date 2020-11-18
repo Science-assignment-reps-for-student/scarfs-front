@@ -25,7 +25,6 @@ export const downloadCompressedAssignments = (
 ) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/assignment/${assignmentId}`, {
     responseType: 'blob',
-    timeout: 10000,
     onDownloadProgress: (e: any) => {
       if (setFunc) {
         setFunc(Math.round((e.loaded / e.total) * 100));
@@ -44,7 +43,6 @@ export const downloadAssignmentExcel = (
 ) => {
   return getApiDefault().get<BlobPart>(`/rib-eye/excel-file/${assignmentId}`, {
     responseType: 'blob',
-    timeout: 10000,
     onDownloadProgress: (e: any) => {
       if (setFunc) {
         setFunc(Math.round((e.loaded / e.total) * 100));

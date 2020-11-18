@@ -6,7 +6,6 @@ export const apiCreateAssignment = (data: FormData) => {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-    timeout: 10000,
   });
 };
 
@@ -15,7 +14,6 @@ export const apiUpdateAssignment = (assignmentId: string, data: FormData) => {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-    timeout: 10000,
   });
 };
 

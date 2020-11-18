@@ -14,7 +14,6 @@ export const getApiDefault = (contentType?: string) => {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       'Content-Type': contentType ? contentType : 'application/json',
     },
-    timeout: 100000,
   });
 };
 
