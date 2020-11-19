@@ -24,6 +24,7 @@ const AdminRouter: FC = (): ReactElement => {
         await tokenReIssuance();
         const userType = (await getUserInfo()).data.type;
         if (userType === 'ADMIN') return true;
+        else return false;
       }
       return false;
     }
@@ -32,9 +33,12 @@ const AdminRouter: FC = (): ReactElement => {
   useEffect(() => {
     const splitPath = history.location.pathname.split('/');
     const lastPath = splitPath[splitPath.length - 1];
-    if ((lastPath === 'register') !== !localStorage.getItem('accessToken') || !isAdmin()) {
-      history.push('/admin/login');
-    }
+
+    isAdmin().then(isAdminBool => {
+      if ((lastPath === 'register') !== !localStorage.getItem('accessToken') || !isAdminBool) {
+        history.push('/admin/login');
+      }
+    });
   }, []);
 
   return (
