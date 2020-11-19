@@ -167,6 +167,7 @@ export const SubjectClsContentCommonItem = styled.li`
 export const SubjectClsContentCommonItemText = styled.span`
   flex: 1;
   text-align: center;
+  word-break: break-all;
   img.shake {
     background-color: transparent;
     animation: shake 500ms alternate infinite;

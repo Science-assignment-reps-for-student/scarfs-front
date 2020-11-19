@@ -1,8 +1,7 @@
-import React, { FC, ReactElement, useMemo, ChangeEvent } from 'react';
+import React, { FC, ReactElement, ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 
 import * as S from './style';
-import LoginTitle from './LoginTitle';
 import LoginInput from './LoginInput';
 import LoginButton from './LoginButton';
 import HeaderLogo from '../AdminHeader/HeaderLogo';
@@ -56,7 +55,7 @@ const AdminLogin: FC<Props> = ({ onChangeLogin, onClickLogin }): ReactElement =>
     <S.AdminLoginWrap>
       <S.AdminLoginBack />
       <S.AdminLoginFormWrap>
-        <LoginTitle />
+        <S.AdminLoginFormTitle>LOGIN</S.AdminLoginFormTitle>
         {getInputForm()}
         <LoginButton onClickLogin={onClickLogin} loading={loading} />
         <S.AdminLoginFormBottomWrap>

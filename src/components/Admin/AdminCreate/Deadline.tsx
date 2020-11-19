@@ -1,7 +1,11 @@
-import React, { FC, ReactElement, useCallback, ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FC, ReactElement, useCallback, ChangeEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import * as S from './style';
-import { setDeadline } from '../../..//modules/reducer/AdminCreate';
+
+import { setDeadline } from '../../../modules/reducer/AdminCreate';
+import { reducerType } from 'src/modules/reducer';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   _class: string;
@@ -16,7 +20,9 @@ const getLocalDeadline = (deadline: number) => {
 };
 
 const Deadline: FC<Props> = ({ _class, deadline }): ReactElement => {
+  const params = useParams<{ assignmentId: string }>();
   const dispatch = useDispatch();
+  const adminCreate = useSelector((state: reducerType) => state.AdminCreate);
 
   const setMinDate = useCallback((): string => {
     const today = new Date();
@@ -43,7 +49,11 @@ const Deadline: FC<Props> = ({ _class, deadline }): ReactElement => {
         onChange={onChangeDeadline}
         min={setMinDate()}
         data-_class={_class}
-        value={getLocalDeadline(deadline)}
+        value={
+          !params.assignmentId
+            ? ''
+            : adminCreate[`deadline_${_class[_class.length - 1]}`] || getLocalDeadline(deadline)
+        }
       />
     </S.DeadlineWrap>
   );

@@ -89,25 +89,12 @@ const CreateHeader: FC<Props> = ({ titleRef, descRef }): ReactElement => {
       <S.Title>{assignmentId ? '과제수정' : '과제생성'}</S.Title>
       <S.HeaderOption>
         <S.ButtonWrap>
-          {assignmentId ? (
-            <>
-              <OptionButton onClick={handleUpdate} imgType='saveImg'>
-                수정
-              </OptionButton>
-              <OptionButton onClick={handleDelete} imgType='trashImg'>
-                삭제
-              </OptionButton>
-            </>
-          ) : (
-            <>
-              <OptionButton onClick={handleCreate} imgType='saveImg'>
-                저장
-              </OptionButton>
-              <OptionButton onClick={handleCancel} imgType='trashImg'>
-                취소
-              </OptionButton>
-            </>
-          )}
+          <OptionButton onClick={assignmentId ? handleUpdate : handleCreate} imgType='saveImg'>
+            {assignmentId ? '수정' : '저장'}
+          </OptionButton>
+          <OptionButton onClick={assignmentId ? handleDelete : handleCancel} imgType='trashImg'>
+            {assignmentId ? '삭제' : '취소'}
+          </OptionButton>
         </S.ButtonWrap>
       </S.HeaderOption>
     </S.Header>

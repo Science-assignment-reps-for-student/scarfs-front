@@ -1,11 +1,11 @@
 import React, { FC, ReactElement, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import * as S from './style';
 
 import { send } from '../../../assets/Admin';
 import { reducerType } from '../../../modules/reducer';
-import { useParams } from 'react-router-dom';
 
 interface Props {
   sendMessage: (message: string, studentId: number) => void;
@@ -30,7 +30,7 @@ const ChatInputs: FC<Props> = ({ sendMessage }): ReactElement => {
           setMessage(e.currentTarget.value);
         }}
         onKeyDown={e => {
-          if (e.keyCode === 13) {
+          if (e.key === 'Enter') {
             sending();
           }
         }}

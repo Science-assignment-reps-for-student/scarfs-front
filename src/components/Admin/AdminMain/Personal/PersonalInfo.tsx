@@ -1,4 +1,5 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
+
 import * as S from '../style';
 import { PersonalSubject } from '../../../../modules/reducer/Admin/adminPersonal';
 
@@ -12,6 +13,7 @@ const PersonalClassInfo: FC<Props> = ({ subject }): ReactElement => {
   const [personalSubmitLen, setPersonalSubmitLen] = useState(0);
 
   useEffect(() => {
+    setPersonalSubmitLen(0);
     class_submit.forEach(a => a.submit >= 1 && setPersonalSubmitLen(prev => prev + 1));
   }, [subject]);
 
@@ -20,7 +22,7 @@ const PersonalClassInfo: FC<Props> = ({ subject }): ReactElement => {
       <S.InfoSubmitted>
         <S.InfoSubmittedCommon>
           <S.InfoSubmittedMembers>
-            제출인원{' '}
+            제출인원
             <span>
               {personalSubmitLen}/{personalLen}
             </span>
